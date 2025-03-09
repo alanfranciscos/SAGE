@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: navigate to terraform - artifact registry module
-        run: cd terraform/modules/artifact-registry
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: navigate to terraform - artifact registry module
+        run: cd terraform/modules/artifact-registry
 
       - id: "auth"
         name: "Authenticate to Google Cloud"
