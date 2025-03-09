@@ -8,13 +8,13 @@ on:
 jobs:
   creqate-artifact-register-terraform:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/modules/artifact-registry
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: navigate to terraform - artifact registry module
-        run: cd terraform/modules/artifact-registry
 
       - id: "auth"
         name: "Authenticate to Google Cloud"
