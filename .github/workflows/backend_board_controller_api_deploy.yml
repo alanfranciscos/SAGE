@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./terraform/modules/artifact_registry
-
+        working-directory: terraform/
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
