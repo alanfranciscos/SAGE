@@ -8,13 +8,13 @@ on:
 jobs:
   creqate-artifact-register-terraform:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: terraform/modules/artifact-registry
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: "list files and directories"
+        run: ls -l
 
       - name: "Google auth"
         id: "auth"
