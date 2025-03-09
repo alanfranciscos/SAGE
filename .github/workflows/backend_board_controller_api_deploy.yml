@@ -11,6 +11,7 @@ jobs:
     defaults:
       run:
         working-directory: terraform/modules/artifact_reegistry
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -34,3 +35,28 @@ jobs:
 
       - name: Terraform apply artifact registry
         run: terraform apply -auto-approve tfplan.plan
+
+  depoloy-docker-image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/board-controller-api
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: "Google auth"
+        id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+
+      - name: Bild Docker image
+        run: docker build \
+          --tag "us-east1-docker.pkg.dev/${{secrets.PROJECT_ID}}/terraform/board-controller-api:latest" \
+          --build-arg "GIT_SHA=${{ github.sha }}" \
+          --build-arg GIT_ACCESS_TOKEN=${{ secrets.GIT_ACCESS_TOKEN }}
+
+      - name: Push Docker image
+        run: docker push "us-east1-docker.pkg.dev/${{secrets.PROJECT_ID}}/terraform/board-controller-api:latest"
