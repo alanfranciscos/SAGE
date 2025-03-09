@@ -1,0 +1,34 @@
+name: board-controller-api-deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  creqate-artifact-register-terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: navigate to terraform - artifact registry module
+        run: cd terraform/modules/artifact-registry
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.11.1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform plan artifact registry
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -auto-approve
