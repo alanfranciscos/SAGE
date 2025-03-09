@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  creqate-artifact-register-terraform:
+  create-artifact-register-terraform:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -14,9 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: "list files and directories"
-        run: ls -l
 
       - name: "Google auth"
         id: "auth"
@@ -33,4 +30,7 @@ jobs:
         run: terraform init
 
       - name: Terraform plan artifact registry
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -auto-approve
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -out=tfplan.plan
+
+      - name: Terraform apply artifact registry
+        run: terraform apply -auto-approve tfplan.plan
