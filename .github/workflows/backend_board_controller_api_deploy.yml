@@ -38,6 +38,7 @@ jobs:
 
   depoloy-docker-image:
     runs-on: ubuntu-latest
+    needs: create-artifact-register-terraform
     defaults:
       run:
         working-directory: backend/board-controller-api
@@ -53,10 +54,18 @@ jobs:
           credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
 
       - name: Bild Docker image
-        run: docker build \
-          --tag "us-east1-docker.pkg.dev/${{secrets.PROJECT_ID}}/terraform/board-controller-api:latest" \
-          --build-arg "GIT_SHA=${{ github.sha }}" \
-          --build-arg GIT_ACCESS_TOKEN=${{ secrets.GIT_ACCESS_TOKEN }}
+        run: |
+          IMAGE_NAME="board-controller-api"
+          IMAGE_TAG="latest"
+          AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api"
+
+          docker build -t $IMAGE_NAME --no-cache .
+          docker tag $IMAGE_NAME:latest $AR/$IMAGE_NAME:$IMAGE_TAG
 
       - name: Push Docker image
-        run: docker push "us-east1-docker.pkg.dev/${{secrets.PROJECT_ID}}/terraform/board-controller-api:latest"
+        run: |
+          IMAGE_NAME="board-controller-api"
+          IMAGE_TAG="latest"
+          AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api"
+
+          docker push $AR/$IMAGE_NAME:$IMAGE_TAG
