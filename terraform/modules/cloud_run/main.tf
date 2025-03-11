@@ -13,6 +13,7 @@ resource "google_cloud_run_service" "cloud_run_service" {
         image = "us-east1-docker.pkg.dev/${var.project_id}/${var.repository_id}/${var.repository_id}:latest"
         ports {
           container_port = 8080
+          name           = var.http2 ? "h2c" : "http1"
         }
       }
     }

@@ -29,3 +29,9 @@ variable "location" {
     error_message = "The location variable must be set."
   }
 }
+
+variable "http2" {
+  description = "HTTP/2"
+  type        = bool
+  default     = false
+}
