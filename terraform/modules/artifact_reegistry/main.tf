@@ -12,6 +12,6 @@ provider "google" {
 terraform {
   backend "gcs" {
     bucket = "terraform-faitec-simac"
-    prefix = "state/artifacrt_registry"
+    prefix = "state/artifacrt_registry/" + var.repository_id
   }
 }

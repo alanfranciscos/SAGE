@@ -31,7 +31,7 @@ jobs:
         run: terraform init
 
       - name: Terraform plan artifact registry
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -out=tfplan.plan
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}'  repository_id="board-controller-api"  -out=tfplan.plan
 
       - name: Terraform apply artifact registry
         run: terraform apply -auto-approve tfplan.plan
@@ -84,3 +84,34 @@ jobs:
           AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api"
 
           docker push $AR/$IMAGE_NAME:$IMAGE_TAG
+
+  deploy-cloud-run:
+    runs-on: ubuntu-latest
+    needs: depoloy-docker-image
+    defaults:
+      run:
+        working-directory: terraform/modules/cloud_run
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Google auth
+        id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.11.1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform plan cloud run
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' repository_id="board-controller-api" -out=tfplan.plan
+
+      - name: Terraform apply cloud run
+        run: terraform apply -auto-approve tfplan.plan
