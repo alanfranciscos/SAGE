@@ -8,6 +8,11 @@ resource "google_cloud_run_service" "cloud_run_service" {
   location = "us-east1"
 
   template {
+    metadata {
+      annotations = {
+        "run.googleapis.com/protocol" = var.http2 ? "h2c" : "http"
+      }
+    }
     spec {
       containers {
         image = "us-east1-docker.pkg.dev/${var.project_id}/${var.repository_id}/${var.repository_id}:latest"
@@ -17,6 +22,10 @@ resource "google_cloud_run_service" "cloud_run_service" {
         }
       }
     }
+  }
+  traffic {
+    percent         = 100
+    latest_revision = true
   }
 }
 
