@@ -114,4 +114,4 @@ jobs:
         run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -var repository_id="board-controller-api" -var http2=true -out=tfplan.plan -lock=false
 
       - name: Terraform apply cloud run
-        run: terraform apply -auto-approve tfplan.plan
+        run: terraform apply -replace=google_cloud_run_service.cloud_run_service -auto-approve tfplan.plan
