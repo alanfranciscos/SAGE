@@ -22,6 +22,5 @@ resource "google_cloud_run_service" "cloud_run_service" {
 terraform {
   backend "gcs" {
     bucket = "terraform-faitec-simac"
-    prefix = "state/cloud_run/" + var.repository_id
   }
 }

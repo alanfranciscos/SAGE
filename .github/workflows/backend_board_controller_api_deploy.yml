@@ -31,7 +31,10 @@ jobs:
         run: terraform init
 
       - name: Terraform plan artifact registry
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}'  repository_id="board-controller-api"  -out=tfplan.plan
+        run:
+          terraform plan -var project_id='${{ secrets.PROJECT_ID }}'  repository_id="board-controller-api"  \
+          -backend-config="prefix=state/artifact_registry/board-controller-api \
+          -out=tfplan.plan
 
       - name: Terraform apply artifact registry
         run: terraform apply -auto-approve tfplan.plan
@@ -111,7 +114,10 @@ jobs:
         run: terraform init
 
       - name: Terraform plan cloud run
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' repository_id="board-controller-api" -out=tfplan.plan
+        run:
+          terraform plan -var project_id='${{ secrets.PROJECT_ID }}' repository_id="board-controller-api" \
+          -backend-config="prefix=state/cloud_run/board-controller-api \
+          -out=tfplan.plan
 
       - name: Terraform apply cloud run
         run: terraform apply -auto-approve tfplan.plan
