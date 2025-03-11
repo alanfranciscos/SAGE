@@ -1,3 +1,3 @@
-output "artifact_registry_update_time" {
-  value = google_artifact_registry_repository.artifact_registry.update_time
+output "cloud_run_id" {
+  value = google_cloud_run_service.cloud_run_service.id
 }
