@@ -134,4 +134,4 @@ jobs:
           --platform managed \
           --region us-east1 \
           --no-cpu-boost \
-          --prject=${{ secrets.PROJECT_ID }} \
+          --project=${{ secrets.PROJECT_ID }} \
