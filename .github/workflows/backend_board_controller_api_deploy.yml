@@ -118,7 +118,9 @@ jobs:
 
   deploy-cloud-run:
     runs-on: ubuntu-latest
-    needs: create-cloud-run-terraform
+    needs:
+      - create-cloud-run-terraform
+      - depoloy-docker-image
 
     steps:
       - name: Google auth
