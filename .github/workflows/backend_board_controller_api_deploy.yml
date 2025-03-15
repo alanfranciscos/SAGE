@@ -127,6 +127,9 @@ jobs:
         with:
           credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
 
+      - name: Set up Docker Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: run cloud run
         run: |
           gcloud run deploy board-controller-api \
