@@ -137,6 +137,10 @@ jobs:
           password: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           registry: gcr.io
 
+      - name: Install Beta Components
+        run: |
+          gcloud components install beta --quiet
+
       - name: run cloud run
         run: |
           gcloud beta run deploy board-controller-api \
