@@ -127,15 +127,13 @@ jobs:
         with:
           credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
 
-      - name: Set up Docker Cloud SDK
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
       - name: run cloud run
         run: |
-          gcloud run deploy board-controller-api \
-          --image us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api:latest \
-          --platform managed \
-          --region us-east1 \
-          --no-cpu-boost \
+          gcloud beta run deploy board-controller-api \
+          --image=us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api-image/board-controller-api:latest \
+          --region=us-east1 \
           --project=${{ secrets.PROJECT_ID }} \
           && gcloud run services update-traffic board-controller-api --to-latest
