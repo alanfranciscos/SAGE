@@ -38,7 +38,7 @@ jobs:
 
   create-cloud-run-terraform:
     runs-on: ubuntu-latest
-    needs: depoloy-docker-image
+    needs: create-artifact-register-terraform
     defaults:
       run:
         working-directory: terraform/modules/cloud_run
