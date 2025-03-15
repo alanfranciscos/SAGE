@@ -132,8 +132,10 @@ jobs:
 
       - name: run cloud run
         run: |
+          gcloud components install beta --quiet
           gcloud beta run deploy board-controller-api \
-          --image=us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api-image/board-controller-api:latest \
-          --region=us-east1 \
-          --project=${{ secrets.PROJECT_ID }} \
+            --image=us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api-image/board-controller-api:latest \
+            --region=us-east1 \
+            --project=${{ secrets.PROJECT_ID }} \
+            --quiet \
           && gcloud run services update-traffic board-controller-api --to-latest
