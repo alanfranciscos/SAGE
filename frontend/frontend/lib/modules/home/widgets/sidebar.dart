@@ -1,22 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/shared/themes/app_theme.dart';
 
-class Sidebar extends StatelessWidget {
+class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
 
   @override
+  _SidebarState createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
+  @override
   Widget build(BuildContext context) {
+    final currentRoute =
+        GoRouter.of(context).routerDelegate.currentConfiguration;
+
+    final String location = currentRoute.last.matchedLocation;
+
     return Drawer(
-      child: ListView(
+      backgroundColor: AppTheme.primaryColor,
+      child: Column(
         children: [
-          const DrawerHeader(child: Text('Menu')),
-          ListTile(title: const Text('Home'), onTap: () => context.go('/home')),
-          ListTile(
-            title: const Text('Login'),
-            onTap: () => context.go('/login'),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: AppTheme.primaryColor),
+            child: Align(
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 120,
+                height: 120,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
+
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _buildListTile(
+                  icon: Icons.home,
+                  title: 'Home',
+                  route: '/home',
+                  currentRoute: location,
+                  context: context,
+                ),
+                _buildListTile(
+                  icon: Icons.login,
+                  title: 'Login',
+                  route: '/login',
+                  currentRoute: location,
+                  context: context,
+                ),
+                _buildListTile(
+                  icon: Icons.person,
+                  title: 'Perfil',
+                  route: '/profile',
+                  currentRoute: location,
+                  context: context,
+                ),
+                _buildListTile(
+                  icon: Icons.settings,
+                  title: 'Configurações',
+                  route: '/settings',
+                  currentRoute: location,
+                  context: context,
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.logout),
+              label: const Text('Sair'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(48),
+                backgroundColor: AppTheme.tertiaryColor,
+
+                foregroundColor: AppTheme.textDarkColor,
+              ),
+              onPressed: () {
+                context.go('/login');
+              },
+            ),
+          ),
+          const SizedBox(height: 16),
         ],
       ),
+    );
+  }
+
+  ListTile _buildListTile({
+    required IconData icon,
+    required String title,
+    required String route,
+    required String currentRoute,
+    required BuildContext context,
+  }) {
+    final isSelected = currentRoute == route;
+
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: isSelected ? Colors.white : AppTheme.textLightColor,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: isSelected ? Colors.white : AppTheme.textLightColor,
+        ),
+      ),
+      selected: isSelected,
+      selectedTileColor: AppTheme.secondaryColor,
+      tileColor: Colors.transparent,
+      onTap: () {
+        if (!isSelected) {
+          setState(() {
+            context.go(route);
+          });
+        }
+      },
     );
   }
 }
