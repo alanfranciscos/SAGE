@@ -14,7 +14,6 @@ FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
 COPY --from=builder /app/target/*.jar app.jar
-COPY .env /app/.env
 
 ENV PORT=8080
 EXPOSE 8080
