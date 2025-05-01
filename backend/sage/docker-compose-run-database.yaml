@@ -1,0 +1,13 @@
+version: "2"
+services:
+  postgres-sage:
+    image: postgres:15
+    container_name: postgres-sage
+    environment:
+      - POSTGRES_PASSWORD=local
+      - POSTGRES_USER=local
+      - POSTGRES_DB=sage
+    volumes:
+      - ./infra/database.sql:/docker-entrypoint-initdb.d/database.sql
+    ports:
+      - "5432:5432"
