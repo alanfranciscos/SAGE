@@ -146,7 +146,7 @@ jobs:
         run: terraform init -backend-config="prefix=state/cloud_run/sage-api"
 
       - name: Terraform plan cloud run
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -var repository_id="sage-api" -var http2=true -out=tfplan.plan -lock=false
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -var repository_id="sage-api" -out=tfplan.plan -lock=false
 
       - name: Terraform apply cloud run
         run: terraform apply -auto-approve tfplan.plan
