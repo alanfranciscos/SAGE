@@ -11,6 +11,6 @@ provider "google" {
 
 terraform {
   backend "gcs" {
-    bucket = "terraform-faitec-simac"
+    bucket = "terraform-faitec-sage"
   }
 }
