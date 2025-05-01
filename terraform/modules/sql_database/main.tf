@@ -22,6 +22,7 @@ resource "google_sql_user" "postgres_user" {
   password = var.user_password
 }
 
-
-
-
+resource "google_sql_database" "sage_db" {
+  name     = "sage"
+  instance = google_sql_database_instance.postgres-sage.name
+}
