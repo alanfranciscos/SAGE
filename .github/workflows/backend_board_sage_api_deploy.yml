@@ -32,7 +32,7 @@ jobs:
         run: terraform init -backend-config="prefix=state/bucket/sage-api"
 
       - name: Terraform plan bucket
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}'  -var bucket_name="sage-api" -out=tfplan.plan -lock=false
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -out=tfplan.plan -lock=false
 
       - name: Terraform apply bucket
         run: terraform apply -auto-approve tfplan.plan
