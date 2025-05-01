@@ -1,0 +1,44 @@
+name: create-database
+
+on:
+  push:
+    branches:
+      - dev*
+
+jobs:
+  create-database:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/modules/sql_database
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Google auth
+        id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.11.1
+
+      - name: Terraform Init
+        run: terraform init -backend-config="prefix=state/sql_database/sage-api"
+
+      - name: Terraform plan database
+        run: |
+          terraform plan -var project_id='${{ secrets.PROJECT_ID }}' \
+          -var repository_id="sage-api" \
+          -var root_password='${{ secrets.SQL_ROOT_PASSWORD }}' \
+          -var username='${{ secrets.SQL_USER_NAME }}' \
+          -var user_password='${{ secrets.SQL_USER_PASSWORD }}' \
+          -out=tfplan.plan -lock=false
+
+      - name: Terraform apply database
+        run: terraform apply -auto-approve tfplan.plan
