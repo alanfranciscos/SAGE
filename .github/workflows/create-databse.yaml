@@ -34,7 +34,6 @@ jobs:
       - name: Terraform plan database
         run: |
           terraform plan -var project_id='${{ secrets.PROJECT_ID }}' \
-          -var repository_id="sage-api" \
           -var root_password='${{ secrets.SQL_ROOT_PASSWORD }}' \
           -var username='${{ secrets.SQL_USER_NAME }}' \
           -var user_password='${{ secrets.SQL_USER_PASSWORD }}' \
