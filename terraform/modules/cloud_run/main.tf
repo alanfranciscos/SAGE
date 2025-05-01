@@ -31,6 +31,6 @@ resource "google_cloud_run_service" "cloud_run_service" {
 
 terraform {
   backend "gcs" {
-    bucket = "terraform-faitec-sage"
+    bucket = "terraform-sage"
   }
 }
