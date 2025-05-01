@@ -8,6 +8,7 @@ on:
 
 jobs:
   create-bucket-terraform:
+    # this is a temporary fix to skip the bucket creation change also in the next job
     if: false
     runs-on: ubuntu-latest
     defaults:
@@ -40,7 +41,8 @@ jobs:
 
   create-artifact-register-terraform:
     runs-on: ubuntu-latest
-    needs: create-bucket-terraform
+    # change this if you want to create the bucket again
+    # needs: create-bucket-terraform
     defaults:
       run:
         working-directory: terraform/modules/artifact_reegistry
