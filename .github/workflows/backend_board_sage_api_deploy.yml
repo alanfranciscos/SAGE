@@ -1,4 +1,4 @@
-name: board-controller-api-deploy
+name: sage-api-deploy
 
 on:
   push:
@@ -28,10 +28,10 @@ jobs:
           terraform_version: 1.11.1
 
       - name: Terraform Init
-        run: terraform init -backend-config="prefix=state/artifact_registry/board-controller-api"
+        run: terraform init -backend-config="prefix=state/artifact_registry/sage-api"
 
       - name: Terraform plan artifact registry
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}'  -var repository_id="board-controller-api" -out=tfplan.plan -lock=false
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}'  -var repository_id="sage-api" -out=tfplan.plan -lock=false
 
       - name: Terraform apply artifact registry
         run: terraform apply -auto-approve tfplan.plan
@@ -59,10 +59,10 @@ jobs:
           terraform_version: 1.11.1
 
       - name: Terraform Init
-        run: terraform init -backend-config="prefix=state/cloud_run/board-controller-api"
+        run: terraform init -backend-config="prefix=state/cloud_run/sage-api"
 
       - name: Terraform plan cloud run
-        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -var repository_id="board-controller-api" -var http2=true -out=tfplan.plan -lock=false
+        run: terraform plan -var project_id='${{ secrets.PROJECT_ID }}' -var repository_id="sage-api" -var http2=true -out=tfplan.plan -lock=false
 
       - name: Terraform apply cloud run
         run: terraform apply -auto-approve tfplan.plan
@@ -72,7 +72,7 @@ jobs:
     needs: create-artifact-register-terraform
     defaults:
       run:
-        working-directory: backend/board-controller-api
+        working-directory: backend/sage-api
 
     steps:
       - name: Checkout code
@@ -101,18 +101,18 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_NAME="board-controller-api"
+          IMAGE_NAME="sage-api"
           IMAGE_TAG="latest"
-          AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api"
+          AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/sage-api"
 
           docker build -t $IMAGE_NAME --no-cache .
           docker tag $IMAGE_NAME:latest $AR/$IMAGE_NAME:$IMAGE_TAG
 
       - name: Push Docker image
         run: |
-          IMAGE_NAME="board-controller-api"
+          IMAGE_NAME="sage-api"
           IMAGE_TAG="latest"
-          AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api"
+          AR="us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/sage-api"
 
           docker push $AR/$IMAGE_NAME:$IMAGE_TAG
 
@@ -134,8 +134,8 @@ jobs:
 
       - name: run cloud run
         run: |
-          gcloud run deploy board-controller-api \
-          --image=us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/board-controller-api/board-controller-api:latest \
+          gcloud run deploy sage-api \
+          --image=us-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/sage-api/sage-api:latest \
           --allow-unauthenticated \
           --port=8080 \
           --max-instances=10 \
