@@ -1,0 +1,9 @@
+Colocar nesta pasta do Apêndice D:
+
+Fase 1:
+1. Diagrama Entidade-Relacionamento (criado pelo software DIA). 
+
+Fase 2:
+1. Modelo lógico dos dados.
+2. Dicionário de dados do modelo lógico.
+3. Diagrama Entidade-Relacionamento atualizado.

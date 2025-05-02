@@ -1,0 +1,13 @@
+Colocar nesta pasta do Apêndice C:
+
+Fase 1:
+1- Arquivo do Ideas Modeler com os diagramas de casos de uso.
+2- As imagens dos diagramas de casos de uso (extraídos de 1).
+
+
+Fase 2:
+Atualizar os arquivos com as melhorias e correções.
+Incluir as descrições dos fluxos de eventos de cada caso de uso.
+
+Utilize sempre um mesmo arquivo para criação dos casos de uso e demais diagramas da UML.
+A cada entrega atualize a sua versão.
