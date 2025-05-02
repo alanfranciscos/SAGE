@@ -14,8 +14,7 @@ resource "google_sql_database_instance" "postgres-sage" {
   root_password    = var.root_password
 
   settings {
-    tier    = "db-f1-micro"
-    edition = "STANDARD"
+    tier = "db-f1-micro"
 
     disk_type       = "PD_HDD"
     disk_autoresize = false
