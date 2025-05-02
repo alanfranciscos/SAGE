@@ -1,6 +1,9 @@
 name: create-database
 
 on:
+  push:
+    branches:
+      - release*
   workflow_dispatch:
 
 jobs:

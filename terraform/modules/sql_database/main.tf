@@ -3,6 +3,10 @@ provider "google" {
   region  = var.location
 }
 
+data "google_compute_network" "default" {
+  name = "default"
+}
+
 resource "google_sql_database_instance" "postgres-sage" {
   name             = "postgres-sage"
   region           = var.location
@@ -17,6 +21,11 @@ resource "google_sql_database_instance" "postgres-sage" {
     disk_autoresize = false
     disk_size       = 10
 
+    ip_configuration {
+      ipv4_enabled    = false
+      private_network = data.google_compute_network.default.id
+    }
+
     backup_configuration {
       enabled = false
     }
@@ -27,17 +36,14 @@ resource "google_sql_database_instance" "postgres-sage" {
     }
 
   }
-
   deletion_protection = false
 }
-
 
 resource "google_sql_user" "postgres_user" {
   name     = var.username
   instance = google_sql_database_instance.postgres-sage.name
   password = var.user_password
 }
-
 resource "google_sql_database" "sage_db" {
   name     = "sage"
   instance = google_sql_database_instance.postgres-sage.name
