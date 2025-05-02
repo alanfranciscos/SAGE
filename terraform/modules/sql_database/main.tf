@@ -10,11 +10,27 @@ resource "google_sql_database_instance" "postgres-sage" {
   root_password    = var.root_password
 
   settings {
-    tier    = "db-custom-1-3840"
-    edition = "ENTERPRISE"
+    tier    = "db-f1-micro"
+    edition = "STANDARD"
+
+    disk_type       = "PD_HDD"
+    disk_autoresize = false
+    disk_size       = 10
+
+    backup_configuration {
+      enabled = false
+    }
+    maintenance_window {
+      day          = 7
+      hour         = 3
+      update_track = "canary" # 
+    }
+
   }
-  deletion_protection = true
+
+  deletion_protection = false
 }
+
 
 resource "google_sql_user" "postgres_user" {
   name     = var.username
