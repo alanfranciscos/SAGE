@@ -186,3 +186,4 @@ jobs:
           --network=default \
           --subnet=default \
           --vpc-egress=private-ranges-only \
+          --set-cloudsql-instances=${{ secrets.PROJECT_ID }}:us-east1:postgres-sage \
