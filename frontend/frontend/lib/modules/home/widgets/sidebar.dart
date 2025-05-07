@@ -19,6 +19,9 @@ class _SidebarState extends State<Sidebar> {
 
     return Drawer(
       backgroundColor: AppTheme.primaryColor,
+      shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.zero,
+  ),
       child: Column(
         children: [
           DrawerHeader(
@@ -26,7 +29,7 @@ class _SidebarState extends State<Sidebar> {
             child: Align(
               alignment: Alignment.center,
               child: Image.asset(
-                'assets/images/logo.png',
+                'assets/images/light_logo.png',
                 width: 120,
                 height: 120,
                 fit: BoxFit.contain,
