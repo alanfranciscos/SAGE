@@ -20,23 +20,21 @@ class _SidebarState extends State<Sidebar> {
     return Drawer(
       backgroundColor: AppTheme.primaryColor,
       shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.zero,
   ),
       child: Column(
         children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(color: AppTheme.primaryColor),
-            child: Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                'assets/images/light_logo.png',
-                width: 120,
-                height: 120,
-                fit: BoxFit.contain,
-              ),
+          Container(
+            height: 160,
+            color: AppTheme.primaryColor,
+            alignment: Alignment.center,
+            child: Image.asset(
+              'assets/images/light_logo.png',
+              width: 120,
+              height: 120,
+              fit: BoxFit.contain,
             ),
           ),
-
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -72,24 +70,28 @@ class _SidebarState extends State<Sidebar> {
               ],
             ),
           ),
-          const Divider(),
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.logout),
-              label: const Text('Sair'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(48),
-                backgroundColor: AppTheme.tertiaryColor,
-
-                foregroundColor: AppTheme.textDarkColor,
+            child: SizedBox(
+              width: 100,
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.logout),
+                label: const Text('Sair'),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(38),
+                  
+                  backgroundColor: AppTheme.tertiaryColor,
+              
+                  foregroundColor: AppTheme.textDarkColor,
+                ),
+                onPressed: () {
+                  context.go('/login');
+                },
               ),
-              onPressed: () {
-                context.go('/login');
-              },
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
         ],
       ),
     );
@@ -112,7 +114,9 @@ class _SidebarState extends State<Sidebar> {
       title: Text(
         title,
         style: TextStyle(
+          fontSize: 14,
           color: isSelected ? Colors.white : AppTheme.textLightColor,
+          fontWeight: FontWeight.w500,
         ),
       ),
       selected: isSelected,
