@@ -51,7 +51,7 @@ CREATE TABLE resident_emergency_contact (
 
 CREATE TABLE control_resident (
         id SERIAL PRIMARY KEY,
-        control_id UUID NOT NULL UNIQUE,
+        control_id VARCHAR(32) NOT NULL UNIQUE,
         resident_id UUID NOT NULL,
         
         FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
@@ -113,11 +113,11 @@ INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relat
 
 -- Inserts para a tabela control_resident
 INSERT INTO control_resident (control_id, resident_id) VALUES
-('1e0f9f90-1c47-4f02-9d80-14be92f61061', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7');
+('001', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7');
 INSERT INTO control_resident (control_id, resident_id) VALUES
-('2a4f57b1-3262-4f33-a6b6-f52b7402d4f2', '416f4967-89b1-49f8-a8d3-134c6e63cf5b');
+('002', '416f4967-89b1-49f8-a8d3-134c6e63cf5b');
 INSERT INTO control_resident (control_id, resident_id) VALUES
-('3c7e2af9-83d7-4c69-95d6-93c1c70953a7', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed');
+('003', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed');
 
 -- Tabela caregiver_assignment_resident
 INSERT INTO caregiver_assignment_resident (id, caregiver_id, resident_id, called_at, assignment_at, end_at, detail, severity_level) VALUES
