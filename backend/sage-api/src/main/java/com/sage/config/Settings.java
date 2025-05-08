@@ -6,7 +6,9 @@ public class Settings {
 
     final private static Dotenv dotenv = Dotenv.load();
 
+    final private static String VERSION = dotenv.get("VERSION");
+
     public static String getVersion() {
-        return dotenv.get("VERSION");
+        return VERSION;
     }
 }

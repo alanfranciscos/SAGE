@@ -9,6 +9,8 @@ services:
       - POSTGRES_DB=sage
     ports:
       - "5432:5432"
+    volumes:
+      - ./infra/database.sql:/docker-entrypoint-initdb.d/database.sql
     networks:
       - my-networks
 
@@ -19,12 +21,25 @@ services:
       dockerfile: Dockerfile
     environment:
       - VERSION=local
+      - JPA_SHOW_SQL=true
+      - DB_URL=jdbc:postgresql://postgres-sage:5432/sage
+      - SQL_USERNAME=postgres
+      - SQL_PASSWORD=postgres
     ports:
       - 8080:8080
     networks:
       - my-networks
     depends_on:
       - postgres-sage
+    command:
+      [
+        "./infra/wait-for-it.sh",
+        "postgres-sage:5432",
+        "--",
+        "java",
+        "-jar",
+        "/app.jar",
+      ]
 
 networks:
   my-networks:
