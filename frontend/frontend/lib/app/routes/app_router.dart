@@ -1,13 +1,35 @@
-import 'package:frontend/modules/home/settings/settings_page.dart';
+import 'package:flutter/material.dart';
+import 'package:frontend/modules/home/home_content/home_content.dart';
 import 'package:go_router/go_router.dart';
-import '../../modules/login/pages/login_page.dart';
 import '../../modules/home/home_page.dart';
+import '../../modules/home/settings/settings_page.dart';
+import '../../modules/login/pages/login_page.dart';
 
 final router = GoRouter(
   initialLocation: '/home',
   routes: [
-    GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+    ShellRoute(
+      builder: (context, state, child) {
+        return HomePage(child: child);
+      },
+      routes: [
+        GoRoute(
+          path: '/home',
+          builder: (context, state) {
+            return const HomeContent();
+          },
+        ),
+        GoRoute(
+          path: '/settings',
+          builder: (context, state) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const Center(child: Text('Perfil')),
+        ),
+      ],
+    ),
+
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-    GoRoute(path: '/settings', builder: (context, state) => const SettingsPage()),
   ],
 );

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'widgets/sidebar.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final Widget child;
+
+  const HomePage({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,13 @@ class HomePage extends StatelessWidget {
       body: Row(
         children: [
           if (isDesktop) const SizedBox(width: 200, child: Sidebar()),
-          const Expanded(child: Center(child: Text('Página Inicial'))),
+
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(child: child),
+            ),
+          ),
         ],
       ),
     );
