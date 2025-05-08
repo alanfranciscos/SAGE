@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
       drawer: isDesktop ? null : const Drawer(child: Sidebar()),
       body: Row(
         children: [
-          if (isDesktop) const SizedBox(width: 250, child: Sidebar()),
+          if (isDesktop) const SizedBox(width: 200, child: Sidebar()),
           const Expanded(child: Center(child: Text('Página Inicial'))),
         ],
       ),
