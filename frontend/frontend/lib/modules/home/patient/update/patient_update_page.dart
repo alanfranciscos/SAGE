@@ -3,12 +3,8 @@ import 'package:frontend/shared/themes/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
 
-
-
-class PatientDetails extends StatelessWidget {
-  const PatientDetails({super.key});
-
-
+class PatientUpdate extends StatelessWidget {
+  const PatientUpdate({super.key});
 
 
   @override
@@ -19,15 +15,13 @@ class PatientDetails extends StatelessWidget {
           final bool isMobile = constraints.maxWidth < 800;
 
 
-
-
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Visualizar paciente',
+                  'Editar dados do paciente',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -54,10 +48,10 @@ class PatientDetails extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildReadOnlyField('Nome', 'João da Silva'),
-                            _buildReadOnlyField('CPF', '123.456.789-00'),
-                            _buildReadOnlyField('Sexo', 'Masculino'),
-                            _buildReadOnlyField('Data de Nascimento', '01/01/1990'),
+                            _buildTextField('Nome'),
+                            _buildTextField('CPF'),
+                            _buildTextField('Sexo'),
+                            _buildTextField('Data de Nascimento'),
                           ],
                         ),
                       ),
@@ -81,8 +75,6 @@ class PatientDetails extends StatelessWidget {
                 const SizedBox(height: 16),
 
 
-
-
                 if (isMobile)
                   ..._buildMobileEmergencyContactAndResidenceInfo(constraints),
                 if (!isMobile)
@@ -103,9 +95,9 @@ class PatientDetails extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildReadOnlyField('Nome', 'Maria da Silva'),
-                            _buildReadOnlyField('Telefone', '(31) 98765-4321'),
-                            _buildReadOnlyField('Parentesco', 'Mãe'),
+                            _buildTextField('Nome'),
+                            _buildTextField('Telefone'),
+                            _buildTextField('Parentesco'),
                           ],
                         ),
                       ),
@@ -124,16 +116,14 @@ class PatientDetails extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildReadOnlyField('Número do controle', '12345'),
-                            _buildReadOnlyField('Número da casa', '25A'),
+                            _buildTextField('Número do controle'),
+                            _buildTextField('Número da casa'),
                           ],
                         ),
                       ),
                     ],
                   ),
                 const SizedBox(height: 16),
-
-
 
 
                 Row(
@@ -145,20 +135,21 @@ class PatientDetails extends StatelessWidget {
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: AppTheme.textDarkColor,
-                        textStyle: TextStyle(fontWeight: FontWeight.bold),
+                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      child: const Text('Voltar'),
+                      child: const Text('Cancelar'),
                     ),
                     const SizedBox(width: 16),
                     ElevatedButton(
                       onPressed: () {
-                        context.go('/patient-update');
+                        // Ação para salvar alterações
+                        context.go('/home');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.tertiaryColor,
                         foregroundColor: AppTheme.textDarkColor,
                       ),
-                      child: const Text('Editar'),
+                      child: const Text('Salvar alterações'),
                     ),
                   ],
                 ),
@@ -171,13 +162,10 @@ class PatientDetails extends StatelessWidget {
   }
 
 
-
-
-  Widget _buildReadOnlyField(String label, String value) {
+  Widget _buildTextField(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: TextField(
-        controller: TextEditingController(text: value),
         decoration: InputDecoration(
           labelText: label,
           filled: true,
@@ -191,12 +179,9 @@ class PatientDetails extends StatelessWidget {
             vertical: 8,
           ),
         ),
-        enabled: false, // Desabilita a edição
       ),
     );
   }
-
-
 
 
   Widget _buildPhotoContainer() {
@@ -213,8 +198,6 @@ class PatientDetails extends StatelessWidget {
   }
 
 
-
-
   List<Widget> _buildMobilePatientInfo() {
     return [
       const Text(
@@ -226,10 +209,10 @@ class PatientDetails extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 8),
-      _buildReadOnlyField('Nome', 'João da Silva'),
-      _buildReadOnlyField('CPF', '123.456.789-00'),
-      _buildReadOnlyField('Sexo', 'Masculino'),
-      _buildReadOnlyField('Data de Nascimento', '01/01/1990'),
+      _buildTextField('Nome'),
+      _buildTextField('CPF'),
+      _buildTextField('Sexo'),
+      _buildTextField('Data de Nascimento'),
       const SizedBox(height: 16),
       const Text(
         'Foto',
@@ -240,8 +223,6 @@ class PatientDetails extends StatelessWidget {
       const SizedBox(height: 16),
     ];
   }
-
-
 
 
   List<Widget> _buildMobileEmergencyContactAndResidenceInfo(
@@ -257,18 +238,21 @@ class PatientDetails extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 8),
-      _buildReadOnlyField('Nome', 'Maria da Silva'),
-      _buildReadOnlyField('Telefone', '(31) 98765-4321'),
-      _buildReadOnlyField('Parentesco', 'Mãe'),
+      _buildTextField('Nome'),
+      _buildTextField('Telefone'),
+      _buildTextField('Parentesco'),
       const SizedBox(height: 16),
       const Text(
         'Dados da residência',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       const SizedBox(height: 8),
-      _buildReadOnlyField('Número do controle', '12345'),
-      _buildReadOnlyField('Número da casa', '25A'),
+      _buildTextField('Número do controle'),
+      _buildTextField('Número da casa'),
       const SizedBox(height: 16),
     ];
   }
 }
+
+
+
