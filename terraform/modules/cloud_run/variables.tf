@@ -35,3 +35,33 @@ variable "http2" {
   type        = bool
   default     = false
 }
+
+variable "DB_URL" {
+  description = "Database URL"
+  type        = string
+
+  validation {
+    condition     = length(var.DB_URL) > 0
+    error_message = "The DB_URL variable must be set."
+  }
+}
+
+variable "SQL_USERNAME" {
+  description = "SQL username"
+  type        = string
+
+  validation {
+    condition     = length(var.SQL_USERNAME) > 0
+    error_message = "The SQL_USERNAME variable must be set."
+  }
+}
+
+variable "SQL_PASSWORD" {
+  description = "SQL password"
+  type        = string
+
+  validation {
+    condition     = length(var.SQL_PASSWORD) > 0
+    error_message = "The SQL_PASSWORD variable must be set."
+  }
+}

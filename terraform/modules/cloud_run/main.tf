@@ -20,6 +20,27 @@ resource "google_cloud_run_service" "cloud_run_service" {
           container_port = 8080
           name           = var.http2 ? "h2c" : "http1"
         }
+
+        env {
+          name  = "JPA_SHOW_SQL"
+          value = "false"
+        }
+
+        env {
+          name = "DB_URL"
+          value = var.DB_URL
+        }
+
+         env {
+          name  = "SQL_USERNAME"
+          value = var.SQL_USERNAME
+        }
+
+        env {
+          name  = "SQL_PASSWORD"
+          value = var.SQL_PASSWORD
+        }
+
       }
     }
   }
