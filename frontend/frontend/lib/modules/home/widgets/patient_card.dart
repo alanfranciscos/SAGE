@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/themes/app_theme.dart';
+import 'package:go_router/go_router.dart';
+
 
 class UserCard extends StatelessWidget {
   final String imagePath;
   final String name;
   final String number;
+
 
   const UserCard({
     super.key,
@@ -12,6 +15,7 @@ class UserCard extends StatelessWidget {
     required this.name,
     required this.number,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,7 @@ class UserCard extends StatelessWidget {
           children: [
             CircleAvatar(backgroundImage: AssetImage(imagePath), radius: 30),
             const SizedBox(width: 16),
+
 
             Expanded(
               child: Column(
@@ -42,8 +47,11 @@ class UserCard extends StatelessWidget {
               ),
             ),
 
+
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.go('/patient-details');
+              },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -59,3 +67,6 @@ class UserCard extends StatelessWidget {
     );
   }
 }
+
+
+
