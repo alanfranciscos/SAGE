@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/modules/home/widgets/patient_card.dart';
 import 'package:frontend/shared/themes/app_theme.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-   
     //aqui simula a lista
     final List<Map<String, String>> mockPatients = List.generate(17, (index) {
       return {
@@ -67,8 +67,7 @@ class HomeContent extends StatelessWidget {
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
                       onPressed: () {
-                        //so pra testar
-                        print('cadastro');
+                        context.go('/patient-register');
                       },
                       icon: const Icon(
                         Icons.add,
@@ -119,8 +118,7 @@ class HomeContent extends StatelessWidget {
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
-                        //so pra testar
-                        print('cadastro');
+                        context.go('/patient-register');
                       },
                       icon: const Icon(
                         Icons.add,
@@ -146,24 +144,7 @@ class HomeContent extends StatelessWidget {
           ),
 
           const SizedBox(height: 24),
-          // GridView.builder(
-          //   shrinkWrap: true,
-          //   physics: const NeverScrollableScrollPhysics(),
-          //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //     crossAxisCount: isDesktop ? 3 : 1,
-          //     mainAxisExtent: 120,
-          //     crossAxisSpacing: 16,
-          //     mainAxisSpacing: 16,
-          //   ),
-          //   itemCount: 12,
-          //   itemBuilder: (context, index) {
-          //     return const UserCard(
-          //       imagePath: 'assets/images/login_bg.png',
-          //       name: 'João da Silva',
-          //       number: 'Casa: ${12}',
-          //     );
-          //   },
-          // ),
+
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

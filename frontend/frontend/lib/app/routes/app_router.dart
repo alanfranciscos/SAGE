@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/modules/home/home_content/home_content.dart';
+import 'package:frontend/modules/home/patient/register/patient_register_page.dart';
 import 'package:go_router/go_router.dart';
 import '../../modules/home/home_page.dart';
 import '../../modules/home/settings/settings_page.dart';
@@ -26,6 +27,10 @@ final router = GoRouter(
         GoRoute(
           path: '/profile',
           builder: (context, state) => const Center(child: Text('Perfil')),
+        ),
+        GoRoute(
+          path:'/patient-register',
+          builder: (context, state) => const PatientRegister(),
         ),
       ],
     ),
