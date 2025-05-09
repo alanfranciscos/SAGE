@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/modules/home/home_content/home_content.dart';
 import 'package:frontend/modules/home/patient/details/patient_details_page.dart';
 import 'package:frontend/modules/home/patient/register/patient_register_page.dart';
+import 'package:frontend/modules/home/patient/update/patient_update_page.dart';
 import 'package:go_router/go_router.dart';
 import '../../modules/home/home_page.dart';
 import '../../modules/home/settings/settings_page.dart';
 import '../../modules/login/pages/login_page.dart';
+
+
 
 
 final router = GoRouter(
@@ -38,13 +41,16 @@ final router = GoRouter(
           path:'/patient-details',
           builder: (context, state) => const PatientDetails(),
         ),
+        GoRoute(
+          path:'/patient-update',
+          builder: (context, state) => const PatientUpdate(),
+        ),
       ],
     ),
+
+
 
 
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
   ],
 );
-
-
-
