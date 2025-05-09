@@ -173,11 +173,11 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Extract version from branch
-        id: extract_version
-        run: |
-          VERSION=$(echo ${GITHUB_REF} | sed -E 's#refs/heads/release-(.*)#\1#')
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      # - name: Extract version from branch
+      #   id: extract_version
+      #   run: |
+      #     VERSION=$(echo ${GITHUB_REF} | sed -E 's#refs/heads/release-(.*)#\1#')
+      #     echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: run cloud run
         run: |
@@ -188,7 +188,6 @@ jobs:
           --max-instances=10 \
           --region=us-east1 \
           --project=${{ secrets.PROJECT_ID }} \
-          --set-env-vars=VERSION=${{ env.VERSION }}
           --network=default \
           --subnet=default \
           --vpc-egress=private-ranges-only \

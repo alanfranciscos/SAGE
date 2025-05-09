@@ -22,6 +22,11 @@ resource "google_cloud_run_service" "cloud_run_service" {
         }
 
         env {
+          name = "VERSION"
+          value = "1.0.0"
+        }
+
+        env {
           name  = "JPA_SHOW_SQL"
           value = "false"
         }
