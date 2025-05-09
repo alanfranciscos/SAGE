@@ -3,21 +3,41 @@ import 'package:frontend/modules/home/widgets/patient_card.dart';
 import 'package:frontend/shared/themes/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
+
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     //aqui simula a lista
     final List<Map<String, String>> mockPatients = List.generate(17, (index) {
+      String status;
+
+
+      if (index == 0) {
+        status = '2'; // vermelho
+      } else if (index == 1) {
+        status = '1'; // amarelo
+      } else {
+        status = '0'; // padrão (branco)
+      }
+
+
       return {
         'name': 'Paciente ${index + 1}',
         'number': 'Casa: ${100 + index}',
         'imagePath': 'assets/images/login_bg.png',
+        'status': status,
       };
     });
 
+
+    final bool hasAlerts = mockPatients.any((p) => p['status'] != '0');
+
+
     final bool isDesktop = MediaQuery.of(context).size.width >= 800;
+
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -32,10 +52,41 @@ class HomeContent extends StatelessWidget {
               color: AppTheme.textDarkColor,
             ),
           ),
+
+
+          if (hasAlerts) ...[
+            Container(
+              margin: const EdgeInsets.only(top: 16, bottom: 24),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.red[100],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: const [
+                  Icon(Icons.warning, color: Colors.red, size: 28),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Existem alertas ativos',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
+
           const SizedBox(height: 40),
           LayoutBuilder(
             builder: (context, constraints) {
               final isMobile = constraints.maxWidth < 800;
+
 
               if (isMobile) {
                 return Column(
@@ -143,7 +194,9 @@ class HomeContent extends StatelessWidget {
             },
           ),
 
+
           const SizedBox(height: 24),
+
 
           GridView.builder(
             shrinkWrap: true,
@@ -161,6 +214,7 @@ class HomeContent extends StatelessWidget {
                 imagePath: patient['imagePath']!,
                 name: patient['name']!,
                 number: patient['number']!,
+                status: patient['status'] ?? '0',
               );
             },
           ),

@@ -4,6 +4,8 @@ class AppTheme {
   static const Color primaryColor = Color(0xff0069c5);
   static const Color secondaryColor = Color(0xff004785);
   static const Color tertiaryColor = Color(0xff51cbe0);
+  static const Color alert = Color(0xfffcbf7e);
+  static const Color danger = Color(0xfff28b92);
   static const Color backgroundColor = Color(0xFFF5F5F5);
   static const Color textLightColor = Color(0xfff8f9fa);
   static const Color textDarkColor = Color(0xff2e2e30);

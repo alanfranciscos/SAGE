@@ -2,24 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:frontend/shared/themes/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
-
 class UserCard extends StatelessWidget {
   final String imagePath;
   final String name;
   final String number;
-
+  final String status;
 
   const UserCard({
     super.key,
     required this.imagePath,
     required this.name,
     required this.number,
+    required this.status,
   });
 
+  Color _getBackgroundColor() {
+    switch (status) {
+      case '1':
+        return AppTheme.alert;
+      case '2':
+        return AppTheme.danger;
+      default:
+        return Colors.white;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: _getBackgroundColor(),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -28,8 +39,6 @@ class UserCard extends StatelessWidget {
           children: [
             CircleAvatar(backgroundImage: AssetImage(imagePath), radius: 30),
             const SizedBox(width: 16),
-
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,11 +55,9 @@ class UserCard extends StatelessWidget {
                 ],
               ),
             ),
-
-
             ElevatedButton(
               onPressed: () {
-                context.go('/patient-details');
+                context.go('/patient-update');
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -67,6 +74,3 @@ class UserCard extends StatelessWidget {
     );
   }
 }
-
-
-
