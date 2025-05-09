@@ -151,7 +151,7 @@ jobs:
           -var repository_id="sage-api" \
           -var DB_URL='${{ secrets.DB_URL }}' \
           -var SQL_USERNAME='${{ secrets.SQL_USER_NAME }}' \
-          -var SQL_PASSWORD='${{ secrets.SQL_PASSWORD }}' \
+          -var SQL_PASSWORD='${{ secrets.SQL_USER_PASSWORD }}' \
           -out=tfplan.plan -lock=false
 
       - name: Terraform apply cloud run
@@ -192,7 +192,7 @@ jobs:
           --set-env-vars=JPA_SHOW_SQL=false \
           --set-env-vars=DB_URL=${{ secrets.DB_URL }} \
           --set-env-vars=SQL_USERNAME=${{ secrets.SQL_USER_NAME }} \
-          --set-env-vars=SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} \
+          --set-env-vars=SQL_PASSWORD=${{ secrets.SQL_USER_PASSWORD }} \
           --network=default \
           --subnet=default \
           --vpc-egress=private-ranges-only \
