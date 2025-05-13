@@ -76,6 +76,43 @@ CREATE TABLE caregiver_assignment_resident (
         UNIQUE (caregiver_id, resident_id, called_at)
 );
 
+-- functions
+
+CREATE OR REPLACE FUNCTION notify_caregiver_assignment_change()
+RETURNS TRIGGER AS $$
+DECLARE
+    payload JSON;
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        payload := row_to_json(OLD);
+    ELSE
+        payload := row_to_json(NEW);
+    END IF;
+
+    PERFORM pg_notify(
+        'caregiver_assignment_channel',
+        json_build_object(
+            'operation', TG_OP,
+            'table', TG_TABLE_NAME,
+            'data', payload
+        )::text
+    );
+
+    IF (TG_OP = 'DELETE') THEN
+        RETURN OLD;
+    ELSE
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- triggers
+
+CREATE TRIGGER trigger_notify_caregiver_assignment
+AFTER INSERT OR UPDATE OR DELETE ON caregiver_assignment_resident
+FOR EACH ROW
+EXECUTE FUNCTION notify_caregiver_assignment_change();
 
 -- inserts
 
