@@ -1,225 +1,444 @@
+// import 'package:flutter/material.dart';
+// import 'package:frontend/modules/home/widgets/patient_card.dart';
+// import 'package:frontend/shared/themes/app_theme.dart';
+// import 'package:go_router/go_router.dart';
+
+// class HomeContent extends StatelessWidget {
+//   const HomeContent({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     //aqui simula a lista
+//     final List<Map<String, String>> mockPatients = List.generate(17, (index) {
+//       String status;
+
+//       if (index == 0) {
+//         status = '2'; // vermelho
+//       } else if (index == 1) {
+//         status = '1'; // amarelo
+//       } else {
+//         status = '0'; // padrão (branco)
+//       }
+
+//       return {
+//         'name': 'Paciente ${index + 1}',
+//         'number': 'Casa: ${100 + index}',
+//         'imagePath': 'assets/images/login_bg.png',
+//         'status': status,
+//       };
+//     });
+
+//     final bool hasAlerts = mockPatients.any((p) => p['status'] != '0');
+
+//     final bool isDesktop = MediaQuery.of(context).size.width >= 800;
+
+//     return SingleChildScrollView(
+//       padding: const EdgeInsets.all(16),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const Text(
+//             'Visão geral dos pacientes monitorados',
+//             style: TextStyle(
+//               fontSize: 24,
+//               fontWeight: FontWeight.bold,
+//               color: AppTheme.textDarkColor,
+//             ),
+//           ),
+
+//           if (hasAlerts) ...[
+//             Container(
+//               margin: const EdgeInsets.only(top: 16, bottom: 24),
+//               padding: const EdgeInsets.all(16),
+//               decoration: BoxDecoration(
+//                 color: Colors.red[100],
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//               child: Row(
+//                 children: const [
+//                   Icon(Icons.warning, color: Colors.red, size: 28),
+//                   SizedBox(width: 12),
+//                   Expanded(
+//                     child: Text(
+//                       'Existem alertas ativos',
+//                       style: TextStyle(
+//                         fontSize: 18,
+//                         color: Colors.red,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+
+//           const SizedBox(height: 40),
+//           LayoutBuilder(
+//             builder: (context, constraints) {
+//               final isMobile = constraints.maxWidth < 800;
+
+//               if (isMobile) {
+//                 return Column(
+//                   crossAxisAlignment: CrossAxisAlignment.stretch,
+//                   children: [
+//                     SizedBox(
+//                       child: TextField(
+//                         decoration: InputDecoration(
+//                           hintText: 'Pesquisar paciente',
+//                           hintStyle: TextStyle(color: AppTheme.textDarkColor),
+//                           enabledBorder: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(8),
+//                             borderSide: BorderSide(
+//                               color: AppTheme.textDarkColor,
+//                               width: 1,
+//                             ),
+//                           ),
+//                           focusedBorder: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(8),
+//                             borderSide: BorderSide(
+//                               color: AppTheme.primaryColor,
+//                               width: 2,
+//                             ),
+//                           ),
+//                           prefixIcon: const Icon(Icons.search),
+//                         ),
+//                       ),
+//                     ),
+//                     const SizedBox(height: 12),
+//                     ElevatedButton.icon(
+//                       onPressed: () {
+//                         context.go('/patient-register');
+//                       },
+//                       icon: const Icon(
+//                         Icons.add,
+//                         color: AppTheme.textDarkColor,
+//                       ),
+//                       label: const Text('Cadastrar paciente'),
+//                       style: ElevatedButton.styleFrom(
+//                         backgroundColor: AppTheme.tertiaryColor,
+//                         foregroundColor: AppTheme.textDarkColor,
+//                         padding: const EdgeInsets.symmetric(
+//                           horizontal: 20,
+//                           vertical: 16,
+//                         ),
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(8),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 );
+//               } else {
+//                 return Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     SizedBox(
+//                       width: 300,
+//                       child: TextField(
+//                         decoration: InputDecoration(
+//                           hintText: 'Pesquisar paciente',
+//                           hintStyle: TextStyle(color: AppTheme.textDarkColor),
+//                           enabledBorder: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(8),
+//                             borderSide: BorderSide(
+//                               color: AppTheme.textDarkColor,
+//                               width: 1,
+//                             ),
+//                           ),
+//                           focusedBorder: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(8),
+//                             borderSide: BorderSide(
+//                               color: AppTheme.primaryColor,
+//                               width: 2,
+//                             ),
+//                           ),
+//                           prefixIcon: const Icon(Icons.search),
+//                         ),
+//                       ),
+//                     ),
+//                     ElevatedButton.icon(
+//                       onPressed: () {
+//                         context.go('/patient-register');
+//                       },
+//                       icon: const Icon(
+//                         Icons.add,
+//                         color: AppTheme.textDarkColor,
+//                       ),
+//                       label: const Text('Cadastrar paciente'),
+//                       style: ElevatedButton.styleFrom(
+//                         backgroundColor: AppTheme.tertiaryColor,
+//                         foregroundColor: AppTheme.textDarkColor,
+//                         padding: const EdgeInsets.symmetric(
+//                           horizontal: 20,
+//                           vertical: 16,
+//                         ),
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(8),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 );
+//               }
+//             },
+//           ),
+
+//           const SizedBox(height: 24),
+
+//           GridView.builder(
+//             shrinkWrap: true,
+//             physics: const NeverScrollableScrollPhysics(),
+//             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//               crossAxisCount: isDesktop ? 3 : 1,
+//               mainAxisExtent: 120,
+//               crossAxisSpacing: 16,
+//               mainAxisSpacing: 16,
+//             ),
+//             itemCount: mockPatients.length,
+//             itemBuilder: (context, index) {
+//               final patient = mockPatients[index];
+//               return UserCard(
+//                 imagePath: patient['imagePath']!,
+//                 name: patient['name']!,
+//                 number: patient['number']!,
+//                 status: patient['status'] ?? '0',
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
+import 'package:frontend/modules/home/home_controller.dart';
 import 'package:frontend/modules/home/widgets/patient_card.dart';
 import 'package:frontend/shared/themes/app_theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
 
+  @override
+  _HomeContentState createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+      () =>
+          Provider.of<PacienteController>(
+            context,
+            listen: false,
+          ).fetchPacientes(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    //aqui simula a lista
-    final List<Map<String, String>> mockPatients = List.generate(17, (index) {
-      String status;
+    return Consumer<PacienteController>(
+      builder: (context, pacienteController, child) {
+        final bool isDesktop = MediaQuery.of(context).size.width >= 800;
+        final bool hasAlerts = pacienteController.pacientes.any(
+          (p) => p.status != '0',
+        );
 
-
-      if (index == 0) {
-        status = '2'; // vermelho
-      } else if (index == 1) {
-        status = '1'; // amarelo
-      } else {
-        status = '0'; // padrão (branco)
-      }
-
-
-      return {
-        'name': 'Paciente ${index + 1}',
-        'number': 'Casa: ${100 + index}',
-        'imagePath': 'assets/images/login_bg.png',
-        'status': status,
-      };
-    });
-
-
-    final bool hasAlerts = mockPatients.any((p) => p['status'] != '0');
-
-
-    final bool isDesktop = MediaQuery.of(context).size.width >= 800;
-
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Visão geral dos pacientes monitorados',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.textDarkColor,
-            ),
-          ),
-
-
-          if (hasAlerts) ...[
-            Container(
-              margin: const EdgeInsets.only(top: 16, bottom: 24),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.red[100],
-                borderRadius: BorderRadius.circular(12),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Visão geral dos pacientes monitorados',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textDarkColor,
+                ),
               ),
-              child: Row(
-                children: const [
-                  Icon(Icons.warning, color: Colors.red, size: 28),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'Existem alertas ativos',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              const SizedBox(height: 16),
+
+              if (hasAlerts)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.red[100],
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
+                  child: Row(
+                    children: const [
+                      Icon(Icons.warning, color: Colors.red, size: 28),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Existem alertas ativos',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: 40),
+
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isMobile = constraints.maxWidth < 800;
+
+                  if (isMobile) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Pesquisar paciente',
+                              hintStyle: TextStyle(
+                                color: AppTheme.textDarkColor,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: AppTheme.textDarkColor,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: AppTheme.primaryColor,
+                                  width: 2,
+                                ),
+                              ),
+                              prefixIcon: const Icon(Icons.search),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            context.go('/patient-register');
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            color: AppTheme.textDarkColor,
+                          ),
+                          label: const Text('Cadastrar paciente'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.tertiaryColor,
+                            foregroundColor: AppTheme.textDarkColor,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 300,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Pesquisar paciente',
+                              hintStyle: TextStyle(
+                                color: AppTheme.textDarkColor,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: AppTheme.textDarkColor,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: AppTheme.primaryColor,
+                                  width: 2,
+                                ),
+                              ),
+                              prefixIcon: const Icon(Icons.search),
+                            ),
+                          ),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            context.go('/patient-register');
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            color: AppTheme.textDarkColor,
+                          ),
+                          label: const Text('Cadastrar paciente'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.tertiaryColor,
+                            foregroundColor: AppTheme.textDarkColor,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
-            ),
-          ],
 
+              const SizedBox(height: 24),
 
-          const SizedBox(height: 40),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isMobile = constraints.maxWidth < 800;
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: isDesktop ? 3 : 1,
+                  mainAxisExtent: 120,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemCount: pacienteController.pacientes.length,
+                itemBuilder: (context, index) {
+                  final paciente = pacienteController.pacientes[index];
 
-
-              if (isMobile) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Pesquisar paciente',
-                          hintStyle: TextStyle(color: AppTheme.textDarkColor),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: AppTheme.textDarkColor,
-                              width: 1,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: AppTheme.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                          prefixIcon: const Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        context.go('/patient-register');
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        color: AppTheme.textDarkColor,
-                      ),
-                      label: const Text('Cadastrar paciente'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.tertiaryColor,
-                        foregroundColor: AppTheme.textDarkColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              } else {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Pesquisar paciente',
-                          hintStyle: TextStyle(color: AppTheme.textDarkColor),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: AppTheme.textDarkColor,
-                              width: 1,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: AppTheme.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                          prefixIcon: const Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        context.go('/patient-register');
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        color: AppTheme.textDarkColor,
-                      ),
-                      label: const Text('Cadastrar paciente'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.tertiaryColor,
-                        foregroundColor: AppTheme.textDarkColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }
-            },
+                  // return UserCard(
+                  //   imagePath: 'assets/images/login_bg.png',
+                  //   name: paciente.nome,
+                  //   number: 'Casa: ${paciente.numeroCasa}',
+                  //   status: paciente.status,
+                  // );
+                  return UserCard(
+                    imagePath: 'assets/images/login_bg.png',
+                    name: paciente.nome,
+                    number: 'Casa: ${paciente.numeroCasa}',
+                    status: paciente.status,
+                    id:
+                        paciente
+                            .id, // Agora o ID está sendo enviado para o card!
+                  );
+                },
+              ),
+            ],
           ),
-
-
-          const SizedBox(height: 24),
-
-
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isDesktop ? 3 : 1,
-              mainAxisExtent: 120,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-            ),
-            itemCount: mockPatients.length,
-            itemBuilder: (context, index) {
-              final patient = mockPatients[index];
-              return UserCard(
-                imagePath: patient['imagePath']!,
-                name: patient['name']!,
-                number: patient['number']!,
-                status: patient['status'] ?? '0',
-              );
-            },
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
