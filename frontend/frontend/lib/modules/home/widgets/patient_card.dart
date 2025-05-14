@@ -3,6 +3,7 @@ import 'package:frontend/shared/themes/app_theme.dart';
 import 'package:go_router/go_router.dart';
 
 class UserCard extends StatelessWidget {
+  final String id;
   final String imagePath;
   final String name;
   final String number;
@@ -10,6 +11,7 @@ class UserCard extends StatelessWidget {
 
   const UserCard({
     super.key,
+    required this.id,
     required this.imagePath,
     required this.name,
     required this.number,
@@ -55,9 +57,24 @@ class UserCard extends StatelessWidget {
                 ],
               ),
             ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     context.go('/patient-details');
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //     backgroundColor: AppTheme.tertiaryColor,
+            //     foregroundColor: AppTheme.textDarkColor,
+            //   ),
+            //   child: const Text('Detalhes'),
+            // ),
             ElevatedButton(
               onPressed: () {
-                context.go('/patient-update');
+                context.go(
+                  '/patient-details/$id',
+                ); // Passando o ID do paciente para a rota!
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
