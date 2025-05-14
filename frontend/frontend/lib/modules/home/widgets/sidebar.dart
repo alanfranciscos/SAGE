@@ -6,6 +6,7 @@ class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
 
   @override
+
   _SidebarState createState() => _SidebarState();
 }
 
@@ -46,13 +47,7 @@ class _SidebarState extends State<Sidebar> {
                   currentRoute: location,
                   context: context,
                 ),
-                _buildListTile(
-                  icon: Icons.login,
-                  title: 'Login',
-                  route: '/login',
-                  currentRoute: location,
-                  context: context,
-                ),
+
                 _buildListTile(
                   icon: Icons.person,
                   title: 'Perfil',
