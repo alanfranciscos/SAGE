@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/themes/app_theme.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -24,7 +25,6 @@ class LoginForm extends StatelessWidget {
                 height: 200,
               ),
             ),
-            
 
             // Nome do Projeto
             const Center(
@@ -82,7 +82,9 @@ class LoginForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/home');
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.tertiaryColor,
                       foregroundColor: AppTheme.textDarkColor,
@@ -98,7 +100,8 @@ class LoginForm extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/register');
+                    
+                      context.go('/register');
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: AppTheme.tertiaryColor,
