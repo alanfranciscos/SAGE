@@ -1,9 +1,12 @@
-Você acredita que ter um botão simples para solicitar ajuda médica, quando necessário, poderia ser útil no seu dia a dia?
+Qual seria o seu perfil de uso no sistema?
 
-Você se sentiria confortável em usar um botão de emergência, caso estivesse se sentindo mal?
+Com que frequência você utiliza sistemas digitais no seu dia a dia?  
 
-Saber que um profissional de saúde será avisado assim que o botão for acionado traria mais tranquilidade para você?
+Em uma escala de 1 a 5, quão confortável você se sente usando sistemas digitais?
+1 (Nada confortável) – 5 (Muito confortável)  
 
-Já aconteceu de você precisar de ajuda médica e não conseguir entrar em contato com alguém rapidamente?
+Você acha importante receber notificações do sistema em tempo real?
 
-Você se sentiria confiante em usar um sistema que envia um aviso automático para a equipe de saúde quando você precisar de auxílio?
+A interface do sistema deve ser mais: Simples e direta, mesmo que com menos funcionalidades visíveis ou Completa, mesmo que com mais opções na tela?
+
+Qual aspecto você considera mais crítico para a aceitação do sistema pelos usuários?
