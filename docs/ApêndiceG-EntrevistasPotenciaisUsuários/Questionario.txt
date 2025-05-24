@@ -1,0 +1,12 @@
+Qual seria o seu perfil de uso no sistema?
+
+Com que frequência você utiliza sistemas digitais no seu dia a dia?  
+
+Em uma escala de 1 a 5, quão confortável você se sente usando sistemas digitais?
+1 (Nada confortável) – 5 (Muito confortável)  
+
+Você acha importante receber notificações do sistema em tempo real?
+
+A interface do sistema deve ser mais: Simples e direta, mesmo que com menos funcionalidades visíveis ou Completa, mesmo que com mais opções na tela?
+
+Qual aspecto você considera mais crítico para a aceitação do sistema pelos usuários?
