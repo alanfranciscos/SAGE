@@ -27,12 +27,12 @@ public class AssistController {
     public AssistController(AssistService assistService) {
         this.assistService = assistService;
     }
-    
+
     /**
      * Creates an assist for a given control ID.
      *
      * @param controlId The control ID for which the assist is created.
-     * @param request   The request body containing the assist details.
+     * @param request The request body containing the assist details.
      * @return A response entity with the status of the operation.
      */
     @PostMapping("/{controlId}")
@@ -42,10 +42,16 @@ public class AssistController {
     ) {
         logger.log(Level.INFO, "Creating assist for controlId: {0}", controlId);
 
-        UUID assistId;
-
         try {
-            assistId = this.assistService.createAssist(controlId, request.calledAt());
+            UUID assistId = this.assistService.createAssist(controlId, request.calledAt());
+
+            final URI uri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(assistId)
+                    .toUri();
+
+            return ResponseEntity.created(uri).build();
         } catch (AlreadyExistsException e) {
             logger.log(Level.WARNING, "Assist already exists: {0}", e.getMessage());
             return ResponseEntity.status(409).body("Assist already exists");
@@ -54,12 +60,5 @@ public class AssistController {
             return ResponseEntity.status(500).body("Error creating assist");
         }
 
-        final URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(assistId)
-                .toUri();
-                
-        return ResponseEntity.created(uri).build();
     }
 }
