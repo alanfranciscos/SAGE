@@ -11,27 +11,27 @@ import com.sage.exception.AlreadyExistsException;
 import com.sage.model.CaregiverAssignmentResident;
 import com.sage.model.ControlResident;
 import com.sage.model.Resident;
+import com.sage.port.dao.assist.CaregiverAssignmentResidentDao;
 import com.sage.port.services.assist.AssistService;
 import com.sage.port.services.controlresident.ControlResidentService;
 import com.sage.port.services.resident.ResidentService;
-import com.sage.repository.CaregiverAssignmentResidentRepository;
 
 @Service
 public class AssistServiceImpl implements AssistService {
 
     private static final Logger logger = Logger.getLogger(AssistServiceImpl.class.getName());
 
-    private final CaregiverAssignmentResidentRepository caregiverAssignmentResidentRepository;
+    private final CaregiverAssignmentResidentDao caregiverAssignmentResidentDao;
 
     private final ResidentService residentService;
     private final ControlResidentService controlResidentService;
 
     public AssistServiceImpl(
-            CaregiverAssignmentResidentRepository caregiverAssignmentResidentRepository,
+            CaregiverAssignmentResidentDao caregiverAssignmentResidentDao,
             ResidentService residentService,
             ControlResidentService controlResidentService
     ) {
-        this.caregiverAssignmentResidentRepository = caregiverAssignmentResidentRepository;
+        this.caregiverAssignmentResidentDao = caregiverAssignmentResidentDao;
         this.residentService = residentService;
         this.controlResidentService = controlResidentService;
     }
@@ -47,31 +47,31 @@ public class AssistServiceImpl implements AssistService {
 
         Resident resident = residentService.getResidentById(residentUuid);
 
-        CaregiverAssignmentResident caregiverAssignmentResident = caregiverAssignmentResidentRepository.
-            findByResidentIdAndEndAtIsNull(residentUuid).
-            orElse(null);
-        
+        CaregiverAssignmentResident caregiverAssignmentResident = this.caregiverAssignmentResidentDao.
+                findByResidentIdAndEndAtIsNull(residentUuid).
+                orElse(null);
+
         logger.log(Level.INFO, "Creating assist for resident: {0}", residentUuid);
 
         if (caregiverAssignmentResident == null) {
             caregiverAssignmentResident = new CaregiverAssignmentResident(
-                resident.getId(), calledAt, 1
+                    resident.getId(), calledAt, 1
             );
         } else if (caregiverAssignmentResident.getSeverityLevel() == 1) {
             caregiverAssignmentResident.setSeverityLevel(2);
         } else {
             throw new AlreadyExistsException(
-                "Assist already exists for resident: " + residentUuid
+                    "Assist already exists for resident: " + residentUuid
             );
         }
 
         try {
-            caregiverAssignmentResident = caregiverAssignmentResidentRepository.save(caregiverAssignmentResident);
+            caregiverAssignmentResident = this.caregiverAssignmentResidentDao.save(caregiverAssignmentResident);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error creating/updating assist for resident: {0}", residentUuid);
             throw new RuntimeException("Failed to create assist", e);
         }
-        
+
         logger.log(
                 Level.INFO,
                 "Assist created/updated for resident: {0} with id {1}",

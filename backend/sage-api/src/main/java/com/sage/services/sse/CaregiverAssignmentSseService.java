@@ -1,5 +1,6 @@
 package com.sage.services.sse;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -8,23 +9,30 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.postgresql.PGConnection;
 import org.postgresql.PGNotification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.sage.config.Settings;
-import com.sage.dto.db.event.AssignmentChangeEvent;
+import com.sage.config.settings.Settings;
+import com.sage.model.sse.event.AssignmentChangeEvent;
 
 import jakarta.annotation.PostConstruct;
 
 @Service
 public class CaregiverAssignmentSseService {
 
-    final private String dbUrl = Settings.getDbUrl();
-    final private String dbUser = Settings.getDbUser();
-    final private String dbPassword = Settings.getDbPassword();
+    private final String dbUrl;
+    private final String dbUser;
+    private final String dbPassword;
+
+    public CaregiverAssignmentSseService(Settings settings) {
+        this.dbUrl = settings.getDbUrl();
+        this.dbUser = settings.getDbUser();
+        this.dbPassword = settings.getDbPassword();
+    }
 
     private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
@@ -33,6 +41,14 @@ public class CaregiverAssignmentSseService {
     @PostConstruct
     public void init() {
         new Thread(this::listenToPostgres, "PG-Notify-Listener").start();
+    }
+
+    private void retryingConnection() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private void listenToPostgres() {
@@ -63,12 +79,7 @@ public class CaregiverAssignmentSseService {
 
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "[SSE] Error in listener: {0}", e.getMessage());
-                try {
-                    // Time to wait before retrying connection
-                    Thread.sleep(5000);
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                }
+                retryingConnection();
             }
         }
     }
@@ -80,7 +91,7 @@ public class CaregiverAssignmentSseService {
             logger.log(Level.INFO, "[SSE] Received notification: {0}", event);
 
             broadcast(event);
-        } catch (Exception e) {
+        } catch (JSONException e) {
             logger.log(Level.SEVERE, "[SSE] Failed to parse or send notification: {0}", e.getMessage());
         }
     }
@@ -91,7 +102,7 @@ public class CaregiverAssignmentSseService {
                 emitter.send(SseEmitter.event()
                         .name("assignment-change")
                         .data(event));
-            } catch (Exception e) {
+            } catch (IOException e) {
                 emitter.completeWithError(e);
                 emitters.remove(emitter);
             }
@@ -110,7 +121,7 @@ public class CaregiverAssignmentSseService {
             emitter.send(SseEmitter.event()
                     .name("connected")
                     .data("SSE connection established"));
-        } catch (Exception e) {
+        } catch (IOException e) {
             emitter.completeWithError(e);
             emitters.remove(emitter);
         }
