@@ -1,4 +1,4 @@
-package com.sage.dto.db.event;
+package com.sage.model.sse.event;
 
 import org.json.JSONObject;
 

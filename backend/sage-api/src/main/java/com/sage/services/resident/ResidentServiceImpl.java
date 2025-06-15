@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.DateTime;
 import com.sage.model.Resident;
+import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.services.resident.ResidentService;
-import com.sage.repository.ResidentRepository;
 
 @Service
 public class ResidentServiceImpl implements ResidentService {
 
     private static final Logger logger = Logger.getLogger(ResidentServiceImpl.class.getName());
 
-    private final ResidentRepository residentRepository;
+    private final ResidentDao residentDao;
 
-    public ResidentServiceImpl(ResidentRepository residentRepository) {
-        this.residentRepository = residentRepository;
+    public ResidentServiceImpl(ResidentDao residentDao) {
+        this.residentDao = residentDao;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public Resident getResidentById(UUID id) {
 
-        Resident resident = residentRepository.findById(id).orElseThrow(() -> {
+        Resident resident = this.residentDao.findById(id).orElseThrow(() -> {
             logger.log(Level.INFO, "Resident not found for ID: {0}", id);
             throw new IllegalArgumentException("Resident not found");
         });

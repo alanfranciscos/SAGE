@@ -7,18 +7,18 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 import com.sage.model.ControlResident;
+import com.sage.port.dao.controlresident.ControlResidentDao;
 import com.sage.port.services.controlresident.ControlResidentService;
-import com.sage.repository.ControlResidentRepository;
 
 @Service
 public class ControlResidentServiceImpl implements ControlResidentService {
 
     private static final Logger logger = Logger.getLogger(ControlResidentServiceImpl.class.getName());
 
-    private final ControlResidentRepository controlResidentRepository;
+    private final ControlResidentDao controlResidentDao;
 
-    public ControlResidentServiceImpl(com.sage.repository.ControlResidentRepository controlResidentRepository) {
-        this.controlResidentRepository = controlResidentRepository;
+    public ControlResidentServiceImpl(ControlResidentDao controlResidentDao) {
+        this.controlResidentDao = controlResidentDao;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ControlResidentServiceImpl implements ControlResidentService {
     @Override
     public ControlResident getControlResidentByControlId(String controlId) {
 
-        ControlResident controlResident = controlResidentRepository.findByControlId(controlId).orElseThrow(() -> {
+        ControlResident controlResident = this.controlResidentDao.findByControlId(controlId).orElseThrow(() -> {
             logger.log(Level.INFO, "Control resident not found for control ID: {0}", controlId);
             throw new IllegalArgumentException("Control resident not found");
         });
