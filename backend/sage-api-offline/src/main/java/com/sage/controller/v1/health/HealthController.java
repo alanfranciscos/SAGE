@@ -11,6 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sage.config.settings.Settings;
 import com.sage.dto.v1.health.HealthResponse;
 
+/**
+ * HealthController provides an endpoint to check the health status of the
+ * application. It returns the current status, uptime, version, and current time
+ * in ISO format.
+ *
+ * @author Alan Francisco Silva
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/v1/health")
 public class HealthController {
@@ -22,6 +30,12 @@ public class HealthController {
         this.VERSION = settings.getVersion();
     }
 
+    /**
+     * Returns the health status of the application.
+     *
+     * @return HealthResponse containing status, uptime, version, and current
+     * time.
+     */
     @GetMapping
     public HealthResponse getHealth() {
         Instant now = Instant.now();
