@@ -8,5 +8,6 @@ services:
       - POSTGRES_DB=sage
     volumes:
       - ./infra/database.sql:/docker-entrypoint-initdb.d/database.sql
+      - ./infra/inserts.sql:/docker-entrypoint-initdb.d/inserts.sql
     ports:
       - "5432:5432"

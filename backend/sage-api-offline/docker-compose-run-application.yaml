@@ -10,6 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - ./infra/database.sql:/docker-entrypoint-initdb.d/database.sql
+      - ./infra/inserts.sql:/docker-entrypoint-initdb.d/inserts.sql
     networks:
       - my-networks
 
