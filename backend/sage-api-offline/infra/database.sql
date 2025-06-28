@@ -16,17 +16,17 @@ CREATE TABLE alarm (
 );
 
 CREATE TABLE organization (
-	id UUID primary key,
-	alarm_id UUID not null,
-	full_name VARCHAR(150) not null UNIQUE,
-	cep VARCHAR(30),
-	state VARCHAR(5),
-	city VARCHAR(100),
-	neighborhood VARCHAR(100),
-	street VARCHAR(100),
-	organization_number VARCHAR(50),
-	
-	FOREIGN KEY (alarm_id) REFERENCES alarm (id) ON DELETE CASCADE
+    id UUID primary key,
+    alarm_id UUID not null,
+    full_name VARCHAR(150) not null UNIQUE,
+    cep VARCHAR(30),
+    state VARCHAR(5),
+    city VARCHAR(100),
+    neighborhood VARCHAR(100),
+    street VARCHAR(100),
+    organization_number VARCHAR(50),
+    
+    FOREIGN KEY (alarm_id) REFERENCES alarm (id) ON DELETE CASCADE
 );
 
 CREATE TABLE caregiver  (
