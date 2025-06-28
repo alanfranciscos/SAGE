@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sage.config.settings.Settings;
-import com.sage.dto.v1.health.HealthResponse;
+import com.sage.dto.v1.health.response.HealthResponseDto;
 
 /**
  * HealthController provides an endpoint to check the health status of the
@@ -37,11 +37,11 @@ public class HealthController {
      * time.
      */
     @GetMapping
-    public HealthResponse getHealth() {
+    public HealthResponseDto getHealth() {
         Instant now = Instant.now();
         Duration uptime = Duration.between(START_TIME, now);
 
-        return new HealthResponse(
+        return new HealthResponseDto(
                 "ok",
                 uptime.getSeconds() + "s",
                 VERSION,

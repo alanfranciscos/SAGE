@@ -1,4 +1,4 @@
-package com.sage.dto.v1.health;
+package com.sage.dto.v1.health.response;
 
 /**
  * HealthResponse is a data transfer object that represents the health status of
@@ -10,7 +10,7 @@ package com.sage.dto.v1.health;
  * @param version The version of the application.
  * @param timestamp The timestamp when the health check was performed.
  */
-public record HealthResponse(
+public record HealthResponseDto(
         String status,
         String uptime,
         String version,
