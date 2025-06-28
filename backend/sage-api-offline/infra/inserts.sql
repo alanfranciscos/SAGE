@@ -27,12 +27,12 @@ INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at
 ('dddd4444-eeee-4fff-0000-111122223333', '44444444-5555-6666-d777-888999000111', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 13:00:00+00', true, false, 'VERIFY012', '2025-01-02 13:00:00+00');
 
 -- Tabela resident
-INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data) VALUES
-('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', 'https://image.com/joao.jpg'),
-('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', 'https://image.com/luana.jpg'),
-('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', 'https://image.com/ricardo.jpg'),
-('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', 'https://image.com/helena.jpg'),
-('66666666-7777-4888-9999-000111222333', 'Pedro Almeida', '66677788899', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'https://image.com/pedro.jpg');
+INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data, active) VALUES
+('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', 'https://image.com/joao.jpg', true),
+('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', 'https://image.com/luana.jpg', true),
+('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', 'https://image.com/ricardo.jpg', true),
+('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', 'https://image.com/helena.jpg', true),
+('66666666-7777-4888-9999-000111222333', 'Pedro Almeida', '66677788899', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'https://image.com/pedro.jpg', true);
 
 -- Tabela resident_emergency_contact
 INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES
@@ -53,8 +53,8 @@ INSERT INTO control_resident (id, control_id, alarm_id, resident_id) VALUES
 
 -- Tabela assist
 INSERT INTO assist (id, caregiver_id, resident_id, called_at, assignment_at, end_at, detail, severity_level) VALUES
-('12345678-1111-4222-3333-444455556666', '11111111-2222-4333-a444-555666777888', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', '2025-06-01 09:00:00+00', '2025-06-01 09:05:00+00', '2025-06-01 09:30:00+00', 'Assistência com medicação matinal', 'normal'),
+('12345678-1111-4222-3333-444455556666', '11111111-2222-4333-a444-555666777888', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', '2025-06-01 09:00:00+00', '2025-06-01 09:05:00+00', '2025-06-01 09:30:00+00', 'Assistência com medicação matinal', 'warning'),
 ('23456789-2222-4333-4444-555566667777', '22222222-3333-4444-b555-666777888999', '416f4967-89b1-49f8-a8d3-134c6e63cf5b', '2025-06-01 14:00:00+00', '2025-06-01 14:02:00+00', '2025-06-01 14:45:00+00', 'Queda no banheiro - assistência médica', 'emergency'),
-('34567890-3333-4444-5555-666677778888', '33333333-4444-5555-c666-777888999000', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed', '2025-06-01 20:00:00+00', '2025-06-01 20:03:00+00', '2025-06-01 20:15:00+00', 'Auxílio para ir ao banheiro', 'normal'),
+('34567890-3333-4444-5555-666677778888', '33333333-4444-5555-c666-777888999000', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed', '2025-06-01 20:00:00+00', '2025-06-01 20:03:00+00', '2025-06-01 20:15:00+00', 'Auxílio para ir ao banheiro', 'warning'),
 ('45678901-4444-5555-6666-777788889999', '11111111-2222-4333-a444-555666777888', '55555555-6666-4777-8888-999000111222', '2025-06-02 08:30:00+00', '2025-06-02 08:32:00+00', null, 'Mal estar súbito - em atendimento', 'emergency'),
 ('56789012-5555-6666-7777-888899990000', null, '66666666-7777-4888-9999-000111222333', '2025-06-02 16:45:00+00', null, null, 'Chamado de emergência - aguardando cuidador', 'emergency');
