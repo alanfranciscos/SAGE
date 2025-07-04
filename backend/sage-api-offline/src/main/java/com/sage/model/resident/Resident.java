@@ -1,5 +1,7 @@
 package com.sage.model.resident;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -26,4 +28,26 @@ public class Resident {
     private String residentialUnit;
     private String imageData;
     private boolean active;
+
+    /**
+     * Maps the fields of this Resident object from a ResultSet.
+     *
+     * @param resultSet The ResultSet containing resident data.
+     * @return The current Resident object with fields populated from the
+     * ResultSet.
+     * @throws SQLException If an error occurs while accessing the ResultSet.
+     */
+    public Resident mapFromResultSet(ResultSet resultSet) throws SQLException {
+        this.id = UUID.fromString(resultSet.getString("id"));
+        this.fullName = resultSet.getString("full_name");
+        this.cpf = resultSet.getString("cpf");
+        this.sex = resultSet.getString("sex").charAt(0);
+        this.birthDate = resultSet.getTimestamp("birth_date").toInstant().atZone(ZonedDateTime.now().getZone());
+        this.createdAt = resultSet.getTimestamp("created_at").toInstant().atZone(ZonedDateTime.now().getZone());
+        this.updatedAt = resultSet.getTimestamp("updated_at").toInstant().atZone(ZonedDateTime.now().getZone());
+        this.residentialUnit = resultSet.getString("residential_unit");
+        this.imageData = resultSet.getString("image_data");
+        this.active = resultSet.getBoolean("active");
+        return this;
+    }
 }

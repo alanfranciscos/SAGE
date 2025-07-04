@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sage.port.services.resident.ResidentHeaderService;
+
 /**
  * ResidentController provides endpoints for managing residents in the system.
  * It allows for creating, updating, listing, and retrieving details of
@@ -20,6 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/resident")
 public class ResidentController {
 
+    private final ResidentHeaderService residentHeaderService;
+
+    public ResidentController(ResidentHeaderService residentHeaderService) {
+        this.residentHeaderService = residentHeaderService;
+    }
+
     @PostMapping
     public String createResident(@RequestBody String resident) {
         return "TODO: Implement resident creation logic";
@@ -31,8 +39,8 @@ public class ResidentController {
     }
 
     @GetMapping
-    public String listResidents() {
-        return "TODO: Implement resident listing logic";
+    public Object listResidents() {
+        return residentHeaderService.listResidents(10, 0); // Assuming the service returns a string representation of the list
     }
 
     @GetMapping("/details")
@@ -40,7 +48,7 @@ public class ResidentController {
         return "TODO: Implement resident details logic";
     }
 
-    @GetMapping()
+    @GetMapping("/search")
     public String searchResident(@RequestParam(required = true) String search) {
         return "TODO: Implement resident search by ID logic";
     }

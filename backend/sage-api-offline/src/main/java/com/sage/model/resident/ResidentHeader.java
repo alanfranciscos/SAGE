@@ -1,5 +1,7 @@
 package com.sage.model.resident;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 import lombok.Data;
@@ -19,4 +21,11 @@ public class ResidentHeader {
     private String residentialUnit;
     private String imageData;
 
+    public ResidentHeader mapFromResultSet(ResultSet resultSet) throws SQLException {
+        this.id = UUID.fromString(resultSet.getString("id"));
+        this.fullName = resultSet.getString("full_name");
+        this.residentialUnit = resultSet.getString("residential_unit");
+        this.imageData = resultSet.getString("image_data");
+        return this;
+    }
 }
