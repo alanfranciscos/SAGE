@@ -1,7 +1,6 @@
 package com.sage.port.dao.resident;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.sage.model.assist.SeverityLevel;
 import com.sage.model.resident.ResidentHeader;
