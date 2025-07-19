@@ -2,7 +2,6 @@ package com.sage.services.resident;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,6 @@ import com.sage.port.services.resident.ResidentHeaderService;
 
 @Service
 public class ResidentHeaderServiceImpl implements ResidentHeaderService {
-
-    private static final Logger logger = Logger.getLogger(ResidentHeaderServiceImpl.class.getName());
 
     private final ResidentHeaderDao residentHeaderDao;
     private final ResidentDao residentDao;

@@ -1,0 +1,8 @@
+<div class="form-group">
+  <label *ngIf="label" [for]="id">
+    {{ label }}
+    <span *ngIf="required" class="required-star">*</span>
+  </label>
+  <input [type]="type" [id]="id" [name]="name" [placeholder]="placeholder" [required]="required" [disabled]="disabled"
+    [(ngModel)]="value" (blur)="onBlur()" />
+</div>

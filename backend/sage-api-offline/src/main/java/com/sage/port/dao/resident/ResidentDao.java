@@ -22,6 +22,11 @@ public interface ResidentDao {
             Resident resident
     );
 
+    void updateImageData(
+            UUID residentId,
+            String imageData
+    );
+
     /**
      * Updates an existing resident with the provided details.
      *

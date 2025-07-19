@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+
 import lombok.Data;
 
 /**
@@ -28,6 +30,29 @@ public class Resident {
     private String residentialUnit;
     private String imageData;
     private boolean active;
+
+    /**
+     * Maps the fields of this Resident object from a CreateResidentRequestDto.
+     *
+     * Note: The imageData field is set to null as it is not included in the
+     *
+     * @param requestDto The CreateResidentRequestDto containing resident data.
+     * @return The current Resident object with fields populated from the
+     * CreateResidentRequestDto.
+     */
+    public static Resident mapFromCreateResidentRequestDto(CreateResidentRequestDto requestDto) {
+        Resident resident = new Resident();
+        resident.setFullName(requestDto.fullName());
+        resident.setCpf(requestDto.cpf());
+        resident.setSex(requestDto.sex());
+        resident.setBirthDate(requestDto.birthDate());
+        resident.setCreatedAt(ZonedDateTime.now());
+        resident.setUpdatedAt(ZonedDateTime.now());
+        resident.setResidentialUnit(requestDto.residentialUnit());
+        resident.setImageData(null);
+        resident.setActive(true);
+        return resident;
+    }
 
     /**
      * Maps the fields of this Resident object from a ResultSet.

@@ -1,0 +1,13 @@
+<div class="form-group">
+  <label *ngIf="label" [for]="id">
+    {{ label }}
+    <span *ngIf="required" class="required-star">*</span>
+  </label>
+  <select [id]="id" [name]="name" [required]="required" [disabled]="disabled" [(ngModel)]="value"
+    (change)="onSelectionChange($event)" (blur)="onBlur()">
+    <option *ngIf="placeholder" [value]="null" disabled selected>{{ placeholder }}</option>
+    <option *ngFor="let option of options" [value]="option.value" [disabled]="option.disabled">
+      {{ option.label }}
+    </option>
+  </select>
+</div>

@@ -1,5 +1,9 @@
 package com.sage.controller.v1.resident;
 
+import java.net.URI;
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.sage.port.services.resident.ResidentHeaderService;
+import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.port.services.resident.ResidentService;
 
 /**
  * ResidentController provides endpoints for managing residents in the system.
@@ -22,15 +28,26 @@ import com.sage.port.services.resident.ResidentHeaderService;
 @RequestMapping("/v1/resident")
 public class ResidentController {
 
-    private final ResidentHeaderService residentHeaderService;
+    private final ResidentService residentService;
 
-    public ResidentController(ResidentHeaderService residentHeaderService) {
-        this.residentHeaderService = residentHeaderService;
+    public ResidentController(ResidentService residentService) {
+        this.residentService = residentService;
     }
 
-    @PostMapping
-    public String createResident(@RequestBody String resident) {
-        return "TODO: Implement resident creation logic";
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<UUID> createResidentFromJson(@RequestBody CreateResidentRequestDto residentJson) {
+
+        CreateResidentRequestDto resident = residentJson.toCreateResidentRequestDto();
+
+        UUID residentId = residentService.createResident(resident);
+
+        final URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(residentId)
+                .toUri();
+
+        return ResponseEntity.created(uri).body(residentId);
     }
 
     @PatchMapping
@@ -40,7 +57,7 @@ public class ResidentController {
 
     @GetMapping
     public Object listResidents() {
-        return residentHeaderService.listResidents(10, 0); // Assuming the service returns a string representation of the list
+        return residentService.listResidents(10, 0);
     }
 
     @GetMapping("/details")

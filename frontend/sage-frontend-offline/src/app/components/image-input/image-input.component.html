@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="image-content">
+    <img [src]="showImage" alt="Event image" *ngIf="image" class="image-preview" />
+  </div>
+  <div class="image-buttons">
+    <div class="action-button">
+      <label for="file">Enviar arquivo</label>
+      <input id="file" type="file" accept="image/*" (change)="onFileSelected($event)" name="file" />
+    </div>
+    <app-button (clicked)="onRemoveImage()" *ngIf="image" [label]="'Remover Imagem'" type="secondary">
+    </app-button>
+  </div>
+</div>

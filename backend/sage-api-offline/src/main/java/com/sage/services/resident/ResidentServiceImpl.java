@@ -1,0 +1,77 @@
+package com.sage.services.resident;
+
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
+import com.sage.dto.v1.resident.response.ResidentListResponseDto;
+import com.sage.dto.v1.resident.response.ResidentResponseDto;
+import com.sage.model.file.FileType;
+import com.sage.model.resident.Resident;
+import com.sage.port.dao.resident.ResidentDao;
+import com.sage.port.services.helper.file.FileHelperService;
+import com.sage.port.services.resident.ResidentHeaderService;
+import com.sage.port.services.resident.ResidentService;
+
+@Service
+public class ResidentServiceImpl implements ResidentService {
+
+    private final ResidentHeaderService residentHeaderService;
+    private final ResidentDao residentDao;
+    private final FileHelperService fileHelperService;
+
+    public ResidentServiceImpl(
+            ResidentHeaderService residentHeaderService,
+            ResidentDao residentDao,
+            FileHelperService fileHelperService) {
+        this.residentHeaderService = residentHeaderService;
+        this.residentDao = residentDao;
+        this.fileHelperService = fileHelperService;
+    }
+
+    @Override
+    public ResidentListResponseDto listResidents(int limit, int skip) {
+        return this.residentHeaderService.listResidents(limit, skip);
+    }
+
+    @Override
+    public ResidentListResponseDto searchResident(String search) {
+        return this.residentHeaderService.searchResident(search);
+    }
+
+    @Override
+    public UUID createResident(CreateResidentRequestDto requestDto) {
+        Resident resident = Resident.mapFromCreateResidentRequestDto(requestDto);
+
+        ZonedDateTime now = ZonedDateTime.now();
+        resident.setCreatedAt(now);
+        resident.setUpdatedAt(now);
+
+        UUID residentId = this.residentDao.createResident(resident);
+
+        if (requestDto.imageData().isPresent()) {
+            String imagePath = this.fileHelperService.saveBase64File(
+                    requestDto.imageData().get(),
+                    FileType.RESIDENT_IMAGE, residentId.toString()
+            );
+            this.residentDao.updateImageData(residentId, imagePath);
+        }
+        return residentId;
+    }
+
+    @Override
+    public ResidentResponseDto updateResident(UpdateResidentRequestDto requestDto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateResident'");
+    }
+
+    @Override
+    public ResidentResponseDto getResidentDetailsById(UUID id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getResidentDetailsById'");
+    }
+
+}
