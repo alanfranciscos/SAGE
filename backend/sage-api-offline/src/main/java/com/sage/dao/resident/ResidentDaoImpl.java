@@ -63,8 +63,19 @@ public class ResidentDaoImpl implements ResidentDao {
 
     @Override
     public Resident findResidentById(UUID residentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findResidentById'");
+        String sql = "SELECT * FROM resident WHERE id = ?";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, residentId);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Resident resident = new Resident();
+                    return resident.mapFromResultSet(resultSet);
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error finding resident by ID {0}: {1}", new Object[]{residentId, e.getMessage()});
+        }
+        return null;
     }
 
     @Override

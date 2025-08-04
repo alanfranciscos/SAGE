@@ -5,30 +5,39 @@
   <app-image-input (imageChange)="onImageChange($event)"></app-image-input>
 
   <app-input label="Nome" placeholder="Digite o nome do paciente" [required]="true"
-    (valueChange)="onInputChange(ResidentInputField.FULL_NAME, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.FULL_NAME, $event)"
+    [value]="residentListResponseDto.fullName || ''"></app-input>
   <app-input label="CPF" placeholder="Digite o CPF do paciente" type="email" [required]="true"
-    (valueChange)="onInputChange(ResidentInputField.CPF, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.CPF, $event)"
+    [value]="residentListResponseDto.cpf || ''"></app-input>
   <app-select-input label="Sexo" placeholder="Selecione o sexo"
     [options]="[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Feminino' }]" [required]="true"
-    (valueChange)="onInputChange(ResidentInputField.SEX, $event)"></app-select-input>
+    (valueChange)="onInputChange(ResidentInputField.SEX, $event)"
+    [value]="residentListResponseDto.sex || ''"></app-select-input>
   <app-input label="Data de Nascimento" placeholder="Digite a data de nascimento do paciente" type="date"
-    [required]="true" (valueChange)="onInputChange(ResidentInputField.BIRTH_DATE, $event)"></app-input>
+    [required]="true" (valueChange)="onInputChange(ResidentInputField.BIRTH_DATE, $event)"
+    [value]="residentListResponseDto.birthDate || ''"></app-input>
   }
 
   @if(currentStep === 1) {
   <app-input label="Nome" placeholder="Digite o nome do paciente" [required]="false"
-    (valueChange)="onInputChange(ResidentInputField.EMERGENCY_NAME, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.EMERGENCY_NAME, $event)"
+    [value]="residentListResponseDto.emergencyName || ''"></app-input>
   <app-input label="Telefone" placeholder="Digite o telefone do paciente" type="tel" [required]="false"
-    (valueChange)="onInputChange(ResidentInputField.EMERGENCY_PHONE, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.EMERGENCY_PHONE, $event)"
+    [value]="residentListResponseDto.emergencyPhone || ''"></app-input>
   <app-input label="Parentesco" placeholder="Digite o parentesco do paciente" type="text" [required]="false"
-    (valueChange)="onInputChange(ResidentInputField.RELATIONSHIP, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.RELATIONSHIP, $event)"
+    [value]="residentListResponseDto.relationship || ''"></app-input>
   }
 
   @if(currentStep === 2) {
   <app-input label="Numero do controle" placeholder="Digite o numero do controle" [required]="true"
-    (valueChange)="onInputChange(ResidentInputField.CONTROL_NUMBER, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.CONTROL_NUMBER, $event)"
+    [value]="residentListResponseDto.controlNumber || '0'"></app-input>
   <app-input label="Residencia do residente" placeholder="Digite o endereco da residencia" [required]="true"
-    (valueChange)="onInputChange(ResidentInputField.RESIDENTIAL_UNIT, $event)"></app-input>
+    (valueChange)="onInputChange(ResidentInputField.RESIDENTIAL_UNIT, $event)"
+    [value]="residentListResponseDto.residentialUnit || ''"></app-input>
   }
 
 </app-register>

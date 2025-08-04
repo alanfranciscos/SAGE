@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.port.services.resident.ResidentService;
 
 /**
@@ -60,9 +62,9 @@ public class ResidentController {
         return residentService.listResidents(10, 0);
     }
 
-    @GetMapping("/details")
-    public String getResidentDetails() {
-        return "TODO: Implement resident details logic";
+    @GetMapping("/{id}")
+    public ResidentDetailResponseDto getResidentDetails(@PathVariable UUID id) {
+        return residentService.getResidentDetailsById(id);
     }
 
     @GetMapping("/search")

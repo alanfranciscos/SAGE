@@ -62,4 +62,15 @@ public class FileHelperServiceImpl implements FileHelperService {
         throw new UnsupportedOperationException("Unimplemented method 'fileExists'");
     }
 
+    @Override
+    public String getBase64File(String path) throws IllegalArgumentException {
+        try {
+            byte[] fileContent = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(path));
+            return java.util.Base64.getEncoder().encodeToString(fileContent);
+        } catch (java.io.IOException e) {
+            logger.log(Level.SEVERE, "Failed to read file: {0}", e.getMessage());
+            throw new RuntimeException("Failed to read file: " + path, e);
+        }
+    }
+
 }

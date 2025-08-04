@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
+import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentResponseDto;
 
 /**
@@ -38,12 +39,12 @@ public interface ResidentService extends ResidentHeaderService {
     );
 
     /**
-     * Deletes a resident by their UUID.
+     * Get a resident by their UUID.
      *
-     * @param id The UUID of the resident to delete.
-     * @return true if the resident exist
+     * @param id The UUID of the resident to get.
+     * @return ResidentDetailResponseDto containing the details of the resident.
      */
-    ResidentResponseDto getResidentDetailsById(
+    ResidentDetailResponseDto getResidentDetailsById(
             UUID id
     );
 }

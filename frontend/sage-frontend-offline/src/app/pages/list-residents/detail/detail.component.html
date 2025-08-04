@@ -1,12 +1,14 @@
 <app-modal (closeModal)="onCloseModal()" [showModal]="showModal">
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
-  <p>ummmmmmm</p>
+  <div class="resident-detail">
+    <img [src]="residentDetails?.imageData" alt="Resident Image" class="resident-image">
+    <h2>{{ residentDetails?.fullName }}</h2>
+    <p><strong>CPF:</strong> {{ residentDetails?.cpf }}</p>
+    <p><strong>Sexo:</strong> {{ residentDetails?.sex }}</p>
+    <p><strong>Data de Nascimento:</strong> {{ residentDetails?.birthDate }}</p>
+    <p><strong>Nome da Emergência:</strong> {{ residentDetails?.emergencyName }}</p>
+    <p><strong>Telefone da Emergência:</strong> {{ residentDetails?.emergencyPhone }}</p>
+    <p><strong>Parentesco:</strong> {{ residentDetails?.relationship }}</p>
+    <p><strong>Número de Controle:</strong> {{ residentDetails?.controlNumber }}</p>
+  </div>
+
 </app-modal>

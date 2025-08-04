@@ -23,6 +23,8 @@ public interface FileHelperService {
      */
     public String saveBase64File(String base64, FileType fileType, String fileName) throws IllegalArgumentException;
 
+    public String getBase64File(String path) throws IllegalArgumentException;
+
     /**
      * Reads the content of a file with the specified name.
      *

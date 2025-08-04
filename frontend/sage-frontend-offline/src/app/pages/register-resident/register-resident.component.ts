@@ -74,6 +74,10 @@ export class RegisterResidentComponent {
   }
 
   updateStep(event: number): void {
+    if (event < this.currentStep) {
+      this.currentStep = event;
+      return;
+    }
     if (this.validateStep()) {
       this.currentStep = event;
     }

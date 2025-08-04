@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
+import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentListResponseDto;
 import com.sage.dto.v1.resident.response.ResidentResponseDto;
 import com.sage.model.file.FileType;
@@ -69,9 +70,33 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public ResidentResponseDto getResidentDetailsById(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getResidentDetailsById'");
+    public ResidentDetailResponseDto getResidentDetailsById(UUID id) {
+        Resident resident = this.residentDao.findResidentById(id);
+        if (resident == null) {
+            throw new IllegalArgumentException("Resident not found with ID: " + id);
+        }
+
+        byte[] imageData = null;
+        if (resident.getImageData() != null) {
+            imageData = this.fileHelperService.getBase64File(resident.getImageData()).getBytes();
+        }
+
+        return new ResidentDetailResponseDto(
+                resident.getId(),
+                resident.getFullName(),
+                resident.getCpf(),
+                resident.getSex(),
+                resident.getBirthDate(),
+                resident.getCreatedAt(),
+                resident.getUpdatedAt(),
+                resident.isActive(),
+                imageData,
+                null,
+                null,
+                null,
+                resident.getResidentialUnit(),
+                null
+        );
     }
 
 }

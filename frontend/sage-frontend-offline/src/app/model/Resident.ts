@@ -18,6 +18,16 @@ interface ResidentHeaderResponseDto {
   imageData: string;
 }
 
+export interface ResidentDetailsResponseDto extends ResidentHeaderResponseDto {
+  cpf: string;
+  sex: string;
+  birthDate: string;
+  emergencyName?: string;
+  emergencyPhone?: string;
+  relationship?: string;
+  controlNumber: number;
+}
+
 export interface ResidentListResponseDto {
   severalResidents: ResidentHeaderResponseDto[];
   warningResidents: ResidentHeaderResponseDto[];

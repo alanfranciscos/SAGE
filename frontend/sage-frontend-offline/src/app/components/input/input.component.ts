@@ -47,7 +47,10 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   @Input()
-  set value(val: string) {
+  set value(val: string | number) {
+    if (typeof val === 'number') {
+      val = val.toString();
+    }
     if (val !== this._value) {
       this._value = val;
       this.onChange(val);

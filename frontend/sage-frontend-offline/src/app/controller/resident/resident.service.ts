@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api/api.service';
 import {
   ResidentListResponseDto,
   CreateResidentRequestDto,
+  ResidentDetailsResponseDto,
 } from '../../model/Resident';
 
 @Injectable({
@@ -21,6 +22,18 @@ export class ResidentService {
 
     if (response.status != 200) {
       throw new Error('Failed to fetch residents');
+    }
+
+    return response.data;
+  }
+
+  async getResidentById(residentId: string) {
+    const response = await this.api.get<ResidentDetailsResponseDto>(
+      `api/v1/resident/${residentId}`
+    );
+
+    if (response.status != 200) {
+      throw new Error('Failed to fetch resident details');
     }
 
     return response.data;

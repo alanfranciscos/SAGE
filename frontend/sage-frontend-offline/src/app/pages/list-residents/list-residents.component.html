@@ -1,5 +1,7 @@
 <app-main>
-  <app-detail [residentId]="selectedResidentId" (closeModal)="showDetail = false" [showModal]="showDetail">
+  <app-detail [residentId]="selectedResidentId" (closeModal)="showDetail = false" [showModal]="showDetail"
+    [residentId]="selectedResidentId">
+    <!-- Additional content can be added here if needed -->
   </app-detail>
 
   <div class="content">
