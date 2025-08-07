@@ -36,12 +36,10 @@ public class ResidentController {
         this.residentService = residentService;
     }
 
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<UUID> createResidentFromJson(@RequestBody CreateResidentRequestDto residentJson) {
+    @PostMapping
+    public ResponseEntity<UUID> createResident(@RequestBody CreateResidentRequestDto residentRequestDto) {
 
-        CreateResidentRequestDto resident = residentJson.toCreateResidentRequestDto();
-
-        UUID residentId = residentService.createResident(resident);
+        UUID residentId = residentService.createResident(residentRequestDto);
 
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

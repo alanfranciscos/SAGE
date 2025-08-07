@@ -16,3 +16,9 @@ run-database:
 run-api:
 	docker build -t sage-api -f Dockerfile .
 	docker run -it -e PORT=8080 -p 8080:8080 sage-api
+
+local-environment:
+	docker compose -f docker-compose-local-environment.yaml down
+	docker compose -f docker-compose-local-environment.yaml stop
+	docker compose -f docker-compose-local-environment.yaml build --force-rm
+	docker compose -f docker-compose-local-environment.yaml up

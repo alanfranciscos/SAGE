@@ -7,7 +7,11 @@ import org.springframework.context.annotation.Configuration;
 
 import com.sage.dao.resident.ResidentDaoImpl;
 import com.sage.dao.resident.ResidentHeaderDaoImpl;
+import com.sage.dao.resident.control.ControlResidentDaoImpl;
+import com.sage.dao.resident.emergency.ResidentEmergencyContactDaoImpl;
+import com.sage.port.dao.resident.ControlResidentDao;
 import com.sage.port.dao.resident.ResidentDao;
+import com.sage.port.dao.resident.ResidentEmergencyContactDao;
 import com.sage.port.dao.resident.ResidentHeaderDao;
 
 @Configuration
@@ -21,6 +25,16 @@ public class Depends {
     @Bean
     public ResidentDao residentDao(final Connection connection) {
         return new ResidentDaoImpl(connection);
+    }
+
+    @Bean
+    public ResidentEmergencyContactDao residentEmergencyContactDao(final Connection connection) {
+        return new ResidentEmergencyContactDaoImpl(connection);
+    }
+
+    @Bean
+    public ControlResidentDao controlResidentDao(final Connection connection) {
+        return new ControlResidentDaoImpl(connection);
     }
 
 }

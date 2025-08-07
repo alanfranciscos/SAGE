@@ -68,8 +68,7 @@ public class ResidentDaoImpl implements ResidentDao {
             preparedStatement.setObject(1, residentId);
             try (var resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    Resident resident = new Resident();
-                    return resident.mapFromResultSet(resultSet);
+                    return Resident.mapFromResultSet(resultSet);
                 }
             }
         } catch (Exception e) {

@@ -62,17 +62,22 @@ public class Resident {
      * ResultSet.
      * @throws SQLException If an error occurs while accessing the ResultSet.
      */
-    public Resident mapFromResultSet(ResultSet resultSet) throws SQLException {
-        this.id = UUID.fromString(resultSet.getString("id"));
-        this.fullName = resultSet.getString("full_name");
-        this.cpf = resultSet.getString("cpf");
-        this.sex = resultSet.getString("sex").charAt(0);
-        this.birthDate = resultSet.getTimestamp("birth_date").toInstant().atZone(ZonedDateTime.now().getZone());
-        this.createdAt = resultSet.getTimestamp("created_at").toInstant().atZone(ZonedDateTime.now().getZone());
-        this.updatedAt = resultSet.getTimestamp("updated_at").toInstant().atZone(ZonedDateTime.now().getZone());
-        this.residentialUnit = resultSet.getString("residential_unit");
-        this.imageData = resultSet.getString("image_data");
-        this.active = resultSet.getBoolean("active");
-        return this;
+    public static Resident mapFromResultSet(ResultSet resultSet) {
+        try {
+            Resident resident = new Resident();
+            resident.setId(UUID.fromString(resultSet.getString("id")));
+            resident.setFullName(resultSet.getString("full_name"));
+            resident.setCpf(resultSet.getString("cpf"));
+            resident.setSex(resultSet.getString("sex").charAt(0));
+            resident.setBirthDate(resultSet.getTimestamp("birth_date").toInstant().atZone(ZonedDateTime.now().getZone()));
+            resident.setCreatedAt(resultSet.getTimestamp("created_at").toInstant().atZone(ZonedDateTime.now().getZone()));
+            resident.setUpdatedAt(resultSet.getTimestamp("updated_at").toInstant().atZone(ZonedDateTime.now().getZone()));
+            resident.setResidentialUnit(resultSet.getString("residential_unit"));
+            resident.setImageData(resultSet.getString("image_data"));
+            resident.setActive(resultSet.getBoolean("active"));
+            return resident;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping Resident from ResultSet", e);
+        }
     }
 }

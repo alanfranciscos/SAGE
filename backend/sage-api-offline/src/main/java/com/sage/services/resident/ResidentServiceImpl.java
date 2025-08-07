@@ -14,6 +14,8 @@ import com.sage.model.file.FileType;
 import com.sage.model.resident.Resident;
 import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.services.helper.file.FileHelperService;
+import com.sage.port.services.resident.ControlResidentService;
+import com.sage.port.services.resident.ResidentEmergencyContactService;
 import com.sage.port.services.resident.ResidentHeaderService;
 import com.sage.port.services.resident.ResidentService;
 
@@ -23,14 +25,21 @@ public class ResidentServiceImpl implements ResidentService {
     private final ResidentHeaderService residentHeaderService;
     private final ResidentDao residentDao;
     private final FileHelperService fileHelperService;
+    private final ResidentEmergencyContactService residentEmergencyContactService;
+    private final ControlResidentService controlResidentService;
 
     public ResidentServiceImpl(
             ResidentHeaderService residentHeaderService,
             ResidentDao residentDao,
-            FileHelperService fileHelperService) {
+            FileHelperService fileHelperService,
+            ResidentEmergencyContactService residentEmergencyContactService,
+            ControlResidentService controlResidentService
+    ) {
         this.residentHeaderService = residentHeaderService;
         this.residentDao = residentDao;
         this.fileHelperService = fileHelperService;
+        this.residentEmergencyContactService = residentEmergencyContactService;
+        this.controlResidentService = controlResidentService;
     }
 
     @Override
@@ -60,6 +69,10 @@ public class ResidentServiceImpl implements ResidentService {
             );
             this.residentDao.updateImageData(residentId, imagePath);
         }
+
+        this.residentEmergencyContactService.create(requestDto, residentId);
+
+        this.controlResidentService.create(requestDto, residentId);
         return residentId;
     }
 

@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE alarm (
     id UUID PRIMARY KEY,
-    serial_numer VARCHAR(50) unique not NULL,
+    serial_number VARCHAR(50) unique not NULL,
     count_number int
 );
 
@@ -86,10 +86,10 @@ CREATE TABLE resident_emergency_contact (
 
 CREATE TABLE control_resident (
     id UUID PRIMARY KEY,
-    control_id VARCHAR(32) NOT NULL,
+    control_id INT NOT NULL,
     alarm_id UUID NOT NULL,
     resident_id UUID NOT NULL,
-        
+
     FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
     FOREIGN KEY (alarm_id) REFERENCES alarm (id) ON DELETE cascade,
     UNIQUE (control_id, resident_id),

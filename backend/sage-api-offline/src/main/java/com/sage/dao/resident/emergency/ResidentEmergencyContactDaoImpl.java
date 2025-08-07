@@ -1,0 +1,52 @@
+package com.sage.dao.resident.emergency;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.sage.model.resident.emergency.ResidentEmergencyContact;
+import com.sage.port.dao.resident.ResidentEmergencyContactDao;
+
+public class ResidentEmergencyContactDaoImpl implements ResidentEmergencyContactDao {
+
+    private static final Logger logger = Logger.getLogger(ResidentEmergencyContactDaoImpl.class.getName());
+
+    private final Connection connection;
+
+    public ResidentEmergencyContactDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public UUID create(ResidentEmergencyContact emergencyContact) {
+        String sql = "INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) "
+                + "VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            UUID residentId = UUID.randomUUID();
+            stmt.setObject(1, residentId);
+            stmt.setObject(2, emergencyContact.getResidentId());
+            stmt.setString(3, emergencyContact.getFullName());
+            stmt.setString(4, emergencyContact.getPhone());
+            stmt.setString(5, emergencyContact.getRelationship());
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return UUID.fromString(generatedKeys.getString(1));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error creating resident emergency contact: {0}", e.getMessage());
+            throw new RuntimeException("Error creating resident emergency contact", e);
+        }
+        return null;
+    }
+
+}

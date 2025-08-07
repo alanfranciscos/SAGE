@@ -49,7 +49,7 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
             try (var resultSet = preparedStatement.executeQuery()) {
                 List<ResidentHeader> residents = new java.util.ArrayList<>();
                 while (resultSet.next()) {
-                    residents.add(new ResidentHeader().mapFromResultSet(resultSet));
+                    residents.add(ResidentHeader.mapFromResultSet(resultSet));
                 }
                 return residents;
             }
@@ -69,7 +69,7 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
             try (var resultSet = preparedStatement.executeQuery()) {
                 List<ResidentHeader> residents = new java.util.ArrayList<>();
                 while (resultSet.next()) {
-                    residents.add(new ResidentHeader().mapFromResultSet(resultSet));
+                    residents.add(ResidentHeader.mapFromResultSet(resultSet));
                 }
                 return residents;
             }

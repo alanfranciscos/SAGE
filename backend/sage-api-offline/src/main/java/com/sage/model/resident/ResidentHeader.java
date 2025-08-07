@@ -21,11 +21,12 @@ public class ResidentHeader {
     private String residentialUnit;
     private String imageData;
 
-    public ResidentHeader mapFromResultSet(ResultSet resultSet) throws SQLException {
-        this.id = UUID.fromString(resultSet.getString("id"));
-        this.fullName = resultSet.getString("full_name");
-        this.residentialUnit = resultSet.getString("residential_unit");
-        this.imageData = resultSet.getString("image_data");
-        return this;
+    public static ResidentHeader mapFromResultSet(ResultSet resultSet) throws SQLException {
+        ResidentHeader residentHeader = new ResidentHeader();
+        residentHeader.setId(UUID.fromString(resultSet.getString("id")));
+        residentHeader.setFullName(resultSet.getString("full_name"));
+        residentHeader.setResidentialUnit(resultSet.getString("residential_unit"));
+        residentHeader.setImageData(resultSet.getString("image_data"));
+        return residentHeader;
     }
 }
