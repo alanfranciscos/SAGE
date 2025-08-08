@@ -1,4 +1,4 @@
-package com.sage.config.exception;
+package com.sage.exception;
 
 public class AlreadyExistsException extends RuntimeException {
 

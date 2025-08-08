@@ -48,6 +48,7 @@ public class ResidentController {
                 .toUri();
 
         return ResponseEntity.created(uri).body(residentId);
+
     }
 
     @PatchMapping

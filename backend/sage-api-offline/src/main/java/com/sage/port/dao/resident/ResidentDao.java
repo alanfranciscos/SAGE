@@ -51,4 +51,14 @@ public interface ResidentDao {
      * Get the total count of residents in the system.
      */
     Long countResidents();
+
+    /**
+     * Checks if a resident with the given CPF exists.
+     *
+     * @param cpf The CPF of the resident to check.
+     * @return true if a resident with the given CPF exists, false otherwise.
+     */
+    boolean existsResidentByCpf(
+            String cpf
+    );
 }

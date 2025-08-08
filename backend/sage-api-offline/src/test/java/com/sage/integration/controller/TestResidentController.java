@@ -53,6 +53,47 @@ final class TestResidentController extends BaseTest {
         };
     }
 
+    private Map<String, Object> insertResidentFixtures() {
+        String residentSql = "Insert into resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data, active) VALUES ";
+        residentSql += "('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', null, true)";
+        try {
+            super.connection.prepareStatement(
+                    residentSql
+            ).executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to insert resident fixtures", e);
+        }
+
+        List<Map<String, Object>> residents = super.list("resident");
+        Map<String, Object> residentCreated = residents.get(0);
+
+        return residentCreated;
+    }
+
+    private Map<String, Object> insertControlResidentFixtures(String residentId) {
+        String alarmSql = "Insert into alarm (id, serial_number, count_number) VALUES ";
+        alarmSql += "('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0);";
+
+        String controlResidentSql = "INSERT INTO control_resident (id, control_id, alarm_id, resident_id) VALUES ";
+        controlResidentSql += "('77777777-8888-4999-0000-111122223333', 1, 'a1b2c3d4-e5f6-4789-a012-3456789abcde', '" + residentId + "');";
+        try {
+            super.connection.prepareStatement(
+                    alarmSql
+            ).executeUpdate();
+
+            super.connection.prepareStatement(
+                    controlResidentSql
+            ).executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to insert control resident fixtures", e);
+        }
+
+        List<Map<String, Object>> controlResidents = super.list("control_resident");
+        Map<String, Object> controlResidentCreated = controlResidents.get(0);
+
+        return controlResidentCreated;
+    }
+
     @Test
     void testCreateResident__validResident__expectResidentCreated() {
         // FIXTURE
@@ -158,5 +199,103 @@ final class TestResidentController extends BaseTest {
         for (String key : controlResident.keySet()) {
             assertEquals(expectedControlResident.get(key), controlResident.get(key));
         }
+    }
+
+    @Test
+    void testCreateResident__duplicatedCpf__expectConflict() {
+        // FIXTURE
+        Map<String, Object> residentCreated = this.insertResidentFixtures();
+        ZonedDateTime brithDay = ZonedDateTime.now().minusYears(30);
+
+        CreateResidentRequestDto residentRequest = new CreateResidentRequestDto(
+                "John Doe",
+                residentCreated.get("cpf").toString(),
+                'M',
+                brithDay,
+                Optional.of("Jane Doe"),
+                Optional.of("987654321"),
+                Optional.of("Sister"),
+                "Unit 101",
+                1,
+                null
+        );
+
+        // EXERCISE
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                "/api/v1/resident",
+                residentRequest,
+                String.class
+        );
+
+        // ASSERT
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Resident with CPF 12345678901 already exists.", response.getBody());
+    }
+
+    @Test
+    void testCreateResident__duplicatedControlId__expectConflict() {
+        // FIXTURE
+        Map<String, Object> residentCreated = this.insertResidentFixtures();
+        this.insertControlResidentFixtures(residentCreated.get("id").toString());
+        ZonedDateTime brithDay = ZonedDateTime.now().minusYears(30);
+
+        CreateResidentRequestDto residentRequest = new CreateResidentRequestDto(
+                "John Doe",
+                "12345678991",
+                'M',
+                brithDay,
+                Optional.of("Jane Doe"),
+                Optional.of("987654321"),
+                Optional.of("Sister"),
+                "Unit 101",
+                1,
+                null
+        );
+
+        // EXERCISE
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                "/api/v1/resident",
+                residentRequest,
+                String.class
+        );
+
+        // ASSERT
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Control resident with control ID 1 already exists.", response.getBody());
+    }
+
+    @Test
+    void testCreateResident__duplicatedCpfAndControlId__expectConflict() {
+        // FIXTURE
+        Map<String, Object> residentCreated = this.insertResidentFixtures();
+        this.insertControlResidentFixtures(residentCreated.get("id").toString());
+        ZonedDateTime brithDay = ZonedDateTime.now().minusYears(30);
+
+        CreateResidentRequestDto residentRequest = new CreateResidentRequestDto(
+                "John Doe",
+                residentCreated.get("cpf").toString(),
+                'M',
+                brithDay,
+                Optional.of("Jane Doe"),
+                Optional.of("987654321"),
+                Optional.of("Sister"),
+                "Unit 101",
+                1,
+                null
+        );
+
+        String expectedMessage = "Resident with CPF 12345678901 already exists.\n";
+        expectedMessage += "Control resident with control ID 1 already exists.";
+
+        // EXERCISE
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                "/api/v1/resident",
+                residentRequest,
+                String.class
+        );
+
+        // ASSERT
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals(expectedMessage, response.getBody());
     }
 }

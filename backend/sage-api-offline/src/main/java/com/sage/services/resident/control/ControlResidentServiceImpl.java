@@ -30,4 +30,9 @@ public class ControlResidentServiceImpl implements ControlResidentService {
         return this.controlResidentDao.create(controlResident);
     }
 
+    @Override
+    public boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId) {
+        return this.controlResidentDao.existsResidentByControlIdAndAlarmId(controlId, alarmId);
+    }
+
 }

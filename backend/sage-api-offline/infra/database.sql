@@ -149,3 +149,8 @@ CREATE TRIGGER trigger_notify_assist
 AFTER INSERT OR UPDATE OR DELETE ON assist
 FOR EACH ROW
 EXECUTE FUNCTION notify_assist();
+
+
+-- Insert base data
+INSERT INTO alarm (id, serial_number, count_number) VALUES
+('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0);

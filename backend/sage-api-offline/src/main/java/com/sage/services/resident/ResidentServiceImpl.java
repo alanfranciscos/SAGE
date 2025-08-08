@@ -10,8 +10,10 @@ import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentListResponseDto;
 import com.sage.dto.v1.resident.response.ResidentResponseDto;
+import com.sage.exception.AlreadyExistsException;
 import com.sage.model.file.FileType;
 import com.sage.model.resident.Resident;
+import com.sage.model.resident.control.ControlResident;
 import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.services.helper.file.FileHelperService;
 import com.sage.port.services.resident.ControlResidentService;
@@ -55,6 +57,26 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public UUID createResident(CreateResidentRequestDto requestDto) {
         Resident resident = Resident.mapFromCreateResidentRequestDto(requestDto);
+
+        String alreadyExistsMessage = "";
+        if (this.residentDao.existsResidentByCpf(resident.getCpf())) {
+            alreadyExistsMessage = "Resident with CPF " + resident.getCpf() + " already exists.\n";
+        }
+
+        if (this.controlResidentService.existsResidentByControlIdAndAlarmId(
+                requestDto.controlNumber(),
+                ControlResident.getAlarmIdDefault().toString()
+        )) {
+            alreadyExistsMessage += "Control resident with control ID " + requestDto.controlNumber() + " already exists.\n";
+        }
+
+        if (alreadyExistsMessage.endsWith("\n")) {
+            alreadyExistsMessage = alreadyExistsMessage.substring(0, alreadyExistsMessage.length() - 1);
+        }
+
+        if (!alreadyExistsMessage.isEmpty()) {
+            throw new AlreadyExistsException(alreadyExistsMessage);
+        }
 
         ZonedDateTime now = ZonedDateTime.now();
         resident.setCreatedAt(now);

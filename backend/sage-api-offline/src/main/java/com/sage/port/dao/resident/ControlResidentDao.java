@@ -15,4 +15,14 @@ public interface ControlResidentDao {
      */
     UUID create(ControlResident controlResident);
 
+    /**
+     * Checks if a resident exists by their control ID and alarm ID.
+     *
+     * @param controlId The control ID of the resident to check.
+     * @param alarmId The alarm ID of the resident to check.
+     * @return True if a resident with the given control ID and alarm ID exists,
+     * false otherwise.
+     */
+    boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId);
+
 }

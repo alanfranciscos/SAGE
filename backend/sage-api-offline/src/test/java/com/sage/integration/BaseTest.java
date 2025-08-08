@@ -34,6 +34,7 @@ public class BaseTest {
         tables.add("resident");
         tables.add("organization");
         tables.add("alarm");
+        tables.add("control_resident");
         return tables;
     }
 

@@ -20,4 +20,12 @@ public interface ControlResidentService {
             CreateResidentRequestDto requestDto, UUID residentId
     );
 
+    /**
+     * Checks if a resident exists by their CPF (Cadastro de Pessoas Físicas).
+     *
+     * @param cpf The CPF of the resident to check.
+     * @return True if a resident with the given CPF exists, false otherwise.
+     */
+    boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId);
+
 }

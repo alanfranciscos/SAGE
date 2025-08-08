@@ -92,4 +92,20 @@ public class ResidentDaoImpl implements ResidentDao {
         return null;
     }
 
+    @Override
+    public boolean existsResidentByCpf(String cpf) {
+        String sql = "SELECT COUNT(*) FROM resident WHERE cpf = ?";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, cpf);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error checking if resident exists by CPF {0}: {1}", new Object[]{cpf, e.getMessage()});
+        }
+        return false;
+    }
+
 }

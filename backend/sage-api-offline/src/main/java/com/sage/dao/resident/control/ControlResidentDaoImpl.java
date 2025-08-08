@@ -43,4 +43,21 @@ public class ControlResidentDaoImpl implements ControlResidentDao {
         return null;
     }
 
+    @Override
+    public boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId) {
+        String sql = "SELECT COUNT(*) FROM control_resident WHERE control_id = ? AND alarm_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, controlId);
+            stmt.setObject(2, UUID.fromString(alarmId));
+
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error checking existence of control resident: {0}", e.getMessage());
+            throw new RuntimeException("Error checking existence of control resident", e);
+        }
+        return false;
+    }
 }

@@ -20,6 +20,7 @@ public class ResidentHeader {
     private String fullName;
     private String residentialUnit;
     private String imageData;
+    private byte[] imageBytes;
 
     public static ResidentHeader mapFromResultSet(ResultSet resultSet) throws SQLException {
         ResidentHeader residentHeader = new ResidentHeader();

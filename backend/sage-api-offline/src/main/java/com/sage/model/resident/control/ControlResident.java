@@ -19,6 +19,15 @@ public class ControlResident {
     private UUID residentId;
 
     /**
+     * Gets the default alarm ID.
+     *
+     * @return The default alarm ID as a UUID.
+     */
+    public static UUID getAlarmIdDefault() {
+        return alarmIdDefault;
+    }
+
+    /**
      * Maps the fields of this ControlResident object from a
      * CreateResidentRequestDto.
      *
