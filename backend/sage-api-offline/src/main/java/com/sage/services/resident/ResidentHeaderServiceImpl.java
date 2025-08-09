@@ -52,7 +52,9 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                     residentHeadersEmergency,
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    totalResidents
+                    totalResidents,
+                    (long) limit,
+                    (long) skip
             );
         }
         List<ResidentHeader> residentHeadersWarning = residentHeaderDao.
@@ -68,7 +70,9 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                     residentHeadersEmergency,
                     residentHeadersWarning,
                     new ArrayList<>(),
-                    totalResidents
+                    totalResidents,
+                    (long) limit,
+                    (long) skip
             );
         }
 
@@ -81,7 +85,9 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                 residentHeadersEmergency,
                 residentHeadersWarning,
                 residentHeaders,
-                totalResidents
+                totalResidents,
+                (long) limit,
+                (long) skip
         );
     }
 

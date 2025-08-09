@@ -22,7 +22,9 @@ public record ResidentListResponseDto(
         List<ResidentHeaderResponseDto> severalResidents,
         List<ResidentHeaderResponseDto> warningResidents,
         List<ResidentHeaderResponseDto> normalResidents,
-        Long totalResidents
+        Long totalResidents,
+        Long limit,
+        Long skip
         ) {
 
     /**
@@ -39,7 +41,10 @@ public record ResidentListResponseDto(
             List<ResidentHeader> severalResidents,
             List<ResidentHeader> warningResidents,
             List<ResidentHeader> normalResidents,
-            Long totalResidents) {
+            Long totalResidents,
+            Long limit,
+            Long skip
+    ) {
 
         List<ResidentHeaderResponseDto> several = new ArrayList<>();
         for (ResidentHeader residentHeader : severalResidents) {
@@ -53,7 +58,7 @@ public record ResidentListResponseDto(
         for (ResidentHeader residentHeader : normalResidents) {
             normal.add(new ResidentHeaderResponseDto(residentHeader));
         }
-        return new ResidentListResponseDto(several, warning, normal, totalResidents);
+        return new ResidentListResponseDto(several, warning, normal, totalResidents, limit, skip);
     }
 
 }

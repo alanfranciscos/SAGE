@@ -2,7 +2,7 @@
 
 -- Tabela alarm
 INSERT INTO alarm (id, serial_number, count_number) VALUES
--- ('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0),
+('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0),
 ('b2c3d4e5-f6a7-4890-b123-456789abcdef', 'ALM002', 0),
 ('c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'ALM003', 0);
 
@@ -28,13 +28,13 @@ INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at
 
 -- Tabela resident
 INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data, active) VALUES
-('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', 'output-files/resident-image/default.base64', true),
-('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', 'output-files/resident-image/default.base64', true),
-('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', 'output-files/resident-image/default.base64', true),
-('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', 'output-files/resident-image/default.base64', true),
-('66666666-7777-4888-9999-000111222333', 'Pedro Almeida', '66677788899', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'output-files/resident-image/default.base64', true),
-('99999999-7777-4888-9999-000111222333', 'Teste normal', '66677788891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'output-files/resident-image/default.base64', true),
-('99998888-7777-4888-9999-000111222333', 'Teste warning', '66677785891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'output-files/resident-image/default.base64', true);
+('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', null, true),
+('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', null, true),
+('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', null, true),
+('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', null, true),
+('66666666-7777-4888-9999-000111222333', 'Pedro Almeida', '66677788899', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', null, true),
+('99999999-7777-4888-9999-000111222333', 'Teste normal', '66677788891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', null, true),
+('99998888-7777-4888-9999-000111222333', 'Teste warning', '66677785891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', null, true);
 
 -- Tabela resident_emergency_contact
 INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES

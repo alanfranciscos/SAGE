@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
+import com.sage.dto.v1.resident.response.ResidentListResponseDto;
 import com.sage.port.services.resident.ResidentService;
 
 /**
@@ -56,14 +57,17 @@ public class ResidentController {
         return "TODO: Implement resident update logic";
     }
 
-    @GetMapping
-    public Object listResidents() {
-        return residentService.listResidents(10, 0);
+    @GetMapping()
+    public ResponseEntity<ResidentListResponseDto> listResidents(
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "0") int skip
+    ) {
+        return ResponseEntity.ok(residentService.listResidents(limit, skip));
     }
 
     @GetMapping("/{id}")
-    public ResidentDetailResponseDto getResidentDetails(@PathVariable UUID id) {
-        return residentService.getResidentDetailsById(id);
+    public ResponseEntity<ResidentDetailResponseDto> getResidentDetails(@PathVariable UUID id) {
+        return ResponseEntity.ok(residentService.getResidentDetailsById(id));
     }
 
     @GetMapping("/search")

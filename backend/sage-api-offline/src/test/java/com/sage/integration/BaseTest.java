@@ -1,5 +1,8 @@
 package com.sage.integration;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -79,6 +82,16 @@ public class BaseTest {
             return residentsMap;
         } catch (SQLException e) {
             return null;
+        }
+    }
+
+    protected void insertSqlFile() {
+        String sqlPath = "src/test/java/com/sage/integration/data/inserts.sql";
+        try {
+            String sql = new String(Files.readAllBytes(Paths.get(sqlPath)));
+            connection.prepareStatement(sql).executeUpdate();
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException("Error inserting SQL file", e);
         }
     }
 }

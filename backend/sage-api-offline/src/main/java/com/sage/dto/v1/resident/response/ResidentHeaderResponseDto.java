@@ -30,4 +30,14 @@ public record ResidentHeaderResponseDto(
         );
     }
 
+    public ResidentHeaderResponseDto(
+            UUID id, String fullName, String residentialUnit, Object imageData) {
+        this(
+                id,
+                fullName,
+                residentialUnit,
+                imageData instanceof byte[] ? (byte[]) imageData : null
+        );
+    }
+
 }

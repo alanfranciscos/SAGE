@@ -1,4 +1,4 @@
-package com.sage.integration.controller;
+package com.sage.integration.controller.resident;
 
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
@@ -21,7 +21,7 @@ import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.integration.BaseTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-final class TestResidentController extends BaseTest {
+final class TestCreateResident extends BaseTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
