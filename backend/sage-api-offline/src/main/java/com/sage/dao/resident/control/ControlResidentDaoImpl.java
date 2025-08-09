@@ -60,4 +60,21 @@ public class ControlResidentDaoImpl implements ControlResidentDao {
         }
         return false;
     }
+
+    @Override
+    public ControlResident getByClientId(UUID residentId) {
+        String sql = "SELECT * FROM control_resident WHERE resident_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, residentId);
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return ControlResident.mapFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error retrieving control resident: {0}", e.getMessage());
+            throw new RuntimeException("Error retrieving control resident", e);
+        }
+        return null;
+    }
+
 }

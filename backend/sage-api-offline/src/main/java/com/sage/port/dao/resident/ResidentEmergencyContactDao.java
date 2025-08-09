@@ -15,4 +15,13 @@ public interface ResidentEmergencyContactDao {
      */
     public UUID create(ResidentEmergencyContact emergencyContact);
 
+    /**
+     * Retrieves a resident emergency contact by its client ID.
+     *
+     * @param clientId The UUID of the client to retrieve.
+     * @return The ResidentEmergencyContact object associated with the given
+     * client ID.
+     */
+    public ResidentEmergencyContact getByClientId(UUID clientId);
+
 }

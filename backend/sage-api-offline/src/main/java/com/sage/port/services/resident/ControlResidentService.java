@@ -3,6 +3,7 @@ package com.sage.port.services.resident;
 import java.util.UUID;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.model.resident.control.ControlResident;
 
 public interface ControlResidentService {
 
@@ -27,5 +28,13 @@ public interface ControlResidentService {
      * @return True if a resident with the given CPF exists, false otherwise.
      */
     boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId);
+
+    /**
+     * Retrieves a control resident by its client ID.
+     *
+     * @param residentId The UUID of the resident to retrieve.
+     * @return The ControlResident object associated with the given resident ID.
+     */
+    ControlResident getByClientId(UUID residentId);
 
 }

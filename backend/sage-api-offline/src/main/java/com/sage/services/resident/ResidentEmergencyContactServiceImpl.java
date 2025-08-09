@@ -30,4 +30,9 @@ public class ResidentEmergencyContactServiceImpl implements ResidentEmergencyCon
         return this.residentEmergencyContactDao.create(emergencyContact);
     }
 
+    @Override
+    public ResidentEmergencyContact getByClientId(UUID clientId) {
+        return this.residentEmergencyContactDao.getByClientId(clientId);
+    }
+
 }

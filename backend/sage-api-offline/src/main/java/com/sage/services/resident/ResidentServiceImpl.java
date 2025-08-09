@@ -11,9 +11,11 @@ import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentListResponseDto;
 import com.sage.dto.v1.resident.response.ResidentResponseDto;
 import com.sage.exception.AlreadyExistsException;
+import com.sage.exception.NotFoundException;
 import com.sage.model.file.FileType;
 import com.sage.model.resident.Resident;
 import com.sage.model.resident.control.ControlResident;
+import com.sage.model.resident.emergency.ResidentEmergencyContact;
 import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.services.helper.file.FileHelperService;
 import com.sage.port.services.resident.ControlResidentService;
@@ -108,7 +110,7 @@ public class ResidentServiceImpl implements ResidentService {
     public ResidentDetailResponseDto getResidentDetailsById(UUID id) {
         Resident resident = this.residentDao.findResidentById(id);
         if (resident == null) {
-            throw new IllegalArgumentException("Resident not found with ID: " + id);
+            throw new NotFoundException("Resident not found with ID: " + id);
         }
 
         byte[] imageData = null;
@@ -116,7 +118,10 @@ public class ResidentServiceImpl implements ResidentService {
             imageData = this.fileHelperService.getBase64File(resident.getImageData()).getBytes();
         }
 
-        return new ResidentDetailResponseDto(
+        ResidentEmergencyContact residentEmergencyContact = this.residentEmergencyContactService.getByClientId(resident.getId());
+
+        ControlResident controlResident = this.controlResidentService.getByClientId(resident.getId());
+        ResidentDetailResponseDto response = new ResidentDetailResponseDto(
                 resident.getId(),
                 resident.getFullName(),
                 resident.getCpf(),
@@ -126,12 +131,14 @@ public class ResidentServiceImpl implements ResidentService {
                 resident.getUpdatedAt(),
                 resident.isActive(),
                 imageData,
-                null,
-                null,
-                null,
+                residentEmergencyContact != null ? residentEmergencyContact.getFullName() : null,
+                residentEmergencyContact != null ? residentEmergencyContact.getPhone() : null,
+                residentEmergencyContact != null ? residentEmergencyContact.getRelationship() : null,
                 resident.getResidentialUnit(),
-                null
+                controlResident != null ? controlResident.getControlId() : null
         );
+
+        return response;
     }
 
 }

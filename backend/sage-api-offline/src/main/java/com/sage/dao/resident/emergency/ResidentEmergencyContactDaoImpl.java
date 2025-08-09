@@ -49,4 +49,22 @@ public class ResidentEmergencyContactDaoImpl implements ResidentEmergencyContact
         return null;
     }
 
+    @Override
+    public ResidentEmergencyContact getByClientId(UUID clientId) {
+        String sql = "SELECT * FROM resident_emergency_contact WHERE resident_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, clientId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return ResidentEmergencyContact.mapFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error retrieving resident emergency contact: {0}", e.getMessage());
+            throw new RuntimeException("Error retrieving resident emergency contact", e);
+        }
+        return null;
+    }
+
 }

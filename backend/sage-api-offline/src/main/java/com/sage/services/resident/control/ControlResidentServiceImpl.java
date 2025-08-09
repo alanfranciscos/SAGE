@@ -35,4 +35,9 @@ public class ControlResidentServiceImpl implements ControlResidentService {
         return this.controlResidentDao.existsResidentByControlIdAndAlarmId(controlId, alarmId);
     }
 
+    @Override
+    public ControlResident getByClientId(UUID residentId) {
+        return this.controlResidentDao.getByClientId(residentId);
+    }
+
 }

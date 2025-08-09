@@ -25,7 +25,7 @@ import java.util.UUID;
  * @param residentialUnit The residential unit where the resident lives.
  * @param controlNumber The control number of the residential unit.
  */
-public record ResidentDetailResponseDto( 
+public record ResidentDetailResponseDto(
         // Resident personal information
         UUID id,
         String fullName,

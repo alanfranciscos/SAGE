@@ -25,4 +25,12 @@ public interface ControlResidentDao {
      */
     boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId);
 
+    /**
+     * Retrieves a resident control record by its client ID.
+     *
+     * @param residentId The UUID of the resident to retrieve.
+     * @return The ControlResident object associated with the given resident ID.
+     */
+    ControlResident getByClientId(UUID residentId);
+
 }
