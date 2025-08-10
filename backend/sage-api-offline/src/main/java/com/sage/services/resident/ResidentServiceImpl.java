@@ -47,13 +47,8 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public ResidentListResponseDto listResidents(int limit, int skip) {
-        return this.residentHeaderService.listResidents(limit, skip);
-    }
-
-    @Override
-    public ResidentListResponseDto searchResident(String search) {
-        return this.residentHeaderService.searchResident(search);
+    public ResidentListResponseDto listResidents(int limit, int skip, String search) {
+        return this.residentHeaderService.listResidents(limit, skip, search);
     }
 
     @Override

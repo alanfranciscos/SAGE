@@ -19,15 +19,5 @@ public interface ResidentHeaderService {
      * @param skip The number of residents to skip for pagination.
      * @return List of resident headers.
      */
-    ResidentListResponseDto listResidents(int limit, int skip);
-
-    /**
-     * Searches for a resident by their ID.
-     *
-     * @param id The UUID of the resident to search for.
-     * @return The list of residents matching the search criteria.
-     */
-    ResidentListResponseDto searchResident(
-            String search
-    );
+    ResidentListResponseDto listResidents(int limit, int skip, String search);
 }
