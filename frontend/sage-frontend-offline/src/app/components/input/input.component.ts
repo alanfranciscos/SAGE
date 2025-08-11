@@ -11,11 +11,12 @@ import {
   NG_VALUE_ACCESSOR,
   FormsModule,
 } from '@angular/forms';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,NgxMaskDirective],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   providers: [
@@ -34,6 +35,10 @@ export class InputComponent implements ControlValueAccessor {
   @Input() name: string = '';
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() mask?: string;
+  @Input() dropSpecialCharacters: boolean = true;
+
+
 
   @Output() valueChange = new EventEmitter<string>();
 

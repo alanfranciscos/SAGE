@@ -8,5 +8,6 @@
   </div>
   <div class="resident-actions">
     <app-button [label]="'Detalhes'" [type]="'secondary'" (clicked)="showDetails.emit(id)"></app-button>
+  <app-button *ngIf="canAttend"[label]="'Atender'" [type]="'secondary'" (clicked)="openAlertModal.emit(id)"></app-button>    
   </div>
 </div>

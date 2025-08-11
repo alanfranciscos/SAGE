@@ -24,6 +24,9 @@ export class ResidentComponent {
   showImage: string = this.defaultImage;
 
   @Output() showDetails = new EventEmitter<string>();
+  @Output() openAlertModal = new EventEmitter<string>(); //faz nada ainda
+
+   canAttend?: boolean; // trocar dps pela info da API
 
   ngOnInit() {
     this.setAlertStyle();
@@ -33,9 +36,11 @@ export class ResidentComponent {
     switch (this.level) {
       case 'warning':
         this.levelStyle = 'alert-warning';
+        this.canAttend = true;
         break;
       case 'several':
         this.levelStyle = 'alert-several';
+        this.canAttend = true;
         break;
     }
   }

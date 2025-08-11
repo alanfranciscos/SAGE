@@ -33,6 +33,7 @@ export class ListResidentsComponent {
 
   selectedResidentId: string | null = null;
   showDetail: boolean = false;
+  openAlertModal: boolean = false;
 
   constructor(
     private residentControllerService: ResidentService,
@@ -85,5 +86,9 @@ export class ListResidentsComponent {
   onShowDetails(residentId: string) {
     this.selectedResidentId = residentId;
     this.showDetail = true;
+  }
+    onOpenAlertModal(residentId: string) {
+    this.selectedResidentId = residentId;
+    this.openAlertModal = true;
   }
 }

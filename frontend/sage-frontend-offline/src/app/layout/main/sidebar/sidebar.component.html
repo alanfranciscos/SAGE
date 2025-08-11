@@ -1,16 +1,30 @@
 <aside class="sidebar">
   <div class="logo-container">
-    <img src="assets/svg/logo.svg" alt="SAGE Logo" class="logo">
+    <img src="assets/svg/logo.svg" alt="SAGE Logo" class="logo" />
   </div>
   <div class="items">
-    <a href="#" class="item">
+    <a [routerLink]="['/']" class="item">
       <p class="item-text">Residentes</p>
+    </a>
+    <a [routerLink]="['/alerts']" class="item">
+      <p class="item-text">Alertas</p>
+    </a>
+    <a [routerLink]="['/reports']" class="item">
+      <p class="item-text">Relatórios</p>
+    </a>
+    <a [routerLink]="['/settings']" class="item">
+      <p class="item-text">Configurações</p>
     </a>
   </div>
   <div class="exit-container">
-    <a href="#" class="exit">
-      <app-button [label]="'Sair'" [type]="'secondary'" class="exit-button" [size]="'large'"
-        [disabled]="true"></app-button>
+    <a [routerLink]="['/']" class="exit">
+      <app-button
+        [label]="'Sair'"
+        [type]="'secondary'"
+        class="exit-button"
+        [size]="'large'"
+        [disabled]="true"
+      ></app-button>
     </a>
   </div>
 </aside>

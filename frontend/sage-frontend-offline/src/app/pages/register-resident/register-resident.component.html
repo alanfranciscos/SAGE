@@ -1,43 +1,87 @@
-<app-register class="register-resident" [title]="'Cadastrar Paciente'" [steps]="steps"
-  (updatedStep)="updateStep($event)" (cancel)="onCancel()" (finish)="onFinish()" [validStep]="validateStep()">
-
+<app-register
+  class="register-resident"
+  [title]="'Cadastrar Paciente'"
+  [steps]="steps"
+  (updatedStep)="updateStep($event)"
+  (cancel)="onCancel()"
+  (finish)="onFinish()"
+  [validStep]="validateStep()"
+>
   @if(currentStep === 0) {
   <app-image-input (imageChange)="onImageChange($event)"></app-image-input>
 
-  <app-input label="Nome" placeholder="Digite o nome do paciente" [required]="true"
+  <app-input
+    label="Nome"
+    placeholder="Digite o nome do paciente"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.FULL_NAME, $event)"
-    [value]="residentListResponseDto.fullName || ''"></app-input>
-  <app-input label="CPF" placeholder="Digite o CPF do paciente" type="email" [required]="true"
+    [value]="residentListResponseDto.fullName || ''"
+  ></app-input>
+  <app-input
+    label="CPF"
+    placeholder="Digite o CPF do paciente"
+    type="email"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.CPF, $event)"
-    [value]="residentListResponseDto.cpf || ''"></app-input>
-  <app-select-input label="Sexo" placeholder="Selecione o sexo"
-    [options]="[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Feminino' }]" [required]="true"
+    [value]="residentListResponseDto.cpf || ''"
+    [mask]="'000.000.000-00'"
+    [dropSpecialCharacters]="true"
+  ></app-input>
+  @if(cpfInvalido) {
+  <div class="error-message">CPF inválido. Verifique os números digitados.</div>
+  }
+  <app-select-input
+    label="Sexo"
+    [options]="[
+      { value: '', label: 'Selecione o sexo', disabled: true },
+      { value: 'M', label: 'Masculino' },
+      { value: 'F', label: 'Feminino' }
+    ]"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.SEX, $event)"
-    [value]="residentListResponseDto.sex || ''"></app-select-input>
-  <app-input label="Data de Nascimento" placeholder="Digite a data de nascimento do paciente" type="date"
-    [required]="true" (valueChange)="onInputChange(ResidentInputField.BIRTH_DATE, $event)"
-    [value]="residentListResponseDto.birthDate || ''"></app-input>
-  }
-
-  @if(currentStep === 1) {
-  <app-input label="Nome" placeholder="Digite o nome do paciente" [required]="false"
+    [value]="residentListResponseDto.sex || ''"
+  ></app-select-input>
+  <app-input
+    label="Data de Nascimento"
+    placeholder="Digite a data de nascimento do paciente"
+    type="date"
+    [required]="true"
+    (valueChange)="onInputChange(ResidentInputField.BIRTH_DATE, $event)"
+    [value]="residentListResponseDto.birthDate || ''"
+  ></app-input>
+  } @if(currentStep === 1) {
+  <app-input
+    label="Nome"
+    placeholder="Digite o nome do paciente"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.EMERGENCY_NAME, $event)"
-    [value]="residentListResponseDto.emergencyName || ''"></app-input>
-  <app-input label="Telefone" placeholder="Digite o telefone do paciente" type="tel" [required]="false"
+    [value]="residentListResponseDto.emergencyName || ''"
+  ></app-input>
+  <app-input
+    label="Telefone"
+    placeholder="Digite o telefone do paciente"
+    type="tel"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.EMERGENCY_PHONE, $event)"
-    [value]="residentListResponseDto.emergencyPhone || ''"></app-input>
-  <app-input label="Parentesco" placeholder="Digite o parentesco do paciente" type="text" [required]="false"
-    (valueChange)="onInputChange(ResidentInputField.RELATIONSHIP, $event)"
-    [value]="residentListResponseDto.relationship || ''"></app-input>
-  }
+    [value]="residentListResponseDto.emergencyPhone || ''"
+    [mask]="'(00) 00000-0000'"
+    [dropSpecialCharacters]="true"
+  ></app-input> 
 
-  @if(currentStep === 2) {
-  <app-input label="Numero do controle" placeholder="Digite o numero do controle" [required]="true"
+  } @if(currentStep === 2) {
+  <app-input
+    label="Numero do controle"
+    placeholder="Digite o numero do controle"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.CONTROL_NUMBER, $event)"
-    [value]="residentListResponseDto.controlNumber || '0'"></app-input>
-  <app-input label="Residencia do residente" placeholder="Digite o endereco da residencia" [required]="true"
+    [value]="residentListResponseDto.controlNumber || ''"
+  ></app-input>
+  <app-input
+    label="Residencia do residente"
+    placeholder="Digite o endereco da residencia"
+    [required]="true"
     (valueChange)="onInputChange(ResidentInputField.RESIDENTIAL_UNIT, $event)"
-    [value]="residentListResponseDto.residentialUnit || ''"></app-input>
+    [value]="residentListResponseDto.residentialUnit || ''"
+  ></app-input>
   }
-
 </app-register>

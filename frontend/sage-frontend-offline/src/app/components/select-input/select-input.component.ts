@@ -37,7 +37,7 @@ export class SelectInputComponent implements ControlValueAccessor {
   @Input() id: string = '';
   @Input() name: string = '';
   @Input() options: SelectOption[] = [];
-  @Input() placeholder: string = 'Selecione uma opção...';
+  @Input() placeholder: string = '';
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
 

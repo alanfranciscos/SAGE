@@ -45,11 +45,14 @@ export class RegisterResidentComponent {
     birthDate: '',
     residentialUnit: '',
     controlNumber: 0,
+    
   };
+  cpfInvalido?: boolean;
 
   constructor(
     private residentControllerService: ResidentService,
-    private router: Router
+    private router: Router,
+
   ) {}
 
   validateStep(): boolean {
@@ -72,6 +75,35 @@ export class RegisterResidentComponent {
         return false;
     }
   }
+
+private validarCPF(cpf: string): boolean {
+  cpf = cpf.replace(/[^\d]+/g, '');
+
+  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+  let soma = 0;
+  for (let i = 0; i < 9; i++) {
+    soma += parseInt(cpf.charAt(i)) * (10 - i);
+  }
+
+  let resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== parseInt(cpf.charAt(9))) return false;
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) {
+    soma += parseInt(cpf.charAt(i)) * (11 - i);
+  }
+
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== parseInt(cpf.charAt(10))) return false;
+
+  return true;
+}
+
+
+
 
   updateStep(event: number): void {
     if (event < this.currentStep) {
@@ -110,10 +142,15 @@ export class RegisterResidentComponent {
     }
   }
 
-  onInputChange(field: ResidentInputField, event: any): void {
-    (this.residentListResponseDto as any)[field] = event;
-    this.validateStep();
+onInputChange(field: ResidentInputField, event: any): void {
+  (this.residentListResponseDto as any)[field] = event;
+
+  if (field === ResidentInputField.CPF) {
+    this.cpfInvalido = !this.validarCPF(event);
   }
+
+  this.validateStep();
+}
 
   private imageFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

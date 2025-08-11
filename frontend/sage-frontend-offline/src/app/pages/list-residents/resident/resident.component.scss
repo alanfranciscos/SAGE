@@ -48,6 +48,14 @@
     color: #666;
 }
 
+.resident-actions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
 .alert-warning {
     border: 1px solid #ffeeba;
     background-color: #ffeeba;
