@@ -9,7 +9,7 @@ INSERT INTO alarm (id, serial_number, count_number) VALUES
 -- Tabela organization
 INSERT INTO organization (id, alarm_id, full_name, cep, state, city, neighborhood, street, organization_number) VALUES
 ('d4e5f6a7-b8c9-4012-d345-6789abcdef01', 'a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Casa de Repouso Esperança', '12345-678', 'SP', 'São Paulo', 'Vila Mariana', 'Rua das Flores', '123'),
-('e5f6a7b8-c9d0-4123-e456-789abcdef012', 'b2c3d4e5-f6a7-4890-b123-456789abcdef', 'Lar dos Idosos São José', '23456-789', 'RJ', 'Rio de Janeiro', 'Copacabana', 'Avenida Atlântica', '456'),
+('e5f6a7b8-c9d0-4123-e456-789abcdef012', 'b2c3d4e5-f6a7-4890-b123-456789abcdef', 'Lar dos Idosos São Jose', '23456-789', 'RJ', 'Rio de Janeiro', 'Copacabana', 'Avenida Atlântica', '456'),
 ('f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'Centro de Cuidados Vida Plena', '34567-890', 'MG', 'Belo Horizonte', 'Savassi', 'Rua da Paz', '789');
 
 -- Tabela caregiver
@@ -28,7 +28,7 @@ INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at
 
 -- Tabela resident
 INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data, active) VALUES
-('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', null, true),
+('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'Joao Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', null, true),
 ('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', null, true),
 ('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', null, true),
 ('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', null, true),
@@ -39,7 +39,7 @@ INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_a
 -- Tabela resident_emergency_contact
 INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES
 ('eee11111-fff2-4222-3333-444455556666', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'Maria Silva', '11987651234', 'Filha'),
-('fff22222-aaa3-4333-4444-555566667777', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'José Silva', '11987651235', 'Filho'),
+('fff22222-aaa3-4333-4444-555566667777', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'Jose Silva', '11987651235', 'Filho'),
 ('aaa33333-bbb4-4444-5555-666677778888', '416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Carlos Costa', '21987651236', 'Sobrinho'),
 ('bbb44444-ccc5-4555-6666-777788889999', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ana Gomes', '31987651237', 'Neta'),
 ('ccc55555-ddd6-4666-7777-888899990000', '55555555-6666-4777-8888-999000111222', 'Roberto Fernandes', '11987651238', 'Neto'),

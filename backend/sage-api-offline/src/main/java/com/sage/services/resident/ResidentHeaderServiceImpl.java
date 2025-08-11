@@ -35,16 +35,17 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
     }
 
     @Override
-    public ResidentListResponseDto listResidents(int limit, int skip) {
+    public ResidentListResponseDto listResidents(int limit, int skip, String search) {
 
         Long totalResidents = residentDao.countResidents();
 
         List<ResidentHeader> residentHeadersEmergency = residentHeaderDao.
-                listResidentsBySeverityLevelAssist(SeverityLevel.EMERGENCY, limit, skip
-                );
+                listResidentsBySeverityLevelAssist(SeverityLevel.EMERGENCY, limit, skip, null);
         if (residentHeadersEmergency != null) {
             limit -= residentHeadersEmergency.size();
             this.parseImageData(residentHeadersEmergency);
+        } else {
+            residentHeadersEmergency = new ArrayList<>();
         }
 
         if (limit <= 0) {
@@ -58,11 +59,13 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
             );
         }
         List<ResidentHeader> residentHeadersWarning = residentHeaderDao.
-                listResidentsBySeverityLevelAssist(SeverityLevel.WARNING, limit, skip);
+                listResidentsBySeverityLevelAssist(SeverityLevel.WARNING, limit, skip, null);
 
         if (residentHeadersWarning != null) {
             limit -= residentHeadersWarning.size();
             this.parseImageData(residentHeadersWarning);
+        } else {
+            residentHeadersWarning = new ArrayList<>();
         }
 
         if (limit <= 0) {
@@ -77,9 +80,13 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
         }
 
         List<ResidentHeader> residentHeaders = residentHeaderDao.
-                listResidentsBySeverityLevelAssist(null, limit, skip);
+                listResidentsBySeverityLevelAssist(null, limit, skip, search);
 
-        this.parseImageData(residentHeaders);
+        if (residentHeaders != null) {
+            this.parseImageData(residentHeaders);
+        } else {
+            residentHeaders = new ArrayList<>();
+        }
 
         return ResidentListResponseDto.fromResidentHeaders(
                 residentHeadersEmergency,
@@ -90,10 +97,4 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                 (long) skip
         );
     }
-
-    @Override
-    public ResidentListResponseDto searchResident(String search) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

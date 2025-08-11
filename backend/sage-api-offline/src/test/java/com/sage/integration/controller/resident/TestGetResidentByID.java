@@ -43,7 +43,7 @@ public class TestGetResidentByID extends BaseTest {
         // ResidentDetailResponseDto[id=89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7, fullName=João Silva, cpf=12345678901, sex=M, birthDate=1950-07-15T00:00Z, createdAt=2025-05-01T10:00Z, updatedAt=2025-05-01T10:30Z, active=true, imageData=null, emergencyName=Maria Silva, emergencyPhone=11987651234, relationship=Filha, residentialUnit=A1, controlNumber=1]
         ResidentDetailResponseDto expectedResponse = new ResidentDetailResponseDto(
                 UUID.fromString("89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7"),
-                "João Silva",
+                "Joao Silva",
                 "12345678901",
                 'M',
                 java.time.ZonedDateTime.parse("1950-07-15T00:00Z"),

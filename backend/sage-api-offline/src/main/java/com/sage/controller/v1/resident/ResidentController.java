@@ -60,19 +60,14 @@ public class ResidentController {
     @GetMapping()
     public ResponseEntity<ResidentListResponseDto> listResidents(
             @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") int skip
+            @RequestParam(defaultValue = "0") int skip,
+            @RequestParam(required = false) String search
     ) {
-        return ResponseEntity.ok(residentService.listResidents(limit, skip));
+        return ResponseEntity.ok(residentService.listResidents(limit, skip, search));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResidentDetailResponseDto> getResidentDetails(@PathVariable UUID id) {
         return ResponseEntity.ok(residentService.getResidentDetailsById(id));
     }
-
-    @GetMapping("/search")
-    public String searchResident(@RequestParam(required = true) String search) {
-        return "TODO: Implement resident search by ID logic";
-    }
-
 }
