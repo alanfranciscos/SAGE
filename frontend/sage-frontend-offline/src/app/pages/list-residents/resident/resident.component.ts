@@ -9,7 +9,8 @@ type levelType = 'warning' | 'several' | 'normal';
   standalone: true,
   imports: [ButtonComponent, CommonModule],
   templateUrl: './resident.component.html',
-  styleUrl: './resident.component.scss',
+  styleUrls: ['./resident.component.scss'],
+
 })
 export class ResidentComponent {
   private defaultImage: string = '/assets/default/profile.png';
@@ -20,6 +21,7 @@ export class ResidentComponent {
   @Input() level!: levelType;
   @Input() image: string | null | File = this.defaultImage;
 
+
   levelStyle!: string;
   showImage: string = this.defaultImage;
 
@@ -28,9 +30,14 @@ export class ResidentComponent {
 
    canAttend?: boolean; // trocar dps pela info da API
 
-  ngOnInit() {
-    this.setAlertStyle();
-  }
+ngOnInit() {
+  this.setAlertStyle();
+
+  // if (this.image) {
+  //   this.showImage = typeof this.image === 'string' ? this.image : URL.createObjectURL(this.image);
+  // }
+}
+
 
   private setAlertStyle() {
     switch (this.level) {
