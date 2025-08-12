@@ -32,7 +32,9 @@ public class ResidentEmergencyContact {
      * from the CreateResidentRequestDto.
      */
     public static ResidentEmergencyContact mapFromCreateResidentRequestDto(
-            CreateResidentRequestDto requestDto, UUID residentId) {
+            CreateResidentRequestDto requestDto,
+            UUID residentId
+    ) {
         ResidentEmergencyContact contact = new ResidentEmergencyContact();
         contact.setResidentId(residentId);
         contact.setFullName(requestDto.emergencyName().get());

@@ -32,11 +32,17 @@ public record CreateResidentRequestDto(
         Optional<String> imageData
         ) {
 
-    /**
-     * Validates the fields of the CreateResidentRequestDto. Throws an
-     * IllegalArgumentException if any field is invalid.
-     */
-    public CreateResidentRequestDto          {
+    private boolean emergencyValidator() {
+        boolean hasAllFields = emergencyName.isPresent()
+                && emergencyPhone.isPresent()
+                && relationship.isPresent();
+        boolean hasAnyFields = emergencyName.isPresent()
+                || emergencyPhone.isPresent()
+                || relationship.isPresent();
+        return hasAnyFields && !hasAllFields;
+    }
+
+    public void validate() {
         if (fullName == null || fullName.isEmpty()) {
             throw new IllegalArgumentException("Full name cannot be null or empty");
         }
@@ -55,25 +61,9 @@ public record CreateResidentRequestDto(
         if (controlNumber == null) {
             throw new IllegalArgumentException("Control number cannot be null");
         }
+        if (this.emergencyValidator()) {
+            throw new IllegalArgumentException("Invalid emergency contact information");
+        }
     }
 
-    /**
-     * Converts this JSON DTO to the original CreateResidentRequestDto.
-     *
-     * @return CreateResidentRequestDto equivalent of this DTO
-     */
-    public CreateResidentRequestDto toCreateResidentRequestDto() {
-        return new CreateResidentRequestDto(
-                fullName,
-                cpf,
-                sex,
-                birthDate,
-                emergencyName,
-                emergencyPhone,
-                relationship,
-                residentialUnit,
-                controlNumber,
-                imageData
-        );
-    }
 }

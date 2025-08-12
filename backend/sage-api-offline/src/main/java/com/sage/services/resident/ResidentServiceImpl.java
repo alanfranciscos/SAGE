@@ -81,7 +81,7 @@ public class ResidentServiceImpl implements ResidentService {
 
         UUID residentId = this.residentDao.createResident(resident);
 
-        if (requestDto.imageData().isPresent()) {
+        if (!requestDto.imageData().isEmpty()) {
             String imagePath = this.fileHelperService.saveBase64File(
                     requestDto.imageData().get(),
                     FileType.RESIDENT_IMAGE, residentId.toString()

@@ -40,6 +40,7 @@ public class ResidentController {
     @PostMapping
     public ResponseEntity<UUID> createResident(@RequestBody CreateResidentRequestDto residentRequestDto) {
 
+        residentRequestDto.validate();
         UUID residentId = residentService.createResident(residentRequestDto);
 
         final URI uri = ServletUriComponentsBuilder
