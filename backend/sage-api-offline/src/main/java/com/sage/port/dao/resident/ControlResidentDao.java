@@ -1,5 +1,6 @@
 package com.sage.port.dao.resident;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.sage.model.resident.control.ControlResident;
@@ -31,6 +32,13 @@ public interface ControlResidentDao {
      * @param residentId The UUID of the resident to retrieve.
      * @return The ControlResident object associated with the given resident ID.
      */
-    ControlResident getByClientId(UUID residentId);
+    ControlResident getByResidentId(UUID residentId);
+
+    /**
+     * Lists all control residents.
+     *
+     * @return A list of all ControlResident objects.
+     */
+    List<ControlResident> listControl();
 
 }

@@ -1,5 +1,6 @@
 package com.sage.services.resident.control;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -36,8 +37,13 @@ public class ControlResidentServiceImpl implements ControlResidentService {
     }
 
     @Override
-    public ControlResident getByClientId(UUID residentId) {
-        return this.controlResidentDao.getByClientId(residentId);
+    public ControlResident getByResidentId(UUID residentId) {
+        return this.controlResidentDao.getByResidentId(residentId);
+    }
+
+    @Override
+    public List<ControlResident> listControl() {
+        return this.controlResidentDao.listControl();
     }
 
 }

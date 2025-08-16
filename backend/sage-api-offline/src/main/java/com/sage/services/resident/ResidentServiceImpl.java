@@ -115,7 +115,7 @@ public class ResidentServiceImpl implements ResidentService {
 
         ResidentEmergencyContact residentEmergencyContact = this.residentEmergencyContactService.getByClientId(resident.getId());
 
-        ControlResident controlResident = this.controlResidentService.getByClientId(resident.getId());
+        ControlResident controlResident = this.controlResidentService.getByResidentId(resident.getId());
         ResidentDetailResponseDto response = new ResidentDetailResponseDto(
                 resident.getId(),
                 resident.getFullName(),

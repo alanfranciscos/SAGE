@@ -11,20 +11,13 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.integration.BaseTest;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 final class TestCreateResident extends BaseTest {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
 
     private Map<String, String> insertBaseFixtures() {
         String alarm_Sql = "Insert into alarm (id, serial_number, count_number) values ";

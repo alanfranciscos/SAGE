@@ -3,6 +3,7 @@ package com.sage.dao.resident.control;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,7 +63,7 @@ public class ControlResidentDaoImpl implements ControlResidentDao {
     }
 
     @Override
-    public ControlResident getByClientId(UUID residentId) {
+    public ControlResident getByResidentId(UUID residentId) {
         String sql = "SELECT * FROM control_resident WHERE resident_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, residentId);
@@ -77,4 +78,19 @@ public class ControlResidentDaoImpl implements ControlResidentDao {
         return null;
     }
 
+    @Override
+    public List<ControlResident> listControl() {
+        String sql = "SELECT * FROM control_resident";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            var resultSet = stmt.executeQuery();
+            List<ControlResident> controlResidents = new java.util.ArrayList<>();
+            while (resultSet.next()) {
+                controlResidents.add(ControlResident.mapFromResultSet(resultSet));
+            }
+            return controlResidents;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error listing control residents: {0}", e.getMessage());
+            throw new RuntimeException("Error listing control residents", e);
+        }
+    }
 }
