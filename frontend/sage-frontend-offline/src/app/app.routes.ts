@@ -5,6 +5,7 @@ import { RegisterResidentComponent } from './pages/register-resident/register-re
 import { AlertsComponent } from './pages/alerts/alerts.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,10 @@ export const routes: Routes = [
   {
     path: 'residents/register',
     component: RegisterResidentComponent,
+  },
+  {
+    path: 'residents/update',
+    component: UpdateResidentComponent,
   },
   {
     path: 'alerts',

@@ -53,4 +53,14 @@ export class ResidentService {
 
     return response.data?.id ?? 'Resident created successfully';
   }
+  async updateResident(residentId: string, updateResidentRequestDto: CreateResidentRequestDto): Promise<void> {
+  const response = await this.api.put(
+    `api/v1/resident/${residentId}`,
+    updateResidentRequestDto
+  );
+
+  if (response.status != 200) {
+    throw new Error('Failed to update resident');
+  }
+}
 }

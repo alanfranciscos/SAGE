@@ -77,7 +77,8 @@ export class RegisterResidentComponent {
   }
 
 private validarCPF(cpf: string): boolean {
-  cpf = cpf.replace(/[^\d]+/g, '');
+  cpf = cpf.replace(/\D/g, '');
+
 
   if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
@@ -146,12 +147,12 @@ onInputChange(field: ResidentInputField, event: any): void {
   (this.residentListResponseDto as any)[field] = event;
 
   if (field === ResidentInputField.CPF) {
-    this.cpfInvalido = !this.validarCPF(event);
+    const cpfNumerico = event.replace(/\D/g, '');
+    this.cpfInvalido = cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
   }
 
   this.validateStep();
 }
-
   private imageFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
