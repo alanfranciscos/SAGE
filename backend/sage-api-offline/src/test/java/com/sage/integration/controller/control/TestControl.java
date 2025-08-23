@@ -62,7 +62,6 @@ public class TestControl extends BaseTest {
         assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        // Convert response body (JSON) to ControlListResponseDto for comparison
 
         assertEquals(expectedResponse, response.getBody());
     }

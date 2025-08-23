@@ -93,4 +93,22 @@ public class ControlResidentDaoImpl implements ControlResidentDao {
             throw new RuntimeException("Error listing control residents", e);
         }
     }
+
+    @Override
+    public ControlResident findByControlByIdAndAlarmId(Integer controlId, UUID alarmId) {
+        String sql = "SELECT * FROM control_resident WHERE control_id = ? AND alarm_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, controlId);
+            stmt.setObject(2, alarmId);
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return ControlResident.mapFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error finding control resident: {0}", e.getMessage());
+            throw new RuntimeException("Error finding control resident", e);
+        }
+        return null;
+    }
+
 }

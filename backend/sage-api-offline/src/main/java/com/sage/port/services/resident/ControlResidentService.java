@@ -31,6 +31,19 @@ public interface ControlResidentService {
     boolean existsResidentByControlIdAndAlarmId(Integer controlId, String alarmId);
 
     /**
+     * Retrieves a control resident by its control ID and alarm ID.
+     *
+     * @param controlId The control ID of the resident to retrieve.
+     * @param alarmId The alarm ID of the resident to retrieve.
+     * @return The ControlResident object associated with the given control ID
+     * and alarm ID.
+     */
+    ControlResident findByControlByIdAndAlarmId(
+            Integer controlId,
+            UUID alarmId
+    );
+
+    /**
      * Retrieves a control resident by its client ID.
      *
      * @param residentId The UUID of the resident to retrieve.

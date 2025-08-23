@@ -41,4 +41,14 @@ public interface ControlResidentDao {
      */
     List<ControlResident> listControl();
 
+    /**
+     * Finds a resident control record by its control ID and alarm ID.
+     *
+     * @param controlId The control ID of the resident to find.
+     * @param alarmId The alarm ID of the resident to find.
+     * @return The ControlResident object associated with the given control ID
+     * and alarm ID, or null if not found.
+     */
+    ControlResident findByControlByIdAndAlarmId(Integer controlId, UUID alarmId);
+
 }

@@ -46,4 +46,10 @@ public class ControlResidentServiceImpl implements ControlResidentService {
         return this.controlResidentDao.listControl();
     }
 
+    @Override
+    public ControlResident findByControlByIdAndAlarmId(Integer controlId, UUID alarmId) {
+        ControlResident controlResident = this.controlResidentDao.findByControlByIdAndAlarmId(controlId, alarmId);
+        return controlResident;
+    }
+
 }

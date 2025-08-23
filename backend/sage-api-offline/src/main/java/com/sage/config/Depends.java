@@ -5,10 +5,12 @@ import java.sql.Connection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.sage.dao.assist.AssistDaoImpl;
 import com.sage.dao.resident.ResidentDaoImpl;
 import com.sage.dao.resident.ResidentHeaderDaoImpl;
 import com.sage.dao.resident.control.ControlResidentDaoImpl;
 import com.sage.dao.resident.emergency.ResidentEmergencyContactDaoImpl;
+import com.sage.port.dao.assist.AssistDao;
 import com.sage.port.dao.resident.ControlResidentDao;
 import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.dao.resident.ResidentEmergencyContactDao;
@@ -35,6 +37,11 @@ public class Depends {
     @Bean
     public ControlResidentDao controlResidentDao(final Connection connection) {
         return new ControlResidentDaoImpl(connection);
+    }
+
+    @Bean
+    public AssistDao assistDao(final Connection connection) {
+        return new AssistDaoImpl(connection);
     }
 
 }

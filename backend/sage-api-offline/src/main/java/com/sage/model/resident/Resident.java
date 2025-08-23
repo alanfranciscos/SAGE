@@ -2,12 +2,15 @@ package com.sage.model.resident;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a resident in the system. This class contains all the necessary
@@ -18,6 +21,8 @@ import lombok.Data;
  * @version 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Resident {
 
     private UUID id;
@@ -69,9 +74,9 @@ public class Resident {
             resident.setFullName(resultSet.getString("full_name"));
             resident.setCpf(resultSet.getString("cpf"));
             resident.setSex(resultSet.getString("sex").charAt(0));
-            resident.setBirthDate(resultSet.getTimestamp("birth_date").toInstant().atZone(ZonedDateTime.now().getZone()));
-            resident.setCreatedAt(resultSet.getTimestamp("created_at").toInstant().atZone(ZonedDateTime.now().getZone()));
-            resident.setUpdatedAt(resultSet.getTimestamp("updated_at").toInstant().atZone(ZonedDateTime.now().getZone()));
+            resident.setBirthDate(resultSet.getTimestamp("birth_date").toInstant().atZone(ZoneId.systemDefault()));
+            resident.setCreatedAt(resultSet.getTimestamp("created_at").toInstant().atZone(ZoneId.systemDefault()));
+            resident.setUpdatedAt(resultSet.getTimestamp("updated_at").toInstant().atZone(ZoneId.systemDefault()));
             resident.setResidentialUnit(resultSet.getString("residential_unit"));
             resident.setImageData(resultSet.getString("image_data"));
             resident.setActive(resultSet.getBoolean("active"));
