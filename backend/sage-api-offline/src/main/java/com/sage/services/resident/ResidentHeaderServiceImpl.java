@@ -36,6 +36,8 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
 
     @Override
     public ResidentListResponseDto listResidents(int limit, int skip, String search) {
+        int originalLimit = limit;
+        int originalSkip = skip;
 
         Long totalResidents = residentDao.countResidents();
 
@@ -54,8 +56,8 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                     new ArrayList<>(),
                     new ArrayList<>(),
                     totalResidents,
-                    (long) limit,
-                    (long) skip
+                    (long) originalLimit,
+                    (long) originalSkip
             );
         }
         List<ResidentHeader> residentHeadersWarning = residentHeaderDao.
@@ -74,8 +76,8 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                     residentHeadersWarning,
                     new ArrayList<>(),
                     totalResidents,
-                    (long) limit,
-                    (long) skip
+                    (long) originalLimit,
+                    (long) originalSkip
             );
         }
 
@@ -93,8 +95,8 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                 residentHeadersWarning,
                 residentHeaders,
                 totalResidents,
-                (long) limit,
-                (long) skip
+                (long) originalLimit,
+                (long) originalSkip
         );
     }
 }

@@ -28,7 +28,7 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
             sql += "SELECT r.id, r.full_name, r.residential_unit, r.image_data FROM resident r "
                     + "INNER JOIN assist a ON a.resident_id = r.id "
                     + "WHERE a.severity_level = ? AND a.end_at IS NULL "
-                    + "ORDER BY a.called_at DESC LIMIT ? OFFSET ?";
+                    + "ORDER BY a.called_at DESC LIMIT ?";
         } else {
             sql += "SELECT DISTINCT r.id, r.full_name, r.residential_unit, r.image_data FROM resident r "
                     + "LEFT JOIN assist a ON a.resident_id = r.id WHERE "
@@ -43,7 +43,6 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
             if (severityLevel != null) {
                 preparedStatement.setString(1, severityLevel.getValue());
                 preparedStatement.setInt(2, limit);
-                preparedStatement.setInt(3, skip);
             } else {
                 if (search != null && !search.trim().isEmpty()) {
                     preparedStatement.setString(1, "%" + search + "%");
