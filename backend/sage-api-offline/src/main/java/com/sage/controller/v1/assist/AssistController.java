@@ -26,13 +26,6 @@ public class AssistController {
         this.assistService = assistService;
     }
 
-    /**
-     * Creates an assist for a given control ID.
-     *
-     * @param controlId The control ID for which the assist is created.
-     * @param request The request body containing the assist details.
-     * @return A response entity with the status of the operation.
-     */
     @PostMapping()
     public ResponseEntity<UUID> createAssist(
             @RequestBody CreateAssistRequestDto request
