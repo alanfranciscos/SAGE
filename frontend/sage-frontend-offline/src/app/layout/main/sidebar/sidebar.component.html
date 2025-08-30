@@ -3,7 +3,8 @@
     <img src="assets/svg/logo.svg" alt="SAGE Logo" class="logo" />
   </div>
   <div class="items">
-    <a [routerLink]="['/']" class="item">
+    <a [routerLink]="[links.get('dashboard')]" class="item"
+      [ngClass]="{'item-active':links.get('dashboard')  === getActiveRoute()}" (click)="setActiveItem('dashboard')">
       <p class="item-text">Residentes</p>
     </a>
     <!-- <a [routerLink]="['/alerts']" class="item">
@@ -18,13 +19,8 @@
   </div>
   <div class="exit-container">
     <a [routerLink]="['/']" class="exit">
-      <app-button
-        [label]="'Sair'"
-        [type]="'secondary'"
-        class="exit-button"
-        [size]="'large'"
-        [disabled]="true"
-      ></app-button>
+      <app-button [label]="'Sair'" [type]="'secondary'" class="exit-button" [size]="'large'"
+        [disabled]="true"></app-button>
     </a>
   </div>
 </aside>
