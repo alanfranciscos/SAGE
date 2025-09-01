@@ -3,6 +3,17 @@
     {{ label }}
     <span *ngIf="required" class="required-star">*</span>
   </label>
-  <input [type]="type" [id]="id" [name]="name" [placeholder]="placeholder" [required]="required" [disabled]="disabled"
-    [(ngModel)]="value" (blur)="onBlur()"  [mask]="mask"   [dropSpecialCharacters]="dropSpecialCharacters" />
+  <input
+    [type]="type"
+    [id]="id"
+    [name]="name"
+    [placeholder]="placeholder"
+    [required]="required"
+    [disabled]="disabled"
+    [attr.max]="max"
+    [(ngModel)]="value"
+    (blur)="onBlur()"
+    [mask]="mask"
+    [dropSpecialCharacters]="dropSpecialCharacters"
+  />
 </div>

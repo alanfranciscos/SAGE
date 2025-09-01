@@ -37,7 +37,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() disabled: boolean = false;
   @Input() mask?: string;
   @Input() dropSpecialCharacters: boolean = true;
-
+  @Input() max?: string;
 
 
   @Output() valueChange = new EventEmitter<string>();
