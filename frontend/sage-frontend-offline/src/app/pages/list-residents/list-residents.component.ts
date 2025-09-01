@@ -8,7 +8,8 @@ import { ResidentService } from '../../controller/resident/resident.service';
 import { ResidentListResponseDto } from '../../model/Resident';
 import { Router } from '@angular/router';
 import { DetailComponent } from './detail/detail.component';
-
+import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-list-residents',
   standalone: true,
@@ -19,32 +20,38 @@ import { DetailComponent } from './detail/detail.component';
     AlertComponent,
     ButtonComponent,
     DetailComponent,
+    PaginationComponent
   ],
   templateUrl: './list-residents.component.html',
   styleUrl: './list-residents.component.scss',
 })
 export class ListResidentsComponent {
   residents: ResidentListResponseDto | null = null;
-  currentPage: number = 1;
+  
   hasAlert: boolean = false;
   alertType: 'warning' | 'several' = 'warning';
   loadingResidents: boolean = true;
   errorResidents: boolean = false;
-
+  
   selectedResidentId: string | null = null;
   showDetail: boolean = false;
   openAlertModal: boolean = false;
-
+  readonly pageSize = 10; // ou qualquer número que faça sentido pra você
+  currentPage: number = 1;
+  searchTerm: string = '';
   constructor(
     private residentControllerService: ResidentService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   async fetchResidents() {
+    const skip = (this.currentPage - 1) * this.pageSize;
     this.loadingResidents = true;
     try {
-      this.residents = await this.residentControllerService.getResidents();
-      this.errorResidents = false;
+         this.residents = await this.residentControllerService.getResidents(this.pageSize, skip,this.searchTerm);
+    this.errorResidents = false;
+
     } catch (error) {
       console.error('Error fetching residents:', error);
       this.errorResidents = true;
@@ -69,10 +76,16 @@ export class ListResidentsComponent {
     this.fetchResidents();
   }
 
-  onSearch($event: string) {}
+ onSearch(term: string) {
+  this.searchTerm = term;
+  this.currentPage = 1; // Reinicia na primeira página
+  this.fetchResidents();
+  this.toastr.warning('Fulano de tal', 'Alarme acionado');
 
+}
   onPageChange(page: number) {
     this.currentPage = page;
+    this.fetchResidents();
   }
 
   getTotalItems(): number {
