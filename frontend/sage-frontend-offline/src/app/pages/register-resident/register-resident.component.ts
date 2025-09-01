@@ -9,6 +9,10 @@ import {
   ResidentListResponseDto,
 } from '../../model/Resident';
 import { ResidentService } from '../../controller/resident/resident.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export enum ResidentInputField {
   FULL_NAME = 'fullName',
@@ -30,6 +34,10 @@ export enum ResidentInputField {
     InputComponent,
     SelectInputComponent,
     ImageInputComponent,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
   ],
   templateUrl: './register-resident.component.html',
   styleUrl: './register-resident.component.scss',
@@ -38,6 +46,7 @@ export class RegisterResidentComponent {
   steps = ['Identificação', 'Contato de emergência', 'Residência'];
   currentStep: number = 0;
   ResidentInputField = ResidentInputField;
+  today = new Date().toISOString().split('T')[0];
   residentListResponseDto: CreateResidentRequestDto = {
     fullName: '',
     cpf: '',
@@ -150,6 +159,17 @@ onInputChange(field: ResidentInputField, event: any): void {
     const cpfNumerico = event.replace(/\D/g, '');
     this.cpfInvalido = cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
   }
+  if (field === ResidentInputField.BIRTH_DATE) {
+    const selectedDate = new Date(event);
+    const today = new Date();
+    selectedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate > today) {
+      alert('A data de nascimento não pode ser no futuro.');
+      this.residentListResponseDto.birthDate = '';
+      return;
+    }
+  }
 
   this.validateStep();
 }
@@ -170,4 +190,3 @@ onInputChange(field: ResidentInputField, event: any): void {
     }
   }
 }
-//teste

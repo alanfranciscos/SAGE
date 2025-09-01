@@ -5,76 +5,75 @@
   (updatedStep)="updateStep($event)"
   (cancel)="onCancel()"
   (finish)="onFinish()"
-  
 >
   @if(currentStep === 0) {
-<app-image-input
-  [image]="residentData.imageData ?? null"
-  (imageChange)="onImageSelected($event)">
-</app-image-input>
+  <app-image-input
+    [image]="residentData.imageData ?? null"
+    (imageChange)="onImageSelected($event)"
+  >
+  </app-image-input>
 
+  <app-input
+    label="Nome"
+    placeholder="Digite o nome do paciente"
+    [required]="true"
+    [(value)]="residentData.fullName"
+  ></app-input>
 
-    <app-input
-      label="Nome"
-      placeholder="Digite o nome do paciente"
-      [required]="true"
-      [(value)]="residentData.fullName"
-    ></app-input>
+  <app-input
+    label="CPF"
+    placeholder="Digite o CPF do paciente"
+    [required]="true"
+    [mask]="'000.000.000-00'"
+    [dropSpecialCharacters]="false"
+    [(value)]="residentData.cpf"
+  ></app-input>
 
-    <app-input
-      label="CPF"
-      placeholder="Digite o CPF do paciente"
-      [required]="true"
-      [mask]="'000.000.000-00'"
-      [dropSpecialCharacters]="false"
-      [(value)]="residentData.cpf"
-    ></app-input>
+  <app-select-input
+    label="Sexo"
+    [options]="[
+      { value: '', label: 'Selecione o sexo', disabled: true },
+      { value: 'M', label: 'Masculino' },
+      { value: 'F', label: 'Feminino' }
+    ]"
+    [required]="true"
+    [(value)]="residentData.sex"
+  ></app-select-input>
 
-    <app-select-input
-      label="Sexo"
-      [options]="[
-        { value: '', label: 'Selecione o sexo', disabled: true },
-        { value: 'M', label: 'Masculino' },
-        { value: 'F', label: 'Feminino' }
-      ]"
-      [required]="true"
-      [(value)]="residentData.sex"
-    ></app-select-input>
+  <app-input
+    label="Data de Nascimento"
+    type="date"
+    [required]="true"
+    [(value)]="residentData.birthDate"
+  ></app-input>
+  } @if(currentStep === 1) {
+  <app-input
+    label="Nome"
+    placeholder="Digite o nome do contato de emergência"
+    [(value)]="residentData.emergencyName!"
+  ></app-input>
+  <app-input
+    label="Parentesco"
+    placeholder="Digite o nome do paciente"
+    [(value)]="residentData.relationship!"
+  ></app-input>
 
-    <app-input
-      label="Data de Nascimento"
-      type="date"
-      [required]="true"
-      [(value)]="residentData.birthDate"
-    ></app-input>
-  }
+  <app-input
+    label="Telefone"
+    placeholder="Digite o telefone"
+    type="tel"
+    [mask]="'(00) 00000-0000'"
+    [dropSpecialCharacters]="true"
+    [(value)]="residentData.emergencyPhone!"
+  >
+  </app-input>
+  } @if(currentStep === 2) {
+  <app-input label="Número do controle" [(value)]="residentData.controlNumber">
+  </app-input>
 
-  @if(currentStep === 1) {
-    <!-- <app-input
-      label="Nome"
-      placeholder="Digite o nome do contato de emergência"
-      [(value)]="residentData.emergencyName"
-    ></app-input>
-
-    <app-input
-      label="Telefone"
-      placeholder="Digite o telefone"
-      type="tel"
-      [mask]="'(00) 00000-0000'"
-      [dropSpecialCharacters]="true"
-      [(value)]="residentData.emergencyPhone"
-    ></app-input> -->
-  }
-
-  @if(currentStep === 2) {
-    <app-input
-      label="Número do controle"
-      [(value)]="residentData.controlNumber"
-    ></app-input>
-
-    <app-input
-      label="Residência do residente"
-      [(value)]="residentData.residentialUnit"
-    ></app-input>
+  <app-input
+    label="Residência do residente"
+    [(value)]="residentData.residentialUnit"
+  ></app-input>
   }
 </app-update>

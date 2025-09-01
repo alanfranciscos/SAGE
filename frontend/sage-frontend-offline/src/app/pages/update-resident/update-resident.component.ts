@@ -10,6 +10,8 @@ import {
 } from '../../model/Resident';
 import { updateComponent } from '../../layout/update/update.component';
 
+
+
 @Component({
   selector: 'app-update-resident',
   standalone: true,
@@ -22,13 +24,15 @@ import { updateComponent } from '../../layout/update/update.component';
   templateUrl: './update-resident.component.html',
   styleUrl: './update-resident.component.scss',
 })
+
+
 export class UpdateResidentComponent implements OnInit {
   title = 'Atualizar Paciente';
   steps = ['Identificação', 'Contato de emergência', 'Residência'];
   currentStep = 0;
   validStep = false;
   residentId!: string;
-
+  
   residentData: CreateResidentRequestDto = {
     fullName: '',
     cpf: '',
@@ -50,6 +54,7 @@ export class UpdateResidentComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.residentId = this.route.snapshot.paramMap.get('id')!;
     await this.loadResident();
+    
   }
 
   async loadResident() {
@@ -66,8 +71,9 @@ export class UpdateResidentComponent implements OnInit {
           : '',
         emergencyName: resident.emergencyName ?? '',
         emergencyPhone: resident.emergencyPhone ?? '',
-        residentialUnit: resident.residentialUnit,
-        controlNumber: resident.controlNumber,
+        residentialUnit: resident.residentialUnit ?? '',
+        relationship: resident.relationship ?? '',
+        controlNumber: resident.controlNumber ?? '',
         imageData: resident.imageData ?? '',
       };
     } catch (err) {
