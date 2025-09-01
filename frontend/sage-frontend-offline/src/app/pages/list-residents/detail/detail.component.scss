@@ -32,6 +32,12 @@
     margin-bottom: 1rem;
 }
 
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
 .resident-detail {
   display: flex;
   flex-direction: column;

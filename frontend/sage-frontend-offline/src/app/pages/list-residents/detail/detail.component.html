@@ -3,7 +3,11 @@
 
   <div class="resident-detail">
     <div class="image-container">
-      <img [src]="residentDetails?.imageData" alt="Resident Image" class="resident-image" />
+      <img
+        [src]="residentDetails?.imageData"
+        alt="Resident Image"
+        class="resident-image"
+      />
     </div>
 
     <h2 class="resident-name">{{ residentDetails?.fullName }}</h2>
@@ -21,28 +25,69 @@
 
       <div class="form-group">
         <label for="birthDate">Data de Nascimento:</label>
-        <input id="birthDate" type="date" [value]="residentDetails?.birthDate" disabled />
+        <input
+          id="birthDate"
+          type="date"
+          [value]="residentDetails?.birthDate"
+          disabled
+        />
       </div>
 
       <div class="form-group">
         <label for="emergencyName">Nome da Emergência:</label>
-        <input id="emergencyName" type="text" [value]="residentDetails?.emergencyName" disabled />
+        <input
+          id="emergencyName"
+          type="text"
+          [value]="residentDetails?.emergencyName"
+          disabled
+        />
       </div>
 
       <div class="form-group">
         <label for="emergencyPhone">Telefone da Emergência:</label>
-        <input id="emergencyPhone" type="text" [value]="residentDetails?.emergencyPhone" disabled />
+        <input
+          id="emergencyPhone"
+          type="text"
+          [value]="residentDetails?.emergencyPhone"
+          disabled
+        />
       </div>
 
       <div class="form-group">
         <label for="relationship">Parentesco:</label>
-        <input id="relationship" type="text" [value]="residentDetails?.relationship" disabled />
+        <input
+          id="relationship"
+          type="text"
+          [value]="residentDetails?.relationship"
+          disabled
+        />
       </div>
 
       <div class="form-group">
         <label for="controlNumber">Número de Controle:</label>
-        <input id="controlNumber" type="text" [value]="residentDetails?.controlNumber" disabled />
+        <input
+          id="controlNumber"
+          type="text"
+          [value]="residentDetails?.controlNumber"
+          disabled
+        />
+      </div>
+      <div class="form-group">
+        <label for="houseNumber">Número da Casa:</label>
+        <input
+          id="houseNumber"
+          type="text"
+          [value]="residentDetails?.residentialUnit"
+          disabled
+        />
       </div>
     </form>
+  </div>
+  <div class="modal-actions">
+    <app-button
+      [label]="'Editar dados'"
+      [type]="'primary'"
+      (clicked)="residentDetails && onUpdateResident(residentDetails)"
+    ></app-button>
   </div>
 </app-modal>
