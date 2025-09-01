@@ -12,16 +12,13 @@ export const routes: Routes = [
     path: '',
     component: ListResidentsComponent,
   },
-  {
-    path: 'residents',
-    component: ListResidentsComponent,
-  },
+  
   {
     path: 'residents/register',
     component: RegisterResidentComponent,
   },
   {
-    path: 'residents/update',
+    path: 'residents/update/:id',
     component: UpdateResidentComponent,
   },
   {
@@ -35,6 +32,10 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+  },
+  {
+    path: '**',
+    component: ListResidentsComponent
   }
 
 

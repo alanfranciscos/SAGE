@@ -3,24 +3,68 @@
     <img src="assets/svg/logo.svg" alt="SAGE Logo" class="logo" />
   </div>
   <div class="items">
-    <a [routerLink]="[links.get('dashboard')]" class="item"
-      [ngClass]="{'item-active':links.get('dashboard')  === getActiveRoute()}" (click)="setActiveItem('dashboard')">
-      <p class="item-text">Residentes</p>
-    </a>
-    <!-- <a [routerLink]="['/alerts']" class="item">
-      <p class="item-text">Alertas</p>
-    </a>
-    <a [routerLink]="['/reports']" class="item">
-      <p class="item-text">Relatórios</p>
-    </a>
-    <a [routerLink]="['/settings']" class="item">
-      <p class="item-text">Configurações</p>
-    </a> -->
+    <app-tooltip-wrapper
+      tooltip="Ir para residentes"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a
+        [routerLink]="[links.get('dashboard')]"
+        class="item"
+        [ngClass]="{
+          'item-active': links.get('dashboard') === getActiveRoute()
+        }"
+        (click)="setActiveItem('dashboard')"
+      >
+        <p class="item-text">Residentes</p>
+      </a>
+    </app-tooltip-wrapper>
+    <app-tooltip-wrapper
+      tooltip="Ir para alertas"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a
+        [routerLink]="['/alerts']"
+        class="item"
+        [ngClass]="{ 'item-active': getActiveRoute() === '/alerts' }"
+        (click)="setActiveItem('alerts')"
+      >
+        <p class="item-text">Alertas</p>
+      </a>
+    </app-tooltip-wrapper>
+    <app-tooltip-wrapper
+      tooltip="Ir para relatórios"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a [routerLink]="['/reports']" class="item">
+        <p class="item-text">Relatórios</p>
+      </a>
+    </app-tooltip-wrapper>
+    <app-tooltip-wrapper
+      tooltip="Ir para configurações"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a [routerLink]="['/settings']" class="item">
+        <p class="item-text">Configurações</p>
+      </a>
+    </app-tooltip-wrapper>
   </div>
   <div class="exit-container">
     <a [routerLink]="['/']" class="exit">
-      <app-button [label]="'Sair'" [type]="'secondary'" class="exit-button" [size]="'large'"
-        [disabled]="true"></app-button>
+      <app-button
+        [label]="'Sair'"
+        [type]="'secondary'"
+        class="exit-button"
+        [size]="'large'"
+        [disabled]="true"
+      ></app-button>
     </a>
   </div>
 </aside>
