@@ -1,12 +1,14 @@
 package org.example;
 
+import org.example.communicationservice.TCPServerSocket;
+
 public class Main {
     public static void main(String[] args) {
-        int porta = 6045;
+        int port = 6045;
         try {
-            JFLCentralListener listener = new JFLCentralListener(porta);
+            TCPServerSocket listener = new TCPServerSocket(port);
             listener.listen();
-        } catch (Exception e) {
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
