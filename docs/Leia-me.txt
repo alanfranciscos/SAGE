@@ -1,11 +1,10 @@
 Orientações
 
-1. O  arquivo "FAI-SI-PFC-I-ModelodeDocumento-2025-v1" contém todas as seções das Fases 1 e 2.
-2. Consulte o arquivo "FAI_SI_PFC_I_Planejamento_2025_v1" para verificar o que deve ser feito em cada fase.
-3. Crie uma pasta com o documento principal na raiz e com os apêndices também. 
-4. Adote a seguinte convenção para nomear o arquivo principal (docx): PFC_nomedoprojeto_v1.0.docx.
-5. A cada entrega, altere a versão do documento e atualize o histórico de revisões (página 4). 
-6. Para evitar a perda de formatação do documento, utilize apenas um editor. O aplicativo recomendado é MS-Word, versão 2016.
-7. Entregue a pasta compactada.
+1. O  arquivo "FAI-SI-PFC-II-ModelodeDocumento-2025-v1" contém todas as seções das Fases 3 e 4.
+2. Consulte o arquivo "FAI_SI_PFC_II_Planejamento_2025_v1" para verificar o que deve ser feito em cada fase.
+3. Observe que novos capítulos e apêndices foram acrescentados.
+4. A cada entrega, altere a versão do documento e atualize o histórico de revisões (página 4). 
+5. Para evitar a perda de formatação do documento, utilize apenas um editor. O aplicativo recomendado é MS-Word, versão 2016.
+6. No momento da entrega da fase, entregue a pasta compactada.
 
 
