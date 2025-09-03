@@ -34,15 +34,19 @@ public class Assist {
 
     public static Assist mapFromResultSet(ResultSet resultSet) {
         try {
+
             Assist assist = new Assist();
             assist.setId(UUID.fromString(resultSet.getString("id")));
-            assist.setCaregiverId(UUID.fromString(resultSet.getString("caregiver_id")));
+            assist.setCaregiverId(
+                    resultSet.getString("caregiver_id") == null ? null : UUID.fromString(resultSet.getString("caregiver_id"))
+            );
             assist.setResidentId(UUID.fromString(resultSet.getString("resident_id")));
             assist.setCalledAt(resultSet.getTimestamp("called_at").toInstant().atZone(ZoneId.systemDefault()));
             assist.setAssignmentAt(resultSet.getTimestamp("assignment_at") != null ? resultSet.getTimestamp("assignment_at").toInstant().atZone(ZoneId.systemDefault()) : null);
             assist.setEndAt(resultSet.getTimestamp("end_at") != null ? resultSet.getTimestamp("end_at").toInstant().atZone(ZoneId.systemDefault()) : null);
             assist.setDetail(resultSet.getString("detail"));
-            assist.setSeverityLevel(SeverityLevel.valueOf(resultSet.getString("severity_level")));
+            assist.setSeverityLevel(SeverityLevel.fromValue(resultSet.getString("severity_level")
+            ));
             return assist;
         } catch (SQLException e) {
             throw new RuntimeException("Error mapping ResultSet to Assist", e);

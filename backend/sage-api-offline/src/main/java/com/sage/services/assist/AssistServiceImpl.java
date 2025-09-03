@@ -60,6 +60,8 @@ public class AssistServiceImpl implements AssistService {
                 findByResidentIdAndEndAtIsNull(residentUuid).
                 orElse(null);
 
+        boolean hasAssist = assist != null;
+
         logger.log(Level.INFO, "Creating assist for resident: {0}", residentUuid);
 
         if (assist == null) {
@@ -77,7 +79,12 @@ public class AssistServiceImpl implements AssistService {
         }
 
         try {
-            UUID assistId = this.assistDao.create(assist);
+            UUID assistId;
+            if (hasAssist) {
+                assistId = this.assistDao.update(assist);
+            } else {
+                assistId = this.assistDao.create(assist);
+            }
 
             logger.log(
                     Level.INFO,
