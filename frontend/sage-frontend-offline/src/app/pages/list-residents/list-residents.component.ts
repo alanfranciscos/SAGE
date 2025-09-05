@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { DetailComponent } from './detail/detail.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { SseService } from '../../controller/sse/sse.service';
 @Component({
   selector: 'app-list-residents',
   standalone: true,
@@ -20,38 +22,46 @@ import { ToastrService } from 'ngx-toastr';
     AlertComponent,
     ButtonComponent,
     DetailComponent,
-    PaginationComponent
+    PaginationComponent,
   ],
   templateUrl: './list-residents.component.html',
   styleUrl: './list-residents.component.scss',
 })
 export class ListResidentsComponent {
   residents: ResidentListResponseDto | null = null;
-  
+
   hasAlert: boolean = false;
   alertType: 'warning' | 'several' = 'warning';
   loadingResidents: boolean = true;
   errorResidents: boolean = false;
-  
+
   selectedResidentId: string | null = null;
   showDetail: boolean = false;
   openAlertModal: boolean = false;
+
   readonly pageSize = 10; // ou qualquer número que faça sentido pra você
   currentPage: number = 1;
   searchTerm: string = '';
+
+  private subscription?: Subscription;
+
   constructor(
     private residentControllerService: ResidentService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sseService: SseService
   ) {}
 
   async fetchResidents() {
     const skip = (this.currentPage - 1) * this.pageSize;
     this.loadingResidents = true;
     try {
-         this.residents = await this.residentControllerService.getResidents(this.pageSize, skip,this.searchTerm);
-    this.errorResidents = false;
-
+      this.residents = await this.residentControllerService.getResidents(
+        this.pageSize,
+        skip,
+        this.searchTerm
+      );
+      this.errorResidents = false;
     } catch (error) {
       console.error('Error fetching residents:', error);
       this.errorResidents = true;
@@ -73,16 +83,32 @@ export class ListResidentsComponent {
   }
 
   async ngOnInit() {
+    this.subscription = this.sseService.messages$.subscribe((msg) => {
+      if (!msg) return;
+
+      // debug:
+      console.log('Sidebar recebeu:', msg);
+
+      // exemplo: só reage a eventos "assignment-change"
+      if (msg.type === 'assignment-change') {
+        console.log('Residentes atualizados:', msg.data);
+
+        this.currentPage = 1;
+        this.searchTerm = '';
+        this.fetchResidents();
+      }
+    });
+
+    // carregar a primeira vez
     this.fetchResidents();
   }
 
- onSearch(term: string) {
-  this.searchTerm = term;
-  this.currentPage = 1; // Reinicia na primeira página
-  this.fetchResidents();
-  this.toastr.warning('Fulano de tal', 'Alarme acionado');
-
-}
+  onSearch(term: string) {
+    this.searchTerm = term;
+    this.currentPage = 1; // Reinicia na primeira página
+    this.fetchResidents();
+    this.toastr.warning('Fulano de tal', 'Alarme acionado');
+  }
   onPageChange(page: number) {
     this.currentPage = page;
     this.fetchResidents();
@@ -100,7 +126,7 @@ export class ListResidentsComponent {
     this.selectedResidentId = residentId;
     this.showDetail = true;
   }
-    onOpenAlertModal(residentId: string) {
+  onOpenAlertModal(residentId: string) {
     this.selectedResidentId = residentId;
     this.openAlertModal = true;
   }

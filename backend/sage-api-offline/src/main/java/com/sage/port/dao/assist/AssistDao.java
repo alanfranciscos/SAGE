@@ -16,6 +16,14 @@ public interface AssistDao {
     UUID create(Assist assist);
 
     /**
+     * Updates an existing assist record in the database.
+     *
+     * @param assist the Assist object to update
+     * @return the UUID of the updated Assist record
+     */
+    UUID update(Assist assist);
+
+    /**
      * Finds the current caregiver assignment for a resident. This method
      * retrieves the caregiver assignment for a resident that is currently
      * active (i.e., has no end time).

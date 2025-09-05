@@ -88,7 +88,7 @@ public class AssistDaoImpl implements AssistDao {
 
     @Override
     public Optional<Assist> findByResidentIdAndEndAtIsNull(UUID residentId) {
-        String sql = "SELECT * FROM caregiver_assignment_resident WHERE resident_id = ? AND end_at IS NULL";
+        String sql = "SELECT * FROM assist WHERE resident_id = ? AND end_at IS NULL";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setObject(1, residentId);
 
@@ -101,5 +101,42 @@ public class AssistDaoImpl implements AssistDao {
             logger.log(Level.SEVERE, "Error finding Assist: {0}", e.getMessage());
         }
         return Optional.empty();
+    }
+
+    @Override
+    public UUID update(Assist assist) {
+        String sql = "UPDATE assist SET caregiver_id = ?, resident_id = ?, called_at = ?, assignment_at = ?, end_at = ?, detail = ?, severity_level = ? WHERE id = ?";
+
+        PreparedStatement preparedStatement;
+
+        try {
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement = this.prepareParametersToSave(preparedStatement, assist);
+            preparedStatement.setObject(8, assist.getId());
+            preparedStatement.executeUpdate();
+
+            connection.commit();
+
+            preparedStatement.close();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                logger.log(
+                        Level.SEVERE,
+                        "Error rolling back transaction: {0}", rollbackEx.getMessage()
+                );
+                throw new RuntimeException("Error rolling back transaction: " + rollbackEx.getMessage(), rollbackEx);
+            }
+            logger.log(
+                    Level.SEVERE,
+                    "Error updating Assist: {0}", e.getMessage()
+            );
+            throw new RuntimeException("Error updating Assist: " + e.getMessage(), e);
+        }
+
+        return assist.getId();
     }
 }
