@@ -95,7 +95,7 @@ public class ConnectionHandler implements Runnable {
             HttpClient client = HttpClient.newHttpClient();
 
             String jsonBody = "{"
-                    + "\"controlId\": \"" + 3 + "\","
+                    + "\"controlId\": \"" + 1 + "\","
                     + "\"calledAt\": \"" + System.currentTimeMillis() + "\""
                     + "}";
 
