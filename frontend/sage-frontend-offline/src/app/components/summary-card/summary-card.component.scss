@@ -1,0 +1,21 @@
+.summary-card {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.summary-icon {
+  font-size: 16px;
+  color: #888;
+}

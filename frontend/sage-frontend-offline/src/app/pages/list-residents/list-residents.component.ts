@@ -107,7 +107,7 @@ export class ListResidentsComponent {
     this.searchTerm = term;
     this.currentPage = 1; // Reinicia na primeira página
     this.fetchResidents();
-    this.toastr.warning('Fulano de tal', 'Alarme acionado');
+    this.toastr.warning('Nome do residente', 'Alarme acionado');
   }
   onPageChange(page: number) {
     this.currentPage = page;
