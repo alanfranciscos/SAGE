@@ -215,8 +215,8 @@
         <type id="Class:ef659166f98347cb9719d9e9e1bc49ba" name="caregiver_password" class-ref="ef659166f98347cb9719d9e9e1bc49ba" />
         <type id="Class:e78bc74a99a6464b84dc6fc0e33b8cc0" name="AlarmDao" class-ref="e78bc74a99a6464b84dc6fc0e33b8cc0" />
         <type id="Class:420a7b669fba418a8d15febc09372683" name="EditPatientView" class-ref="420a7b669fba418a8d15febc09372683" />
-        <type id="Class:2c0fe10fc0634a189d367b0fb4dae7ba" name="HomeController" class-ref="2c0fe10fc0634a189d367b0fb4dae7ba" />
         <type id="Class:71f11b680eee4348a3384f0da5653027" name="resident_emergency_contact" class-ref="71f11b680eee4348a3384f0da5653027" />
+        <type id="Class:2c0fe10fc0634a189d367b0fb4dae7ba" name="HomeController" class-ref="2c0fe10fc0634a189d367b0fb4dae7ba" />
         <type id="1024" name="1024" />
         <type id="boolean" name="boolean" />
         <type id="Class:67ff60be926c43eaa4f8ef46b6365657" name="AlarmView" class-ref="67ff60be926c43eaa4f8ef46b6365657" />
@@ -395,9 +395,7 @@
     <item id="f868f97ffd154379bf7fda725b56408f" cid="ELEM011" type="control-flow" owner="136273adc4754b8fa3db330a5d7e3765" creation-date="05/02/2025 18:17:48" from="b4b6e96b66264e3990856f5b285edc67" to="473227da68fb44a5954a5a628d1a45f3" visibility="package" guard="Não" weight="">
       <control-flow from="b4b6e96b66264e3990856f5b285edc67" to="473227da68fb44a5954a5a628d1a45f3" visibility="package" guard="Não" weight="" />
     </item>
-    <item id="3078f5649403481da5f9eda13c96512f" cid="ES003" type="activation-bar" name="ExecutionSpecification3" owner="868770540a024dd18ea59e50d2f4f414" creation-date="09/01/2024 20:21:05" visibility="undefined">
-      <activation-bar lifeline-ref="868770540a024dd18ea59e50d2f4f414" />
-    </item>
+    <item id="3078f5649403481da5f9eda13c96512f" cid="ES003" type="activation-bar" name="ExecutionSpecification3" creation-date="09/01/2024 20:21:05" visibility="undefined" />
     <item id="a7610b42ebfa42c39406110a4ad1adc9" cid="ELEM001" type="drawing-shape" name="SimpleShape1" owner="136273adc4754b8fa3db330a5d7e3765" creation-date="05/02/2025 18:16:21">
       <style style-name="Custom Style" shadow-type="smooth" shadow-offset="2,2" shadow-visible="true" shadow-color="#3A555555" shadow-radius="8" wrap-name-text="true" wrap-other-text="true" padding="2" margin="1" glow-color="#FFFFFF" accuracy="0.9">
         <text-style type="name" color="#555555" font="Segoe UI;11.25;B" />
@@ -1073,7 +1071,7 @@
       </sequence-action>
     </item>
     <item id="dc054ecb4c68499d9629698bf15ca0f2" cid="ELEM020" type="package" name="response" owner="ba70c48e49154855b5faa9e3b35d52b7" creation-date="06/26/2025 21:38:33" visibility="undefined" />
-    <item id="bdaeaa282bd644f0922ab01777e48980" cid="LL001" type="lifeline" owner="868770540a024dd18ea59e50d2f4f414" creation-date="09/01/2024 20:19:21" visibility="undefined">
+    <item id="bdaeaa282bd644f0922ab01777e48980" cid="LL001" type="lifeline" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
       <lifeline classifier-name="UserController" classifier-ref="85f9589cc10c48c2b0d25c054a63b015" selector="" is-multi-object="false" />
     </item>
@@ -1839,16 +1837,16 @@
         <parameters />
       </sequence-action>
     </item>
-    <item id="1bb81a42854d4310936d04852536f6c5" cid="ELEM022" type="control-flow" owner="edd7f86500dc4e8388a9f74882eb2ab1" creation-date="05/02/2025 18:28:10" from="777faf4dcf484b08a73cb826797726e0" to="59aa9c2c1d3a49958cbd72e40bdd1e18" visibility="package" guard="" weight="">
-      <control-flow from="777faf4dcf484b08a73cb826797726e0" to="59aa9c2c1d3a49958cbd72e40bdd1e18" visibility="package" guard="" weight="" />
-    </item>
     <item id="884daf1a4b1742148e9c88cca74077a6" cid="PROP084" type="property" creation-date="06/26/2025 19:40:24" visibility="undefined">
       <structural-feature type="AlarmDao" type-id="Class:e78bc74a99a6464b84dc6fc0e33b8cc0" />
     </item>
-    <item id="4180ed015e29422aae8f009acc8d5e9c" cid="ELEM020" type="package" name="ErrorHandler" owner="5d10946cbedf487b8ddcb233fd67112c" creation-date="06/26/2025 21:38:33" visibility="undefined" />
+    <item id="1bb81a42854d4310936d04852536f6c5" cid="ELEM022" type="control-flow" owner="edd7f86500dc4e8388a9f74882eb2ab1" creation-date="05/02/2025 18:28:10" from="777faf4dcf484b08a73cb826797726e0" to="59aa9c2c1d3a49958cbd72e40bdd1e18" visibility="package" guard="" weight="">
+      <control-flow from="777faf4dcf484b08a73cb826797726e0" to="59aa9c2c1d3a49958cbd72e40bdd1e18" visibility="package" guard="" weight="" />
+    </item>
     <item id="b0b1f26a28484b0c95ce7821fe590fed" cid="AC001" type="actor" name="Enfermeiro(a)" creation-date="09/01/2024 20:19:08" visibility="undefined">
       <owned-items />
     </item>
+    <item id="4180ed015e29422aae8f009acc8d5e9c" cid="ELEM020" type="package" name="ErrorHandler" owner="5d10946cbedf487b8ddcb233fd67112c" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="db74d53989a3458eae3f17c8ecbfbe63" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="897e4a57cf4f4f5e80f5f160b8573b7c" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="897e4a57cf4f4f5e80f5f160b8573b7c" />
     </item>
@@ -1944,8 +1942,8 @@
     <item id="81e47b40cedb4485b986c5a17e4980dd" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="bdaeaa282bd644f0922ab01777e48980" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="bdaeaa282bd644f0922ab01777e48980" />
     </item>
-    <item id="3ec6817e5e2e4e67b12c57906701fb8a" cid="ELEM020" type="package" name="Patient model" owner="8fc6c34af7a24e7983ed2b5dc1a3321b" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="34e0094996064a72b2b06855590d1304" cid="ES003" type="activation-bar" name="ExecutionSpecification3" creation-date="09/01/2024 20:21:05" visibility="undefined" />
+    <item id="3ec6817e5e2e4e67b12c57906701fb8a" cid="ELEM020" type="package" name="Patient model" owner="8fc6c34af7a24e7983ed2b5dc1a3321b" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="9334b687d04f47529c7d016fb53032ff" cid="AC001" type="actor" name="Enfermeiro(a)" creation-date="09/01/2024 20:19:08" visibility="undefined">
       <owned-items />
     </item>
@@ -2029,6 +2027,9 @@
       <component />
     </item>
     <item id="72b3131a725d436da43ebf7d7970f096" cid="DC002" type="decision" name="Verifica se a conta existe" owner="165a2e70a45f4189b13ce8aca520bef5" creation-date="06/16/2025 17:48:51" visibility="undefined" />
+    <item id="6a898045f796410c9da54ec2e7ba5d8b" cid="PROP112" type="property" owner="d395240d723141bab02a5fb84a53cc41" creation-date="09/06/2025 14:59:55" visibility="private">
+      <structural-feature multiplicity="1" type="alarm" type-id="Class:f81ca94db5e5471795bea7757a397de1" />
+    </item>
     <item id="19b220c60a5b465a9663745ec8f1f243" cid="CPT002" type="component" name="UserComponent.dart" owner="6237d47078b84e6885ba9c2cd9ea466a" creation-date="09/05/2024 20:58:22" visibility="undefined">
       <stereotypes>
         <stereotype name="component" />
@@ -2037,9 +2038,6 @@
         <stereotype id="e66abfb028134bf5b6a510acbfa4a8d9_component_c" type="component" creation-date="09/05/2024 20:58:22" ref="" />
       </stereotype-instances>
       <component />
-    </item>
-    <item id="6a898045f796410c9da54ec2e7ba5d8b" cid="PROP112" type="property" owner="d395240d723141bab02a5fb84a53cc41" creation-date="09/06/2025 14:59:55" visibility="private">
-      <structural-feature multiplicity="1" type="alarm" type-id="Class:f81ca94db5e5471795bea7757a397de1" />
     </item>
     <item id="a9c25dfdefee4af6a2760ba31b408f2c" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="41de451b075b462cbf8eee34346d0542" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="41de451b075b462cbf8eee34346d0542" />
@@ -2122,8 +2120,8 @@
       <owned-items />
     </item>
     <item id="b9d6ed2297ad475cbf8db0edf08da4f7" cid="IN001" type="initial-node" owner="edd7f86500dc4e8388a9f74882eb2ab1" creation-date="05/02/2025 18:05:47" visibility="undefined" />
-    <item id="6d5a9c907a804c0785532367bd7e1a76" cid="ELEM020" type="package" name="Emergency contact" owner="8fc6c34af7a24e7983ed2b5dc1a3321b" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="247769504bc74e2d99ca9ecb736a6979" cid="IN001" type="initial-node" creation-date="05/02/2025 18:05:47" visibility="undefined" />
+    <item id="6d5a9c907a804c0785532367bd7e1a76" cid="ELEM020" type="package" name="Emergency contact" owner="8fc6c34af7a24e7983ed2b5dc1a3321b" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="531b9d454ddf47d684fc2bd593828168" cid="SM015" type="sequence-action" name="Message15" creation-date="09/03/2024 20:19:43" visibility="package">
       <sequence-action type="reply" message="Confirmação da inserção do paciente (insertPatient())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
@@ -2132,13 +2130,13 @@
     <item id="17e38bf1c54948698d11a556f059559f" cid="ELEM018" type="control-flow" creation-date="05/02/2025 18:21:37" from="bda786846ab3400e96e5c8abc9e251c0" to="1883682307424f6687872608a8f13858" visibility="package" guard="" weight="">
       <control-flow from="bda786846ab3400e96e5c8abc9e251c0" to="1883682307424f6687872608a8f13858" visibility="package" guard="" weight="" />
     </item>
-    <item id="fd73bdf7f10d463093def1291c02d526" cid="AC001" type="actor" name=" Enfermeiro(a)" creation-date="09/01/2024 20:19:08" visibility="undefined">
-      <owned-items />
-    </item>
+    <item id="e1f4197b263a4b09b06d1a380e29b891" cid="C010" type="class" name="PatientController" creation-date="06/26/2025 19:38:51" visibility="undefined" />
     <item id="89884a02bb594336b94f1a92d98e6613" cid="PROP076" type="property" creation-date="06/26/2025 19:37:30" visibility="undefined">
       <structural-feature type="RecoverPasswordView" type-id="Class:1605b74aee2b4ff7bc1096e21c114fff" />
     </item>
-    <item id="e1f4197b263a4b09b06d1a380e29b891" cid="C010" type="class" name="PatientController" creation-date="06/26/2025 19:38:51" visibility="undefined" />
+    <item id="fd73bdf7f10d463093def1291c02d526" cid="AC001" type="actor" name=" Enfermeiro(a)" creation-date="09/01/2024 20:19:08" visibility="undefined">
+      <owned-items />
+    </item>
     <item id="e138deede3064e659a0bf36eccfdedd7" cid="SM002" type="sequence-action" name="Message2" creation-date="09/01/2024 20:21:04" from="196f0fd03f184349986e81e252ca48ba" visibility="package">
       <sequence-action type="send" message="Envia os dados de autenticação para validação (validateAuthenticate())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
@@ -2262,10 +2260,6 @@
       <control-flow from="4ce1712261f6490d8a6ec89930e694f2" visibility="package" guard="" weight="" />
     </item>
     <item id="259ebe74d1e94438912a40f59a1aaf71" cid="PKG001" type="package" owner="51ee74c0a31543a892e767728db3d595" creation-date="05/03/2025 14:40:50" visibility="undefined" />
-    <item id="9378bdb0f02f4b9bba06384215247600" cid="LL001" type="lifeline" owner="4b1faaf1849b4357b502b92702daa7ad" creation-date="09/01/2024 20:19:21" visibility="undefined">
-      <owned-items />
-      <lifeline classifier-name="PatientDao" classifier-ref="242ab67c0ff0405a8163d4a16a0307b8" selector="" is-multi-object="false" />
-    </item>
     <item id="ef53a30f77554edf9a3c9af8ad9f2f70" cid="CPT002" type="component" name="AppComponent.dart" owner="6237d47078b84e6885ba9c2cd9ea466a" creation-date="09/05/2024 20:58:22" visibility="undefined">
       <stereotypes>
         <stereotype name="component" />
@@ -2274,6 +2268,10 @@
         <stereotype id="e66abfb028134bf5b6a510acbfa4a8d9_component_c" type="component" creation-date="09/05/2024 20:58:22" ref="" />
       </stereotype-instances>
       <component />
+    </item>
+    <item id="9378bdb0f02f4b9bba06384215247600" cid="LL001" type="lifeline" owner="4b1faaf1849b4357b502b92702daa7ad" creation-date="09/01/2024 20:19:21" visibility="undefined">
+      <owned-items />
+      <lifeline classifier-name="PatientDao" classifier-ref="242ab67c0ff0405a8163d4a16a0307b8" selector="" is-multi-object="false" />
     </item>
     <item id="97b29d7ae6d445b4822b4496bb134886" cid="ES011" type="activation-bar" name="ExecutionSpecification11" owner="2466b1e193b148c4b69935b486f3172a" creation-date="09/01/2024 20:25:10" visibility="undefined">
       <activation-bar lifeline-ref="2466b1e193b148c4b69935b486f3172a" />
@@ -2342,13 +2340,13 @@
     <item id="6ff32a5e35ab4ed491cb9077ea3a924f" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="03df4e97c9704557ac1d28affa5ee32b" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="03df4e97c9704557ac1d28affa5ee32b" />
     </item>
+    <item id="d5ac0ab94b1141ff9bb1cccb8610c1c2" cid="PROP108" type="property" owner="4bf755524e504f87a16e9957e55826ba" creation-date="09/06/2025 14:58:47" visibility="private">
+      <structural-feature multiplicity="1" type="alarm" type-id="Class:f81ca94db5e5471795bea7757a397de1" />
+    </item>
     <item id="1a159ca18d8546ddb16461dec3d08d5d" cid="SM039" type="sequence-action" name="Message36" creation-date="05/24/2025 10:21:25" from="53c6e0476e8443c18ae443533c6f2576" to="91d21218ca8841a097562f8ab3fc1817" visibility="package">
       <sequence-action type="reply" message="Retorna nova senha salva com sucesso (saveNewPassword())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
       </sequence-action>
-    </item>
-    <item id="d5ac0ab94b1141ff9bb1cccb8610c1c2" cid="PROP108" type="property" owner="4bf755524e504f87a16e9957e55826ba" creation-date="09/06/2025 14:58:47" visibility="private">
-      <structural-feature multiplicity="1" type="alarm" type-id="Class:f81ca94db5e5471795bea7757a397de1" />
     </item>
     <item id="054611ac20984d9ebe4f9a84851aded8" cid="ES003" type="activation-bar" name="ExecutionSpecification3" creation-date="09/01/2024 20:21:05" visibility="undefined" />
     <item id="36b3eecd36674fefad80334c0ef571ea" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="5e3ee237c6f64434b622fc36ffdcd602" creation-date="09/01/2024 20:21:21" visibility="undefined">
@@ -2413,21 +2411,16 @@
         <stereotype id="c230af7637054e828b87cd59c7bc5dc7_import_c" type="import" creation-date="06/15/2025 15:12:34" ref="" />
       </stereotype-instances>
     </item>
-    <item id="4b1faaf1849b4357b502b92702daa7ad" cid="LL001" type="lifeline" owner="94374f44ae604296aa61bf6977bdd53f" creation-date="09/01/2024 20:19:21" visibility="undefined">
-      <owned-items />
-      <lifeline classifier-name="PatientController" classifier-ref="7cc8ba7dccdc4b2c825555f7af55641b" selector="" is-multi-object="false" />
-    </item>
     <item id="b6421285a1c548d4a3562bf9cc44eed7" cid="SM003" type="sequence-action" name="Message3" creation-date="09/01/2024 20:21:19" from="80aa2917d0c94217b6685b348374785c" to="3dbef8222df744f5888ea5f97593ad85" visibility="package">
       <sequence-action type="send" message="Busca email correspondente no banco (findEmail())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
       </sequence-action>
     </item>
-    <item id="a8d6179df48342cab285b18b648e6db8" cid="PKG007" type="package" name="SSE" creation-date="06/15/2025 15:03:12" visibility="undefined" />
-    <item id="788e784146674600a0b6d895045fdf4e" cid="SM021" type="sequence-action" name="Message19" creation-date="05/24/2025 10:01:26" from="5eed67dee0ca4fff918abc1160254a69" to="196f0fd03f184349986e81e252ca48ba" visibility="package">
-      <sequence-action type="reply" message="Retorna autenticação negada (concludeAuthenticate())" is-asynchronous="false" return-value="" assign-to-variable="">
-        <parameters />
-      </sequence-action>
+    <item id="4b1faaf1849b4357b502b92702daa7ad" cid="LL001" type="lifeline" owner="94374f44ae604296aa61bf6977bdd53f" creation-date="09/01/2024 20:19:21" visibility="undefined">
+      <owned-items />
+      <lifeline classifier-name="PatientController" classifier-ref="7cc8ba7dccdc4b2c825555f7af55641b" selector="" is-multi-object="false" />
     </item>
+    <item id="a8d6179df48342cab285b18b648e6db8" cid="PKG007" type="package" name="SSE" creation-date="06/15/2025 15:03:12" visibility="undefined" />
     <item id="fb016479553e4df29b5f934dd401f9bd" cid="CPT002" type="component" name="UserController.java" owner="74d07c96bbf3439fa227c86e133f5622" creation-date="09/05/2024 20:58:22" visibility="undefined">
       <stereotypes>
         <stereotype name="component" />
@@ -2436,6 +2429,11 @@
         <stereotype id="e66abfb028134bf5b6a510acbfa4a8d9_component_c" type="component" creation-date="09/05/2024 20:58:22" ref="" />
       </stereotype-instances>
       <component />
+    </item>
+    <item id="788e784146674600a0b6d895045fdf4e" cid="SM021" type="sequence-action" name="Message19" creation-date="05/24/2025 10:01:26" from="5eed67dee0ca4fff918abc1160254a69" to="196f0fd03f184349986e81e252ca48ba" visibility="package">
+      <sequence-action type="reply" message="Retorna autenticação negada (concludeAuthenticate())" is-asynchronous="false" return-value="" assign-to-variable="">
+        <parameters />
+      </sequence-action>
     </item>
     <item id="88389e4468ac4a64ac18004b0007558b" cid="PROP078" type="property" creation-date="06/26/2025 19:38:30" visibility="undefined">
       <structural-feature type="HomeView" type-id="Class:8a686cc576444c90b2262645f85cd50c" />
@@ -2453,12 +2451,12 @@
       </stereotype-instances>
       <component />
     </item>
+    <item id="1c3f9f208abb46168c327ca98d1aead1" cid="A002" type="activity" name="Solicita a abertura de uma conta" owner="edd7f86500dc4e8388a9f74882eb2ab1" creation-date="05/02/2025 18:07:09" visibility="undefined">
+      <activity />
+    </item>
     <item id="136273adc4754b8fa3db330a5d7e3765" cid="SL003" type="swimlane" name="Banco de dados" creation-date="05/02/2025 18:05:01" visibility="undefined">
       <owned-items />
       <swimlane external="false" dimension="false" />
-    </item>
-    <item id="1c3f9f208abb46168c327ca98d1aead1" cid="A002" type="activity" name="Solicita a abertura de uma conta" owner="edd7f86500dc4e8388a9f74882eb2ab1" creation-date="05/02/2025 18:07:09" visibility="undefined">
-      <activity />
     </item>
     <item id="381698beafc44d168f20d7163154b78c" cid="AC001" type="actor" name="Técnico(a) em Enfermagem" creation-date="09/01/2024 20:19:08" visibility="undefined">
       <owned-items />
@@ -2474,6 +2472,13 @@
     <item id="5caf3c63a29d47d7b065dc5e8837c2ed" cid="LL001" type="lifeline" owner="dcccd71bdbc348e1bf6ecac0ae92ae4c" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
       <lifeline classifier-name="HomeController" classifier-ref="38117ad202a54797bf532d51a3c4e5d5" selector="" is-multi-object="false" />
+    </item>
+    <item id="edd7f86500dc4e8388a9f74882eb2ab1" cid="SL001" type="swimlane" name="Usuário" creation-date="05/02/2025 18:01:36" visibility="undefined">
+      <owned-items />
+      <swimlane external="false" dimension="false" />
+    </item>
+    <item id="014c9a5b1be04313b5a38c0ed0bb2cda" cid="ES003" type="activation-bar" name="ExecutionSpecification3" owner="351a3535ba6e42a0852f2c8d06181b8f" creation-date="09/01/2024 20:21:05" visibility="undefined">
+      <activation-bar lifeline-ref="351a3535ba6e42a0852f2c8d06181b8f" />
     </item>
     <item id="0f19ac2064934b64b8fd7ee24bdba7c4" veid="3c5c0025a0374176ae7dc84ab65b0c14" cid="PROP032" type="property" name="staging" owner="ef659166f98347cb9719d9e9e1bc49ba" creator="" creation-date="05/01/2025 18:55:50" visibility="private">
       <style style-name="Custom Style" shadow-type="smooth" shadow-offset="2,2" shadow-visible="true" shadow-color="#3A555555" shadow-radius="8" wrap-name-text="true" wrap-other-text="true" padding="2" margin="1" glow-color="#FFFFFF" accuracy="0.9">
@@ -2499,13 +2504,6 @@
         </alternate-styles>
       </style>
       <structural-feature type="boolean" type-id="boolean" />
-    </item>
-    <item id="014c9a5b1be04313b5a38c0ed0bb2cda" cid="ES003" type="activation-bar" name="ExecutionSpecification3" owner="351a3535ba6e42a0852f2c8d06181b8f" creation-date="09/01/2024 20:21:05" visibility="undefined">
-      <activation-bar lifeline-ref="351a3535ba6e42a0852f2c8d06181b8f" />
-    </item>
-    <item id="edd7f86500dc4e8388a9f74882eb2ab1" cid="SL001" type="swimlane" name="Usuário" creation-date="05/02/2025 18:01:36" visibility="undefined">
-      <owned-items />
-      <swimlane external="false" dimension="false" />
     </item>
     <item id="8177a3cb46604262b2dc023ad63f315b" cid="ELEM020" type="package" name="AlertController" owner="d1da8bacb4b647de82018473f40d6998" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="575b9f5bbf5a4e0194ec2423c59ea937" cid="PROP082" type="property" creation-date="06/26/2025 19:39:05" visibility="undefined">
@@ -2658,10 +2656,10 @@
       <activity />
     </item>
     <item id="01a532c392694117a33a0dc450304753" cid="ES001" type="activation-bar" name="ExecutionSpecification1" owner="381698beafc44d168f20d7163154b78c" creation-date="09/01/2024 20:20:24" visibility="undefined" />
+    <item id="df2c021bf097456580d93f075b29cd11" cid="PKG001" type="package" name="Deletar paciente" owner="d87d7b613b1149a28735f55057151df9" creation-date="05/03/2025 14:40:50" visibility="undefined" />
     <item id="95ed3533fba04ed9a8ae9325469a2bcc" cid="ELEM010" type="control-flow" creation-date="05/02/2025 18:17:43" from="2576f44e668147e28e73781336dc8947" to="99d220611b584b4e88576575791233b5" visibility="package" guard="" weight="">
       <control-flow from="2576f44e668147e28e73781336dc8947" to="99d220611b584b4e88576575791233b5" visibility="package" guard="" weight="" />
     </item>
-    <item id="df2c021bf097456580d93f075b29cd11" cid="PKG001" type="package" name="Deletar paciente" owner="d87d7b613b1149a28735f55057151df9" creation-date="05/03/2025 14:40:50" visibility="undefined" />
     <item id="599cb8e38f6847a7b7b9db224296516f" cid="LL001" type="lifeline" owner="52611756142c49f7845904dfc95766cb" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
       <lifeline classifier-name="PatientDao" classifier-ref="242ab67c0ff0405a8163d4a16a0307b8" selector="" is-multi-object="false" />
@@ -2704,12 +2702,12 @@
       <owned-items />
       <lifeline classifier-name="UserDao" classifier-ref="fa8117faba33438e997ab4e300e0dc4e" selector="" is-multi-object="false" />
     </item>
+    <item id="b090f5400d684022ac111010d5027062" cid="PKG011" type="package" name="HealthResponse" owner="0fc7ecdac84e47a6bad19fd8020093b1" creation-date="06/15/2025 15:32:42" visibility="undefined" />
     <item id="05df4db3defa4b7a97b02c71a6fe9915" cid="SM002" type="sequence-action" name="Message2" creation-date="09/01/2024 20:21:04" from="37c37599a9a94bc393c0a28eb1165fd9" visibility="package">
       <sequence-action type="send" message="Envia email para validação (validateEmailToRecoverPassword())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
       </sequence-action>
     </item>
-    <item id="b090f5400d684022ac111010d5027062" cid="PKG011" type="package" name="HealthResponse" owner="0fc7ecdac84e47a6bad19fd8020093b1" creation-date="06/15/2025 15:32:42" visibility="undefined" />
     <item id="f3f78020e16947a59cabc2f5167b07b0" cid="SM034" type="sequence-action" name="Message18" creation-date="09/12/2024 20:29:53" from="53c6e0476e8443c18ae443533c6f2576" to="91d21218ca8841a097562f8ab3fc1817" visibility="package">
       <sequence-action type="reply" message="Recebe email existente(validateEmailToRecoverPassword())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
@@ -2720,11 +2718,11 @@
     </item>
     <item id="4b9e0acbb8504b2abf594eb2304067c0" cid="C016" type="class" name="CreatePatientView" creation-date="06/26/2025 19:40:47" visibility="undefined" />
     <item id="4bdf020e1b8e4a21a9cd9d29c263e417" cid="PKG009" type="package" name="Resident" owner="4f05943e884f4b8ca2062c35d0b7c4d1" creation-date="06/15/2025 15:24:50" visibility="undefined" />
-    <item id="b71362a2509c422cb1ddc8dc734d3170" cid="A007" type="activity" name="Encerra a solicitação" owner="165a2e70a45f4189b13ce8aca520bef5" creation-date="05/02/2025 18:11:15" visibility="undefined">
-      <activity />
-    </item>
     <item id="85f9589cc10c48c2b0d25c054a63b015" cid="PROP077" type="property" creation-date="06/26/2025 19:37:34" visibility="undefined">
       <structural-feature type="UserController" type-id="Class:779a3a0350644f59b1a9faa0c5827ac9" />
+    </item>
+    <item id="b71362a2509c422cb1ddc8dc734d3170" cid="A007" type="activity" name="Encerra a solicitação" owner="165a2e70a45f4189b13ce8aca520bef5" creation-date="05/02/2025 18:11:15" visibility="undefined">
+      <activity />
     </item>
     <item id="4e3ee561807944428e2668b1e105a0cd" cid="LL001" type="lifeline" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
@@ -2734,12 +2732,12 @@
       <owned-items />
     </item>
     <item id="5eed67dee0ca4fff918abc1160254a69" cid="ES005" type="activation-bar" name="ExecutionSpecification5" creation-date="09/01/2024 20:21:21" visibility="undefined" />
+    <item id="51d89a685b5f4593ae8f9a66b1e0901c" cid="PROP073" type="property" creation-date="06/26/2025 19:36:42" visibility="undefined">
+      <structural-feature type="AuthenticationView" type-id="Class:b3e0657bf64b4b7798052de885892966" />
+    </item>
     <item id="669b9743cc7845cd954af80b4b8d5a77" cid="LL001" type="lifeline" name="PatientDao" owner="ca349497b8374c978a8caa03e161fcff" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
       <lifeline classifier-name="" selector="" is-multi-object="false" />
-    </item>
-    <item id="51d89a685b5f4593ae8f9a66b1e0901c" cid="PROP073" type="property" creation-date="06/26/2025 19:36:42" visibility="undefined">
-      <structural-feature type="AuthenticationView" type-id="Class:b3e0657bf64b4b7798052de885892966" />
     </item>
     <item id="39cc040244f24db8bb817486068eeaed" cid="PROP085" type="property" creation-date="06/26/2025 19:40:28" visibility="undefined">
       <structural-feature type="AlarmPanelController" type-id="Class:995a032f0f2b43949b106a9c137f799f" />
@@ -2754,17 +2752,17 @@
     <item id="d8736d12a9024794b6fc6cb986d5e774" cid="PROP072" type="property" owner="370c49dd24354603a7f4482b8ef7a096" creation-date="05/15/2025 19:58:31" visibility="undefined">
       <structural-feature multiplicity="1..*" type="resident" type-id="Class:8218a3937f164c3e93cc30cca53aeacd" />
     </item>
+    <item id="4b7c6e92704a419a81a03cc5a096be34" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="49c4025b25734b369c291cf213adcab1" creation-date="09/01/2024 20:21:21" visibility="undefined">
+      <activation-bar lifeline-ref="49c4025b25734b369c291cf213adcab1" />
+    </item>
     <item id="2e203e6a521a49f2a19d5f05925fd4fc" cid="ELEM001" type="drawing-shape" name="SimpleShape1" owner="165a2e70a45f4189b13ce8aca520bef5" creation-date="05/02/2025 18:16:21">
       <drawing />
       <drawing-shape type="Diamond" />
     </item>
-    <item id="4b7c6e92704a419a81a03cc5a096be34" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="49c4025b25734b369c291cf213adcab1" creation-date="09/01/2024 20:21:21" visibility="undefined">
-      <activation-bar lifeline-ref="49c4025b25734b369c291cf213adcab1" />
-    </item>
+    <item id="b889c9ee12fb482fafa6d3430eac95c6" cid="C011" type="class" name="PatientDao" creation-date="06/26/2025 19:38:55" visibility="undefined" />
     <item id="a46e26dcc09e4493a2aa5f13aaec7610" cid="AC001" type="actor" name="Técnico(a) em Enfermagem" creation-date="09/01/2024 20:19:08" visibility="undefined">
       <owned-items />
     </item>
-    <item id="b889c9ee12fb482fafa6d3430eac95c6" cid="C011" type="class" name="PatientDao" creation-date="06/26/2025 19:38:55" visibility="undefined" />
     <item id="60c588ee31f3456293b60489e463e27e" cid="PROP098" type="property" owner="997ab6207e284d38ba9ca34542e64b20" creation-date="09/06/2025 14:56:26" visibility="private">
       <structural-feature multiplicity="1..*" type="caregiver" type-id="Class:b9330e99ffc24e629ef366420c4b25b8" />
     </item>
@@ -2774,9 +2772,6 @@
     </item>
     <item id="ee11a94a9f9b42d1bb757cd2aaf666d7" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="69c63274e8d34ef1a6b24f4fd9f05b8c" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="69c63274e8d34ef1a6b24f4fd9f05b8c" />
-    </item>
-    <item id="1c89b7243c184756ad644595a33586c0" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="599cb8e38f6847a7b7b9db224296516f" creation-date="09/01/2024 20:21:21" visibility="undefined">
-      <activation-bar lifeline-ref="599cb8e38f6847a7b7b9db224296516f" />
     </item>
     <item id="a4827aeec2334cb78658ab16adc29fa8" veid="e1ef08fee13540b09ff5b9338c8cf79e" cid="PROP089" type="property" name="alarm_id" owner="d952059a08c44bdbb2a4e307854e79f5" creation-date="05/01/2025 18:55:41" visibility="private">
       <style style-name="Custom Style" shadow-type="smooth" shadow-offset="2,2" shadow-visible="true" shadow-color="#3A555555" shadow-radius="8" wrap-name-text="true" wrap-other-text="true" padding="2" margin="1" glow-color="#FFFFFF" accuracy="0.9">
@@ -2803,6 +2798,9 @@
       </style>
       <structural-feature type="int" type-id="int" />
     </item>
+    <item id="1c89b7243c184756ad644595a33586c0" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="599cb8e38f6847a7b7b9db224296516f" creation-date="09/01/2024 20:21:21" visibility="undefined">
+      <activation-bar lifeline-ref="599cb8e38f6847a7b7b9db224296516f" />
+    </item>
     <item id="b1bd2a860fa54bb5a59d2cea4314fd09" cid="ES011" type="activation-bar" name="ExecutionSpecification11" owner="9378bdb0f02f4b9bba06384215247600" creation-date="09/01/2024 20:25:10" visibility="undefined">
       <activation-bar lifeline-ref="9378bdb0f02f4b9bba06384215247600" />
     </item>
@@ -2815,11 +2813,11 @@
       </stereotype-instances>
       <component />
     </item>
-    <item id="cd2f9e4ab41d4774bd4e900d9d4a6066" cid="PKG001" type="package" name="Autenticacao de Usuario" creation-date="05/03/2025 14:40:50" visibility="undefined" />
     <item id="da0d2567c0734e4ca8f117bb82e41cf6" cid="LL001" type="lifeline" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
       <lifeline classifier-name="AuthenticationView" classifier-ref="51d89a685b5f4593ae8f9a66b1e0901c" selector="" is-multi-object="false" />
     </item>
+    <item id="cd2f9e4ab41d4774bd4e900d9d4a6066" cid="PKG001" type="package" name="Autenticacao de Usuario" creation-date="05/03/2025 14:40:50" visibility="undefined" />
     <item id="c7d9a17c5713424fb4f91bb1fad4a786" cid="SM002" type="sequence-action" name="Message2" creation-date="09/01/2024 20:21:04" from="09fc5201b0f6448b97e6203359e4d7c2" visibility="package">
       <sequence-action type="send" message="Envia os dados do paciente para validação (validatePatient())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
@@ -2905,11 +2903,11 @@
       <swimlane external="false" dimension="false" />
     </item>
     <item id="8a686cc576444c90b2262645f85cd50c" cid="C008" type="class" name="HomeView" creation-date="06/26/2025 19:38:30" visibility="undefined" />
-    <item id="7be418ae45c7418b92fbe567aa2bb2b6" cid="ELEM011" type="control-flow" name="Não" creation-date="05/02/2025 18:17:48" from="99d220611b584b4e88576575791233b5" to="21f12889320542fbbdb4f563e276a3ba" visibility="package" guard="" weight="">
-      <control-flow from="99d220611b584b4e88576575791233b5" to="21f12889320542fbbdb4f563e276a3ba" visibility="package" guard="" weight="" />
-    </item>
     <item id="06895fd7a13a47569b1ca6f50d31463a" cid="ES011" type="activation-bar" name="ExecutionSpecification11" owner="bacf8e43de3e409db70382892e99c295" creation-date="09/01/2024 20:25:10" visibility="undefined">
       <activation-bar lifeline-ref="bacf8e43de3e409db70382892e99c295" />
+    </item>
+    <item id="7be418ae45c7418b92fbe567aa2bb2b6" cid="ELEM011" type="control-flow" name="Não" creation-date="05/02/2025 18:17:48" from="99d220611b584b4e88576575791233b5" to="21f12889320542fbbdb4f563e276a3ba" visibility="package" guard="" weight="">
+      <control-flow from="99d220611b584b4e88576575791233b5" to="21f12889320542fbbdb4f563e276a3ba" visibility="package" guard="" weight="" />
     </item>
     <item id="9d84727474474505bc35df37094fd65e" cid="SM003" type="sequence-action" name="Message3" creation-date="09/01/2024 20:21:19" from="999f079b30394fd1a8496ad85a58abba" to="ee11a94a9f9b42d1bb757cd2aaf666d7" visibility="package">
       <sequence-action type="send" message="Exclui o paciente no banco (deletePatient())" is-asynchronous="false" return-value="" assign-to-variable="">
@@ -3045,6 +3043,9 @@
       <activation-bar lifeline-ref="2c03429139be48ada63397837edbdb98" />
     </item>
     <item id="84a35c047fee4d1ab6ccb4ac7c26463f" cid="ELEM019" type="package" name="Utils" owner="1002d24001e549559e8fc2a4388b9e27" creation-date="06/26/2025 21:36:08" visibility="undefined" />
+    <item id="edc24a2f600949148abaaf4ca3b51049" cid="PROP097" type="property" owner="997ab6207e284d38ba9ca34542e64b20" creation-date="09/06/2025 14:56:26" visibility="private">
+      <structural-feature multiplicity="1" type="organization" type-id="Class:d952059a08c44bdbb2a4e307854e79f5" />
+    </item>
     <item id="cb91f5ea074247cf81c6fb23eba09675" cid="SM008" type="manifestation" name="Confirmação da criação do paciente, mas com aviso de dados opcionais que não foram preenchidos" creation-date="09/01/2024 20:25:45" to="d1dc48937af247f8a7d1fe230cbe7130" visibility="package">
       <stereotypes>
         <stereotype name="manifest" />
@@ -3075,14 +3076,11 @@
         </alternate-styles>
       </style>
     </item>
-    <item id="edc24a2f600949148abaaf4ca3b51049" cid="PROP097" type="property" owner="997ab6207e284d38ba9ca34542e64b20" creation-date="09/06/2025 14:56:26" visibility="private">
-      <structural-feature multiplicity="1" type="organization" type-id="Class:d952059a08c44bdbb2a4e307854e79f5" />
+    <item id="e085707323db42c5afa3778f8ff17854" cid="ES011" type="activation-bar" name="ExecutionSpecification11" owner="60b449303b25451785344562d11825cc" creation-date="09/01/2024 20:25:10" visibility="undefined">
+      <activation-bar lifeline-ref="60b449303b25451785344562d11825cc" />
     </item>
     <item id="522451466e0548d2b739a746c21b0a4f" cid="ELEM006" type="control-flow" creation-date="05/02/2025 18:09:50" from="247769504bc74e2d99ca9ecb736a6979" to="b3ac9ca0bccb442b84598eddf3557abc" visibility="package" guard="" weight="">
       <control-flow from="247769504bc74e2d99ca9ecb736a6979" to="b3ac9ca0bccb442b84598eddf3557abc" visibility="package" guard="" weight="" />
-    </item>
-    <item id="e085707323db42c5afa3778f8ff17854" cid="ES011" type="activation-bar" name="ExecutionSpecification11" owner="60b449303b25451785344562d11825cc" creation-date="09/01/2024 20:25:10" visibility="undefined">
-      <activation-bar lifeline-ref="60b449303b25451785344562d11825cc" />
     </item>
     <item id="183780c091274d7dbe45eafdb6c5f6e1" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="978a4acf7eea438d96c8b9c9401cd7af" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="978a4acf7eea438d96c8b9c9401cd7af" />
@@ -3097,14 +3095,14 @@
         <parameters />
       </sequence-action>
     </item>
-    <item id="cb8149febc2242a396fde8a7450dd98e" cid="PROP079" type="property" creation-date="06/26/2025 19:38:46" visibility="undefined">
-      <structural-feature type="DeletePatientView" type-id="Class:b511d2580ae349ba9628999f56564143" />
-    </item>
+    <item id="45380989bcc44779ae2d87433af82ba5" cid="PKG007" type="package" name="SSE" creation-date="06/15/2025 15:03:12" visibility="undefined" />
     <item id="ac3c8de2aefb49cb8f22c77139103f48" cid="LL001" type="lifeline" owner="b867565725bc4450b9662231a0f2302f" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
       <lifeline classifier-name="HomeController" classifier-ref="38117ad202a54797bf532d51a3c4e5d5" selector="" is-multi-object="false" />
     </item>
-    <item id="45380989bcc44779ae2d87433af82ba5" cid="PKG007" type="package" name="SSE" creation-date="06/15/2025 15:03:12" visibility="undefined" />
+    <item id="cb8149febc2242a396fde8a7450dd98e" cid="PROP079" type="property" creation-date="06/26/2025 19:38:46" visibility="undefined">
+      <structural-feature type="DeletePatientView" type-id="Class:b511d2580ae349ba9628999f56564143" />
+    </item>
     <item id="37631d7d11dc4faf82df0bae9ca2e376" cid="ES005" type="activation-bar" name="ExecutionSpecification5" owner="329ac561794248c38d12687fa7d7edb4" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="329ac561794248c38d12687fa7d7edb4" />
     </item>
@@ -3176,16 +3174,16 @@
     <item id="bea5a93d485a4474b17a6431d66c083d" cid="A006" type="activity" name="Envia os dados da conta para validação" owner="70ff70820ca8466bb061aaa0ae622dfa" creation-date="05/02/2025 18:10:29" visibility="undefined">
       <activity />
     </item>
-    <item id="1c13cf459d2a49de986a70e48bfb8abf" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="b4cf02a02ca2471f92f6a48d64e51520" creation-date="09/01/2024 20:21:21" visibility="undefined">
-      <activation-bar lifeline-ref="b4cf02a02ca2471f92f6a48d64e51520" />
+    <item id="b3ac9ca0bccb442b84598eddf3557abc" cid="A002" type="activity" name="Solicita o cadastro do paciente" creation-date="05/02/2025 18:07:09" visibility="undefined">
+      <activity />
     </item>
     <item id="10c390d82a0e4091a8e01952e337b369" cid="SM002" type="sequence-action" name="Message2" creation-date="09/01/2024 20:21:04" from="89d68f34307f49adac2a5654ff6546b2" visibility="package">
       <sequence-action type="send" message="Envia os dados do paciente para validação (validatePatient())" is-asynchronous="false" return-value="" assign-to-variable="">
         <parameters />
       </sequence-action>
     </item>
-    <item id="b3ac9ca0bccb442b84598eddf3557abc" cid="A002" type="activity" name="Solicita o cadastro do paciente" creation-date="05/02/2025 18:07:09" visibility="undefined">
-      <activity />
+    <item id="1c13cf459d2a49de986a70e48bfb8abf" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="b4cf02a02ca2471f92f6a48d64e51520" creation-date="09/01/2024 20:21:21" visibility="undefined">
+      <activation-bar lifeline-ref="b4cf02a02ca2471f92f6a48d64e51520" />
     </item>
     <item id="4967e16debf345318ab2d0bca5466082" cid="LL001" type="lifeline" owner="03df4e97c9704557ac1d28affa5ee32b" creation-date="09/01/2024 20:19:21" visibility="undefined">
       <owned-items />
@@ -3253,16 +3251,16 @@
       </style>
       <structural-feature type="String" type-id="Uml.String" />
     </item>
-    <item id="61e225d70571434d86c5f1925af2a12d" cid="ES001" type="activation-bar" name="ExecutionSpecification1" owner="44b49256c8b74edf9b28eba14b7487c7" creation-date="09/01/2024 20:20:24" visibility="undefined" />
+    <item id="61e225d70571434d86c5f1925af2a12d" cid="ES001" type="activation-bar" name="ExecutionSpecification1" creation-date="09/01/2024 20:20:24" visibility="undefined" />
     <item id="9b6bdbf65ee04763872f3453d3a395e9" cid="ES006" type="activation-bar" name="ExecutionSpecification6" owner="60b449303b25451785344562d11825cc" creation-date="09/01/2024 20:21:21" visibility="undefined">
       <activation-bar lifeline-ref="60b449303b25451785344562d11825cc" />
     </item>
     <item id="db23bddc8a3f43e08893e5c0533b909e" cid="ES001" type="activation-bar" name="ExecutionSpecification1" creation-date="09/01/2024 20:20:24" visibility="undefined" />
     <item id="a830c32504df422a820e4496d16dc62e" cid="ES001" type="activation-bar" name="ExecutionSpecification1" owner="10a1ab16f0494a9a9c38f8bc51389e34" creation-date="09/01/2024 20:20:24" visibility="undefined" />
-    <item id="c7fa6242b63f4bababb74a21dd258b8a" cid="ELEM020" type="package" name="AlertView" owner="fc5d8a8abe164029afb2dd80d9a9751c" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="5e35101a720b46ae8712606353fe3a30" cid="AC001" type="actor" name="Técnico(a) em Enfermagem" creation-date="09/01/2024 20:19:08" visibility="undefined">
       <owned-items />
     </item>
+    <item id="c7fa6242b63f4bababb74a21dd258b8a" cid="ELEM020" type="package" name="AlertView" owner="fc5d8a8abe164029afb2dd80d9a9751c" creation-date="06/26/2025 21:38:33" visibility="undefined" />
     <item id="23409d9a862148e681f506a43cda7eb0" cid="PKG009" type="package" name="ControlResident" owner="4f05943e884f4b8ca2062c35d0b7c4d1" creation-date="06/15/2025 15:24:50" visibility="undefined" />
     <item id="d211836821664f31b35d1d4d9d13cf7c" cid="AFN001" type="activity-final-node" creation-date="05/02/2025 18:06:55" visibility="undefined" />
     <item id="e78bc74a99a6464b84dc6fc0e33b8cc0" cid="C014" type="class" name="AlarmDao" creation-date="06/26/2025 19:40:24" visibility="undefined" />
@@ -3589,32 +3587,32 @@
           <version />
         </meta>
         <abstract-items>
-          <item id="dc8932b474b247ce8b18905416401745" cid="REL007" type="relationship" creation-date="05/15/2025 19:57:54" from="fecf658f726c4c9e92429bc7708238a3" to="8218a3937f164c3e93cc30cca53aeacd" visibility="package">
-            <owned-items />
-            <relation from="fecf658f726c4c9e92429bc7708238a3" to="8218a3937f164c3e93cc30cca53aeacd" derived="false">
-              <start-role id="umlar-ff4c820f-5b25-4a67-9944-53940e2f8d0a" name="" navigability="" association-type="association" visibility="private" property-ref="00f96962c11040abb050d6c898fdbb0f" />
-              <end-role id="umlar-c6d515d3-b8a7-47c6-a276-ba6f3b934d21" name="" navigability="" association-type="association" visibility="private" property-ref="e6c9118c585145d9a04d6c679b27b75b" />
-            </relation>
-          </item>
           <item id="997ab6207e284d38ba9ca34542e64b20" cid="REL010" type="relationship" creation-date="09/06/2025 14:56:26" from="d952059a08c44bdbb2a4e307854e79f5" to="b9330e99ffc24e629ef366420c4b25b8" visibility="package">
             <owned-items />
             <relation from="d952059a08c44bdbb2a4e307854e79f5" to="b9330e99ffc24e629ef366420c4b25b8" derived="false">
-              <start-role id="umlar-94dfd8ed-cf4d-480f-a809-9d3e3221d349" name="" navigability="" association-type="association" visibility="private" property-ref="edc24a2f600949148abaaf4ca3b51049" />
-              <end-role id="umlar-dd4828d5-1bac-4ba6-a18c-92e1cae407bc" name="" navigability="" association-type="association" visibility="private" property-ref="60c588ee31f3456293b60489e463e27e" />
+              <start-role id="umlar-760f2709-2181-4f63-9c82-cfbf52f8bb7a" name="" navigability="" association-type="association" visibility="private" property-ref="edc24a2f600949148abaaf4ca3b51049" />
+              <end-role id="umlar-c95d1cd5-c591-4137-bf08-9b3dd2c3ae50" name="" navigability="" association-type="association" visibility="private" property-ref="60c588ee31f3456293b60489e463e27e" />
+            </relation>
+          </item>
+          <item id="dc8932b474b247ce8b18905416401745" cid="REL007" type="relationship" creation-date="05/15/2025 19:57:54" from="fecf658f726c4c9e92429bc7708238a3" to="8218a3937f164c3e93cc30cca53aeacd" visibility="package">
+            <owned-items />
+            <relation from="fecf658f726c4c9e92429bc7708238a3" to="8218a3937f164c3e93cc30cca53aeacd" derived="false">
+              <start-role id="umlar-87562b79-a742-4dcd-be1e-2127abfdd71f" name="" navigability="" association-type="association" visibility="private" property-ref="00f96962c11040abb050d6c898fdbb0f" />
+              <end-role id="umlar-b753a4ce-b01c-414a-85a3-33fcf90772a2" name="" navigability="" association-type="association" visibility="private" property-ref="e6c9118c585145d9a04d6c679b27b75b" />
             </relation>
           </item>
           <item id="bfab572bcaad4da08743967f6f0d0047" cid="REL002" type="relationship" creator="" creation-date="05/01/2025 19:23:41" from="b9330e99ffc24e629ef366420c4b25b8" to="8218a3937f164c3e93cc30cca53aeacd" visibility="package">
             <owned-items />
             <relation from="b9330e99ffc24e629ef366420c4b25b8" to="8218a3937f164c3e93cc30cca53aeacd" derived="false">
-              <start-role id="umlar-5ef813b7-cc6b-4a88-9194-e1ea006a6bec" name="" navigability="" association-type="association" visibility="private" property-ref="d3822f0658af4a6db5d7d1a65712a577" />
-              <end-role id="umlar-5bd55074-e065-45da-97b4-6cd7b90b14ad" name="" navigability="" association-type="association" visibility="private" property-ref="a79b5614bae6458492fc72bd151a9d23" />
+              <start-role id="umlar-35664e83-9f32-43b4-90f8-c0a3f3fdd5c6" name="" navigability="" association-type="association" visibility="private" property-ref="d3822f0658af4a6db5d7d1a65712a577" />
+              <end-role id="umlar-41d1d109-8bd3-47b4-b9c7-8b8d23dcdd2d" name="" navigability="" association-type="association" visibility="private" property-ref="a79b5614bae6458492fc72bd151a9d23" />
             </relation>
           </item>
           <item id="d395240d723141bab02a5fb84a53cc41" cid="REL013" type="relationship" creation-date="09/06/2025 14:59:55" from="f81ca94db5e5471795bea7757a397de1" to="fecf658f726c4c9e92429bc7708238a3" visibility="package">
             <owned-items />
             <relation from="f81ca94db5e5471795bea7757a397de1" to="fecf658f726c4c9e92429bc7708238a3" derived="false">
-              <start-role id="umlar-4932d0df-f534-4bb7-8da9-bc800b9b38f0" name="" navigability="" association-type="association" visibility="private" property-ref="6a898045f796410c9da54ec2e7ba5d8b" />
-              <end-role id="umlar-993f6971-7153-4b36-bdb9-bd54cd55db8b" name="" navigability="" association-type="association" visibility="private" property-ref="a08a14fc0d2948e78beaf9d78158ae42" />
+              <start-role id="umlar-fa40efa3-c6fd-40a2-ad5a-a7c0a8bd5a59" name="" navigability="" association-type="association" visibility="private" property-ref="6a898045f796410c9da54ec2e7ba5d8b" />
+              <end-role id="umlar-f43a76bd-1181-499f-9861-3292e57814cd" name="" navigability="" association-type="association" visibility="private" property-ref="a08a14fc0d2948e78beaf9d78158ae42" />
             </relation>
           </item>
           <item id="8218a3937f164c3e93cc30cca53aeacd" cid="C001" type="class" name="resident" creator="" creation-date="05/01/2025 18:51:44" visibility="undefined">
@@ -3693,22 +3691,22 @@
           <item id="4bf755524e504f87a16e9957e55826ba" cid="REL011" type="relationship" creation-date="09/06/2025 14:58:47" from="f81ca94db5e5471795bea7757a397de1" to="d952059a08c44bdbb2a4e307854e79f5" visibility="package">
             <owned-items />
             <relation from="f81ca94db5e5471795bea7757a397de1" to="d952059a08c44bdbb2a4e307854e79f5" derived="false">
-              <start-role id="umlar-09ef279d-41d1-4c64-89be-7d11f3aedebc" name="" navigability="" association-type="association" visibility="private" property-ref="d5ac0ab94b1141ff9bb1cccb8610c1c2" />
-              <end-role id="umlar-28a45978-60ed-4db2-95fb-a8d2560b70b0" name="" navigability="" association-type="association" visibility="private" property-ref="7d43e9f9f08b48b48451fe0d56cf344f" />
+              <start-role id="umlar-d88bef0c-ef19-4a58-b627-3d960edcb8ae" name="" navigability="" association-type="association" visibility="private" property-ref="d5ac0ab94b1141ff9bb1cccb8610c1c2" />
+              <end-role id="umlar-1ddeabfb-3665-4dd1-b17d-261b69c0068d" name="" navigability="" association-type="association" visibility="private" property-ref="7d43e9f9f08b48b48451fe0d56cf344f" />
             </relation>
           </item>
           <item id="370c49dd24354603a7f4482b8ef7a096" cid="REL009" type="relationship" creation-date="05/15/2025 19:58:31" from="71f11b680eee4348a3384f0da5653027" to="8218a3937f164c3e93cc30cca53aeacd" visibility="package">
             <owned-items />
             <relation from="71f11b680eee4348a3384f0da5653027" to="8218a3937f164c3e93cc30cca53aeacd" derived="false">
-              <start-role id="umlar-af898162-e164-47f8-8912-c81ad12dde83" name="" navigability="" association-type="association" visibility="undefined" property-ref="ab448b810216415e9c10023060d3450a" />
-              <end-role id="umlar-ec0a7f2e-8fb7-4def-9708-ceb556e50c81" name="" navigability="" association-type="association" visibility="undefined" property-ref="d8736d12a9024794b6fc6cb986d5e774" />
+              <start-role id="umlar-1e1a5e2b-4c02-4f65-8e89-747c6448478d" name="" navigability="" association-type="association" visibility="undefined" property-ref="ab448b810216415e9c10023060d3450a" />
+              <end-role id="umlar-d0448b3d-eb76-4427-bc00-1277e6cd7609" name="" navigability="" association-type="association" visibility="undefined" property-ref="d8736d12a9024794b6fc6cb986d5e774" />
             </relation>
           </item>
           <item id="193c8547e99e4a808a7236270bae5bc0" cid="REL001" type="relationship" creator="" creation-date="05/01/2025 19:23:29" from="ef659166f98347cb9719d9e9e1bc49ba" to="b9330e99ffc24e629ef366420c4b25b8" visibility="package">
             <owned-items />
             <relation from="ef659166f98347cb9719d9e9e1bc49ba" to="b9330e99ffc24e629ef366420c4b25b8" derived="false">
-              <start-role id="umlar-eb8e0e5d-4a9e-467f-b6e7-086baf313080" name="" navigability="" association-type="association" visibility="private" property-ref="70ff95cd65e9470d8c30838be658f6b5" />
-              <end-role id="umlar-008ff495-76e7-4c17-8041-00b91184afae" name="" navigability="" association-type="association" visibility="private" property-ref="4528888ddc244afca85add5077ad5a09" />
+              <start-role id="umlar-49b04bde-5e7b-4cab-92d2-cfac25d9126f" name="" navigability="" association-type="association" visibility="private" property-ref="70ff95cd65e9470d8c30838be658f6b5" />
+              <end-role id="umlar-dac3990f-7ca1-4eed-9b16-f8517a19dba4" name="" navigability="" association-type="association" visibility="private" property-ref="4528888ddc244afca85add5077ad5a09" />
             </relation>
           </item>
         </abstract-items>
@@ -3836,17 +3834,17 @@
           </item>
           <item id="b4b6e96b66264e3990856f5b285edc67" cid="DC002" type="decision" name="Verifica se a conta existe" owner="136273adc4754b8fa3db330a5d7e3765" creation-date="06/16/2025 17:48:51" visibility="undefined" />
           <item id="ecca6e96b74e4318a141452b4f2df217" cid="IN002" type="initial-node" name="Recebe o retorno da solicitação" creation-date="05/02/2025 18:06:21" visibility="undefined" />
-          <item id="38d82c91c16e4447ad14d5469c2f3ee5" cid="A003" type="activity" name="Activity3" creation-date="05/02/2025 18:07:25" visibility="undefined">
-            <activity />
-          </item>
           <item id="58ba1f58ddb149f99f4b85366fa94a14" cid="ELEM005" type="control-flow" creation-date="06/16/2025 17:50:39" from="bea5a93d485a4474b17a6431d66c083d" to="b4b6e96b66264e3990856f5b285edc67" visibility="package" guard="" weight="">
             <control-flow from="bea5a93d485a4474b17a6431d66c083d" to="b4b6e96b66264e3990856f5b285edc67" visibility="package" guard="" weight="" />
           </item>
-          <item id="8cf322b1bec041d3bbefa1c0c9c710fe" cid="A004" type="activity" name="Activity4" creation-date="05/02/2025 18:07:27" visibility="undefined">
+          <item id="38d82c91c16e4447ad14d5469c2f3ee5" cid="A003" type="activity" name="Activity3" creation-date="05/02/2025 18:07:25" visibility="undefined">
             <activity />
           </item>
           <item id="eaecf0c213e44c46b648eabdc1bf096f" cid="ELEM002" type="control-flow" name="[Sim]" creation-date="06/16/2025 17:50:25" from="b4b6e96b66264e3990856f5b285edc67" to="bda786846ab3400e96e5c8abc9e251c0" visibility="package" guard="" weight="">
             <control-flow from="b4b6e96b66264e3990856f5b285edc67" to="bda786846ab3400e96e5c8abc9e251c0" visibility="package" guard="" weight="" />
+          </item>
+          <item id="8cf322b1bec041d3bbefa1c0c9c710fe" cid="A004" type="activity" name="Activity4" creation-date="05/02/2025 18:07:27" visibility="undefined">
+            <activity />
           </item>
           <item id="1ffea397a1424918bd153345af063b8d" cid="ELEM014" type="control-flow" owner="165a2e70a45f4189b13ce8aca520bef5" creation-date="06/16/2025 17:53:48" from="72b3131a725d436da43ebf7d7970f096" to="b71362a2509c422cb1ddc8dc734d3170" visibility="package" guard="Não" weight="">
             <control-flow from="72b3131a725d436da43ebf7d7970f096" to="b71362a2509c422cb1ddc8dc734d3170" visibility="package" guard="Não" weight="" />
@@ -6317,10 +6315,10 @@
               <stereotype id="f72fa543f0cc49438fef01cb3631ddea_access_c" type="access" creation-date="06/26/2025 22:22:09" ref="" />
             </stereotype-instances>
           </item>
-          <item id="0185bcdef05a4e579c167c0bf4dc9890" cid="CNT003" type="containment" owner="fa47c76c0b7243359aeb3ba776fbcd3f" creation-date="06/28/2025 13:10:22" from="fc5d8a8abe164029afb2dd80d9a9751c" to="f34edf5475724aafa45705e7da138a45" />
           <item id="84587d52253248cfa1c3116eb212fa7a" cid="PKG001" type="package" name="Notificacoes" creation-date="05/03/2025 14:40:50" visibility="undefined">
             <owned-items />
           </item>
+          <item id="0185bcdef05a4e579c167c0bf4dc9890" cid="CNT003" type="containment" owner="fa47c76c0b7243359aeb3ba776fbcd3f" creation-date="06/28/2025 13:10:22" from="fc5d8a8abe164029afb2dd80d9a9751c" to="f34edf5475724aafa45705e7da138a45" />
           <item id="404f123353244ca4bd273ccf50413ab2" cid="DEP002" type="dependency" creation-date="05/03/2025 14:48:17" from="d87d7b613b1149a28735f55057151df9" to="190f95b8f19846c68926bcaf1c2cb507" visibility="package">
             <stereotypes>
               <stereotype name="import" />
@@ -6329,10 +6327,10 @@
               <stereotype id="404f123353244ca4bd273ccf50413ab2_import_c" type="import" creation-date="05/03/2025 14:48:17" ref="" />
             </stereotype-instances>
           </item>
+          <item id="2d4f810f598140949d56d33ebdd6302c" cid="ELEM021" type="class" name="Class3" owner="ad4d2ba3fe4e4d9fa6945820b2653120" creator="" creation-date="06/26/2025 21:38:36" visibility="undefined" />
           <item id="ba70c48e49154855b5faa9e3b35d52b7" cid="ELEM019" type="package" name="Services" owner="1002d24001e549559e8fc2a4388b9e27" creator="" creation-date="06/26/2025 21:36:08" visibility="undefined">
             <owned-items />
           </item>
-          <item id="2d4f810f598140949d56d33ebdd6302c" cid="ELEM021" type="class" name="Class3" owner="ad4d2ba3fe4e4d9fa6945820b2653120" creator="" creation-date="06/26/2025 21:38:36" visibility="undefined" />
           <item id="ad4d2ba3fe4e4d9fa6945820b2653120" cid="ELEM020" type="package" name="mapBytes" owner="1d78b65afd6f4454a2f48ff2a8b48163" creator="" creation-date="06/26/2025 21:38:33" visibility="undefined">
             <owned-items />
           </item>
