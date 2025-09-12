@@ -20,7 +20,8 @@ public class TCPServerSocket {
             try{
                 Socket socket = serverSocket.accept();
                 System.out.println("Conexão recebida da central: " + socket.getInetAddress().getHostAddress());
-                new Thread(new ConnectionHandler(socket)).start();
+                ConnectionHandler connectionHandler = new ConnectionHandler(socket);
+                new Thread(connectionHandler).start();
             } catch(Exception e){
                 System.out.println("Erro na conexão: " + e.getMessage());
             }

@@ -20,8 +20,11 @@ public class ConnectionHandler implements Runnable {
     private volatile long lastKeepAliveTime = System.currentTimeMillis();
     private volatile boolean online = true;
 
+    private byte seq;
+
     public ConnectionHandler(Socket socket) {
         this.socket = socket;
+        this.seq = 0x00;
 
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
@@ -56,10 +59,11 @@ public class ConnectionHandler implements Runnable {
                 }
 
                 byte cmd = buffer[3];
-                byte seq = buffer[2];
+                this.seq = buffer[2];
 
                 switch (cmd) {
                     case 0x21:
+                        System.out.println("CONVERTENDO HEX PARA ASCII (0x21): " + bytesToAscii(buffer, bytesRead));
                         verifyModel(buffer);
                         respondConnection(outputStream, seq, cmd);
                         break;
@@ -70,6 +74,7 @@ public class ConnectionHandler implements Runnable {
                         break;
 
                     case 0x24:
+                        System.out.println("CONVERTENDO HEX PARA ASCII (0x24): " + bytesToAscii(buffer, bytesRead));
                         verifyEvent(buffer);
                         respondEvent(outputStream, buffer, seq, cmd);
                         break;
@@ -233,5 +238,18 @@ public class ConnectionHandler implements Runnable {
         evento.append((char) buffer[10]);
         evento.append((char) buffer[11]);
         System.out.println("EVENTO: " + evento.toString());
+    }
+
+    private String bytesToAscii(byte[] data, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            // Mostra apenas caracteres "printáveis" (32 a 126)
+            if (data[i] >= 32 && data[i] <= 126) {
+                sb.append((char) data[i]);
+            } else {
+                sb.append("."); // substitui não-printáveis por ponto
+            }
+        }
+        return sb.toString();
     }
 }
