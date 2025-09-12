@@ -8,22 +8,41 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ConnectionHandler implements Runnable {
 
     private Socket socket;
-    private boolean connected = false;
 
     private int i = 0;
+    private volatile long lastKeepAliveTime = System.currentTimeMillis();
+    private volatile boolean online = true;
 
     public ConnectionHandler(Socket socket) {
         this.socket = socket;
+
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(() -> {
+            long diff = System.currentTimeMillis() - lastKeepAliveTime;
+            if (diff > 5 * 60 * 1000) {
+                if (online) {
+                    online = false;
+                    System.out.println("⚠Central OFFLINE (sem keep alive por 5 minutos)");
+                }
+            } else {
+                if (!online) {
+                    online = true;
+                    System.out.println("Central voltou ONLINE");
+                }
+            }
+        }, 30, 30, TimeUnit.SECONDS);
     }
 
     @Override
     public void run() {
         try (InputStream inputStream = socket.getInputStream(); OutputStream outputStream = socket.getOutputStream()) {
-
             byte[] buffer = new byte[256];
             int bytesRead;
 
@@ -43,10 +62,10 @@ public class ConnectionHandler implements Runnable {
                     case 0x21:
                         verifyModel(buffer);
                         respondConnection(outputStream, seq, cmd);
-                        connected = true;
                         break;
 
                     case 0x40:
+                        lastKeepAliveTime = System.currentTimeMillis();
                         respondKeepAlive(outputStream, seq, cmd);
                         break;
 
@@ -86,6 +105,7 @@ public class ConnectionHandler implements Runnable {
         };
         response[5] = calculateChecksum(response);
         sendResponse(out, response, "Resposta KEEP ALIVE enviada");
+
     }
 
     private void makePostRequest(int usuario) {
