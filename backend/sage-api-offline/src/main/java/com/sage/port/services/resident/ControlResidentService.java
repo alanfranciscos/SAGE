@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.control.ControlResident;
 
 public interface ControlResidentService {
@@ -57,5 +58,12 @@ public interface ControlResidentService {
      * @return A list of all ControlResident objects.
      */
     List<ControlResident> listControl();
+
+    /**
+     * Updates an existing control resident.
+     *
+     * @param id
+     */
+    void update(UpdateResidentRequestDto requestDto, UUID id);
 
 }

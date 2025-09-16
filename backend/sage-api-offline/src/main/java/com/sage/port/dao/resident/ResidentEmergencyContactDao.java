@@ -2,6 +2,7 @@ package com.sage.port.dao.resident;
 
 import java.util.UUID;
 
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.emergency.ResidentEmergencyContact;
 
 public interface ResidentEmergencyContactDao {
@@ -23,5 +24,13 @@ public interface ResidentEmergencyContactDao {
      * client ID.
      */
     public ResidentEmergencyContact getByClientId(UUID clientId);
+
+    /**
+     * Updates an existing resident emergency contact with the provided details.
+     *
+     * @param requestDto The UpdateResidentRequestDto object containing the
+     * updated details.
+     */
+    public void update(UpdateResidentRequestDto requestDto, UUID residentId);
 
 }

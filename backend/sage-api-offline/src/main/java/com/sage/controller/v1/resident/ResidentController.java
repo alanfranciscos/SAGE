@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentListResponseDto;
+import com.sage.dto.v1.resident.response.ResidentResponseDto;
 import com.sage.port.services.resident.ResidentService;
 
 /**
@@ -53,22 +55,26 @@ public class ResidentController {
 
     }
 
-    @PatchMapping
-    public String updateResident(@RequestBody String resident) {
-        return "TODO: Implement resident update logic";
-    }
-
     @GetMapping()
     public ResponseEntity<ResidentListResponseDto> listResidents(
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "0") int skip,
             @RequestParam(required = false) String search
     ) {
-        return ResponseEntity.ok(residentService.listResidents(limit, skip, search));
+        return ResponseEntity.ok(this.residentService.listResidents(limit, skip, search));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResidentDetailResponseDto> getResidentDetails(@PathVariable UUID id) {
-        return ResponseEntity.ok(residentService.getResidentDetailsById(id));
+        return ResponseEntity.ok(this.residentService.getResidentDetailsById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResidentResponseDto> updateResident(
+            @PathVariable UUID id,
+            @RequestBody UpdateResidentRequestDto updateResidentRequestDto
+    ) {
+        ResidentResponseDto updatedResident = this.residentService.updateResident(updateResidentRequestDto, id);
+        return ResponseEntity.ok(updatedResident);
     }
 }

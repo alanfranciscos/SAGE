@@ -3,6 +3,7 @@ package com.sage.port.services.resident;
 import java.util.UUID;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.emergency.ResidentEmergencyContact;
 
 public interface ResidentEmergencyContactService {
@@ -27,4 +28,8 @@ public interface ResidentEmergencyContactService {
      * client ID.
      */
     ResidentEmergencyContact getByClientId(UUID clientId);
+
+
+    /* Updates an existing resident emergency contact. */
+    void update(UpdateResidentRequestDto requestDto, UUID residentId);
 }

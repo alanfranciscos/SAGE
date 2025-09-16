@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.control.ControlResident;
 import com.sage.port.dao.resident.ControlResidentDao;
 
@@ -109,6 +110,22 @@ public class ControlResidentDaoImpl implements ControlResidentDao {
             throw new RuntimeException("Error finding control resident", e);
         }
         return null;
+    }
+
+    @Override
+    public void update(UpdateResidentRequestDto requestDto, UUID id) {
+        String sql = "UPDATE control_resident SET control_id = ?, alarm_id = ? WHERE resident_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, requestDto.controlNumber() != null ? requestDto.controlNumber() : null);
+            stmt.setObject(2, ControlResident.getAlarmIdDefault());
+            stmt.setObject(3, id);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating control resident: {0}", e.getMessage());
+            throw new RuntimeException("Error updating control resident", e);
+        }
     }
 
 }

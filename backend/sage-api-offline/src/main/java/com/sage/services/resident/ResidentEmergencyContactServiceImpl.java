@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.emergency.ResidentEmergencyContact;
 import com.sage.port.dao.resident.ResidentEmergencyContactDao;
 import com.sage.port.services.resident.ResidentEmergencyContactService;
@@ -33,6 +34,11 @@ public class ResidentEmergencyContactServiceImpl implements ResidentEmergencyCon
     @Override
     public ResidentEmergencyContact getByClientId(UUID clientId) {
         return this.residentEmergencyContactDao.getByClientId(clientId);
+    }
+
+    @Override
+    public void update(UpdateResidentRequestDto requestDto, UUID residentId) {
+        this.residentEmergencyContactDao.update(requestDto, residentId);
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.control.ControlResident;
 import com.sage.port.dao.resident.ControlResidentDao;
 import com.sage.port.services.resident.ControlResidentService;
@@ -50,6 +51,11 @@ public class ControlResidentServiceImpl implements ControlResidentService {
     public ControlResident findByControlByIdAndAlarmId(Integer controlId, UUID alarmId) {
         ControlResident controlResident = this.controlResidentDao.findByControlByIdAndAlarmId(controlId, alarmId);
         return controlResident;
+    }
+
+    @Override
+    public void update(UpdateResidentRequestDto requestDto, UUID id) {
+        this.controlResidentDao.update(requestDto, id);
     }
 
 }

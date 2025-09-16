@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -84,5 +85,15 @@ public class Resident {
         } catch (SQLException e) {
             throw new RuntimeException("Error mapping Resident from ResultSet", e);
         }
+    }
+
+    public static Resident mapFromUpdateResidentRequestDto(UpdateResidentRequestDto requestDto) {
+        Resident resident = new Resident();
+        resident.setFullName(requestDto.fullName());
+        resident.setCpf(requestDto.cpf());
+        resident.setSex(requestDto.sex());
+        resident.setBirthDate(requestDto.birthDate());
+        resident.setResidentialUnit(requestDto.residentialUnit());
+        return resident;
     }
 }

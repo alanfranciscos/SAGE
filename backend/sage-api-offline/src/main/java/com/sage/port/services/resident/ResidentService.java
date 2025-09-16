@@ -35,7 +35,8 @@ public interface ResidentService extends ResidentHeaderService {
      * @return The updated resident object.
      */
     ResidentResponseDto updateResident(
-            UpdateResidentRequestDto requestDto
+            UpdateResidentRequestDto requestDto,
+            UUID id
     );
 
     /**

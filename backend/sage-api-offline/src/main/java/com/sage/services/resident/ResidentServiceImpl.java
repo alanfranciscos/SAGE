@@ -96,9 +96,46 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public ResidentResponseDto updateResident(UpdateResidentRequestDto requestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateResident'");
+    public ResidentResponseDto updateResident(UpdateResidentRequestDto requestDto, UUID id) {
+        Resident resident = this.residentDao.findResidentById(id);
+        if (resident == null) {
+            throw new NotFoundException("Resident not found with ID: " + id);
+        }
+
+        if (!resident.getCpf().equals(requestDto.cpf())
+                && this.residentDao.existsResidentByCpf(requestDto.cpf())) {
+            throw new AlreadyExistsException("Resident with CPF " + requestDto.cpf() + " already exists.");
+        }
+
+        resident = Resident.mapFromUpdateResidentRequestDto(requestDto);
+
+        resident.setId(id);
+        resident.setUpdatedAt(ZonedDateTime.now());
+        this.residentDao.updateResident(resident);
+        if (requestDto.imageData().isPresent() && !requestDto.imageData().get().isEmpty()) {
+            String imagePath = this.fileHelperService.saveBase64File(
+                    requestDto.imageData().get(),
+                    FileType.RESIDENT_IMAGE, id.toString()
+            );
+            this.residentDao.updateImageData(id, imagePath);
+        }
+
+        this.residentEmergencyContactService.update(requestDto, id);
+        this.controlResidentService.update(requestDto, id);
+
+        ResidentResponseDto response = new ResidentResponseDto(
+                resident.getId(),
+                resident.getFullName(),
+                resident.getCpf(),
+                resident.getSex(),
+                resident.getBirthDate(),
+                resident.getCreatedAt(),
+                resident.getUpdatedAt(),
+                resident.getResidentialUnit(),
+                resident.getImageData(),
+                resident.isActive()
+        );
+        return response;
     }
 
     @Override

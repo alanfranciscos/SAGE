@@ -3,6 +3,7 @@ package com.sage.port.dao.resident;
 import java.util.List;
 import java.util.UUID;
 
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.control.ControlResident;
 
 public interface ControlResidentDao {
@@ -50,5 +51,13 @@ public interface ControlResidentDao {
      * and alarm ID, or null if not found.
      */
     ControlResident findByControlByIdAndAlarmId(Integer controlId, UUID alarmId);
+
+    /**
+     * Updates an existing resident control record with the provided details.
+     *
+     * @param requestDto The UpdateResidentRequestDto object containing the
+     * updated details.
+     */
+    void update(UpdateResidentRequestDto requestDto, UUID id);
 
 }

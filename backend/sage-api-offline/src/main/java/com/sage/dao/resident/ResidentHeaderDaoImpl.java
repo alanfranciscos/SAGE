@@ -31,8 +31,10 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
                     + "ORDER BY a.called_at DESC LIMIT ?";
         } else {
             sql += "SELECT DISTINCT r.id, r.full_name, r.residential_unit, r.image_data FROM resident r "
-                    + "LEFT JOIN assist a ON a.resident_id = r.id WHERE "
-                    + "a.resident_id IS NULL OR a.end_at IS NOT NULL ";
+                    + "WHERE NOT EXISTS ("
+                    + "    SELECT 1 FROM assist a2 "
+                    + "    WHERE a2.resident_id = r.id AND a2.end_at IS NULL"
+                    + ")";
             if (search != null && !search.trim().isEmpty()) {
                 sql += " AND (r.full_name LIKE ? OR r.cpf LIKE ?)";
             }

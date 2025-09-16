@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.model.resident.emergency.ResidentEmergencyContact;
 import com.sage.port.dao.resident.ResidentEmergencyContactDao;
 
@@ -65,6 +66,24 @@ public class ResidentEmergencyContactDaoImpl implements ResidentEmergencyContact
             throw new RuntimeException("Error retrieving resident emergency contact", e);
         }
         return null;
+    }
+
+    @Override
+    public void update(UpdateResidentRequestDto requestDto, UUID residentId) {
+        String sql = "UPDATE resident_emergency_contact SET full_name = ?, phone = ?, relationship = ? "
+                + "WHERE resident_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, requestDto.emergencyName().orElse(null));
+            stmt.setString(2, requestDto.emergencyPhone().orElse(null));
+            stmt.setString(3, requestDto.relationship().orElse(null));
+            stmt.setObject(4, residentId);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating resident emergency contact: {0}", e.getMessage());
+            throw new RuntimeException("Error updating resident emergency contact", e);
+        }
     }
 
 }
