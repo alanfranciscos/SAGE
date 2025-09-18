@@ -1,6 +1,8 @@
 package com.sage.controller.v1.resident;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -55,6 +57,15 @@ public class ResidentController {
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ResidentResponseDto> updateResident(
+            @PathVariable UUID id,
+            @RequestBody UpdateResidentRequestDto updateResidentRequestDto
+    ) {
+        ResidentResponseDto updatedResident = this.residentService.updateResident(updateResidentRequestDto, id);
+        return ResponseEntity.ok(updatedResident);
+    }
+
     @GetMapping()
     public ResponseEntity<ResidentListResponseDto> listResidents(
             @RequestParam(defaultValue = "10") int limit,
@@ -69,12 +80,31 @@ public class ResidentController {
         return ResponseEntity.ok(this.residentService.getResidentDetailsById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResidentResponseDto> updateResident(
-            @PathVariable UUID id,
-            @RequestBody UpdateResidentRequestDto updateResidentRequestDto
-    ) {
-        ResidentResponseDto updatedResident = this.residentService.updateResident(updateResidentRequestDto, id);
-        return ResponseEntity.ok(updatedResident);
+    @GetMapping("/card/total")
+    public Map<String, Long> cardTotal() {
+        Map<String, Long> map = new HashMap<>();
+        map.put("total", 7L);
+        return map;
+    }
+
+    @GetMapping("/card/alerts")
+    public Map<String, Long> cardAlerts() {
+        Map<String, Long> map = new HashMap<>();
+        map.put("alerts", 1L);
+        return map;
+    }
+
+    @GetMapping("/card/resolved")
+    public Map<String, Long> cardResolved() {
+        Map<String, Long> map = new HashMap<>();
+        map.put("solved_today", 7L);
+        return map;
+    }
+
+    @GetMapping("/card/mean-time")
+    public Map<String, Long> cardMeanTime() {
+        Map<String, Long> map = new HashMap<>();
+        map.put("mean_time", 7L);
+        return map;
     }
 }
