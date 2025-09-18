@@ -21,35 +21,47 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
 
     @Override
     public List<ResidentHeader> listResidentsBySeverityLevelAssist(
-            SeverityLevel severityLevel, int limit, int skip
+            SeverityLevel severityLevel, int limit, int skip, String search
     ) {
         String sql = "";
         if (severityLevel != null) {
             sql += "SELECT r.id, r.full_name, r.residential_unit, r.image_data FROM resident r "
                     + "INNER JOIN assist a ON a.resident_id = r.id "
                     + "WHERE a.severity_level = ? AND a.end_at IS NULL "
-                    + "ORDER BY a.called_at DESC LIMIT ? OFFSET ?";
+                    + "ORDER BY a.called_at DESC LIMIT ?";
         } else {
             sql += "SELECT DISTINCT r.id, r.full_name, r.residential_unit, r.image_data FROM resident r "
-                    + "LEFT JOIN assist a ON a.resident_id = r.id WHERE "
-                    + "a.resident_id IS NULL OR a.end_at IS NOT NULL "
-                    + "ORDER BY r.full_name ASC LIMIT ? OFFSET ?";
+                    + "WHERE NOT EXISTS ("
+                    + "    SELECT 1 FROM assist a2 "
+                    + "    WHERE a2.resident_id = r.id AND a2.end_at IS NULL"
+                    + ")";
+            if (search != null && !search.trim().isEmpty()) {
+                sql += " AND (r.full_name LIKE ? OR r.cpf LIKE ?)";
+            }
+            sql += "ORDER BY r.full_name ASC LIMIT ? OFFSET ?";
         }
 
         try (var preparedStatement = connection.prepareStatement(sql)) {
             if (severityLevel != null) {
                 preparedStatement.setString(1, severityLevel.getValue());
                 preparedStatement.setInt(2, limit);
-                preparedStatement.setInt(3, skip);
             } else {
-                preparedStatement.setInt(1, limit);
-                preparedStatement.setInt(2, skip);
+                if (search != null && !search.trim().isEmpty()) {
+                    preparedStatement.setString(1, "%" + search + "%");
+                    preparedStatement.setString(2, "%" + search + "%");
+                    preparedStatement.setInt(3, limit);
+                    preparedStatement.setInt(4, skip);
+                } else {
+                    preparedStatement.setInt(1, limit);
+                    preparedStatement.setInt(2, skip);
+                }
+
             }
 
             try (var resultSet = preparedStatement.executeQuery()) {
                 List<ResidentHeader> residents = new java.util.ArrayList<>();
                 while (resultSet.next()) {
-                    residents.add(new ResidentHeader().mapFromResultSet(resultSet));
+                    residents.add(ResidentHeader.mapFromResultSet(resultSet));
                 }
                 return residents;
             }
@@ -69,7 +81,7 @@ public class ResidentHeaderDaoImpl implements ResidentHeaderDao {
             try (var resultSet = preparedStatement.executeQuery()) {
                 List<ResidentHeader> residents = new java.util.ArrayList<>();
                 while (resultSet.next()) {
-                    residents.add(new ResidentHeader().mapFromResultSet(resultSet));
+                    residents.add(ResidentHeader.mapFromResultSet(resultSet));
                 }
                 return residents;
             }

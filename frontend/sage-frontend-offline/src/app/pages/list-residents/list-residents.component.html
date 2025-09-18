@@ -1,0 +1,89 @@
+<app-main>
+  <app-detail
+    [residentId]="selectedResidentId"
+    (closeModal)="showDetail = false"
+    [showModal]="showDetail"
+    [residentId]="selectedResidentId"
+  >
+    <!-- Additional content can be added here if needed -->
+  </app-detail>
+
+  <div class="content">
+    <header class="header">
+      <h1>Visão geral dos pacientes monitorados</h1>
+
+      <div class="header-content">
+        <app-search-input
+          title="Pesquisar residentes"
+          placeholder="Digite para pesquisar..."
+          (search)="onSearch($event)"
+        ></app-search-input>
+        <div class="header-actions">
+          @if (hasAlert) {
+          <app-alert [type]="alertType" />
+          } @if (!errorResidents && !loadingResidents) {
+          <app-button
+            [label]="'Cadastrar Paciente'"
+            [type]="'primary'"
+            (clicked)="onRegisterResident()"
+          ></app-button>
+          }
+        </div>
+      </div>
+    </header>
+
+    @if (residents === null) { @if (errorResidents) {
+    <div class="error">
+      <p>Erro ao carregar residentes. Tente novamente mais tarde.</p>
+    </div>
+    } @else if (loadingResidents) {
+    <div class="no-residents">
+      <p>Carregando residentes...</p>
+    </div>
+    }} @else if (residents.totalResidents === 0) {
+    <div class="no-residents">
+      <p>Nenhum residente encontrado.</p>
+    </div>
+    } @else {
+    <p>Total de Residentes: {{ residents.totalResidents }}</p>
+
+    <div class="resident-list">
+      @for (item of residents.severalResidents; track $index) {
+      <app-resident
+        [name]="item.fullName"
+        [room]="item.residentialUnit"
+        [level]="'several'"
+        [id]="item.id"
+        [image]="item.imageData"
+        (showDetails)="onShowDetails(item.id)"
+      ></app-resident>
+      } @for (item of residents.warningResidents; track $index) {
+      <app-resident
+        [name]="item.fullName"
+        [room]="item.residentialUnit"
+        [level]="'warning'"
+        [id]="item.id"
+        [image]="item.imageData"
+        (showDetails)="onShowDetails(item.id)"
+      ></app-resident>
+      } @for (item of residents.normalResidents; track $index) {
+      <app-resident
+        [name]="item.fullName"
+        [room]="item.residentialUnit"
+        [level]="'normal'"
+        [id]="item.id"
+        [image]="item.imageData"
+        (showDetails)="onShowDetails(item.id)"
+      ></app-resident>
+      }
+    </div>
+
+    }
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalItems]="getTotalItems()"
+      [pageSize]="pageSize"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+</app-main>

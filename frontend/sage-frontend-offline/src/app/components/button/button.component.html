@@ -1,0 +1,4 @@
+<button class="action-button" [class.secondary-button]="type === 'secondary'" [class.green-button]="type === 'green'"
+  [class.large-button]="size === 'large'" [disabled]="disabled" (click)="onClick()">
+  {{ label }}
+</button>

@@ -1,0 +1,1461 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sim-project version="14.30" multi-file="no" uid="simpfe6002afff264e40bc3e79e777fc3d6f" creation-date="03/29/2025 18:14:20">
+  <meta>
+    <name>SAGE</name>
+    <authors> </authors>
+    <description />
+  </meta>
+  <counters models="1">
+    <entity-names>
+      <counter>
+        <item-type type-id="system-boundary" type="System Boundary" />
+        <value>3</value>
+      </counter>
+      <counter>
+        <item-type type-id="use-case" type="Use Case" />
+        <value>6</value>
+      </counter>
+      <counter>
+        <item-type type-id="actor" type="Actor" />
+        <value>1</value>
+      </counter>
+      <counter>
+        <item-type type-id="element-detail" type="Element Detail" />
+        <value>1</value>
+      </counter>
+    </entity-names>
+    <entity-ids>
+      <counter>
+        <item-type type-id="system-boundary" type="System Boundary" />
+        <value>4</value>
+      </counter>
+      <counter>
+        <item-type type-id="use-case" type="Use Case" />
+        <value>7</value>
+      </counter>
+      <counter>
+        <item-type type-id="actor" type="Actor" />
+        <value>2</value>
+      </counter>
+      <counter>
+        <item-type type-id="universal-connector" type="Universal Connector" />
+        <value>55</value>
+      </counter>
+      <counter>
+        <item-type type-id="extend" type="Entend" />
+        <value>25</value>
+      </counter>
+      <counter>
+        <item-type type-id="relationship" type="Association" />
+        <value>37</value>
+      </counter>
+      <counter>
+        <item-type type-id="property" type="Property" />
+        <value>115</value>
+      </counter>
+      <counter>
+        <item-type type-id="element-detail" type="Element Detail" />
+        <value>2</value>
+      </counter>
+      <counter>
+        <item-type type-id="comment-connector" type="Comment Connector" />
+        <value>2</value>
+      </counter>
+      <counter>
+        <item-type type-id="include" type="Include" />
+        <value>5</value>
+      </counter>
+      <counter>
+        <item-type type-id="text" type="Text" />
+        <value>3</value>
+      </counter>
+    </entity-ids>
+    <diagrams>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.Diagrams.UmlDiagrams.UmlUseCaseDiagram</type>
+        <value>6</value>
+      </counter>
+    </diagrams>
+    <fields />
+  </counters>
+  <alias-groups />
+  <management uid="md-266008f87a6946b8ad1b8a775b3146b7" name="" task-id-sequence="0">
+    <working-schedule uid="ws-ce5e7620207b4a8da29a6f9e6ae6e036" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
+    <persons>
+      <person id="">
+        <first-name />
+        <last-name />
+        <role />
+        <e-mail />
+        <phone-number />
+        <description />
+        <color>#00000000</color>
+        <working-schedule uid="ws-3bb7acbdbf0d41fdb4116cb6397871c2" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
+      </person>
+    </persons>
+    <teams />
+    <sprints />
+    <projects />
+    <modules />
+    <tasks />
+    <to-dos />
+  </management>
+  <glossary id="glsr-a3b4bb381d9b45aaa97f4c54b2cb477d" name="" order-index="-1" />
+  <types default="UML">
+    <type-sets>
+      <type-set file="UmlTypes.xml" />
+    </type-sets>
+    <custom-types>
+      <parameters />
+      <types />
+    </custom-types>
+  </types>
+  <items>
+    <item id="abc1764da00a41749cabd4cc2a2e526f" veid="2301c895919d45d0b9123b55a03fe7de" cid="PROP095" type="property" owner="85b300effa034a3c8d74870c1687d82e" creation-date="06/07/2025 16:51:58" visibility="private" />
+    <item id="996c8373fb7a4d0b8baeaf7cc7f0373d" cid="PROP044" type="property" owner="39b3d3c428bc4d69904aaf005a39b8fd" creation-date="05/03/2025 08:46:34" visibility="private" />
+    <item id="3fe184bf34724e409a1842453b34bb09" cid="UC004" type="use-case" name="Enviar sinal de radiofrequência" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="a6bd953b751c437fb5f9d65ab7956dc6" cid="PROP112" type="property" owner="c1776f08ca1b4e45b6fe22cee74488a1" creation-date="09/06/2025 10:37:23" visibility="private" />
+    <item id="c52eccf8798741a980710ea38e9b6ee4" cid="UC006" type="use-case" name="Excluir dados dos profissionais da saúde" creation-date="03/29/2025 18:28:19" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="3d0ddbf36b114f9ea0089e80bd284a55" cid="SYS002" type="system-boundary" name="Módulo Enfermeiro(a)" creation-date="03/29/2025 18:23:26">
+      <owned-items />
+    </item>
+    <item id="17e5b683fd4f4a21b0362db7c2bc06d6" cid="ELEM005" type="universal-connector" creation-date="03/29/2025 18:16:52" from="34d406fe5bcd49afa3b28f5e80c27dbe">
+      <connector />
+    </item>
+    <item id="21bcb152b40141718c3a138861aa90e2" cid="SYS002" type="system-boundary" name="Módulo de comunicação nuvem" creation-date="03/29/2025 18:23:26">
+      <owned-items />
+    </item>
+    <item id="ef32326949ae43b39b4d76befe23f1d9" cid="EX013" type="extend" owner="75fe5caa073245498619ea66ba40efc1" creation-date="04/27/2025 18:20:00" from="dc350f7c8ca4422c82a4088e43dd753a" to="df8f6a10f71a4699a3bca8ddc894b4fc" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="7d6a2716110543f99f59ae9e99a9a940" cid="UC004" type="use-case" name="Abrir conexao socket" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="d6d7909936114e90b6ea0e7c1631e91d" cid="UC004" type="use-case" name="Desativar profissional da saúde" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="a45845543a9342209fab0311d67e60f6" cid="PROP077" type="property" owner="0658d3a372c048aebb521ecd6cfaabe3" creation-date="06/07/2025 16:58:13" visibility="private" />
+    <item id="95cb72a1d35749958b40ca74325422ac" cid="PROP067" type="property" owner="f16c5c7639434096a1458cf36da7d3a4" creation-date="06/07/2025 16:57:50" visibility="private" />
+    <item id="16486dfe20be454b82d868e6151e0624" cid="UC004" type="use-case" name="Abre conexão com o GCP" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="6ba1221ea5c243008363168b84d61462" cid="UC002" type="use-case" name="Editar Perfil" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="2e74deb2418d4abfb8c17d1b16796e8a" cid="SYS002" type="system-boundary" name="Módulo de comunicação local" creation-date="03/29/2025 18:23:26">
+      <owned-items />
+    </item>
+    <item id="e95743a3292d43aca175c9d0bfb4f2f7" cid="PROP102" type="property" owner="bcdc7249b96e429596ebcd52e06132ea" creation-date="06/26/2025 20:42:48" visibility="private" />
+    <item id="f27e40ea7d314e90ab9158c79d3ad001" cid="UC002" type="use-case" name="Editar dados do paciente" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="720ed02435844f63a5044336f8d8a290" veid="1bd2a6852f1a4f8990900d5c4fdf8e9f" cid="PROP096" type="property" owner="85b300effa034a3c8d74870c1687d82e" creation-date="06/07/2025 16:51:58" visibility="private" />
+    <item id="70652583bd9f4f80b7afb48516cb1dce" cid="UC005" type="use-case" name="Excluir dados do paciente" creation-date="03/29/2025 18:24:06" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="60e9ab4b78b24b0bb317816484c3fd03" cid="UC004" type="use-case" name="Recuperar senha" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="a6ec89a3ab5f424b88851fe43c042616" cid="UC002" type="use-case" name="Criar Conta" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="8c60044cab3b40d9845f9673bd64a4fe" cid="PROP108" type="property" owner="3d7b6225b9c74a8ea7d7ad7a3ebc1507" creation-date="09/06/2025 10:34:59" visibility="private" />
+    <item id="a090794194cf45efb153e3a5b71ac3d6" cid="REL013" type="relationship" creation-date="04/27/2025 18:19:32" from="e9bc9008f2a54fcabab10dcab0b5724b" to="870cec2e92d74be7b87509ba84bd40bf" visibility="package">
+      <owned-items />
+      <relation from="e9bc9008f2a54fcabab10dcab0b5724b" to="870cec2e92d74be7b87509ba84bd40bf" derived="false">
+        <start-role id="umlar-f59c9e02-0e8e-4bda-b88e-fa587a444afc" name="" navigability="" association-type="association" visibility="private" property-ref="e7ec7fa4cbf444d6897bbeb58fcf4184" />
+        <end-role id="umlar-343a672d-f6eb-47b2-b47c-f49143e613a3" name="" navigability="" association-type="association" visibility="private" property-ref="51205cb9ccbd410fa98b68f7d417ffb1" />
+      </relation>
+    </item>
+    <item id="a3de11e2d6d045499be7e7d20dae7a7c" cid="PROP113" type="property" owner="ec4be3bbc05d4fccbb0d7c0ab69364f3" creation-date="09/06/2025 11:04:11" visibility="private" />
+    <item id="833c1a43a5df41ea9c8d5882eb8722d1" cid="AC001" type="actor" name="Google Cloud Platform" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="0d2c1c1ea67c4921861afacbf75f472e" cid="UC004" type="use-case" name="Enviar código para confirmar a criação de conta" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="5a6ef40415064869ac6cf3bdfc5732a1" cid="UC006" type="use-case" name="Cadastrar profissional da saúde" creation-date="03/29/2025 18:28:19" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="c39d77421fe845d4a12e59f4d0a787a6" cid="PROP068" type="property" owner="f16c5c7639434096a1458cf36da7d3a4" creation-date="06/07/2025 16:57:50" visibility="private" />
+    <item id="0f1fa3e8105040d1ba8eb53f3026fb39" cid="UC005" type="use-case" name="Visualizar insights dos pacientes após medição" creation-date="03/29/2025 18:24:06" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="00e6b24aeb7e453e834caeef48b5af8c" cid="UC002" type="use-case" name="Encerrar sessão" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="df8f6a10f71a4699a3bca8ddc894b4fc" cid="UC004" type="use-case" name="Enviar código para confirmar a criação de conta" owner="75fe5caa073245498619ea66ba40efc1" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="4511ecad3f2a480cbc9700874dc967cc" cid="EX002" type="extend" creation-date="03/29/2025 18:18:46" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="b47c3a454cff4fdcaf31f8498c037d96_extend_c" type="extend" creation-date="03/29/2025 18:18:46" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="46930a304e444bc78ae657e69845f305" cid="UC004" type="use-case" name="Recebe e visualiza dados da central de alarmes" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="9f822d29bd5e4249b93b6ace2b7eba3e" cid="UC004" type="use-case" name="Recuperar senha" owner="75fe5caa073245498619ea66ba40efc1" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="ad4ab2bcd29e4c69acaf8c912808e733" cid="UC004" type="use-case" name="Envia os dados recebidos da central de alarmes" owner="21bcb152b40141718c3a138861aa90e2" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="bdb811e2d14f40f7b8a0a2522c79c4a8" cid="AC001" type="actor" name="Servidor de e-mail" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="145e289f469e43cf9675fd817638fdf2" cid="EX021" type="extend" owner="9fdf465bbabb4f4ab07924770f1327f2" creation-date="06/07/2025 17:15:22" from="c9071a424da9479b80c1d35d5ec5e2dd" to="734fd18d34124edb9445a7f921964277" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="87afc7fb16ca456e9238cc4ad901df75_extend_c" type="extend" creation-date="06/07/2025 17:15:22" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="cee95c300fc34c0a8142b6bf5662fcfb" cid="UC005" type="use-case" name="Atualizar dados do paciente" creation-date="03/29/2025 18:24:06" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="5eebcfcc61d84f93a643318a09f1621a" cid="REL018" type="relationship" creation-date="06/07/2025 16:52:12" from="996d2899a7cf469eae6ff997165cc0f6" to="dc350f7c8ca4422c82a4088e43dd753a" visibility="package">
+      <owned-items />
+      <relation from="996d2899a7cf469eae6ff997165cc0f6" to="dc350f7c8ca4422c82a4088e43dd753a" derived="false">
+        <start-role id="umlar-541c40f7-13c6-4048-84fc-497020cb73d9" name="" navigability="" association-type="association" visibility="private" property-ref="e5c63c3aa6a346c9ab6be52fe41573c7" />
+        <end-role id="umlar-db2d8a0b-28a2-4a40-a491-c9b16c397e4f" name="" navigability="" association-type="association" visibility="private" property-ref="3514066d48a14831916ab5d5e86cee93" />
+      </relation>
+    </item>
+    <item id="8cc594dab65a4b07af5ed1ef320e6aa9" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="46930a304e444bc78ae657e69845f305" to="0dfec8072dab46b78d3d46de15392f99" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="ba035c692b7247dba5a7ca14df412f5f" cid="REL016" type="relationship" creation-date="05/03/2025 08:48:06" from="833c1a43a5df41ea9c8d5882eb8722d1" to="870cec2e92d74be7b87509ba84bd40bf" visibility="package">
+      <owned-items />
+      <relation from="833c1a43a5df41ea9c8d5882eb8722d1" to="870cec2e92d74be7b87509ba84bd40bf" derived="false">
+        <start-role id="umlar-9e5a9e25-25d2-4354-9363-678ed2966ed3" name="" navigability="" association-type="association" visibility="private" property-ref="d09c528144364bc9ae819c3b04bd2185" />
+        <end-role id="umlar-fc2907b3-d8b7-4573-a180-4e6ff625f6c9" name="" navigability="" association-type="association" visibility="private" property-ref="786e78552d364e649da39182b1e87990" />
+      </relation>
+    </item>
+    <item id="480052a0c3bc4cbeb6d7e53dd25ecf25" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="3fe184bf34724e409a1842453b34bb09" to="7d6a2716110543f99f59ae9e99a9a940" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="2ee35bae53534611b4669a599280c79b" cid="UC002" type="use-case" name="Adicionar observações sobre o alarme." owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="8cf024e6be68421baa659dda6b632241" cid="EX021" type="extend" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="06/07/2025 17:15:22" from="d6d7909936114e90b6ea0e7c1631e91d" to="df72bfdd595f4e5b871cd7783cee23d6" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="87afc7fb16ca456e9238cc4ad901df75_extend_c" type="extend" creation-date="06/07/2025 17:15:22" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="8764225863a44cf19b290b3297ae52bb" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="5712e8c2b93a4a4189959443f79d7d23" to="f6664bed518e483facce8868090b1fcb" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="55522a7489c44d71a067d5b1f57b7575" cid="ELEM011" type="universal-connector" creation-date="03/29/2025 18:17:14" from="9f27dc35f9ce44bb9cd50cd05487098b">
+      <connector />
+    </item>
+    <item id="4a4a9dd8ee4c4b1786f0e41bde76b2de" cid="PROP110" type="property" owner="0903bdef8ffb4ba5b907438d9d343184" creation-date="09/06/2025 10:35:10" visibility="private" />
+    <item id="dea4430ad3b2457dbd88ca0185a80fd2" cid="UC004" type="use-case" name="Criar conta" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="a2d89e7d2cbe443287567d7a0a87837b" cid="UC005" type="use-case" name="Visualizar alertas dos pacientes" creation-date="03/29/2025 18:24:06" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="fc5eae19acf04a9f88fb0532c08f2dfc" cid="REL018" type="relationship" creation-date="06/07/2025 16:52:12" from="2f0304715c0c47089beba1ce8d6046b4" to="df72bfdd595f4e5b871cd7783cee23d6" visibility="package">
+      <owned-items />
+      <relation from="2f0304715c0c47089beba1ce8d6046b4" to="df72bfdd595f4e5b871cd7783cee23d6" derived="false">
+        <start-role id="umlar-41544cc7-551a-4b26-a6ff-d638cc972f01" name="" navigability="" association-type="association" visibility="private" property-ref="df2b9291ed4341d6bde724842c5280f9" />
+        <end-role id="umlar-16b4f35e-31e4-4140-9f1e-2889e9312320" name="" navigability="" association-type="association" visibility="private" property-ref="fe72c0b80b6646b58f8ba3008dd25a00" />
+      </relation>
+    </item>
+    <item id="3ed639e722fa4a32977d2ca416e12df9" cid="UC004" type="use-case" name="Envia os dados recebidos da central de alarmes" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="d2a2f8f2ef764dfd8eb62c24ce5bec07" cid="PROP101" type="property" owner="bcdc7249b96e429596ebcd52e06132ea" creation-date="06/26/2025 20:42:48" visibility="private" />
+    <item id="e9bc9008f2a54fcabab10dcab0b5724b" cid="AC001" type="actor" name="Raspberry" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="3514066d48a14831916ab5d5e86cee93" veid="cda1d1737f6a4509982983ffcdb4a022" cid="PROP098" type="property" owner="5eebcfcc61d84f93a643318a09f1621a" creation-date="06/07/2025 16:52:12" visibility="private" />
+    <item id="8be560c9b7ba47088994619cdb8c608c" cid="AC001" type="actor" name="Google Cloud Platform" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="fdbae78d7c0c4153b30e06e37f203dbe" cid="UC004" type="use-case" name="Módulo de Comunicação Nuvem" owner="9fdf465bbabb4f4ab07924770f1327f2" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="34898dde8adc4efd8d5de1b4ae53f8ac" cid="AC001" type="actor" name="Servidor de emal" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="5712e8c2b93a4a4189959443f79d7d23" cid="UC004" type="use-case" name="Enviar sinal de radiofrequência" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="37ce3eb5f15e45bc8bb8fd1d6169255c" cid="UC002" type="use-case" name="Excluir Paciente" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="b63033d862194f93b95cc246f87d0e4d" cid="REL018" type="relationship" creation-date="06/07/2025 16:52:12" from="aae59b4ffd2b46e78715a40adffa9f11" to="734fd18d34124edb9445a7f921964277" visibility="package">
+      <owned-items />
+      <relation from="aae59b4ffd2b46e78715a40adffa9f11" to="734fd18d34124edb9445a7f921964277" derived="false">
+        <start-role id="umlar-18ebda15-1f28-4790-b3e6-5fa12a922a35" name="" navigability="" association-type="association" visibility="private" property-ref="b1686b2115064a41a9123f40d8eff0e9" />
+        <end-role id="umlar-ecc9d78b-f8aa-41fc-8d67-d2bc8a9d6aaf" name="" navigability="" association-type="association" visibility="private" property-ref="00e1decfb99143a0bc87ea74f680bcc2" />
+      </relation>
+    </item>
+    <item id="320b1f24faab4bf0ab528cdead08e113" cid="UC002" type="use-case" name="Atualizar status do pedido do paciente" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="dc350f7c8ca4422c82a4088e43dd753a" cid="UC004" type="use-case" name="Criar conta" owner="75fe5caa073245498619ea66ba40efc1" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="edaa2884ea0e41caa374ec648fd149f0" cid="UC002" type="use-case" name="Visualizar dashboard de pacientes" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="373e7302a95347a78c688a59eaa75b95" cid="UC002" type="use-case" name="Visualizar dashboard" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="a43fe0fc2032419dbafac8acd1588d6e" cid="PROP111" type="property" owner="c1776f08ca1b4e45b6fe22cee74488a1" creation-date="09/06/2025 10:37:23" visibility="private" />
+    <item id="79ef1c3fefb64e76b91c8d9607e89e77" cid="EX013" type="extend" owner="21bcb152b40141718c3a138861aa90e2" creation-date="04/27/2025 18:20:00" from="ad4ab2bcd29e4c69acaf8c912808e733" to="870cec2e92d74be7b87509ba84bd40bf" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="c47443cc1a0042329405112d775a2577" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="dea4430ad3b2457dbd88ca0185a80fd2" to="89418edbc7e14eec8c67fd4c339e76a3" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="fd98e7661e7d4830a469f84c20f83e9c" cid="UC004" type="use-case" name="Recuperar senha" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="9f27dc35f9ce44bb9cd50cd05487098b" cid="UC002" type="use-case" name="Excluir Perfil" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="123c07f205a14c16abd90ef86bf8e264" cid="UC002" type="use-case" name="Logout" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="39835318c1714a21aabd6ba66b349340" cid="REL015" type="relationship" owner="2e74deb2418d4abfb8c17d1b16796e8a" creation-date="05/03/2025 08:46:34" to="e4cf2a94c7b6463789ddf69660a3f6cd" visibility="package">
+      <owned-items />
+      <relation from="7e5b3d8db24e4074a7d4babad8bce2ea" to="e4cf2a94c7b6463789ddf69660a3f6cd" derived="false">
+        <start-role id="umlar-c752f776-efdd-47ee-a5ec-81c89c877c58" name="" navigability="" association-type="association" visibility="private" property-ref="e0b0459e431340c78a0ac18638459c7a" />
+        <end-role id="umlar-7b4c060f-f33f-49a9-96ab-2e14b164a4cf" name="" navigability="" association-type="association" visibility="private" property-ref="afb5b9250ec14f2c8e6e96b782b80338" />
+      </relation>
+    </item>
+    <item id="a8e4d0abb40e434cbc9a161929c3ff3b" cid="PROP078" type="property" owner="0658d3a372c048aebb521ecd6cfaabe3" creation-date="06/07/2025 16:58:13" visibility="private" />
+    <item id="9fdb61cf86054e6488b697ad15be6a24" cid="UC004" type="use-case" name="Enviar mensagem com sinal de radiofrequência" owner="2e74deb2418d4abfb8c17d1b16796e8a" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="33fceeb8fc204e5e826c8f6686bb7eee" cid="AC001" type="actor" name="Central de Alarmes" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="8214fc3bbe134f5caa0e949510c2edc5" cid="UC004" type="use-case" name="Visualizar dashboard o status de cada paciente." creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="e5c63c3aa6a346c9ab6be52fe41573c7" veid="4982ad76862c457d91c0aab70c0c7969" cid="PROP097" type="property" owner="5eebcfcc61d84f93a643318a09f1621a" creation-date="06/07/2025 16:52:12" visibility="private" />
+    <item id="c9071a424da9479b80c1d35d5ec5e2dd" cid="UC004" type="use-case" name="Módulo de Comunicação Local" owner="9fdf465bbabb4f4ab07924770f1327f2" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <associated-diagrams>
+        <diagram id="p82f548171fb043bfb063891d93e3b769_270167641" />
+      </associated-diagrams>
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="996d2899a7cf469eae6ff997165cc0f6" cid="AC001" type="actor" name="Enfermeiro(a)" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="06a87d7e5e0b463fa30876ca52787ad0" cid="EX003" type="extend" creation-date="03/29/2025 18:19:04" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="128e85795f154f48931232e8434fa4f3_extend_c" type="extend" creation-date="03/29/2025 18:19:04" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="9518ecfc1b3e435e89f5a69ed6c369e9" cid="UC002" type="use-case" name="Alterar o status para &quot;Em atendimento&quot; ou &quot;Atendido&quot;" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="870cec2e92d74be7b87509ba84bd40bf" cid="UC004" type="use-case" name="Abre conexão com o GCP" owner="21bcb152b40141718c3a138861aa90e2" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="df72bfdd595f4e5b871cd7783cee23d6" cid="UC004" type="use-case" name="Cadastrar profissional da saúde" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="e4cf2a94c7b6463789ddf69660a3f6cd" cid="UC004" type="use-case" name="Abrir conexao socket com o backend" owner="2e74deb2418d4abfb8c17d1b16796e8a" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="c6889a0032a9404ebac35cf61c38c6a6" cid="UC004" type="use-case" name="Aceitar termos de uso" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="2cc1f078bd2a4bbdbd7815dd68ca88fd" cid="PROP114" type="property" owner="ec4be3bbc05d4fccbb0d7c0ab69364f3" creation-date="09/06/2025 11:04:11" visibility="private" />
+    <item id="20011c873d9c481ba6fa6fadedd5e1f6" cid="UC002" type="use-case" name="Atualizar status do atendimento" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="03a21349a12345229915e83208b5dfe0" cid="UC002" type="use-case" name="Recuperar Senha" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="44ebaf9711d24efba4f315d1fc34e59f" cid="UC004" type="use-case" name="Excluir profissional da saúde" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="f087f08c89dc4fb3a625b9e501ac1f67" cid="PROP109" type="property" owner="0903bdef8ffb4ba5b907438d9d343184" creation-date="09/06/2025 10:35:10" visibility="private" />
+    <item id="84ce6db4dadc44f5b0c29344764ef72f" cid="UC004" type="use-case" name="Abrir conexao socket com o backend" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="3e808878e7fb4f249fa6048c550342ce" cid="UC004" type="use-case" name="Criar conta" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="d2702d694745475dadd841df460a68df" cid="AC001" type="actor" name="Central de Alarmes" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="0a3068a625b340a99b72f3419833bd72" cid="AC001" type="actor" name="Enfermeiro(a)" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="1352c4a89a9d42d3b5a03011ad5d9b7d" cid="REL013" type="relationship" creation-date="04/27/2025 18:19:32" from="4fdc4b71d8db4bfbbc41b9c515b36991" to="e4cf2a94c7b6463789ddf69660a3f6cd" visibility="package">
+      <owned-items />
+      <relation from="4fdc4b71d8db4bfbbc41b9c515b36991" to="e4cf2a94c7b6463789ddf69660a3f6cd" derived="false">
+        <start-role id="umlar-f9215f49-abfc-42fc-8841-d5bcf207ec6e" name="" navigability="" association-type="association" visibility="private" property-ref="8e0a071078794b119584e008474a050e" />
+        <end-role id="umlar-0359369c-d2f1-4b96-b115-4906cce59b68" name="" navigability="" association-type="association" visibility="private" property-ref="c68ac2eb6ae24b318706a2fe61d72224" />
+      </relation>
+    </item>
+    <item id="aea1815f0e874312a91914301fea58e2" cid="EX022" type="extend" owner="75fe5caa073245498619ea66ba40efc1" creation-date="06/16/2025 18:12:54" from="9f822d29bd5e4249b93b6ace2b7eba3e" to="dc350f7c8ca4422c82a4088e43dd753a" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="a0dc3a1229b249ad956ea717be3254be_extend_c" type="extend" creation-date="06/16/2025 18:12:54" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="f2fb69e3ab9b4252af1c221111119a55" cid="PROP043" type="property" owner="39b3d3c428bc4d69904aaf005a39b8fd" creation-date="05/03/2025 08:46:34" visibility="private" />
+    <item id="01617ab877c94716a255ec0001fcabc3" cid="UC004" type="use-case" name="Visualizar dashboard com as medições cardíacas do paciente" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="64c58f0bbe1142f6ac4e716a8f3ef6ad" cid="AC001" type="actor" name="Dispositivos de acesso ao SAGE" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="26784c93dee2474eaeae6e82d4563f59" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="3ed639e722fa4a32977d2ca416e12df9" to="16486dfe20be454b82d868e6151e0624" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="2145854f61624c13b798c759dd42b101" cid="UC002" type="use-case" name="Cadastrar paciente" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="9fdf465bbabb4f4ab07924770f1327f2" cid="SYS002" type="system-boundary" name="SAGE" creation-date="03/29/2025 18:23:26">
+      <owned-items />
+    </item>
+    <item id="9e4d027836be4cebba156fccbc87961f" cid="UC004" type="use-case" name="Módulo Enfermeiro(a)" owner="9fdf465bbabb4f4ab07924770f1327f2" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <associated-diagrams>
+        <diagram id="pf4cf4d283c0e4a4499f1eb94e3d3659d_778171692" />
+      </associated-diagrams>
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="2f0304715c0c47089beba1ce8d6046b4" cid="AC001" type="actor" name="Enfermeiro(a)" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="a914a217c7f44fec8cf414dc65b1a727" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="805e76cee1b34c37a376b5cb74a14720" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="734fd18d34124edb9445a7f921964277" cid="UC004" type="use-case" name="Modulo do Técnico(a) em Enfermagem" owner="9fdf465bbabb4f4ab07924770f1327f2" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <associated-diagrams>
+        <diagram id="pa27ea309222c4e428d9d4a35bc71ab8f_756977428" />
+      </associated-diagrams>
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="85b300effa034a3c8d74870c1687d82e" cid="REL017" type="relationship" creation-date="06/07/2025 16:51:58" from="df8f6a10f71a4699a3bca8ddc894b4fc" to="bdb811e2d14f40f7b8a0a2522c79c4a8" visibility="package">
+      <owned-items />
+      <relation from="df8f6a10f71a4699a3bca8ddc894b4fc" to="bdb811e2d14f40f7b8a0a2522c79c4a8" derived="false">
+        <start-role id="umlar-eeb481dd-6ac0-4760-8260-2ea098168ade" name="" navigability="" association-type="association" visibility="private" property-ref="abc1764da00a41749cabd4cc2a2e526f" />
+        <end-role id="umlar-b1030e16-1544-4fce-8e94-c85d218897aa" name="" navigability="" association-type="association" visibility="private" property-ref="720ed02435844f63a5044336f8d8a290" />
+      </relation>
+    </item>
+    <item id="51205cb9ccbd410fa98b68f7d417ffb1" veid="cb491e48d45a41499c1b5e2eef27dead" cid="PROP088" type="property" owner="a090794194cf45efb153e3a5b71ac3d6" creation-date="04/27/2025 18:19:32" visibility="private" />
+    <item id="fd1b712aca9245988aa2bb0b9fde3016" cid="UC004" type="use-case" name="Enviar código para confirmar a criação de conta" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="d09c528144364bc9ae819c3b04bd2185" veid="78cf34c2dd3d494485bfa0d7ffdbe8aa" cid="PROP089" type="property" owner="ba035c692b7247dba5a7ca14df412f5f" creation-date="05/03/2025 08:48:06" visibility="private" />
+    <item id="e7ec7fa4cbf444d6897bbeb58fcf4184" veid="139a489b598b4419ad0fc3ccb05667b0" cid="PROP087" type="property" owner="a090794194cf45efb153e3a5b71ac3d6" creation-date="04/27/2025 18:19:32" visibility="private" />
+    <item id="cfc0a596ec8e427b8bb23645e375c8bd" cid="AC001" type="actor" name="Servidor de e-mail" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="d36b87a2f50d41139294a805c50c8e7b" cid="UC002" type="use-case" name="Aceitar termos de uso no primeiro acesso" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="ed1a08551c4f4d39be00585b5fe7b492" cid="UC002" type="use-case" name="Desativar paciente" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="805e76cee1b34c37a376b5cb74a14720" cid="UC004" type="use-case" name="Cadastrar profissional da saúde" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="f6664bed518e483facce8868090b1fcb" cid="UC004" type="use-case" name="Enviar código de autenticação" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="a567efb033cf4c1e8927da5f447b199e" cid="UC002" type="use-case" name="Tratar alarme" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="0dfec8072dab46b78d3d46de15392f99" cid="UC004" type="use-case" name="Abre conexão com o GCP" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="c18c520e38a54ac4833d37926e86d2cc" cid="UC002" type="use-case" name="Login" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="34d406fe5bcd49afa3b28f5e80c27dbe" cid="UC002" type="use-case" name="Criar Conta" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="75fe5caa073245498619ea66ba40efc1" cid="SYS002" type="system-boundary" name="Módulo do servidor de email" creation-date="03/29/2025 18:23:26">
+      <owned-items />
+    </item>
+    <item id="63421c45bece48b181eeb5efac96ba37" cid="PROP107" type="property" owner="3d7b6225b9c74a8ea7d7ad7a3ebc1507" creation-date="09/06/2025 10:34:59" visibility="private" />
+    <item id="36c0d2f12cd04245a7bc029504eef014" cid="EX013" type="extend" owner="2e74deb2418d4abfb8c17d1b16796e8a" creation-date="04/27/2025 18:20:00" from="9fdb61cf86054e6488b697ad15be6a24" to="e4cf2a94c7b6463789ddf69660a3f6cd" visibility="package">
+      <stereotypes>
+        <stereotype name="extend" />
+      </stereotypes>
+      <stereotype-instances>
+        <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+      </stereotype-instances>
+      <extend extension-point="" condition="" />
+    </item>
+    <item id="0a1fcc69db6a4afdbcec46b9536a8b8d" cid="UC002" type="use-case" name="Aceitar termois" owner="2b7de2282c614335bb025b0e021ce845" creation-date="03/29/2025 18:15:20" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="89418edbc7e14eec8c67fd4c339e76a3" cid="UC004" type="use-case" name="Enviar código para confirmar a criação de conta" creation-date="03/29/2025 18:23:52" visibility="undefined">
+      <use-case>
+        <stakeholders />
+        <special-requirements />
+        <issues />
+      </use-case>
+    </item>
+    <item id="4fdc4b71d8db4bfbbc41b9c515b36991" cid="AC001" type="actor" name="Central de Alarmes" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+    <item id="786e78552d364e649da39182b1e87990" veid="29f5666a7d2f495894719901a6e2e5b6" cid="PROP090" type="property" owner="ba035c692b7247dba5a7ca14df412f5f" creation-date="05/03/2025 08:48:06" visibility="private" />
+    <item id="aae59b4ffd2b46e78715a40adffa9f11" cid="AC001" type="actor" name="Técnico(a) em Enfermagem" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+  </items>
+  <models>
+    <model id="p304b32586f4a4281865cd37e815db6b3_698278898" name="Visao de Funcao" namespace="" order-index="1" expanded="true">
+      <meta>
+        <authors>
+          <author> </author>
+        </authors>
+        <description />
+        <creation-date>03/29/2025 18:14:31</creation-date>
+        <change-date>01/01/0001 00:00:00</change-date>
+        <revision-count>0</revision-count>
+        <version />
+      </meta>
+      <abstract-items />
+      <sub-models />
+      <diagram type="uml-usecase" id="pa27ea309222c4e428d9d4a35bc71ab8f_756977428" name="DCU_SAGE_ModuloTecnicoEmEnfermagem" order-index="1" uid="" name-style="" auto-routed-paths="false" default-line-style="default" view-location="0,138" zoom="0.7">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>03/29/2025 18:14:31</creation-date>
+          <change-date>09/06/2025 11:04:11</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="240a4a71adff4c5e824ab57157082680" cid="EX012" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="04/27/2025 18:17:26" from="f27e40ea7d314e90ab9158c79d3ad001" to="2145854f61624c13b798c759dd42b101" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="240a4a71adff4c5e824ab57157082680_extend_c" type="extend" creation-date="04/27/2025 18:17:26" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="6820fe9e9ed3429c839ddc2ff2288f05" cid="EX006" type="extend" creation-date="04/26/2025 09:06:10" to="3a1579e34a6a402a937018c51dec5472" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="6820fe9e9ed3429c839ddc2ff2288f05_extend_c" type="extend" creation-date="04/26/2025 09:06:10" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="a8ee8616c1f0426791747d60e938daed" cid="ELEM027" type="universal-connector" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:20:23" from="2145854f61624c13b798c759dd42b101" to="01aaeef613994974a2a3a88d421cff09">
+            <connector />
+          </item>
+          <item id="42db2694ebac4faeb12dc0b16abb1a61" cid="EX020" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="06/07/2025 17:11:42" from="739539603b48492ab0022a8722302bff" to="d36b87a2f50d41139294a805c50c8e7b" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="42db2694ebac4faeb12dc0b16abb1a61_extend_c" type="extend" creation-date="06/07/2025 17:11:42" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="567d11b980d74107a6836270cb72b961" cid="EX011" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="04/27/2025 18:17:18" from="ed1a08551c4f4d39be00585b5fe7b492" to="2145854f61624c13b798c759dd42b101" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="567d11b980d74107a6836270cb72b961_extend_c" type="extend" creation-date="04/27/2025 18:17:18" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="ec4be3bbc05d4fccbb0d7c0ab69364f3" cid="REL036" type="relationship" creation-date="09/06/2025 11:04:11" from="01aaeef613994974a2a3a88d421cff09" to="373e7302a95347a78c688a59eaa75b95" visibility="package">
+            <owned-items />
+            <relation from="01aaeef613994974a2a3a88d421cff09" to="373e7302a95347a78c688a59eaa75b95" derived="false">
+              <start-role id="umlar-40e95ba7-e7e8-481d-86eb-99c2f921e4a0" name="" navigability="" association-type="association" visibility="private" property-ref="a3de11e2d6d045499be7e7d20dae7a7c" />
+              <end-role id="umlar-47d3aaa4-6ec9-4165-850e-429a15988465" name="" navigability="" association-type="association" visibility="private" property-ref="2cc1f078bd2a4bbdbd7815dd68ca88fd" />
+            </relation>
+          </item>
+          <item id="d6eae50c0306412398892468b6ac1ee8" cid="INC002" type="include" owner="2b7de2282c614335bb025b0e021ce845" creation-date="06/25/2025 20:28:49" to="a567efb033cf4c1e8927da5f447b199e" visibility="package">
+            <stereotypes>
+              <stereotype name="include" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="d6eae50c0306412398892468b6ac1ee8_include_c" type="include" creation-date="06/25/2025 20:28:49" ref="" />
+            </stereotype-instances>
+          </item>
+          <item id="a0dc3a1229b249ad956ea717be3254be" cid="EX022" type="extend" creation-date="06/16/2025 18:12:54" from="fd98e7661e7d4830a469f84c20f83e9c" to="dea4430ad3b2457dbd88ca0185a80fd2" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="a0dc3a1229b249ad956ea717be3254be_extend_c" type="extend" creation-date="06/16/2025 18:12:54" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="739539603b48492ab0022a8722302bff" cid="UC002" type="use-case" name="Autenticação" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:15:20" visibility="undefined">
+            <use-case>
+              <stakeholders />
+              <special-requirements />
+              <issues />
+            </use-case>
+          </item>
+          <item id="692968a26358432a8f1ba0ce61d776ce" cid="ELEM011" type="universal-connector" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:17:14" to="01aaeef613994974a2a3a88d421cff09">
+            <connector />
+          </item>
+          <item id="623c14236e3e4f55b5b46d3ac18aaef7" cid="UC006" type="use-case" name="Excluir dados dos pacietnes" creator="" creation-date="03/29/2025 18:28:19" visibility="undefined">
+            <use-case>
+              <stakeholders />
+              <special-requirements />
+              <issues />
+            </use-case>
+          </item>
+          <item id="f664963d9111445091681eb52f392307" cid="EX004" type="extend" creator="" creation-date="03/29/2025 18:25:02" to="3a1579e34a6a402a937018c51dec5472" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="f664963d9111445091681eb52f392307_extend_c" type="extend" creation-date="03/29/2025 18:25:02" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="01aaeef613994974a2a3a88d421cff09" cid="AC001" type="actor" name="Técnico(a) em enfermagem" creator="" creation-date="03/29/2025 18:16:20" visibility="undefined" />
+          <item id="87afc7fb16ca456e9238cc4ad901df75" cid="EX021" type="extend" creation-date="06/07/2025 17:15:22" from="44ebaf9711d24efba4f315d1fc34e59f" to="805e76cee1b34c37a376b5cb74a14720" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="87afc7fb16ca456e9238cc4ad901df75_extend_c" type="extend" creation-date="06/07/2025 17:15:22" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="25fb57b3f3a549efb6e10a4b4702bf78" cid="EX015" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="05/03/2025 08:31:21" to="edaa2884ea0e41caa374ec648fd149f0" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="25fb57b3f3a549efb6e10a4b4702bf78_extend_c" type="extend" creation-date="05/03/2025 08:31:21" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="378e87cb6e0f47c5b085ad27449ac2ae" cid="INC001" type="include" owner="2b7de2282c614335bb025b0e021ce845" creation-date="06/25/2025 20:28:09" visibility="package">
+            <stereotypes>
+              <stereotype name="include" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="378e87cb6e0f47c5b085ad27449ac2ae_include_c" type="include" creation-date="06/25/2025 20:28:09" ref="" />
+            </stereotype-instances>
+          </item>
+          <item id="b47c3a454cff4fdcaf31f8498c037d96" cid="EX002" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:18:46" to="739539603b48492ab0022a8722302bff" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="b47c3a454cff4fdcaf31f8498c037d96_extend_c" type="extend" creation-date="03/29/2025 18:18:46" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="d45e9e097cf342dabfce0761fac068a5" cid="EX018" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="06/07/2025 16:56:34" to="a567efb033cf4c1e8927da5f447b199e" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="d45e9e097cf342dabfce0761fac068a5_extend_c" type="extend" creation-date="06/07/2025 16:56:34" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="b9e56133fd074a11b81b36402d727a8c" cid="EX005" type="extend" creator="" creation-date="03/29/2025 18:25:46" to="3a1579e34a6a402a937018c51dec5472" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="b9e56133fd074a11b81b36402d727a8c_extend_c" type="extend" creation-date="03/29/2025 18:25:46" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="2e8d843984d94c0cab9dcd8030bdb25c" cid="EX014" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="04/27/2025 18:23:54" to="2145854f61624c13b798c759dd42b101" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="2e8d843984d94c0cab9dcd8030bdb25c_extend_c" type="extend" creation-date="04/27/2025 18:23:54" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="3a1579e34a6a402a937018c51dec5472" cid="UC004" type="use-case" name="Enviar mensagem com sinal de radiofrequência" creator="" creation-date="03/29/2025 18:23:52" visibility="undefined">
+            <use-case>
+              <stakeholders />
+              <special-requirements />
+              <issues />
+            </use-case>
+          </item>
+          <item id="5c4dfe5c747b46e7acc1fc719017653f" cid="EX013" type="extend" creation-date="04/27/2025 18:20:00" from="3a1579e34a6a402a937018c51dec5472" to="84ce6db4dadc44f5b0c29344764ef72f" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="5c4dfe5c747b46e7acc1fc719017653f_extend_c" type="extend" creation-date="04/27/2025 18:20:00" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="02fe64ead7364f73b62e25086a3f1e0c" cid="ELEM005" type="universal-connector" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:16:52" from="a6ec89a3ab5f424b88851fe43c042616" to="01aaeef613994974a2a3a88d421cff09">
+            <connector />
+          </item>
+          <item id="f16c5c7639434096a1458cf36da7d3a4" cid="REL023" type="relationship" owner="2b7de2282c614335bb025b0e021ce845" creation-date="06/07/2025 16:57:50" from="a567efb033cf4c1e8927da5f447b199e" to="01aaeef613994974a2a3a88d421cff09" visibility="package">
+            <owned-items />
+            <relation from="a567efb033cf4c1e8927da5f447b199e" to="01aaeef613994974a2a3a88d421cff09" derived="false">
+              <start-role id="umlar-e15d7d41-2e8a-43e5-bff4-0a8a06e800a6" name="" navigability="" association-type="association" visibility="private" property-ref="95cb72a1d35749958b40ca74325422ac" />
+              <end-role id="umlar-1844f754-1ffc-48ef-922b-16091f6f7ce8" name="" navigability="" association-type="association" visibility="private" property-ref="c39d77421fe845d4a12e59f4d0a787a6" />
+            </relation>
+          </item>
+          <item id="39b3d3c428bc4d69904aaf005a39b8fd" cid="REL015" type="relationship" creation-date="05/03/2025 08:46:34" to="84ce6db4dadc44f5b0c29344764ef72f" visibility="package">
+            <owned-items />
+            <relation from="41fa97d535ba4aff9ae93b57921bf4ab" to="84ce6db4dadc44f5b0c29344764ef72f" derived="false">
+              <start-role id="umlar-799fb4d5-4c3d-48b6-8b3d-9f31aa505714" name="" navigability="" association-type="association" visibility="private" property-ref="f2fb69e3ab9b4252af1c221111119a55" />
+              <end-role id="umlar-a0a7c291-c75f-416e-b694-7cc24310a205" name="" navigability="" association-type="association" visibility="private" property-ref="996c8373fb7a4d0b8baeaf7cc7f0373d" />
+            </relation>
+          </item>
+          <item id="128e85795f154f48931232e8434fa4f3" cid="EX003" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:19:04" to="739539603b48492ab0022a8722302bff" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="128e85795f154f48931232e8434fa4f3_extend_c" type="extend" creation-date="03/29/2025 18:19:04" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="ea9872db8ce746efb14bd13d07e8cc22" cid="UC005" type="use-case" name="Visualizar histórico do paciente" creator="" creation-date="03/29/2025 18:24:06" visibility="undefined">
+            <use-case>
+              <stakeholders />
+              <special-requirements />
+              <issues />
+            </use-case>
+          </item>
+          <item id="477ea38fd5d44d049f46e5e365777cc8" cid="EX019" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="06/07/2025 16:57:30" from="2ee35bae53534611b4669a599280c79b" to="a567efb033cf4c1e8927da5f447b199e" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="477ea38fd5d44d049f46e5e365777cc8_extend_c" type="extend" creation-date="06/07/2025 16:57:30" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="2b7de2282c614335bb025b0e021ce845" cid="SYS001" type="system-boundary" name="Módulo Técnico(a) em Enfermagem" creator="" creation-date="03/29/2025 18:14:52">
+            <owned-items />
+          </item>
+          <item id="12b722b0546145debff737f912bea902" cid="ELEM009" type="universal-connector" owner="2b7de2282c614335bb025b0e021ce845" creator="" creation-date="03/29/2025 18:17:05" from="2145854f61624c13b798c759dd42b101" to="01aaeef613994974a2a3a88d421cff09">
+            <connector />
+          </item>
+          <item id="6944048aaec94ea4b7f4381927211efa" cid="EX016" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="05/24/2025 14:19:19" from="edaa2884ea0e41caa374ec648fd149f0" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="6944048aaec94ea4b7f4381927211efa_extend_c" type="extend" creation-date="05/24/2025 14:19:19" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="db31c98a14a84c6bb5a867641b70d0d2" cid="EX017" type="extend" owner="2b7de2282c614335bb025b0e021ce845" creation-date="05/24/2025 14:19:25" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="db31c98a14a84c6bb5a867641b70d0d2_extend_c" type="extend" creation-date="05/24/2025 14:19:25" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="0658d3a372c048aebb521ecd6cfaabe3" cid="REL028" type="relationship" creation-date="06/07/2025 16:58:13" from="a567efb033cf4c1e8927da5f447b199e" to="01aaeef613994974a2a3a88d421cff09" visibility="package">
+            <owned-items />
+            <relation from="a567efb033cf4c1e8927da5f447b199e" to="01aaeef613994974a2a3a88d421cff09" derived="false">
+              <start-role id="umlar-41f503c1-9739-4cb4-a5d1-aefc51cafee3" name="" navigability="" association-type="association" visibility="private" property-ref="a45845543a9342209fab0311d67e60f6" />
+              <end-role id="umlar-cbd8b1b2-afd1-46fa-832a-f345cf8093d9" name="" navigability="" association-type="association" visibility="private" property-ref="a8e4d0abb40e434cbc9a161929c3ff3b" />
+            </relation>
+          </item>
+        </abstract-items>
+        <layer id="63bb614e898a43ada630683918add96f" name="Default" visible="true" enabled="true" locked="false">
+          <item id="2b7de2282c614335bb025b0e021ce845" iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:14:52" order-index="0" type="entity">
+            <layout ax="382" ay="280" awidth="488" aheight="652" x="382" y="280" width="488" height="652" expanded="382,280,488,652" collapsed="0,0,0,0" />
+          </item>
+          <item id="01aaeef613994974a2a3a88d421cff09" iid="0e540d2809734d818b8fe57696ccb0ac" creation-date="03/29/2025 18:16:20" order-index="2" type="entity">
+            <layout name-position="0,10.000002" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="155" ay="564" awidth="50" aheight="100" x="155" y="564" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="240a4a71adff4c5e824ab57157082680" iid="4aeeac4f874c498e85d25c71bc68f3e5" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="04/27/2025 18:17:26" order-index="31" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="744" y1="673" x2="624" y2="579" start-border-pos="0.125" end-border-pos="0.6259259259259259" start-local-pos="67.5" end-local-pos="67" name-position="0,20">
+              <points>
+                <point x="744" y="673" />
+                <point x="624" y="579" />
+              </points>
+            </layout>
+            <relation from="f27e40ea7d314e90ab9158c79d3ad001" from-iid="65ec244b9efa44dd979538538c951774" to="2145854f61624c13b798c759dd42b101" to-iid="d925262fb5d24d2d9440e643dd462818" />
+          </item>
+          <item id="567d11b980d74107a6836270cb72b961" iid="3ee754cea08c4bd5847da2af4a2f0723" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="04/27/2025 18:17:18" order-index="30" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="528" y1="660" x2="614" y2="578" start-border-pos="0.12407407407407407" end-border-pos="0.6444444444444444" start-local-pos="67" end-local-pos="57" name-position="0,20">
+              <points>
+                <point x="528" y="660" />
+                <point x="614" y="578" />
+              </points>
+            </layout>
+            <relation from="ed1a08551c4f4d39be00585b5fe7b492" from-iid="91e338d7647d48dc8895a593dd42ca90" to="2145854f61624c13b798c759dd42b101" to-iid="d925262fb5d24d2d9440e643dd462818" />
+          </item>
+          <item id="ed1a08551c4f4d39be00585b5fe7b492" iid="91e338d7647d48dc8895a593dd42ca90" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:15:20" order-index="0" type="entity">
+            <layout ax="461" ay="660.5547" awidth="135" aheight="84" x="461" y="660.5547" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="f27e40ea7d314e90ab9158c79d3ad001" iid="65ec244b9efa44dd979538538c951774" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:15:20" order-index="0" type="entity">
+            <layout ax="676.5" ay="673.5547" awidth="135" aheight="84" x="676.5" y="673.5547" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="2145854f61624c13b798c759dd42b101" iid="d925262fb5d24d2d9440e643dd462818" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:15:20" order-index="0" type="entity">
+            <layout ax="557" ay="495.0547" awidth="135" aheight="84" x="557" y="495.0547" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="a8ee8616c1f0426791747d60e938daed" iid="bcf55a0d5ba14c8cb5ab2f8476573253" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:20:23" order-index="11" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-to-fields="false" auto-path="" x1="557" y1="537" x2="205" y2="609" start-border-pos="0.875" end-border-pos="0.3622348022460937" name-position="0,20">
+              <points>
+                <point x="557" y="537" />
+                <point x="205" y="609" />
+              </points>
+            </layout>
+            <relation from="2145854f61624c13b798c759dd42b101" from-iid="d925262fb5d24d2d9440e643dd462818" to="01aaeef613994974a2a3a88d421cff09" to-iid="0e540d2809734d818b8fe57696ccb0ac" />
+          </item>
+          <item id="373e7302a95347a78c688a59eaa75b95" iid="cc9a85f76e93452484f377dc727de619" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:15:20" order-index="0" type="entity">
+            <layout ax="558.5" ay="360" awidth="135" aheight="84" x="558.5" y="360" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="a567efb033cf4c1e8927da5f447b199e" iid="ad65a3cfec2f438eb1722ffd3ba05df3" container="2b7de2282c614335bb025b0e021ce845" container-iid="8b0fc9562dc5426188bb8c3266a71301" creation-date="03/29/2025 18:15:20" order-index="0" type="entity">
+            <layout ax="568.75" ay="802.77734" awidth="135" aheight="84" x="568.75" y="802.77734" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="0658d3a372c048aebb521ecd6cfaabe3" iid="6261ef3a6e5146eaaae8537822f0cdff" creation-date="06/07/2025 16:58:13" order-index="44" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="568" y1="844" x2="205" y2="664" start-border-pos="0.8772321428571428" end-border-pos="0.5" start-local-pos="41.25" end-local-pos="100" name-position="0,20">
+              <points>
+                <point x="568" y="844" />
+                <point x="210" y="670" />
+                <point x="205" y="664" />
+              </points>
+            </layout>
+            <relation from="a567efb033cf4c1e8927da5f447b199e" from-iid="ad65a3cfec2f438eb1722ffd3ba05df3" to="01aaeef613994974a2a3a88d421cff09" to-iid="0e540d2809734d818b8fe57696ccb0ac" />
+          </item>
+          <item id="ec4be3bbc05d4fccbb0d7c0ab69364f3" iid="efff23eb3873415aace0eb4f7d75b154" creation-date="09/06/2025 11:04:11" order-index="45" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="205" y1="564" x2="558" y2="402" start-border-pos="0.25" end-border-pos="0.875" start-local-pos="0" end-local-pos="42" name-position="0,20">
+              <points>
+                <point x="205" y="564" />
+                <point x="558" y="402" />
+              </points>
+            </layout>
+            <relation from="01aaeef613994974a2a3a88d421cff09" from-iid="0e540d2809734d818b8fe57696ccb0ac" to="373e7302a95347a78c688a59eaa75b95" to-iid="cc9a85f76e93452484f377dc727de619" />
+          </item>
+        </layer>
+      </diagram>
+      <diagram type="uml-usecase" id="p82f548171fb043bfb063891d93e3b769_270167641" name="DCU_SAGE_ModuloComunicacaoLocal" order-index="2" overview-order-index="0" uid="" name-style="" auto-routed-paths="false" default-line-style="default" view-location="1410,1154">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>06/26/2025 20:34:49</creation-date>
+          <change-date>09/04/2025 19:06:41</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="e0b0459e431340c78a0ac18638459c7a" veid="f2fb69e3ab9b4252af1c221111119a55" cid="PROP093" type="property" owner="39835318c1714a21aabd6ba66b349340" creation-date="05/03/2025 08:46:34" visibility="private" />
+          <item id="c68ac2eb6ae24b318706a2fe61d72224" veid="cb491e48d45a41499c1b5e2eef27dead" cid="PROP092" type="property" owner="1352c4a89a9d42d3b5a03011ad5d9b7d" creation-date="04/27/2025 18:19:32" visibility="private" />
+          <item id="8e0a071078794b119584e008474a050e" veid="139a489b598b4419ad0fc3ccb05667b0" cid="PROP091" type="property" owner="1352c4a89a9d42d3b5a03011ad5d9b7d" creation-date="04/27/2025 18:19:32" visibility="private" />
+          <item id="afb5b9250ec14f2c8e6e96b782b80338" veid="996c8373fb7a4d0b8baeaf7cc7f0373d" cid="PROP094" type="property" owner="39835318c1714a21aabd6ba66b349340" creation-date="05/03/2025 08:46:34" visibility="private" />
+        </abstract-items>
+        <layer id="febfaa328cf644ae9d90e119fd2a89ee" name="Default" visible="true" enabled="true" locked="false">
+          <item id="4fdc4b71d8db4bfbbc41b9c515b36991" iid="555efaecaf974d52895918549e16aeeb" creation-date="03/29/2025 18:16:20" order-index="0" type="entity">
+            <layout name-position="0,10.000002" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="1246" ay="1158" awidth="50" aheight="100" x="1246" y="1158" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="2e74deb2418d4abfb8c17d1b16796e8a" iid="36afeee8a2f2467493f8527815405639" creation-date="03/29/2025 18:23:26" order-index="1" type="entity">
+            <layout ax="1497" ay="963" awidth="382" aheight="391" x="1503" y="963" width="382" height="391" expanded="1497,963,382,391" collapsed="0,0,0,0" />
+          </item>
+          <item id="1352c4a89a9d42d3b5a03011ad5d9b7d" iid="efdf5a686808417ba8c104b758bfb219" creation-date="04/27/2025 18:19:32" order-index="2" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="1296" y1="1208" x2="1626" y2="1069" start-border-pos="0.375" end-border-pos="0.8744826543898809" start-local-pos="50" end-local-pos="42.17383" name-position="0,20">
+              <points>
+                <point x="1296" y="1208" />
+                <point x="1626" y="1069" />
+              </points>
+            </layout>
+            <relation from="4fdc4b71d8db4bfbbc41b9c515b36991" from-iid="555efaecaf974d52895918549e16aeeb" to="e4cf2a94c7b6463789ddf69660a3f6cd" to-iid="ccde013879cd4f61a1ca5070fa53e2c0" />
+          </item>
+          <item id="9fdb61cf86054e6488b697ad15be6a24" iid="8f5369eb69ff4c098d286a81a30fb002" container="2e74deb2418d4abfb8c17d1b16796e8a" container-iid="36afeee8a2f2467493f8527815405639" creation-date="03/29/2025 18:23:52" order-index="3" type="entity">
+            <layout ax="1543" ay="1210" awidth="178" aheight="111" x="1543" y="1209.8262" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="e4cf2a94c7b6463789ddf69660a3f6cd" iid="ccde013879cd4f61a1ca5070fa53e2c0" container="2e74deb2418d4abfb8c17d1b16796e8a" container-iid="36afeee8a2f2467493f8527815405639" creation-date="03/29/2025 18:23:52" order-index="4" type="entity">
+            <layout ax="1626" ay="1027" awidth="135" aheight="84" x="1626" y="1027" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="36c0d2f12cd04245a7bc029504eef014" iid="a4ea6897ebb0486a8a0f41b8ea6087bb" container="2e74deb2418d4abfb8c17d1b16796e8a" container-iid="36afeee8a2f2467493f8527815405639" creation-date="04/27/2025 18:20:00" order-index="5" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="1639" y1="1210" x2="1693" y2="1110" start-border-pos="0.13518518518518519" end-border-pos="0.6259259259259259" start-local-pos="73" end-local-pos="67" name-position="0,20">
+              <points>
+                <point x="1639" y="1210" />
+                <point x="1693" y="1110" />
+              </points>
+            </layout>
+            <relation from="9fdb61cf86054e6488b697ad15be6a24" from-iid="8f5369eb69ff4c098d286a81a30fb002" to="e4cf2a94c7b6463789ddf69660a3f6cd" to-iid="ccde013879cd4f61a1ca5070fa53e2c0" />
+          </item>
+        </layer>
+      </diagram>
+      <diagram type="uml-usecase" id="pf4cf4d283c0e4a4499f1eb94e3d3659d_778171692" name="DCU_SAGE_ModuloEnfermeiro" order-index="4" overview-order-index="2" uid="" name-style="" auto-routed-paths="false" default-line-style="default" view-location="1617,237" zoom="0.7">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>06/26/2025 20:35:01</creation-date>
+          <change-date>09/06/2025 11:10:05</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="6cf28a407f914347b12968759526d8b7" cid="EX024" type="extend" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="09/06/2025 10:35:53" from="3e808878e7fb4f249fa6048c550342ce" to="fd1b712aca9245988aa2bb0b9fde3016" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="6cf28a407f914347b12968759526d8b7_extend_c" type="extend" creation-date="09/06/2025 10:35:53" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="4636a41326e345a1a78b5d7ddf3d7c83" cid="INC003" type="include" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="09/06/2025 11:09:50" from="3e808878e7fb4f249fa6048c550342ce" to="fd1b712aca9245988aa2bb0b9fde3016" visibility="package">
+            <stereotypes>
+              <stereotype name="include" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="4636a41326e345a1a78b5d7ddf3d7c83_include_c" type="include" creation-date="09/06/2025 11:09:50" ref="" />
+            </stereotype-instances>
+          </item>
+          <item id="df2b9291ed4341d6bde724842c5280f9" veid="4982ad76862c457d91c0aab70c0c7969" cid="PROP085" type="property" owner="fc5eae19acf04a9f88fb0532c08f2dfc" creation-date="06/07/2025 16:52:12" visibility="private" />
+          <item id="fe72c0b80b6646b58f8ba3008dd25a00" veid="cda1d1737f6a4509982983ffcdb4a022" cid="PROP086" type="property" owner="fc5eae19acf04a9f88fb0532c08f2dfc" creation-date="06/07/2025 16:52:12" visibility="private" />
+          <item id="3d7b6225b9c74a8ea7d7ad7a3ebc1507" cid="REL033" type="relationship" creation-date="09/06/2025 10:34:59" from="3e808878e7fb4f249fa6048c550342ce" to="2f0304715c0c47089beba1ce8d6046b4" visibility="package">
+            <owned-items />
+            <relation from="3e808878e7fb4f249fa6048c550342ce" to="2f0304715c0c47089beba1ce8d6046b4" derived="false">
+              <start-role id="umlar-ada713e1-b60a-4d3b-a066-de606bee6c53" name="" navigability="" association-type="association" visibility="private" property-ref="63421c45bece48b181eeb5efac96ba37" />
+              <end-role id="umlar-b085aa91-bee5-4fea-9e22-8a278772e185" name="" navigability="" association-type="association" visibility="private" property-ref="8c60044cab3b40d9845f9673bd64a4fe" />
+            </relation>
+          </item>
+          <item id="b3085180c4cf4bb4affccad2617f27de" cid="EX023" type="extend" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="09/06/2025 10:35:47" from="60e9ab4b78b24b0bb317816484c3fd03" to="3e808878e7fb4f249fa6048c550342ce" visibility="package">
+            <stereotypes>
+              <stereotype name="extend" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="b3085180c4cf4bb4affccad2617f27de_extend_c" type="extend" creation-date="09/06/2025 10:35:47" ref="" />
+            </stereotype-instances>
+            <extend extension-point="" condition="" />
+          </item>
+          <item id="52d6e6e40eec46bb8f02fa68c7c03ddf" cid="INC004" type="include" owner="3d0ddbf36b114f9ea0089e80bd284a55" creation-date="09/06/2025 11:10:05" from="3e808878e7fb4f249fa6048c550342ce" to="c6889a0032a9404ebac35cf61c38c6a6" visibility="package">
+            <stereotypes>
+              <stereotype name="include" />
+            </stereotypes>
+            <stereotype-instances>
+              <stereotype id="52d6e6e40eec46bb8f02fa68c7c03ddf_include_c" type="include" creation-date="09/06/2025 11:10:05" ref="" />
+            </stereotype-instances>
+          </item>
+          <item id="0903bdef8ffb4ba5b907438d9d343184" cid="REL034" type="relationship" creation-date="09/06/2025 10:35:10" from="cfc0a596ec8e427b8bb23645e375c8bd" to="fd1b712aca9245988aa2bb0b9fde3016" visibility="package">
+            <owned-items />
+            <relation from="cfc0a596ec8e427b8bb23645e375c8bd" to="fd1b712aca9245988aa2bb0b9fde3016" derived="false">
+              <start-role id="umlar-7f892e17-fdc7-4468-958d-e3f45c10395b" name="" navigability="" association-type="association" visibility="private" property-ref="f087f08c89dc4fb3a625b9e501ac1f67" />
+              <end-role id="umlar-96b1aedf-52bc-42e8-8044-bed3ba304cd8" name="" navigability="" association-type="association" visibility="private" property-ref="4a4a9dd8ee4c4b1786f0e41bde76b2de" />
+            </relation>
+          </item>
+        </abstract-items>
+        <layer id="d17a02cbced44f69a63ae1aa41af6a03" name="Default" visible="true" enabled="true" locked="false">
+          <item id="2f0304715c0c47089beba1ce8d6046b4" iid="5ed338c87fdb47fea3945d89928d9c01" creation-date="03/29/2025 18:16:20" order-index="0" type="entity">
+            <layout name-position="0,10.000004" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="2264" ay="696.5" awidth="50" aheight="100" x="2264" y="696.5" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="3d0ddbf36b114f9ea0089e80bd284a55" iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:26" order-index="1" type="entity">
+            <layout ax="2561" ay="391" awidth="382" aheight="825" x="2536.75" y="361" width="382" height="825" expanded="2561,391,382,825" collapsed="0,0,0,0" />
+          </item>
+          <item id="d6d7909936114e90b6ea0e7c1631e91d" iid="1561e3a746584076b67c8f6a8d30b3ef" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:52" order-index="2" type="entity">
+            <layout ax="2723" ay="628" awidth="178" aheight="111" x="2723" y="628" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="df72bfdd595f4e5b871cd7783cee23d6" iid="8f05eb20b9954c57a4e012821293d248" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:52" order-index="3" type="entity">
+            <layout ax="2674" ay="454" awidth="178" aheight="111" x="2674" y="454.5" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="fc5eae19acf04a9f88fb0532c08f2dfc" iid="07754bd2d1cc4e1882d8b852a292b275" creation-date="06/07/2025 16:52:12" order-index="4" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2314" y1="746" x2="2674" y2="509" start-border-pos="0.375" end-border-pos="0.8761261261261262" start-local-pos="50" end-local-pos="55" name-position="0,20">
+              <points>
+                <point x="2314" y="746" />
+                <point x="2674" y="509" />
+              </points>
+            </layout>
+            <relation from="2f0304715c0c47089beba1ce8d6046b4" from-iid="5ed338c87fdb47fea3945d89928d9c01" to="df72bfdd595f4e5b871cd7783cee23d6" to-iid="8f05eb20b9954c57a4e012821293d248" />
+          </item>
+          <item id="8cf024e6be68421baa659dda6b632241" iid="d603422bca37417ebf02c2601eea6284" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="06/07/2025 17:15:22" order-index="5" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2812" y1="628" x2="2763" y2="565" start-border-pos="0.125" end-border-pos="0.625" start-local-pos="89" end-local-pos="89" name-position="0,20">
+              <points>
+                <point x="2812" y="628" />
+                <point x="2763" y="565" />
+              </points>
+            </layout>
+            <relation from="d6d7909936114e90b6ea0e7c1631e91d" from-iid="1561e3a746584076b67c8f6a8d30b3ef" to="df72bfdd595f4e5b871cd7783cee23d6" to-iid="8f05eb20b9954c57a4e012821293d248" />
+          </item>
+          <item id="3e808878e7fb4f249fa6048c550342ce" iid="595e3c2c6f0f4f00ad4e8b286bdc385c" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:52" order-index="0" type="entity">
+            <layout ax="2688.5" ay="1052.5" awidth="111" aheight="69" x="2688.5" y="1052.5" width="111" height="57" />
+            <use-case />
+          </item>
+          <item id="fd1b712aca9245988aa2bb0b9fde3016" iid="25514caab2c64c77a2e1f22324c93c18" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:52" order-index="1" type="entity">
+            <layout ax="2656" ay="773" awidth="176" aheight="110" x="2656" y="773" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="60e9ab4b78b24b0bb317816484c3fd03" iid="45a4a5bc8e0f4177b7647d74d3fa92ce" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:52" order-index="2" type="entity">
+            <layout ax="2799.5" ay="1121.5" awidth="111" aheight="69" x="2799.5" y="1121.5" width="111" height="57" />
+            <use-case />
+          </item>
+          <item id="cfc0a596ec8e427b8bb23645e375c8bd" iid="27e115db694c42a6a012bf91ca61f1a2" creation-date="03/29/2025 18:16:20" order-index="0" type="entity">
+            <layout name-position="0,10.000004" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="3140" ay="895" awidth="50" aheight="100" x="3140" y="895" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="3d7b6225b9c74a8ea7d7ad7a3ebc1507" iid="ea7ea8af56794c7eb982401f7e00b696" creation-date="09/06/2025 10:34:59" order-index="6" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2688" y1="1087" x2="2314" y2="746" start-border-pos="0.875" end-border-pos="0.37375" start-local-pos="34.5" end-local-pos="49.5" name-position="0,20">
+              <points>
+                <point x="2688" y="1087" />
+                <point x="2314" y="746" />
+              </points>
+            </layout>
+            <relation from="3e808878e7fb4f249fa6048c550342ce" from-iid="595e3c2c6f0f4f00ad4e8b286bdc385c" to="2f0304715c0c47089beba1ce8d6046b4" to-iid="5ed338c87fdb47fea3945d89928d9c01" />
+          </item>
+          <item id="0903bdef8ffb4ba5b907438d9d343184" iid="8c9908da1be14a68950c74f841d1ed6f" creation-date="09/06/2025 10:35:10" order-index="7" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="3140" y1="945" x2="2832" y2="828" start-border-pos="0.875" end-border-pos="0.375" start-local-pos="50" end-local-pos="55" name-position="0,20">
+              <points>
+                <point x="3140" y="945" />
+                <point x="2832" y="828" />
+              </points>
+            </layout>
+            <relation from="cfc0a596ec8e427b8bb23645e375c8bd" from-iid="27e115db694c42a6a012bf91ca61f1a2" to="fd1b712aca9245988aa2bb0b9fde3016" to-iid="25514caab2c64c77a2e1f22324c93c18" />
+          </item>
+          <item id="b3085180c4cf4bb4affccad2617f27de" iid="032322c1b08a4a6fb81b1dcf0bc04756" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="09/06/2025 10:35:47" order-index="8" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2800" y1="1151" x2="2744" y2="1121" start-border-pos="0.8931159420289855" end-border-pos="0.6238738738738738" start-local-pos="29.5" end-local-pos="56" name-position="0,20">
+              <points>
+                <point x="2800" y="1151" />
+                <point x="2744" y="1121" />
+              </points>
+            </layout>
+            <relation from="60e9ab4b78b24b0bb317816484c3fd03" from-iid="45a4a5bc8e0f4177b7647d74d3fa92ce" to="3e808878e7fb4f249fa6048c550342ce" to-iid="595e3c2c6f0f4f00ad4e8b286bdc385c" />
+          </item>
+          <item id="c6889a0032a9404ebac35cf61c38c6a6" iid="adea9673061c4ea8b44f6acc68cb43d8" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="03/29/2025 18:23:52" order-index="0" type="entity">
+            <layout ax="2799.5" ay="917" awidth="111" aheight="69" x="2799.5" y="917" width="111" height="57" />
+            <use-case />
+          </item>
+          <item id="4636a41326e345a1a78b5d7ddf3d7c83" iid="796bcf8c4c8940fca6b2c78d45be9b9e" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="09/06/2025 11:09:50" order-index="9" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2744" y1="1052" x2="2744" y2="883" start-border-pos="0.125" end-border-pos="0.625" start-local-pos="55.5" end-local-pos="88" name-position="0,20">
+              <points>
+                <point x="2744" y="1052" />
+                <point x="2744" y="883" />
+              </points>
+            </layout>
+            <relation from="3e808878e7fb4f249fa6048c550342ce" from-iid="595e3c2c6f0f4f00ad4e8b286bdc385c" to="fd1b712aca9245988aa2bb0b9fde3016" to-iid="25514caab2c64c77a2e1f22324c93c18" />
+          </item>
+          <item id="52d6e6e40eec46bb8f02fa68c7c03ddf" iid="244b5fd2c4684c5c8207529626c91f3a" container="3d0ddbf36b114f9ea0089e80bd284a55" container-iid="9277246e3b9d493d826519f11b389c2a" creation-date="09/06/2025 11:10:05" order-index="10" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2799" y1="1087" x2="2855" y2="986" start-border-pos="0.375" end-border-pos="0.625" start-local-pos="34.5" end-local-pos="55.5" name-position="0,20">
+              <points>
+                <point x="2799" y="1087" />
+                <point x="2855" y="986" />
+              </points>
+            </layout>
+            <relation from="3e808878e7fb4f249fa6048c550342ce" from-iid="595e3c2c6f0f4f00ad4e8b286bdc385c" to="c6889a0032a9404ebac35cf61c38c6a6" to-iid="adea9673061c4ea8b44f6acc68cb43d8" />
+          </item>
+        </layer>
+      </diagram>
+      <diagram type="uml-usecase" id="p8974d8621dfe4c0a83a604279d70e011_649421728" name="DCU_SAGE_VisaoGeral" order-index="6" overview-order-index="4" uid="" name-style="" auto-routed-paths="false" default-line-style="default" view-location="747,30" zoom="0.6">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>06/26/2025 20:38:45</creation-date>
+          <change-date>09/06/2025 10:38:51</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="00e1decfb99143a0bc87ea74f680bcc2" veid="cda1d1737f6a4509982983ffcdb4a022" cid="PROP100" type="property" owner="b63033d862194f93b95cc246f87d0e4d" creation-date="06/07/2025 16:52:12" visibility="private" />
+          <item id="c1776f08ca1b4e45b6fe22cee74488a1" cid="REL035" type="relationship" creation-date="09/06/2025 10:37:23" from="0a3068a625b340a99b72f3419833bd72" to="9e4d027836be4cebba156fccbc87961f" visibility="package">
+            <owned-items />
+            <relation from="0a3068a625b340a99b72f3419833bd72" to="9e4d027836be4cebba156fccbc87961f" derived="false">
+              <start-role id="umlar-4bef0262-0edb-47b4-9fe5-f7831fa105c1" name="" navigability="" association-type="association" visibility="private" property-ref="a43fe0fc2032419dbafac8acd1588d6e" />
+              <end-role id="umlar-e784dc40-18da-4165-b161-f603122d102a" name="" navigability="" association-type="association" visibility="private" property-ref="a6bd953b751c437fb5f9d65ab7956dc6" />
+            </relation>
+          </item>
+          <item id="b1686b2115064a41a9123f40d8eff0e9" veid="4982ad76862c457d91c0aab70c0c7969" cid="PROP099" type="property" owner="b63033d862194f93b95cc246f87d0e4d" creation-date="06/07/2025 16:52:12" visibility="private" />
+          <item id="bcdc7249b96e429596ebcd52e06132ea" cid="REL030" type="relationship" creation-date="06/26/2025 20:42:48" from="33fceeb8fc204e5e826c8f6686bb7eee" to="c9071a424da9479b80c1d35d5ec5e2dd" visibility="package">
+            <owned-items />
+            <relation from="33fceeb8fc204e5e826c8f6686bb7eee" to="c9071a424da9479b80c1d35d5ec5e2dd" derived="false">
+              <start-role id="umlar-b3fc29cb-8032-4059-84ef-ba80efccb711" name="" navigability="" association-type="association" visibility="private" property-ref="d2a2f8f2ef764dfd8eb62c24ce5bec07" />
+              <end-role id="umlar-e64323a9-95ea-4dc2-b6be-f77c4f3949e3" name="" navigability="" association-type="association" visibility="private" property-ref="e95743a3292d43aca175c9d0bfb4f2f7" />
+            </relation>
+          </item>
+        </abstract-items>
+        <layer id="4ffb9a6986f34fc9b54262cc76c0bb86" name="Default" visible="true" enabled="true" locked="false">
+          <item id="aae59b4ffd2b46e78715a40adffa9f11" iid="9b7cd81c655346e28aa2ffe8f04d41ec" creation-date="03/29/2025 18:16:20" order-index="0" type="entity">
+            <layout name-position="0,10.000004" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="2316" ay="569.8262" awidth="50" aheight="100" x="2316" y="569.8262" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="9fdf465bbabb4f4ab07924770f1327f2" iid="52a22d16e34646cc8e705e2fe2177c18" creation-date="03/29/2025 18:23:26" order-index="1" type="entity">
+            <layout ax="2561" ay="274" awidth="382" aheight="647" x="2536.75" y="274" width="382" height="647" expanded="2561,274,382,647" collapsed="0,0,0,0" />
+          </item>
+          <item id="c9071a424da9479b80c1d35d5ec5e2dd" iid="00ac707ec9ab45a99331c4dcf1850274" container="9fdf465bbabb4f4ab07924770f1327f2" container-iid="52a22d16e34646cc8e705e2fe2177c18" creation-date="03/29/2025 18:23:52" order-index="2" type="entity">
+            <layout ax="2673" ay="751.73926" awidth="178" aheight="111" x="2673" y="751.73926" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="9e4d027836be4cebba156fccbc87961f" iid="fa934735c19847b9a27209d297e60a09" container="9fdf465bbabb4f4ab07924770f1327f2" container-iid="52a22d16e34646cc8e705e2fe2177c18" creation-date="03/29/2025 18:23:52" order-index="0" type="entity">
+            <layout ax="2673" ay="366.4131" awidth="178" aheight="111" x="2673" y="366.4131" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="734fd18d34124edb9445a7f921964277" iid="7c8dd98c84f2486b9717954b3ca9e9a4" container="9fdf465bbabb4f4ab07924770f1327f2" container-iid="52a22d16e34646cc8e705e2fe2177c18" creation-date="03/29/2025 18:23:52" order-index="3" type="entity">
+            <layout ax="2673" ay="569.8262" awidth="178" aheight="111" x="2673" y="569.8262" width="120" height="75" />
+            <use-case />
+          </item>
+          <item id="b63033d862194f93b95cc246f87d0e4d" iid="b9f841c54cba48d4842f78cb694df92d" creation-date="06/07/2025 16:52:12" order-index="4" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2366" y1="620" x2="2673" y2="625" start-border-pos="0.375" end-border-pos="0.8761261261261262" start-local-pos="50" end-local-pos="55" name-position="0,20">
+              <points>
+                <point x="2366" y="620" />
+                <point x="2673" y="625" />
+              </points>
+            </layout>
+            <relation from="aae59b4ffd2b46e78715a40adffa9f11" from-iid="9b7cd81c655346e28aa2ffe8f04d41ec" to="734fd18d34124edb9445a7f921964277" to-iid="7c8dd98c84f2486b9717954b3ca9e9a4" />
+          </item>
+          <item id="33fceeb8fc204e5e826c8f6686bb7eee" iid="b6c7b7bb7d49445fb6977ce107bd59a5" creation-date="03/29/2025 18:16:20" order-index="0" type="entity">
+            <layout name-position="0,10.000004" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="3163" ay="615.9131" awidth="50" aheight="100" x="3163" y="615.9131" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="bcdc7249b96e429596ebcd52e06132ea" iid="29274ba5a9e742228eba91c0a8fd4d5f" creation-date="06/26/2025 20:42:48" order-index="5" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" start-auto-side="false" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="3163" y1="666" x2="2850" y2="807" start-border-pos="0.875" end-border-pos="0.3738738738738739" start-local-pos="50" end-local-pos="178" name-position="0,20">
+              <points>
+                <point x="3163" y="666" />
+                <point x="2850" y="807" />
+              </points>
+            </layout>
+            <relation from="33fceeb8fc204e5e826c8f6686bb7eee" from-iid="b6c7b7bb7d49445fb6977ce107bd59a5" to="c9071a424da9479b80c1d35d5ec5e2dd" to-iid="00ac707ec9ab45a99331c4dcf1850274" />
+          </item>
+          <item id="0a3068a625b340a99b72f3419833bd72" iid="8fd49156670647b098ecf1687a5bc7af" creation-date="03/29/2025 18:16:20" order-index="0" type="entity">
+            <layout name-position="0,10.000004" name-anchor="bottom" auto-anchor="true" label-attached="false" ax="2331" ay="371.9131" awidth="50" aheight="100" x="2331" y="371.9131" width="50" height="120" />
+            <actor />
+          </item>
+          <item id="c1776f08ca1b4e45b6fe22cee74488a1" iid="8d054fb15f604416938ddacc2d857740" creation-date="09/06/2025 10:37:23" order-index="6" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="2381" y1="422" x2="2673" y2="421" start-border-pos="0.375" end-border-pos="0.8761261261261262" start-local-pos="50" end-local-pos="55" name-position="0,20">
+              <points>
+                <point x="2381" y="422" />
+                <point x="2673" y="421" />
+              </points>
+            </layout>
+            <relation from="0a3068a625b340a99b72f3419833bd72" from-iid="8fd49156670647b098ecf1687a5bc7af" to="9e4d027836be4cebba156fccbc87961f" to-iid="fa934735c19847b9a27209d297e60a09" />
+          </item>
+        </layer>
+      </diagram>
+    </model>
+  </models>
+</sim-project>

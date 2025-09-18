@@ -1,6 +1,7 @@
 package com.sage.dao.resident;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +21,38 @@ public class ResidentDaoImpl implements ResidentDao {
 
     @Override
     public UUID createResident(Resident resident) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createResident'");
+        String sql = "INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, active) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            UUID residentId = UUID.randomUUID();
+            preparedStatement.setObject(1, residentId);
+            preparedStatement.setString(2, resident.getFullName());
+            preparedStatement.setString(3, resident.getCpf());
+            preparedStatement.setString(4, Character.toString(resident.getSex()));
+            preparedStatement.setTimestamp(5, Timestamp.from(resident.getBirthDate().toInstant()));
+            preparedStatement.setTimestamp(6, Timestamp.from(resident.getCreatedAt().toInstant()));
+            preparedStatement.setTimestamp(7, Timestamp.from(resident.getUpdatedAt().toInstant()));
+            preparedStatement.setString(8, resident.getResidentialUnit());
+            preparedStatement.setBoolean(9, resident.isActive());
+            preparedStatement.executeUpdate();
+            return residentId;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error creating resident: {0}", e.getMessage());
+            throw new RuntimeException("Error creating resident", e);
+        }
+    }
+
+    @Override
+    public void updateImageData(UUID residentId, String imageData) {
+        String sql = "UPDATE resident SET image_data = ? WHERE id = ?";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, imageData);
+            preparedStatement.setObject(2, residentId);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error updating image data for resident {0}: {1}", new Object[]{residentId, e.getMessage()});
+            throw new RuntimeException("Error updating image data for resident", e);
+        }
     }
 
     @Override
@@ -32,8 +63,18 @@ public class ResidentDaoImpl implements ResidentDao {
 
     @Override
     public Resident findResidentById(UUID residentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findResidentById'");
+        String sql = "SELECT * FROM resident WHERE id = ?";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, residentId);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Resident.mapFromResultSet(resultSet);
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error finding resident by ID {0}: {1}", new Object[]{residentId, e.getMessage()});
+        }
+        return null;
     }
 
     @Override
@@ -49,6 +90,22 @@ public class ResidentDaoImpl implements ResidentDao {
             logger.log(Level.SEVERE, "Error counting residents: {0}", e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public boolean existsResidentByCpf(String cpf) {
+        String sql = "SELECT COUNT(*) FROM resident WHERE cpf = ?";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, cpf);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error checking if resident exists by CPF {0}: {1}", new Object[]{cpf, e.getMessage()});
+        }
+        return false;
     }
 
 }

@@ -23,7 +23,8 @@ public interface ResidentHeaderDao {
     List<ResidentHeader> listResidentsBySeverityLevelAssist(
             SeverityLevel severityLevel,
             int limit,
-            int skip
+            int skip,
+            String search
     );
 
     /**

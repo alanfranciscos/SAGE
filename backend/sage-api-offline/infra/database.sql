@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE alarm (
     id UUID PRIMARY KEY,
-    serial_numer VARCHAR(50) unique not NULL,
+    serial_number VARCHAR(50) unique not NULL,
     count_number int
 );
 
@@ -86,10 +86,10 @@ CREATE TABLE resident_emergency_contact (
 
 CREATE TABLE control_resident (
     id UUID PRIMARY KEY,
-    control_id VARCHAR(32) NOT NULL,
+    control_id INT NOT NULL,
     alarm_id UUID NOT NULL,
     resident_id UUID NOT NULL,
-        
+
     FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
     FOREIGN KEY (alarm_id) REFERENCES alarm (id) ON DELETE cascade,
     UNIQUE (control_id, resident_id),
@@ -149,3 +149,8 @@ CREATE TRIGGER trigger_notify_assist
 AFTER INSERT OR UPDATE OR DELETE ON assist
 FOR EACH ROW
 EXECUTE FUNCTION notify_assist();
+
+
+-- Insert base data
+INSERT INTO alarm (id, serial_number, count_number) VALUES
+('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0);

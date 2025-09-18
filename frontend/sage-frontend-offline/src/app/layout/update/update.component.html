@@ -1,0 +1,41 @@
+<main class="update">
+  <div class="update-container">
+    <div class="update-content">
+      <h1>{{ title }}</h1>
+
+      <div class="steps">
+        @for (item of steps; track $index) {
+        <div class="step-wrapper" [class.step-active]="currentStep === $index"
+          [class.step-completed]="currentStep+1 > $index">
+          <div class="step">{{ $index + 1 }}</div>
+          <span class="step-label">{{ item }}</span>
+        </div>
+        }
+      </div>
+
+
+      <div class="update-form">
+        <ng-content></ng-content>
+      </div>
+
+      <div class="update-actions">
+        @if (currentStep > 0) {
+        <app-button class="btn btn-secondary" (click)="onPrevious()" [label]="'Anterior'" size="large"
+          [type]="'secondary'"></app-button>
+        } @else {
+        <app-button class="btn btn-secondary" (click)="onCancel()" [label]="'Cancelar'" size="large"
+          [type]="'secondary'"></app-button>
+        }
+
+        @if( currentStep + 1 === steps.length) {
+        <app-button class="btn btn-success" (click)="onFinish()" [label]="'Finalizar'" size="large"
+          [disabled]="!validStep" [type]="'green'"></app-button>
+        } @else {
+        <app-button class="btn btn-primary" (click)="onNext()" [label]="'Próximo'" size="large" [disabled]="!validStep"
+          [type]="'primary'"></app-button>
+        }
+      </div>
+
+    </div>
+  </div>
+</main>

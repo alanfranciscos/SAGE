@@ -1,0 +1,37 @@
+package com.sage.port.dao.assist;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import com.sage.model.assist.Assist;
+
+public interface AssistDao {
+
+    /**
+     * Creates a new assist record in the database.
+     *
+     * @param assist the Assist object to create
+     * @return the UUID of the created Assist record
+     */
+    UUID create(Assist assist);
+
+    /**
+     * Updates an existing assist record in the database.
+     *
+     * @param assist the Assist object to update
+     * @return the UUID of the updated Assist record
+     */
+    UUID update(Assist assist);
+
+    /**
+     * Finds the current caregiver assignment for a resident. This method
+     * retrieves the caregiver assignment for a resident that is currently
+     * active (i.e., has no end time).
+     *
+     * @param residentId the UUID of the resident
+     * @return an Optional containing the CaregiverAssignmentResident if found,
+     * or empty if not found
+     */
+    Optional<Assist> findByResidentIdAndEndAtIsNull(UUID residentId);
+
+}

@@ -5,7 +5,7 @@ run-application:
 	docker compose -f docker-compose-run-application.yaml down
 	docker compose -f docker-compose-run-application.yaml stop
 	docker compose -f docker-compose-run-application.yaml build --force-rm
-	docker compose -f docker-compose-run-application.yaml up
+	docker compose -f docker-compose-run-application.yaml up 
 
 run-database:
 	docker compose -f docker-compose-run-database.yaml down
@@ -16,3 +16,9 @@ run-database:
 run-api:
 	docker build -t sage-api -f Dockerfile .
 	docker run -it -e PORT=8080 -p 8080:8080 sage-api
+
+local-environment:
+	docker compose -f docker-compose-local-environment.yaml down
+	docker compose -f docker-compose-local-environment.yaml stop
+	docker compose -f docker-compose-local-environment.yaml build --force-rm
+	docker compose -f docker-compose-local-environment.yaml up 

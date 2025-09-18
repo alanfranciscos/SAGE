@@ -14,10 +14,11 @@ import com.sage.model.resident.ResidentHeader;
  * @param residentialUnit The residential unit of the resident.
  * @param imageData The image data of the resident.
  */
-public record ResidentHeaderResponseDto(UUID id,
+public record ResidentHeaderResponseDto(
+        UUID id,
         String fullName,
         String residentialUnit,
-        String imageData
+        byte[] imageData
         ) {
 
     public ResidentHeaderResponseDto(ResidentHeader residentHeader) {
@@ -25,7 +26,17 @@ public record ResidentHeaderResponseDto(UUID id,
                 residentHeader.getId(),
                 residentHeader.getFullName(),
                 residentHeader.getResidentialUnit(),
-                residentHeader.getImageData()
+                residentHeader.getImageBytes()
+        );
+    }
+
+    public ResidentHeaderResponseDto(
+            UUID id, String fullName, String residentialUnit, Object imageData) {
+        this(
+                id,
+                fullName,
+                residentialUnit,
+                imageData instanceof byte[] ? (byte[]) imageData : null
         );
     }
 

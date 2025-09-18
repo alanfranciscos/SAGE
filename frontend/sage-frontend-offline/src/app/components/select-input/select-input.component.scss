@@ -1,0 +1,44 @@
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.5;
+  appearance: none;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M2%200L0%202h4zm0%205L0%203h4z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 8px 10px;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+select[disabled] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.required-star {
+  color: #dc3545;
+  margin-left: 0.25rem;
+}

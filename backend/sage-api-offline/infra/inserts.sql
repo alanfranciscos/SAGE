@@ -1,8 +1,8 @@
 -- Inserts para todas as tabelas
 
 -- Tabela alarm
-INSERT INTO alarm (id, serial_numer, count_number) VALUES
-('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0),
+INSERT INTO alarm (id, serial_number, count_number) VALUES
+-- ('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0),
 ('b2c3d4e5-f6a7-4890-b123-456789abcdef', 'ALM002', 0),
 ('c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'ALM003', 0);
 
@@ -28,13 +28,13 @@ INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at
 
 -- Tabela resident
 INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data, active) VALUES
-('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', 'https://image.com/joao.jpg', true),
-('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', 'https://image.com/luana.jpg', true),
-('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', 'https://image.com/ricardo.jpg', true),
-('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', 'https://image.com/helena.jpg', true),
-('66666666-7777-4888-9999-000111222333', 'Pedro Almeida', '66677788899', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'https://image.com/pedro.jpg', true),
-('99999999-7777-4888-9999-000111222333', 'Teste normal', '66677788891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'https://image.com/pedro.jpg', true),
-('99998888-7777-4888-9999-000111222333', 'Teste warning', '66677785891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'https://image.com/pedro.jpg', true);
+('89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'João Silva', '12345678901', 'M', '1950-07-15 00:00:00+00', '2025-05-01 10:00:00+00', '2025-05-01 10:30:00+00', 'A1', 'output-files/resident-image/default.base64', true),
+('416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Luana Costa', '98765432100', 'F', '1945-11-20 00:00:00+00', '2025-05-01 11:00:00+00', '2025-05-01 11:30:00+00', 'B2', 'output-files/resident-image/default.base64', true),
+('04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ricardo Gomes', '11223344556', 'M', '1955-03-10 00:00:00+00', '2025-05-01 12:00:00+00', '2025-05-01 12:30:00+00', 'C3', 'output-files/resident-image/default.base64', true),
+('55555555-6666-4777-8888-999000111222', 'Helena Fernandes', '55566677788', 'F', '1948-12-05 00:00:00+00', '2025-05-01 13:00:00+00', '2025-05-01 13:30:00+00', 'D4', 'output-files/resident-image/default.base64', true),
+('66666666-7777-4888-9999-000111222333', 'Pedro Almeida', '66677788899', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'output-files/resident-image/default.base64', true),
+('99999999-7777-4888-9999-000111222333', 'Teste normal', '66677788891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'output-files/resident-image/default.base64', true),
+('99998888-7777-4888-9999-000111222333', 'Teste warning', '66677785891', 'M', '1952-08-25 00:00:00+00', '2025-05-01 14:00:00+00', '2025-05-01 14:30:00+00', 'E5', 'output-files/resident-image/default.base64', true);
 
 -- Tabela resident_emergency_contact
 INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES
@@ -47,11 +47,11 @@ INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relat
 
 -- Tabela control_resident
 INSERT INTO control_resident (id, control_id, alarm_id, resident_id) VALUES
-('77777777-8888-4999-0000-111122223333', 'CTRL001', 'a1b2c3d4-e5f6-4789-a012-3456789abcde', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7'),
-('88888888-9999-4000-1111-222233334444', 'CTRL002', 'a1b2c3d4-e5f6-4789-a012-3456789abcde', '416f4967-89b1-49f8-a8d3-134c6e63cf5b'),
-('99999999-0000-4111-2222-333344445555', 'CTRL005', 'b2c3d4e5-f6a7-4890-b123-456789abcdef', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed'),
-('00000000-1111-4222-3333-444455556666', 'CTRL003', 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', '55555555-6666-4777-8888-999000111222'),
-('11111111-2222-4333-4444-555566667777', 'CTRL004', 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', '66666666-7777-4888-9999-000111222333');
+('77777777-8888-4999-0000-111122223333', 1, 'a1b2c3d4-e5f6-4789-a012-3456789abcde', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7'),
+('88888888-9999-4000-1111-222233334444', 2, 'a1b2c3d4-e5f6-4789-a012-3456789abcde', '416f4967-89b1-49f8-a8d3-134c6e63cf5b'),
+('99999999-0000-4111-2222-333344445555', 5, 'b2c3d4e5-f6a7-4890-b123-456789abcdef', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed'),
+('00000000-1111-4222-3333-444455556666', 3, 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', '55555555-6666-4777-8888-999000111222'),
+('11111111-2222-4333-4444-555566667777', 4, 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', '66666666-7777-4888-9999-000111222333');
 
 -- Tabela assist
 INSERT INTO assist (id, caregiver_id, resident_id, called_at, assignment_at, end_at, detail, severity_level) VALUES

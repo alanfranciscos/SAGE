@@ -15,6 +15,7 @@ WORKDIR /app
 RUN echo "" > /app/.env
 
 COPY --from=builder /app/target/*.jar app.jar
+COPY output-files/ ./output-files
 
 ENV PORT=8080
 EXPOSE 8080
