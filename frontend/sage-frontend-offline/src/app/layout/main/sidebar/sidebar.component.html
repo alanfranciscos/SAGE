@@ -3,7 +3,7 @@
     <img src="assets/svg/logo.svg" alt="SAGE Logo" class="logo" />
   </div>
   <div class="items">
-    <app-tooltip-wrapper
+    <!-- <app-tooltip-wrapper
       tooltip="Ir para a tela de residentes"
       position="right"
       [showDelay]="500"
@@ -17,9 +17,11 @@
         }"
         (click)="setActiveItem('antigo-dashboard')"
       >
+        <i [class]="getIconClass('dashboard')" class="item-icon"></i>
+
         <p class="item-text">Residentes</p>
       </a>
-    </app-tooltip-wrapper>
+    </app-tooltip-wrapper> -->
     <app-tooltip-wrapper
       tooltip="Ir para a tela de dashboard"
       position="right"
@@ -34,6 +36,8 @@
         }"
         (click)="setActiveItem('dashboard')"
       >
+        <i [class]="getIconClass('dashboard')" class="item-icon"></i>
+
         <p class="item-text">Dashboard</p>
       </a>
     </app-tooltip-wrapper>
@@ -49,6 +53,8 @@
         [ngClass]="{ 'item-active': getActiveRoute() === '/alerts' }"
         (click)="setActiveItem('alerts')"
       >
+        <i [class]="getIconClass('alerts')" class="item-icon"></i>
+
         <p class="item-text">Alertas</p>
       </a>
     </app-tooltip-wrapper>
@@ -59,6 +65,8 @@
       [hideDelay]="200"
     >
       <a [routerLink]="['/reports']" class="item">
+        <i [class]="getIconClass('reports')" class="item-icon"></i>
+
         <p class="item-text">Relatórios</p>
       </a>
     </app-tooltip-wrapper>
@@ -69,6 +77,8 @@
       [hideDelay]="200"
     >
       <a [routerLink]="['/settings']" class="item">
+        <i [class]="getIconClass('settings')" class="item-icon"></i>
+
         <p class="item-text">Configurações</p>
       </a>
     </app-tooltip-wrapper>

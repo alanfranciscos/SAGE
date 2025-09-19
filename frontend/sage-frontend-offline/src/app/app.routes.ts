@@ -11,7 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 export const routes: Routes = [
   {
     path: '',
-    component: ListResidentsComponent,
+    component: DashboardComponent,
   },
   {
     path: 'residents/register',
@@ -27,7 +27,7 @@ export const routes: Routes = [
   },
   {
     path: 'reports',
-    component: DashboardComponent,
+    component: ReportsComponent,
   },
   {
     path: 'settings',
