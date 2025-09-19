@@ -34,45 +34,60 @@ export class DashboardComponent implements OnInit {
   totalResidents: number = 0;
   totalResolvedToday: number = 0;
   totalActiveCalls: number = 0;
-  meanTime: number = 0;
+  meanTime: string = '';
+
   selectedResidentId: string | null = null;
   showModal = false;
   // residents: Resident[] = [];
-  residents: Resident[] = [
-    {
-      id: '1',
-      residentImage: 'https://via.placeholder.com/100', // imagem genérica
-      residentName: 'Maria Silva',
-      houseNumber: '101',
-      lastCallDateTime: '2025-09-18T14:30:00',
-      status: 'normal',
-      lastCallTime: '14:30',
-      totalCallsLast24Hours: '2',
-    },
-    {
-      id: '2',
+
+  residents: Resident[] = Array.from({ length: 12 }, (_, i) => {
+    const id = (i + 1).toString();
+    const residentName = `Residente ${i + 1}`;
+    const houseNumber = (100 + i).toString();
+    const statusOptions: ResidentStatus[] = ['normal', 'critical', 'warning'];
+    const status = statusOptions[i % statusOptions.length];
+    const hour = String(8 + (i % 12)).padStart(2, '0');
+    const minute = String((i * 7) % 60).padStart(2, '0');
+    const lastCallTime = `${hour}:${minute}`;
+    const lastCallDateTime = `2025-09-18T${lastCallTime}:00`;
+    const totalCallsLast24Hours = Math.floor(Math.random() * 6).toString();
+
+    return {
+      id,
       residentImage: 'https://via.placeholder.com/100',
-      residentName: 'João Pereira',
-      houseNumber: '102',
-      lastCallDateTime: '2025-09-18T13:15:00',
-      status: 'critical',
-      lastCallTime: '13:15',
-      totalCallsLast24Hours: '5',
-    },
-  ];
+      residentName,
+      houseNumber,
+      lastCallDateTime,
+      status,
+      lastCallTime,
+      totalCallsLast24Hours,
+    };
+  });
 
   constructor(private residentService: ResidentService) {}
   async ngOnInit(): Promise<void> {
     try {
       this.totalResidents =
         await this.residentService.getTotalResidentsNumber();
+      console.log('totalResidents', this.totalResidents);
       this.totalResolvedToday =
         await this.residentService.getTotalResolvedToday();
+      console.log('totalResolvedToday', this.totalResolvedToday);
+
+      this.meanTime = await this.residentService.getMeanTime();
+      console.log('meanTime', this.meanTime);
       this.totalActiveCalls =
         await this.residentService.getTotalActiveResidentsCalls();
-      this.meanTime = await this.residentService.getMeanTime();
+      console.log('totalActiveCalls', this.totalActiveCalls);
     } catch (error) {}
-    console.log(this.totalResidents);
+    this.residents = this.residents.sort((a, b) => {
+      const priority: Record<ResidentStatus, number> = {
+        critical: 1,
+        warning: 2,
+        normal: 3,
+      };
+      return priority[a.status] - priority[b.status];
+    });
   }
 
   onOpenDetails(residentId: string) {

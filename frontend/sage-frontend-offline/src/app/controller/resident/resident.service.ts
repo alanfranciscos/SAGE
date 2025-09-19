@@ -47,31 +47,46 @@ export class ResidentService {
   }
 
   async getTotalActiveResidentsCalls(): Promise<number> {
-    const response = await this.api.get<{ alerts: number }>(
-      'api/v1/resident/card/alerts'
+    const response = await this.api.get<{ activeAlerts: number }>(
+      'api/v1/resident/card/active-alerts'
     );
     if (response.status !== 200) {
-      throw new Error('Failed to fetch total number of residents');
+      throw new Error('Failed to fetch total number of active alerts');
     }
-    return response.data.alerts;
+    return response.data.activeAlerts;
   }
-  async getMeanTime(): Promise<number> {
-    const response = await this.api.get<{ meanTime: number }>(
+  async getMeanTime(): Promise<string> {
+    const response = await this.api.get<{ meanTimeAssist: string }>(
       'api/v1/resident/card/mean-time'
     );
+
     if (response.status !== 200) {
-      throw new Error('Failed to fetch total number of residents');
+      throw new Error('Failed to fetch mean time');
     }
-    return response.data.meanTime;
+
+    const rawTime = response.data.meanTimeAssist; // Ex: "02:41:15"
+    const [hoursStr, minutesStr, secondsStr] = rawTime.split(':');
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+    const seconds = parseInt(secondsStr, 10);
+
+    if (hours > 0) {
+      return `${rawTime} h`;
+    } else if (minutes > 0) {
+      return `${minutesStr}:${secondsStr} min`;
+    } else {
+      return `${secondsStr} seg`;
+    }
   }
+
   async getTotalResolvedToday(): Promise<number> {
     const response = await this.api.get<{ solvedToday: number }>(
-      'api/v1/resident/card/resolved'
+      'api/v1/resident/card/solved-today'
     );
     if (response.status !== 200) {
       throw new Error('Failed to fetch total number of residents');
     }
-    console.log('chamada da api:', response.data);
+    // console.log('chamada da api:', response.data);
     return response.data.solvedToday;
   }
 
