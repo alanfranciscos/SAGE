@@ -1,18 +1,13 @@
 package com.sage.dao.assist;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sage.model.assist.Assist;
-import com.sage.port.dao.assist.AssistDao;
+import org.springframework.stereotype.Repository;
 
-public class AssistDaoImpl implements AssistDao {
+@Repository
+public class AssistDaoImpl {
 
     private static final Logger logger = Logger.getLogger(AssistDaoImpl.class.getName());
 
@@ -22,121 +17,50 @@ public class AssistDaoImpl implements AssistDao {
         this.connection = connection;
     }
 
-    private PreparedStatement prepareParametersToSave(
-            PreparedStatement preparedStatement,
-            Assist entity
-    ) throws SQLException {
-
-        preparedStatement.setObject(1, entity.getCaregiverId());
-        preparedStatement.setObject(2, entity.getResidentId());
-
-        preparedStatement.setObject(3, entity.getCalledAt() != null ? entity.getCalledAt().toOffsetDateTime() : null);
-        preparedStatement.setObject(4, entity.getAssignmentAt() != null ? entity.getAssignmentAt().toOffsetDateTime() : null);
-        preparedStatement.setObject(5, entity.getEndAt() != null ? entity.getEndAt().toOffsetDateTime() : null);
-
-        preparedStatement.setString(6, entity.getDetail());
-        preparedStatement.setString(7, entity.getSeverityLevel().getValue());
-
-        return preparedStatement;
-    }
-
-    @Override
-    public UUID create(Assist assist) {
-        String sql = "INSERT INTO assist";
-        sql += " (caregiver_id, resident_id, called_at, assignment_at, end_at, detail, severity_level)";
-        sql += " VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-
-        try {
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            preparedStatement = this.prepareParametersToSave(preparedStatement, assist);
-            preparedStatement.execute();
-
-            resultSet = preparedStatement.getGeneratedKeys();
+    public Long getTotalActiveAlerts() {
+        String sql = "SELECT COUNT(*) FROM assist WHERE end_at IS NULL";
+        try (var preparedStatement = connection.prepareStatement(sql); var resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
-                final UUID id = (UUID) resultSet.getObject(1);
-                assist.setId(id);
+                return resultSet.getLong(1);
+            } else {
+                return 0L;
             }
-
-            connection.commit();
-
-            resultSet.close();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException rollbackEx) {
-                logger.log(
-                        Level.SEVERE,
-                        "Error rolling back transaction: {0}", rollbackEx.getMessage()
-                );
-                throw new RuntimeException("Error rolling back transaction: " + rollbackEx.getMessage(), rollbackEx);
-            }
-            logger.log(
-                    Level.SEVERE,
-                    "Error saving Assist: {0}", e.getMessage()
-            );
-            throw new RuntimeException("Error saving Assist: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error counting active alerts: {0}", e.getMessage());
+            throw new RuntimeException("Error counting active alerts", e);
         }
-
-        return assist.getId();
     }
 
-    @Override
-    public Optional<Assist> findByResidentIdAndEndAtIsNull(UUID residentId) {
-        String sql = "SELECT * FROM assist WHERE resident_id = ? AND end_at IS NULL";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setObject(1, residentId);
+    public Long getTotalSolvedToday() {
+        String sql = "SELECT COUNT(*) FROM assist WHERE end_at >= CURRENT_DATE";
+        try (var preparedStatement = connection.prepareStatement(sql); var resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getLong(1);
+            } else {
+                return 0L;
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error counting solved assists today: {0}", e.getMessage());
+            throw new RuntimeException("Error counting solved assists today", e);
+        }
+    }
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(Assist.mapFromResultSet(resultSet));
+    public String getAssistMeanTime() {
+        String sql = "SELECT AVG(end_at - called_at) FROM assist WHERE end_at IS NOT NULL";
+        try (var preparedStatement = connection.prepareStatement(sql); var resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                // "02:41:15" 2h 41m 15s
+                String interval = resultSet.getString(1);
+                if (interval != null) {
+                    return interval;
                 }
+                return "0 segundos";
             }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error finding Assist: {0}", e.getMessage());
+            return "0 segundos";
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error calculating mean assist time: {0}", e.getMessage());
+            throw new RuntimeException("Error calculating mean assist time", e);
         }
-        return Optional.empty();
-    }
-
-    @Override
-    public UUID update(Assist assist) {
-        String sql = "UPDATE assist SET caregiver_id = ?, resident_id = ?, called_at = ?, assignment_at = ?, end_at = ?, detail = ?, severity_level = ? WHERE id = ?";
-
-        PreparedStatement preparedStatement;
-
-        try {
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement = this.prepareParametersToSave(preparedStatement, assist);
-            preparedStatement.setObject(8, assist.getId());
-            preparedStatement.executeUpdate();
-
-            connection.commit();
-
-            preparedStatement.close();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException rollbackEx) {
-                logger.log(
-                        Level.SEVERE,
-                        "Error rolling back transaction: {0}", rollbackEx.getMessage()
-                );
-                throw new RuntimeException("Error rolling back transaction: " + rollbackEx.getMessage(), rollbackEx);
-            }
-            logger.log(
-                    Level.SEVERE,
-                    "Error updating Assist: {0}", e.getMessage()
-            );
-            throw new RuntimeException("Error updating Assist: " + e.getMessage(), e);
-        }
-
-        return assist.getId();
     }
 }

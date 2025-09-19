@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.sage.config.settings.Settings;
-import com.sage.dao.assist.AssistDaoImpl;
-import com.sage.dao.resident.ResidentDaoImpl;
+import com.sage.dao.assist.OldAssistDaoImpl;
+import com.sage.dao.resident.OldResidentDaoImpl;
 import com.sage.dao.resident.ResidentHeaderDaoImpl;
 import com.sage.dao.resident.control.ControlResidentDaoImpl;
 import com.sage.dao.resident.emergency.ResidentEmergencyContactDaoImpl;
@@ -29,7 +29,7 @@ public class Depends {
 
     @Bean
     public ResidentDao residentDao(final Connection connection) {
-        return new ResidentDaoImpl(connection);
+        return new OldResidentDaoImpl(connection);
     }
 
     @Bean
@@ -44,7 +44,7 @@ public class Depends {
 
     @Bean
     public AssistDao assistDao(final Connection connection) {
-        return new AssistDaoImpl(connection);
+        return new OldAssistDaoImpl(connection);
     }
 
     @Bean
