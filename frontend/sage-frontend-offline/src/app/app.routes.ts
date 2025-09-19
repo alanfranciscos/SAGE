@@ -6,13 +6,14 @@ import { AlertsComponent } from './pages/alerts/alerts.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: ListResidentsComponent,
   },
-  
+
   {
     path: 'residents/register',
     component: RegisterResidentComponent,
@@ -27,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'reports',
-    component: ReportsComponent,
+    component: DashboardComponent,
   },
   {
     path: 'settings',
@@ -35,8 +36,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    component: ListResidentsComponent
-  }
-
-
+    component: ListResidentsComponent,
+  },
 ];

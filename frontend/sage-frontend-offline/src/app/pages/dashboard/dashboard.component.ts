@@ -28,7 +28,7 @@ interface Resident {
     DashboardResidentDetailsModalComponent,
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
   selectedResidentId: string | null = null;
