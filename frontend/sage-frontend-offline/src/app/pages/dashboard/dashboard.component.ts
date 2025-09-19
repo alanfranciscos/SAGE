@@ -32,6 +32,9 @@ interface Resident {
 })
 export class DashboardComponent implements OnInit {
   totalResidents: number = 0;
+  totalResolvedToday: number = 0;
+  totalActiveCalls: number = 0;
+  meanTime: number = 0;
   selectedResidentId: string | null = null;
   showModal = false;
   // residents: Resident[] = [];
@@ -63,9 +66,12 @@ export class DashboardComponent implements OnInit {
     try {
       this.totalResidents =
         await this.residentService.getTotalResidentsNumber();
-    } catch (error) {
-      console.error('Erro ao buscar total de residentes:', error);
-    }
+      this.totalResolvedToday =
+        await this.residentService.getTotalResolvedToday();
+      this.totalActiveCalls =
+        await this.residentService.getTotalActiveResidentsCalls();
+      this.meanTime = await this.residentService.getMeanTime();
+    } catch (error) {}
     console.log(this.totalResidents);
   }
 

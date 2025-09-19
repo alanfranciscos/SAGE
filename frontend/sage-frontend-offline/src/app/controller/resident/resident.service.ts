@@ -45,6 +45,36 @@ export class ResidentService {
     }
     return response.data.total;
   }
+
+  async getTotalActiveResidentsCalls(): Promise<number> {
+    const response = await this.api.get<{ alerts: number }>(
+      'api/v1/resident/card/alerts'
+    );
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch total number of residents');
+    }
+    return response.data.alerts;
+  }
+  async getMeanTime(): Promise<number> {
+    const response = await this.api.get<{ meanTime: number }>(
+      'api/v1/resident/card/mean-time'
+    );
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch total number of residents');
+    }
+    return response.data.meanTime;
+  }
+  async getTotalResolvedToday(): Promise<number> {
+    const response = await this.api.get<{ solvedToday: number }>(
+      'api/v1/resident/card/resolved'
+    );
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch total number of residents');
+    }
+    console.log('chamada da api:', response.data);
+    return response.data.solvedToday;
+  }
+
   async getResidents(
     limit: number,
     skip: number,

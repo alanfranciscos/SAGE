@@ -9,19 +9,19 @@
       ></app-summary-card>
       <app-summary-card
         title="Chamados ativos"
-        [value]="8"
+        [value]="totalActiveCalls"
         icon="calls"
         color="red"
       ></app-summary-card>
       <app-summary-card
         title="Resolvidos no dia"
-        [value]="20"
+        [value]="totalResolvedToday"
         icon="resolved"
         color="green"
       ></app-summary-card>
       <app-summary-card
         title="Tempo médio"
-        [value]="20"
+        [value]="meanTime + ' min'"
         icon="time"
         color="default"
       ></app-summary-card>
