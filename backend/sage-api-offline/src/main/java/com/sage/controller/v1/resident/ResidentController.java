@@ -97,14 +97,14 @@ public class ResidentController {
     @GetMapping("/card/resolved")
     public Map<String, Long> cardResolved() {
         Map<String, Long> map = new HashMap<>();
-        map.put("solved_today", 7L);
+        map.put("solvedToday", 7L);
         return map;
     }
 
     @GetMapping("/card/mean-time")
     public Map<String, Long> cardMeanTime() {
         Map<String, Long> map = new HashMap<>();
-        map.put("mean_time", 7L);
+        map.put("meanTime", 7L);
         return map;
     }
 }
