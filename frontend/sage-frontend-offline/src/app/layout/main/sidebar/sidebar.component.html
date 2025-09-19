@@ -53,7 +53,13 @@
         [ngClass]="{ 'item-active': getActiveRoute() === '/alerts' }"
         (click)="setActiveItem('alerts')"
       >
-        <i [class]="getIconClass('alerts')" class="item-icon"></i>
+        <!-- <i [class]="getIconClass('alerts')" class="item-icon"></i> -->
+        <div class="icon-wrapper">
+          <i [class]="getIconClass('alerts')" class="item-icon"></i>
+          <span *ngIf="totalActiveCalls > 0" class="badge">{{
+            totalActiveCalls
+          }}</span>
+        </div>
 
         <p class="item-text">Alertas</p>
       </a>

@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { Router, RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { TooltipWrapperComponent } from '../../../components/tooltip-wrapper/tooltip-wrapper.component';
+import { ResidentService } from '../../../controller/resident/resident.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [ButtonComponent, RouterLink, TooltipWrapperComponent, NgClass],
+  imports: [
+    ButtonComponent,
+    RouterLink,
+    TooltipWrapperComponent,
+    NgClass,
+    CommonModule,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   activeItem: string = '';
   links: Map<string, string> = new Map<string, string>([
     ['dashboard', '/'],
@@ -19,7 +26,12 @@ export class SidebarComponent {
     ['profile', '/profile'],
   ]);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private residentService: ResidentService
+  ) {}
+  totalActiveCalls: number = 0;
+
   private iconMap: Record<string, string> = {
     dashboard: 'fa-solid fa-chart-line',
     alerts: 'fa-solid fa-bell',
@@ -30,8 +42,11 @@ export class SidebarComponent {
   getIconClass(item: string): string {
     return this.iconMap[item] || 'fa-solid fa-circle-question';
   }
-  ngOnInit(): void {
+
+  async ngOnInit(): Promise<void> {
     this.activeItem = this.router.url;
+    this.totalActiveCalls =
+      await this.residentService.getTotalActiveResidentsCalls();
   }
 
   setActiveItem(item: string) {
