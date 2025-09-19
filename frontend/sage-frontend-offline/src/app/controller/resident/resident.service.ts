@@ -35,6 +35,16 @@ export class ResidentService {
 
   //     return response.data;
   // }
+
+  async getTotalResidentsNumber(): Promise<number> {
+    const response = await this.api.get<{ total: number }>(
+      'api/v1/resident/card/total'
+    );
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch total number of residents');
+    }
+    return response.data.total;
+  }
   async getResidents(
     limit: number,
     skip: number,

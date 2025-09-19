@@ -10,6 +10,23 @@
       [hideDelay]="200"
     >
       <a
+        [routerLink]="[links.get('antigo-dashboard')]"
+        class="item"
+        [ngClass]="{
+          'item-active': links.get('antigo-dashboard') === getActiveRoute()
+        }"
+        (click)="setActiveItem('antigo-dashboard')"
+      >
+        <p class="item-text">Residentes</p>
+      </a>
+    </app-tooltip-wrapper>
+    <app-tooltip-wrapper
+      tooltip="Ir para a tela de dashboard"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a
         [routerLink]="[links.get('dashboard')]"
         class="item"
         [ngClass]="{
@@ -17,7 +34,7 @@
         }"
         (click)="setActiveItem('dashboard')"
       >
-        <p class="item-text">Residentes</p>
+        <p class="item-text">Dashboard</p>
       </a>
     </app-tooltip-wrapper>
     <app-tooltip-wrapper

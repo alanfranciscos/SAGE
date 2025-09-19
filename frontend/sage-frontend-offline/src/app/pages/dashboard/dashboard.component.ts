@@ -1,5 +1,5 @@
 import { NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ResidentService } from '../../controller/resident/resident.service';
 import { MainComponent } from '../../layout/main/main.component';
 import { SummaryCardComponent } from '../../components/summary-card/summary-card.component';
@@ -30,7 +30,8 @@ interface Resident {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  totalResidents: number = 0;
   selectedResidentId: string | null = null;
   showModal = false;
   // residents: Resident[] = [];
@@ -58,6 +59,15 @@ export class DashboardComponent {
   ];
 
   constructor(private residentService: ResidentService) {}
+  async ngOnInit(): Promise<void> {
+    try {
+      this.totalResidents =
+        await this.residentService.getTotalResidentsNumber();
+    } catch (error) {
+      console.error('Erro ao buscar total de residentes:', error);
+    }
+    console.log(this.totalResidents);
+  }
 
   onOpenDetails(residentId: string) {
     this.selectedResidentId =

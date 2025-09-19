@@ -6,7 +6,7 @@ import { SummaryCardComponent } from '../../components/summary-card/summary-card
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [AlertComponent, MainComponent, SummaryCardComponent],
+  imports: [MainComponent],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',
 })

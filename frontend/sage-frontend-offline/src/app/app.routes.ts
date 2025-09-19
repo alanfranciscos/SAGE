@@ -13,7 +13,6 @@ export const routes: Routes = [
     path: '',
     component: ListResidentsComponent,
   },
-
   {
     path: 'residents/register',
     component: RegisterResidentComponent,

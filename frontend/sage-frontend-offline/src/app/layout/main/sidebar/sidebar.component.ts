@@ -14,9 +14,11 @@ import { TooltipWrapperComponent } from "../../../components/tooltip-wrapper/too
 export class SidebarComponent {
   activeItem: string = '';
   links: Map<string, string> = new Map<string, string>([
-    ['dashboard', '/'],
+    ['antigo-dashboard', '/'],
+    ['dashboard', '/dashboard'],
     ['settings', '/settings'],
     ['profile', '/profile'],
+
   ]);
 
   constructor(private router: Router) {}
