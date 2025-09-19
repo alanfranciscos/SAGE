@@ -5,6 +5,8 @@ import { MainComponent } from '../../layout/main/main.component';
 import { SummaryCardComponent } from '../../components/summary-card/summary-card.component';
 import { DashboardResidentCardComponent } from '../../components/dashboard-resident-card/dashboard-resident-card.component';
 import { DashboardResidentDetailsModalComponent } from '../../components/dashboard-resident-details-modal/dashboard-resident-details-modal.component';
+import { SearchInputComponent } from '../../components/search-input/search-input.component';
+import { ButtonComponent } from '../../components/button/button.component';
 
 type ResidentStatus = 'normal' | 'critical' | 'warning';
 interface Resident {
@@ -26,6 +28,8 @@ interface Resident {
     SummaryCardComponent,
     DashboardResidentCardComponent,
     DashboardResidentDetailsModalComponent,
+    SearchInputComponent,
+    ButtonComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

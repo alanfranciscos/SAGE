@@ -1,8 +1,20 @@
 <app-main>
   <div class="content">
+    <div class="topbar">
+      <div><span>Dashboard</span></div>
+      <div>
+        <app-search-input
+          placeholder="Digite para pesquisar..."
+        ></app-search-input>
+        <app-button
+          [label]="'Cadastrar Paciente'"
+          [type]="'primary'"
+        ></app-button>
+      </div>
+    </div>
     <div class="summary-cards">
       <app-summary-card
-        title="Idosos Cadastrados"
+        title="Residentes Cadastrados"
         [value]="totalResidents"
         icon="residents"
         color="default"
