@@ -1,10 +1,10 @@
-<div>
-  <div class="summary-card">
-    <div class="summary-content">
-      <h3>{{ title }}</h3>
-      <p class="summary-value">{{ value }}</p>
+<div class="summary-card">
+  <div class="summary-content">
+    <h3>{{ title }}</h3>
+    <div class="summary-value-icon">
+      <p class="summary-value" [ngClass]="valueClass">{{ value }}</p>
       <p class="summary-icon">
-        <i [class]="icon"></i>
+        <i [class]="iconClass"></i>
       </p>
     </div>
   </div>

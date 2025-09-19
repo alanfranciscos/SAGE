@@ -1,0 +1,53 @@
+<app-main>
+  <div class="content">
+    <div class="summary-cards">
+      <app-summary-card
+        title="Idosos Cadastrados"
+        [value]="150"
+        icon="user"
+        color="default"
+      ></app-summary-card>
+      <app-summary-card
+        title="Chamados ativos"
+        [value]="8"
+        icon="alerts"
+        color="red"
+      ></app-summary-card>
+      <app-summary-card
+        title="Resolvidos no dia"
+        [value]="20"
+        icon="check"
+        color="green"
+      ></app-summary-card>
+      <app-summary-card
+        title="Tempo médio"
+        [value]="20"
+        icon="time"
+        color="default"
+      ></app-summary-card>
+    </div>
+    <div class="residents-title">
+      <span>Status dos Residentes</span>
+    </div>
+    <div class="residents-container">
+      <app-dashboard-resident-card
+        *ngFor="let resident of residents"
+        [residentId]="resident.id"
+        [residentImage]="resident.residentImage"
+        [residentName]="resident.residentName"
+        [houseNumber]="resident.houseNumber"
+        [lastCallDateTime]="resident.lastCallDateTime"
+        [status]="resident.status"
+        [lastCallTime]="resident.lastCallTime"
+        [totalCallsLast24Hours]="resident.totalCallsLast24Hours"
+        (openDetails)="onOpenDetails($event)"
+      ></app-dashboard-resident-card>
+    </div>
+
+    <app-dashboard-resident-details-modal
+      [residentId]="selectedResidentId"
+      [showModal]="showModal"
+      (closeModal)="onCloseModal()"
+    ></app-dashboard-resident-details-modal>
+  </div>
+</app-main>

@@ -1,0 +1,77 @@
+<app-modal (closeModal)="onCloseModal()" [showModal]="showModal">
+  <div class="resident-detail-modal">
+    <!-- Cabeçalho -->
+    <div class="header">
+      <h2>{{ residentDetails?.fullName }}</h2>
+    </div>
+
+    <!-- Corpo -->
+    <div class="content">
+      <!-- Foto + Nome -->
+      <div class="profile">
+        <div class="image-container">
+          <img
+            [src]="
+              residentDetails?.imageData || 'assets/images/default-avatar.png'
+            "
+            alt="Resident Image"
+            class="resident-image"
+          />
+        </div>
+        <h3 class="resident-name">{{ residentDetails?.fullName }}</h3>
+      </div>
+
+      <!-- Dados -->
+      <div class="details-grid">
+        <div class="detail-item">
+          <label>CPF</label>
+          <span>{{ residentDetails?.cpf }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Sexo</label>
+          <span>{{ residentDetails?.sex }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Data de Nascimento</label>
+          <span>{{ residentDetails?.birthDate }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Nome da Emergência</label>
+          <span>{{ residentDetails?.emergencyName }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Telefone da Emergência</label>
+          <span>{{ residentDetails?.emergencyPhone }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Parentesco</label>
+          <span>{{ residentDetails?.relationship }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Número de Controle</label>
+          <span>{{ residentDetails?.controlNumber }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Número da Casa</label>
+          <span>{{ residentDetails?.residentialUnit }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer">
+      <app-button
+        [label]="'Editar dados'"
+        [type]="'primary'"
+        (clicked)="residentDetails && onUpdateResident(residentDetails)"
+      ></app-button>
+    </div>
+  </div>
+</app-modal>
