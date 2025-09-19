@@ -1,38 +1,45 @@
-.content {
-    width: 100%;
-    padding: 2rem;
-}
-
-.header {
+.topbar {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 45px;
-    margin-top: 30px;
-
-    h1 {
-        margin: 0;
-        font-size: 32px;
-        margin-bottom: 30px;
-        font-weight: bold;
-    }
-}
-
-.header-content {
-    display: flex;
-    align-items: end;
     justify-content: space-between;
+    align-items: center;
 }
 
-.header-actions {
+.title-wrapper {
     display: flex;
-    flex-direction: column;
-    align-items: end;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.resident-list {
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.item-icon {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.search-wrapper {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 12px;
-    width: 100%;
+    align-items: center;
+    gap: 1rem;
 }

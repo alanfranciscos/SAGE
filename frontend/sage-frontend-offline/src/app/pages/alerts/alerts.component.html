@@ -1,13 +1,18 @@
 <app-main>
-  <div class="content">
-    <header class="header">
-      <h1>Alertas</h1>
-    </header>
-    <div class="header-content">
+  <div class="topbar">
+    <div class="title-wrapper">
+      <div class="icon-wrapper">
+        <i [class]="getIconClass('alerts')" class="item-icon"></i>
+        <span *ngIf="totalActiveCalls > 0" class="badge">{{
+          totalActiveCalls
+        }}</span>
+      </div>
+      <span class="page-title">Central de Alertas</span>
+    </div>
+
+    <div class="search-wrapper">
       <app-search-input
-        title="Pesquisar residentes"
         placeholder="Digite para pesquisar..."
-        (search)="onSearch($event)"
       ></app-search-input>
     </div>
   </div>
