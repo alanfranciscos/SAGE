@@ -1,0 +1,68 @@
+<div style="margin-bottom: 1rem">
+  <h4>Paciente Padrão</h4>
+  <div class="preview">
+    <div class="card" [ngClass]="[defaultPatient.level, defaultPatient.status]">
+      <div class="image">
+        <img [src]="defaultPatient.imageUrl" alt="Paciente" />
+      </div>
+
+      <div class="info">
+        <div class="name">{{ defaultPatient.name }}</div>
+        <div class="details">
+          🏠 Casa: {{ defaultPatient.room }} &nbsp; ⏳ {{ defaultPatient.time }}
+        </div>
+      </div>
+
+      <div class="badges">
+        <span class="badge level" [ngClass]="defaultPatient.level">
+          {{ defaultPatient.level | titlecase }}
+        </span>
+        <span class="badge status" [ngClass]="defaultPatient.status">
+          {{ defaultPatient.status.replace("_", " ") | titlecase }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Card com paciente atendido -->
+<div>
+  <h4>Paciente Atendido</h4>
+  <div class="preview">
+    <div
+      class="card"
+      [ngClass]="[pacienteAtendido.level, pacienteAtendido.status]"
+    >
+      <div class="image">
+        <img [src]="pacienteAtendido.imageUrl" alt="Paciente" />
+      </div>
+
+      <div class="info">
+        <div class="name">{{ pacienteAtendido.name }}</div>
+        <div class="details">
+          🏠 Casa: {{ pacienteAtendido.room }} &nbsp; ⏳
+          {{ pacienteAtendido.time }}
+        </div>
+      </div>
+
+      <div class="badges">
+        <span class="badge level" [ngClass]="pacienteAtendido.level">
+          {{ pacienteAtendido.level | titlecase }}
+        </span>
+        <span class="badge status" [ngClass]="pacienteAtendido.status">
+          {{ pacienteAtendido.status.replace("_", " ") | titlecase }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Observações extras -->
+    <div
+      class="observation"
+      *ngIf="
+        pacienteAtendido.status === 'atendido' && pacienteAtendido.observation
+      "
+    >
+      <strong>Observações:</strong> {{ pacienteAtendido.observation }}
+    </div>
+  </div>
+</div>

@@ -4,11 +4,17 @@ import { SearchInputComponent } from '../../components/search-input/search-input
 import { ButtonComponent } from '../../components/button/button.component';
 import { CommonModule } from '@angular/common';
 import { ResidentService } from '../../controller/resident/resident.service';
+import { AlertResidentCardComponent } from '../../components/alert-resident-card/alert-resident-card.component';
 
 @Component({
   selector: 'app-alerts',
   standalone: true,
-  imports: [MainComponent, SearchInputComponent, CommonModule],
+  imports: [
+    MainComponent,
+    SearchInputComponent,
+    CommonModule,
+    AlertResidentCardComponent,
+  ],
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.scss',
 })
