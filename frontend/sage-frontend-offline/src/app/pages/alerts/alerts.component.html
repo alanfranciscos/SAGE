@@ -1,20 +1,107 @@
 <app-main>
-  <div class="topbar">
-    <div class="title-wrapper">
-      <div class="icon-wrapper">
-        <i [class]="getIconClass('alerts')" class="item-icon"></i>
-        <span *ngIf="totalActiveCalls > 0" class="badge">{{
-          totalActiveCalls
-        }}</span>
+  <div class="alerts-container">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="title-wrapper">
+        <div class="icon-wrapper">
+          <i [class]="getIconClass('alerts')" class="item-icon"></i>
+          <span *ngIf="totalActiveCalls > 0" class="badge">{{
+            totalActiveCalls
+          }}</span>
+        </div>
+        <span class="page-title">Central de Alertas</span>
       </div>
-      <span class="page-title">Central de Alertas</span>
+
+      <div class="search-wrapper">
+        <app-search-input
+          placeholder="Digite para pesquisar..."
+        ></app-search-input>
+      </div>
     </div>
 
-    <div class="search-wrapper">
-      <app-search-input
-        placeholder="Digite para pesquisar..."
-      ></app-search-input>
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex">
+        <!-- Chamados Ativos -->
+        <mat-tab label="Chamados Ativos">
+          <div class="alerts-content">
+            <!-- Coluna esquerda: cards -->
+            <div class="alerts-list">
+              <div
+                *ngFor="let alert of activeAlerts"
+                class="alert-card"
+                (click)="selectAlert(alert)"
+                [class.active]="selectedAlertDetail?.id === alert.id"
+              >
+                <img [src]="alert.image" alt="Foto do residente" />
+                <div class="info">
+                  <h3>{{ alert.name }}</h3>
+                  <p>🏠 {{ alert.room }}</p>
+                  <p>⏱ {{ alert.time }}</p>
+                </div>
+                <div class="tags">
+                  <span class="severity" [ngClass]="alert.severity">{{
+                    alert.severity
+                  }}</span>
+                  <span class="status">{{ alert.status }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna direita: detalhes -->
+            <div class="alert-details">
+              <ng-container *ngIf="selectedAlertDetail; else noSelection">
+                <app-alert-resident-detail-card
+                  [alertDetail]="selectedAlertDetail"
+                ></app-alert-resident-detail-card>
+              </ng-container>
+              <ng-template #noSelection>
+                <p>Selecione um chamado para ver os detalhes</p>
+              </ng-template>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Histórico -->
+        <mat-tab label="Histórico">
+          <div class="alerts-content">
+            <!-- Coluna esquerda: cards -->
+            <div class="alerts-list">
+              <div
+                *ngFor="let alert of finishedAlerts"
+                class="alert-card"
+                (click)="selectAlert(alert)"
+                [class.active]="selectedAlertDetail?.id === alert.id"
+              >
+                <img [src]="alert.image" alt="Foto do residente" />
+                <div class="info">
+                  <h3>{{ alert.name }}</h3>
+                  <p>🏠 {{ alert.room }}</p>
+                  <p>⏱ {{ alert.time }}</p>
+                </div>
+                <div class="tags">
+                  <span class="severity" [ngClass]="alert.severity">{{
+                    alert.severity
+                  }}</span>
+                  <span class="status">{{ alert.status }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna direita: detalhes -->
+            <div class="alert-details">
+              <ng-container *ngIf="selectedAlertDetail; else noSelection">
+                <app-alert-resident-detail-card
+                  [alertDetail]="selectedAlertDetail"
+                ></app-alert-resident-detail-card>
+              </ng-container>
+              <ng-template #noSelection>
+                <p>Selecione um chamado para ver os detalhes</p>
+              </ng-template>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </div>
-  <app-alert-resident-card></app-alert-resident-card>
 </app-main>

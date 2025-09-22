@@ -11,7 +11,7 @@ export interface CreateResidentRequestDto {
   imageData?: string;
 }
 
-interface ResidentHeaderResponseDto {
+export interface ResidentHeaderResponseDto {
   id: string;
   fullName: string;
   residentialUnit: string;

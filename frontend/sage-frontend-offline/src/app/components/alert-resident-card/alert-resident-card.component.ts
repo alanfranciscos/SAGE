@@ -1,15 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface Patient {
-  imageUrl: string;
-  name: string;
-  room: string;
-  time: string;
-  level: 'normal' | 'medio' | 'critico';
-  status: 'pendente' | 'em_atendimento' | 'atendido';
-  observation?: string;
-}
+import { ResidentHeaderResponseDto } from '../../model/Resident';
 
 @Component({
   selector: 'app-alert-resident-card',
@@ -19,31 +10,29 @@ export interface Patient {
   styleUrls: ['./alert-resident-card.component.scss'],
 })
 export class AlertResidentCardComponent {
-  @Input() patient?: Patient;
+  @Input() resident!: ResidentHeaderResponseDto;
 
-  /** Paciente mockado para visualização se nenhum input for passado */
-  defaultPatient: Patient = {
-    imageUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
+  // extras calculados no front (não vêm do backend)
+  @Input() time: string = '';
+  @Input() level: 'normal' | 'medio' | 'critico' = 'normal';
+  @Input() status: 'pendente' | 'em_atendimento' | 'atendido' = 'pendente';
+  @Input() observation?: string;
+  defaultPatient = {
     name: 'João da Silva',
-    room: '12',
-    time: 'há 3m9s',
-    level: 'medio',
+    room: '101',
+    time: '5 min',
+    imageUrl: 'assets/images/paciente1.png',
+    level: 'normal',
     status: 'pendente',
   };
 
-  /** Outro exemplo de paciente atendido (com observação) */
-  pacienteAtendido: Patient = {
-    imageUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
-    name: 'Maria Souza',
-    room: '21',
-    time: 'há 10m',
+  pacienteAtendido = {
+    name: 'Maria Oliveira',
+    room: '202',
+    time: '15 min',
+    imageUrl: 'assets/images/paciente2.png',
     level: 'critico',
     status: 'atendido',
-    observation: 'Paciente foi medicado e está em repouso.',
+    observation: 'Paciente atendido pelo Dr. Paulo',
   };
-
-  /** Getter usado no template */
-  get p(): Patient {
-    return this.patient ?? this.defaultPatient;
-  }
 }

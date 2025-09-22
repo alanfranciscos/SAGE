@@ -1,0 +1,83 @@
+.card {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    margin: auto;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.resident-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.resident-photo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.baixo {
+    background: green;
+}
+
+.médio {
+    background: orange;
+}
+
+.alto {
+    background: red;
+}
+
+.pendente {
+    background: red;
+}
+
+.atendido {
+    background: green;
+}
+
+textarea {
+    width: 100%;
+    min-height: 80px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    resize: none;
+}
+
+.observations {
+    background: #e5e7eb;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn.finalizar {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: green;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
