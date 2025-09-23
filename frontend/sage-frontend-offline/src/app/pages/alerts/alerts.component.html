@@ -27,25 +27,19 @@
           <div class="alerts-content">
             <!-- Coluna esquerda: cards -->
             <div class="alerts-list">
-              <div
+              <app-alert-resident-card
                 *ngFor="let alert of activeAlerts"
-                class="alert-card"
+                [name]="alert.name"
+                [room]="alert.room"
+                [time]="alert.time"
+                [imageUrl]="alert.image"
+                [level]="mapLevel(alert.severity)"
+                [status]="mapStatus(alert.status)"
+                [observation]="alert.observations"
                 (click)="selectAlert(alert)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
               >
-                <img [src]="alert.image" alt="Foto do residente" />
-                <div class="info">
-                  <h3>{{ alert.name }}</h3>
-                  <p>🏠 {{ alert.room }}</p>
-                  <p>⏱ {{ alert.time }}</p>
-                </div>
-                <div class="tags">
-                  <span class="severity" [ngClass]="alert.severity">{{
-                    alert.severity
-                  }}</span>
-                  <span class="status">{{ alert.status }}</span>
-                </div>
-              </div>
+              </app-alert-resident-card>
             </div>
 
             <!-- Coluna direita: detalhes -->
@@ -67,25 +61,19 @@
           <div class="alerts-content">
             <!-- Coluna esquerda: cards -->
             <div class="alerts-list">
-              <div
+              <app-alert-resident-card
                 *ngFor="let alert of finishedAlerts"
-                class="alert-card"
+                [name]="alert.name"
+                [room]="alert.room"
+                [time]="alert.time"
+                [imageUrl]="alert.image"
+                [level]="mapLevel(alert.severity)"
+                [status]="mapStatus(alert.status)"
+                [observation]="alert.observations"
                 (click)="selectAlert(alert)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
               >
-                <img [src]="alert.image" alt="Foto do residente" />
-                <div class="info">
-                  <h3>{{ alert.name }}</h3>
-                  <p>🏠 {{ alert.room }}</p>
-                  <p>⏱ {{ alert.time }}</p>
-                </div>
-                <div class="tags">
-                  <span class="severity" [ngClass]="alert.severity">{{
-                    alert.severity
-                  }}</span>
-                  <span class="status">{{ alert.status }}</span>
-                </div>
-              </div>
+              </app-alert-resident-card>
             </div>
 
             <!-- Coluna direita: detalhes -->

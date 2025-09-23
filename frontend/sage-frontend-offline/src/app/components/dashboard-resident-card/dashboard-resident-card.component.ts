@@ -15,28 +15,28 @@ export class DashboardResidentCardComponent {
   @Input() houseNumber: string = '';
   @Input() lastCallDateTime: string = '';
   @Input() status: 'normal' | 'warning' | 'critical' = 'normal';
-  @Input() lastCallTime: string = '';
+  @Input() lastCallTime: string = ''; // tira isso ###########################################
   @Input() totalCallsLast24Hours: string = '';
 
   @Output() openDetails = new EventEmitter<string>(); // <-- evento para o pai
-default_user_avatar: any;
-statusMap = {
-  normal: {
-    text: 'Normal',
-    icon: 'fa-solid fa-circle-check',
-    color: '#8a8a8a'
-  },
-  warning: {
-    text: 'Alerta',
-    icon: 'fa-solid fa-triangle-exclamation',
-    color: 'orange'
-  },
-  critical: {
-    text: 'Crítico',
-    icon: 'fa-solid fa-triangle-exclamation',
-    color: 'red'
-  }
-};
+  default_user_avatar: any;
+  statusMap = {
+    normal: {
+      text: 'Normal',
+      icon: 'fa-solid fa-circle-check',
+      color: '#8a8a8a',
+    },
+    warning: {
+      text: 'Alerta',
+      icon: 'fa-solid fa-triangle-exclamation',
+      color: 'orange',
+    },
+    critical: {
+      text: 'Crítico',
+      icon: 'fa-solid fa-triangle-exclamation',
+      color: 'red',
+    },
+  };
   get color(): string {
     switch (this.status) {
       case 'warning':
@@ -48,7 +48,6 @@ statusMap = {
         return 'white';
     }
   }
-
 
   onCardClick() {
     this.openDetails.emit(this.residentId); // avisa o pai passando o id
@@ -63,15 +62,14 @@ statusMap = {
     }
   }
   getStatusText(): string {
-  return this.statusMap[this.status]?.text || 'Desconhecido';
-}
+    return this.statusMap[this.status]?.text || 'Desconhecido';
+  }
 
-getStatusIcon(): string {
-  return this.statusMap[this.status]?.icon || 'fa-solid fa-circle';
-}
+  getStatusIcon(): string {
+    return this.statusMap[this.status]?.icon || 'fa-solid fa-circle';
+  }
 
-getStatusColor(): string {
-  return this.statusMap[this.status]?.color || '#ccc';
-}
-
+  getStatusColor(): string {
+    return this.statusMap[this.status]?.color || '#ccc';
+  }
 }

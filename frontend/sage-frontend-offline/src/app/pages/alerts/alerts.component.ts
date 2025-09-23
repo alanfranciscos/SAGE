@@ -31,6 +31,7 @@ interface Alert {
     SearchInputComponent,
     AlertResidentDetailCardComponent,
     MatTabsModule,
+    AlertResidentCardComponent,
   ],
 })
 export class AlertsComponent implements OnInit {
@@ -58,6 +59,7 @@ export class AlertsComponent implements OnInit {
       severity: 'Crítico',
       status: 'Pendente',
       image: 'ana.jpg',
+      observations: 'Paciente atendido pelo Dr. Paulo',
     },
     {
       id: '2',
@@ -85,6 +87,7 @@ export class AlertsComponent implements OnInit {
       severity: 'Médio',
       status: 'Atendido',
       image: 'joao.jpg',
+      observations: 'Paciente atendido pelo Dr. Paulo',
     },
     {
       id: '4',
@@ -142,5 +145,28 @@ export class AlertsComponent implements OnInit {
         a.status.toLowerCase() === 'finalizado' ||
         a.status.toLowerCase() === 'atendido'
     );
+  }
+  mapLevel(severity: string): 'normal' | 'medio' | 'critico' {
+    switch (severity.toLowerCase()) {
+      case 'crítico':
+        return 'critico';
+      case 'alto':
+        return 'medio';
+      case 'médio':
+        return 'medio';
+      default:
+        return 'normal';
+    }
+  }
+
+  mapStatus(status: string): 'pendente' | 'em_atendimento' | 'atendido' {
+    switch (status.toLowerCase()) {
+      case 'pendente':
+        return 'pendente';
+      case 'atendido':
+        return 'atendido';
+      default:
+        return 'em_atendimento';
+    }
   }
 }
