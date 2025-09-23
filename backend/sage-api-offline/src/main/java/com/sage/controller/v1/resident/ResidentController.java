@@ -3,8 +3,10 @@ package com.sage.controller.v1.resident;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sage.services.resident.ResidentServiceImpl;
@@ -62,6 +64,19 @@ public class ResidentController {
         this.residentService = residentService;
     }
 
+    @GetMapping()
+    public ResponseEntity<Object> getResidents(
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "0") int skip,
+            @RequestParam(required = false) String search
+    ) {
+        return ResponseEntity.ok(this.residentService.getResidents(limit, skip, search));
+    }
+
+    // @GetMapping("/{id}")
+    // public ResponseEntity<ResidentDetailResponseDto> getResidentDetails(@PathVariable UUID id) {
+    //     return ResponseEntity.ok(this.residentService.getResidentDetailsById(id));
+    // }
     @GetMapping("/card/total")
     public Map<String, Long> cardTotal() {
         Long total = residentService.getCardTotal();
