@@ -57,4 +57,8 @@ public class ResidentServiceImpl {
         return emergencyResidents;
     }
 
+    public Map<String, Object> getResidentDetailsById(java.util.UUID id) {
+        return this.residentDao.getResidentDetailsById(id);
+    }
+
 }

@@ -1,8 +1,12 @@
 package com.sage.dao.resident;
 
 import java.sql.Connection;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +21,25 @@ public class ResidentDaoImpl {
 
     public ResidentDaoImpl(Connection connection) {
         this.connection = connection;
+    }
+
+    private String toCamelCase(String snakeCase) {
+        StringBuilder result = new StringBuilder();
+        boolean upperNext = false;
+
+        for (char c : snakeCase.toCharArray()) {
+            if (c == '_') {
+                upperNext = true;
+            } else {
+                if (upperNext) {
+                    result.append(Character.toUpperCase(c));
+                    upperNext = false;
+                } else {
+                    result.append(c);
+                }
+            }
+        }
+        return result.toString();
     }
 
     public Long getCardTotal() {
@@ -135,9 +158,9 @@ public class ResidentDaoImpl {
             }
 
             try (var resultSet = preparedStatement.executeQuery()) {
-                List<Map<String, Object>> residents = new java.util.ArrayList<>();
+                List<Map<String, Object>> residents = new ArrayList<>();
                 while (resultSet.next()) {
-                    Map<String, Object> resident = new java.util.HashMap<>();
+                    Map<String, Object> resident = new HashMap<>();
                     resident.put("id", resultSet.getObject("id"));
                     resident.put("imageData", resultSet.getString("image_data"));
                     resident.put("fullName", resultSet.getString("full_name"));
@@ -152,6 +175,42 @@ public class ResidentDaoImpl {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error listing residents: {0}", e.getMessage());
             throw new RuntimeException("Error listing residents", e);
+        }
+    }
+
+    public Map<String, Object> getResidentDetailsById(UUID id) {
+        String sql = "SELECT r.*, "
+                + " rec.full_name AS rec_full_name, rec.phone AS emergency_phone, rec.relationship AS emergency_relationship, "
+                + " cr.control_id AS control_id "
+                + " FROM resident r"
+                + " LEFT JOIN resident_emergency_contact rec ON rec.resident_id = r.id "
+                + " LEFT JOIN control_resident cr ON cr.resident_id = r.id "
+                + " WHERE r.id = ?";
+        try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, id);
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Map<String, Object> resident = new HashMap<>();
+
+                    // Pegando metadata das colunas
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    int columnCount = metaData.getColumnCount();
+
+                    for (int i = 1; i <= columnCount; i++) {
+                        String columnName = metaData.getColumnLabel(i); // ex: rec_full_name
+                        String camelCaseName = toCamelCase(columnName); // ex: recFullName
+                        Object columnValue = resultSet.getObject(i);
+                        resident.put(camelCaseName, columnValue);
+                    }
+
+                    return resident;
+                } else {
+                    return null;
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error fetching resident details by ID", e);
+            throw new RuntimeException("Error fetching resident details by ID", e);
         }
     }
 }
