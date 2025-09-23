@@ -180,7 +180,7 @@ public class ResidentDaoImpl {
 
     public Map<String, Object> getResidentDetailsById(UUID id) {
         String sql = "SELECT r.*, "
-                + " rec.full_name AS rec_full_name, rec.phone AS emergency_phone, rec.relationship AS emergency_relationship, "
+                + " rec.full_name AS emergency_full_name, rec.phone AS emergency_phone, rec.relationship AS emergency_relationship, "
                 + " cr.control_id AS control_id "
                 + " FROM resident r"
                 + " LEFT JOIN resident_emergency_contact rec ON rec.resident_id = r.id "
