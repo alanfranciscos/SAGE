@@ -103,6 +103,7 @@ public class ResidentServiceImpl {
                 connection.rollback();
             } catch (java.sql.SQLException ex) {
                 logger.log(Level.WARNING, "Failed to rollback transaction: {0}", ex.getMessage());
+                throw new RuntimeException("Error creating resident", ex);
             }
             throw new RuntimeException("Error creating resident", e);
         } finally {
@@ -110,6 +111,55 @@ public class ResidentServiceImpl {
                 connection.setAutoCommit(true);
             } catch (java.sql.SQLException ex) {
                 logger.log(Level.WARNING, "Failed to reset auto-commit: {0}", ex.getMessage());
+                throw new RuntimeException("Error creating resident", ex);
+            }
+        }
+    }
+
+    public Map<String, Object> updateResident(
+            UUID id,
+            String fullName,
+            String cpf,
+            char sex,
+            ZonedDateTime birthDate,
+            String emergencyName,
+            String emergencyPhone,
+            String relationship,
+            String residentialUnit,
+            Integer controlNumber
+    ) {
+        Connection connection = residentDao.getConnection();
+        try {
+            connection.setAutoCommit(false);
+
+            Map<String, Object> response = residentDao.updateResident(id,
+                    fullName,
+                    cpf,
+                    sex,
+                    birthDate,
+                    emergencyName,
+                    emergencyPhone,
+                    relationship,
+                    residentialUnit,
+                    controlNumber
+            );
+
+            connection.commit();
+            return response;
+        } catch (java.sql.SQLException | IllegalArgumentException e) {
+            try {
+                connection.rollback();
+            } catch (java.sql.SQLException ex) {
+                logger.log(Level.WARNING, "Failed to rollback transaction: {0}", ex.getMessage());
+                throw new RuntimeException("Error updating resident", ex);
+            }
+            throw new RuntimeException("Error updating resident", e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (java.sql.SQLException ex) {
+                logger.log(Level.WARNING, "Failed to reset auto-commit: {0}", ex.getMessage());
+                throw new RuntimeException("Error updating resident", ex);
             }
         }
     }

@@ -39,7 +39,6 @@ INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_a
 -- Tabela resident_emergency_contact
 INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES
 ('eee11111-fff2-4222-3333-444455556666', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'Maria Silva', '11987651234', 'Filha'),
-('fff22222-aaa3-4333-4444-555566667777', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'José Silva', '11987651235', 'Filho'),
 ('aaa33333-bbb4-4444-5555-666677778888', '416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Carlos Costa', '21987651236', 'Sobrinho'),
 ('bbb44444-ccc5-4555-6666-777788889999', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ana Gomes', '31987651237', 'Neta'),
 ('ccc55555-ddd6-4666-7777-888899990000', '55555555-6666-4777-8888-999000111222', 'Roberto Fernandes', '11987651238', 'Neto'),

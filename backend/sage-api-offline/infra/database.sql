@@ -81,7 +81,7 @@ CREATE TABLE resident_emergency_contact (
     relationship VARCHAR(50) NOT NULL,
         
     FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
-    UNIQUE (resident_id, phone)
+    UNIQUE (resident_id)
 );
 
 CREATE TABLE control_resident (

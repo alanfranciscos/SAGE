@@ -2,6 +2,7 @@ package com.sage.dao.resident;
 
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -277,5 +278,59 @@ public class ResidentDaoImpl {
             throw new RuntimeException("Error fetching alarm id", e);
         }
         throw new RuntimeException("No alarm found to associate with control_resident");
+    }
+
+    public Map<String, Object> updateResident(
+            UUID id,
+            String fullName,
+            String cpf,
+            char sex,
+            ZonedDateTime birthDate,
+            String emergencyName,
+            String emergencyPhone,
+            String relationship,
+            String residentialUnit,
+            Integer controlNumber
+    ) {        // Atualiza dados do residente
+        String updateResidentSql = "UPDATE resident SET full_name = ?, cpf = ?, sex = ?, birth_date = ?, updated_at = NOW(), residential_unit = ? WHERE id = ?";
+        String updateEmergencySql = "UPDATE resident_emergency_contact SET full_name = ?, relationship = ?, phone = ? WHERE resident_id = ?";
+        String updateControlSql = "UPDATE control_resident SET control_id = ? WHERE resident_id = ?";
+
+        try {
+            // Resident
+            try (var ps = connection.prepareStatement(updateResidentSql)) {
+                ps.setString(1, fullName);
+                ps.setString(2, cpf);
+                ps.setString(3, String.valueOf(sex));
+                ps.setObject(4, birthDate == null ? null : birthDate.toOffsetDateTime());
+                ps.setString(5, residentialUnit);
+                ps.setObject(6, id);
+                ps.executeUpdate();
+            }
+
+            // Emergency contact (só se algum campo for preenchido)
+            if ((emergencyName != null && !emergencyName.isEmpty()) || (emergencyPhone != null && !emergencyPhone.isEmpty()) || (relationship != null && !relationship.isEmpty())) {
+                try (var ps = connection.prepareStatement(updateEmergencySql)) {
+                    ps.setString(1, emergencyName);
+                    ps.setString(2, relationship);
+                    ps.setString(3, emergencyPhone);
+                    ps.setObject(4, id);
+                    ps.executeUpdate();
+                }
+            }
+
+            if (controlNumber != null) {
+                try (var ps = connection.prepareStatement(updateControlSql)) {
+                    ps.setObject(1, controlNumber);
+                    ps.setObject(2, id);
+                    ps.executeUpdate();
+                }
+            }
+
+            return getResidentDetailsById(id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating resident", e);
+            throw new RuntimeException("Error updating resident", e);
+        }
     }
 }
