@@ -1,7 +1,6 @@
 package com.sage.dto.v1.resident.request;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
 
 /**
  * Data Transfer Object for creating a new resident via JSON requests. This
@@ -17,28 +16,26 @@ import java.util.Optional;
  * @param relationship The relationship to the emergency contact (optional).
  * @param residentialUnit The residential unit where the resident lives.
  * @param controlNumber The control number for the resident.
- * @param imageData The image data of the resident in base64 format (optional).
  */
 public record CreateResidentRequestDto(
         String fullName,
         String cpf,
         char sex,
         ZonedDateTime birthDate,
-        Optional<String> emergencyName,
-        Optional<String> emergencyPhone,
-        Optional<String> relationship,
+        String emergencyName,
+        String emergencyPhone,
+        String relationship,
         String residentialUnit,
-        Integer controlNumber,
-        Optional<String> imageData
+        Integer controlNumber
         ) {
 
     private boolean emergencyValidator() {
-        boolean hasAllFields = emergencyName.isPresent()
-                && emergencyPhone.isPresent()
-                && relationship.isPresent();
-        boolean hasAnyFields = emergencyName.isPresent()
-                || emergencyPhone.isPresent()
-                || relationship.isPresent();
+        boolean hasAllFields = emergencyName != null && !emergencyName.isEmpty()
+                && emergencyPhone != null && !emergencyPhone.isEmpty()
+                && relationship != null && !relationship.isEmpty();
+        boolean hasAnyFields = emergencyName != null && !emergencyName.isEmpty()
+                || emergencyPhone != null && !emergencyPhone.isEmpty()
+                || relationship != null && !relationship.isEmpty();
         return hasAnyFields && !hasAllFields;
     }
 

@@ -81,14 +81,13 @@ public class OldResidentServiceImpl implements ResidentService {
 
         UUID residentId = this.residentDao.createResident(resident);
 
-        if (!requestDto.imageData().isEmpty()) {
-            String imagePath = this.fileHelperService.saveBase64File(
-                    requestDto.imageData().get(),
-                    FileType.RESIDENT_IMAGE, residentId.toString()
-            );
-            this.residentDao.updateImageData(residentId, imagePath);
-        }
-
+        // if (!requestDto.imageData().isEmpty()) {
+        //     String imagePath = this.fileHelperService.saveBase64File(
+        //             requestDto.imageData().get(),
+        //             FileType.RESIDENT_IMAGE, residentId.toString()
+        //     );
+        //     this.residentDao.updateImageData(residentId, imagePath);
+        // }
         this.residentEmergencyContactService.create(requestDto, residentId);
 
         this.controlResidentService.create(requestDto, residentId);

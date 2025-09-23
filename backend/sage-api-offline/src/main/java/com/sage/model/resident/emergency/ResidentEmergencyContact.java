@@ -37,9 +37,9 @@ public class ResidentEmergencyContact {
     ) {
         ResidentEmergencyContact contact = new ResidentEmergencyContact();
         contact.setResidentId(residentId);
-        contact.setFullName(requestDto.emergencyName().get());
-        contact.setPhone(requestDto.emergencyPhone().get());
-        contact.setRelationship(requestDto.relationship().get());
+        contact.setFullName(requestDto.emergencyName());
+        contact.setPhone(requestDto.emergencyPhone());
+        contact.setRelationship(requestDto.relationship());
         return contact;
     }
 

@@ -1,5 +1,6 @@
 package com.sage.controller.v1.resident;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -7,10 +8,14 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.services.resident.ResidentServiceImpl;
 
 /**
@@ -29,17 +34,6 @@ public class ResidentController {
     // public ResidentController(ResidentService residentService) {
     //     this.residentService = residentService;
     // }
-    // @PostMapping
-    // public ResponseEntity<UUID> createResident(@RequestBody CreateResidentRequestDto residentRequestDto) {
-    //     residentRequestDto.validate();
-    //     UUID residentId = residentService.createResident(residentRequestDto);
-    //     final URI uri = ServletUriComponentsBuilder
-    //             .fromCurrentRequest()
-    //             .path("/{id}")
-    //             .buildAndExpand(residentId)
-    //             .toUri();
-    //     return ResponseEntity.created(uri).body(residentId);
-    // }
     // @PutMapping("/{id}")
     // public ResponseEntity<ResidentResponseDto> updateResident(
     //         @PathVariable UUID id,
@@ -56,11 +50,31 @@ public class ResidentController {
     // ) {
     //     return ResponseEntity.ok(this.residentService.listResidents(limit, skip, search));
     // }
-    // @GetMapping("/{id}")
-    // public ResponseEntity<ResidentDetailResponseDto> getResidentDetails(@PathVariable UUID id) {
-    //     return ResponseEntity.ok(this.residentService.getResidentDetailsById(id));
-    // }
     private final ResidentServiceImpl residentService;
+
+    @PostMapping
+    public ResponseEntity<UUID> createResident(@RequestBody CreateResidentRequestDto residentRequestDto) {
+        residentRequestDto.validate();
+
+        UUID residentId = residentService.createResident(
+                residentRequestDto.fullName(),
+                residentRequestDto.cpf(),
+                residentRequestDto.sex(),
+                residentRequestDto.birthDate(),
+                residentRequestDto.emergencyName(),
+                residentRequestDto.emergencyPhone(),
+                residentRequestDto.relationship(),
+                residentRequestDto.residentialUnit(),
+                residentRequestDto.controlNumber()
+        );
+
+        final URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(residentId)
+                .toUri();
+        return ResponseEntity.created(uri).body(residentId);
+    }
 
     public ResidentController(ResidentServiceImpl residentService) {
         this.residentService = residentService;
