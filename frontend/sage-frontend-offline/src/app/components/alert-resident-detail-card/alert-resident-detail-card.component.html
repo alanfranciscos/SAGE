@@ -23,14 +23,14 @@
 
   <p>
     <strong>Prioridade:</strong>
-    <span class="badge" [ngClass]="alertDetail.level">
+    <span class="badge level" [ngClass]="alertDetail.level">
       {{ alertDetail.level | titlecase }}
     </span>
   </p>
 
   <p>
     <strong>Status:</strong>
-    <span class="badge" [ngClass]="alertDetail.status">
+    <span class="badge status" [ngClass]="alertDetail.status">
       {{ alertDetail.status.replace("_", " ") | titlecase }}
     </span>
   </p>

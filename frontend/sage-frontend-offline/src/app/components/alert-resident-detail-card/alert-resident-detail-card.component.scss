@@ -1,5 +1,5 @@
 .card {
-    background: #f9fafb;
+    background: #f1f3f5; // mesmo fundo do card principal
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -10,7 +10,7 @@
 h2 {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .resident-info {
@@ -26,32 +26,44 @@ h2 {
     border-radius: 50%;
 }
 
+p {
+    margin: 8px 0;
+}
+
 .badge {
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
     color: white;
+    display: inline-block;
+    margin-left: 8px;
 }
 
-.baixo {
-    background: green;
+/* Níveis */
+.badge.level.normal {
+    background: #4caf50;
 }
 
-.médio {
-    background: orange;
+.badge.level.medio {
+    background: #ff9800;
 }
 
-.alto {
-    background: red;
+.badge.level.critico {
+    background: #f44336;
 }
 
-.pendente {
-    background: red;
+/* Status */
+.badge.status.pendente {
+    background: #f44336;
 }
 
-.atendido {
-    background: green;
+.badge.status.em_atendimento {
+    background: #ff9800;
+}
+
+.badge.status.atendido {
+    background: #4caf50;
 }
 
 textarea {
@@ -61,18 +73,20 @@ textarea {
     border: 1px solid #ccc;
     padding: 8px;
     resize: none;
+    margin-top: 8px;
 }
 
 .observations {
-    background: #e5e7eb;
+    background: #f1f3f5; // mesmo fundo do card
     padding: 8px;
     border-radius: 6px;
     font-size: 14px;
+    margin-top: 8px;
 }
 
 .btn.finalizar {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 12px;
     padding: 10px;
     border-radius: 8px;
     border: none;
