@@ -12,12 +12,16 @@ INSERT INTO organization (id, alarm_id, full_name, cep, state, city, neighborhoo
 ('e5f6a7b8-c9d0-4123-e456-789abcdef012', 'b2c3d4e5-f6a7-4890-b123-456789abcdef', 'Lar dos Idosos São José', '23456-789', 'RJ', 'Rio de Janeiro', 'Copacabana', 'Avenida Atlântica', '456'),
 ('f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'Centro de Cuidados Vida Plena', '34567-890', 'MG', 'Belo Horizonte', 'Savassi', 'Rua da Paz', '789');
 
+-- Tabela chief_caregiver
+INSERT INTO chief_caregiver (id, organization_id, full_name, email, recovery_email, password) VALUES
+('aaaaaaa1-bbbb-4ccc-dddd-eeeefffff000', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'João Pereira', 'admin@sage.com', 'admin@sage.com' ,'senha123' );
+
 -- Tabela caregiver
-INSERT INTO caregiver (id, organization_id, full_name, active, email, image_data, phone, cpf, work_start_time, work_end_time) VALUES
-('11111111-2222-4333-a444-555666777888', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Maria Santos', true, 'maria.santos@email.com', 'https://image.com/maria.jpg', '11987654321', '12345678900', '2025-01-01 08:00:00+00', '2025-01-01 18:00:00+00'),
-('22222222-3333-4444-b555-666777888999', 'e5f6a7b8-c9d0-4123-e456-789abcdef012', 'Carlos Oliveira', true, 'carlos.oliveira@email.com', 'https://image.com/carlos.jpg', '21987654321', '23456789011', '2025-01-01 06:00:00+00', '2025-01-01 14:00:00+00'),
-('33333333-4444-5555-c666-777888999000', 'f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'Ana Lima', true, 'ana.lima@email.com', 'https://image.com/ana.jpg', '31987654321', '34567890122', '2025-01-01 14:00:00+00', '2025-01-01 22:00:00+00'),
-('44444444-5555-6666-d777-888999000111', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Roberto Silva', true, 'roberto.silva@email.com', 'https://image.com/roberto.jpg', '11976543210', '45678901233', '2025-01-01 22:00:00+00', '2025-01-02 06:00:00+00');
+INSERT INTO caregiver (id, organization_id, full_name, active, phone, email, cpf, token, last_used_token) VALUES
+('11111111-2222-4333-a444-555666777888', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Maria Santos', true, '11987654321', 'maria.santos@email.com', '12345678900', 'token1', '2025-01-01 08:00:00+00'),
+('22222222-3333-4444-b555-666777888999', 'e5f6a7b8-c9d0-4123-e456-789abcdef012', 'Carlos Oliveira', true, '21987654321', 'carlos.oliveira@email.com', '23456789011', 'token2', '2025-01-01 06:00:00+00'),
+('33333333-4444-5555-c666-777888999000', 'f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'Ana Lima', true, '31987654321', 'ana.lima@email.com', '34567890122', 'token3', '2025-01-01 14:00:00+00'),
+('44444444-5555-6666-d777-888999000111', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Roberto Silva', true, '11976543210', 'roberto.silva@email.com', '45678901233', 'token4', '2025-01-01 22:00:00+00');
 
 -- Tabela caregiver_password
 INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) VALUES
@@ -61,3 +65,4 @@ INSERT INTO assist (id, caregiver_id, resident_id, called_at, assignment_at, end
 ('56789012-5555-6666-7777-888899990000', null, '66666666-7777-4888-9999-000111222333', '2025-06-02 16:45:00+00', null, null, 'Chamado de emergência - aguardando cuidador', 'emergency'),
 ('67890123-6666-7777-8888-999900001111', null, '99998888-7777-4888-9999-000111222333', '2025-06-02 10:00:00+00', '2025-06-02 10:05:00+00', null, null, 'warning'),
 ('78901234-7777-8888-9999-000011112222', '11111111-2222-4333-a444-555666777888', '99999999-7777-4888-9999-000111222333', '2025-06-02 11:00:00+00', '2025-06-02 11:10:00+00', '2025-06-02 20:15:00+00', 'Auxílio para ir ao banheiro', 'warning');
+

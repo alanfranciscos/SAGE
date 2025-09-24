@@ -29,17 +29,28 @@ CREATE TABLE organization (
     FOREIGN KEY (alarm_id) REFERENCES alarm (id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE chief_caregiver (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id UUID NOT NULL,
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(200) NOT NULL UNIQUE,
+    recovery_email VARCHAR(200) NOT NULL UNIQUE,
+    password VARCHAR(1024) NOT NULL,
+
+    FOREIGN KEY (organization_id) REFERENCES organization (id) ON DELETE CASCADE
+);
+
 CREATE TABLE caregiver  (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     organization_id UUID not NULL,
     full_name VARCHAR(150) NOT NULL,
-    active BOOLEAN NOT NULL DEFAULT FALSE,
-    email VARCHAR(200) NOT NULL UNIQUE,
-    image_data VARCHAR(512),
+    active BOOLEAN NOT NULL DEFAULT TRUE,
     phone VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(200) NOT NULL UNIQUE,
     cpf VARCHAR(11) NOT NULL UNIQUE,
-    work_start_time  TIMESTAMP WITH TIME ZONE NOT NULL,
-    work_end_time  TIMESTAMP WITH TIME ZONE NOT NULL,
+    token VARCHAR(512) NOT NULL UNIQUE,
+    last_used_token TIMESTAMP WITH TIME ZONE,
         
     FOREIGN KEY (organization_id) REFERENCES organization (id) ON DELETE CASCADE
 );
