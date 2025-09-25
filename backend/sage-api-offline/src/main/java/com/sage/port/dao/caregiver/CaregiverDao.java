@@ -1,5 +1,6 @@
 package com.sage.port.dao.caregiver;
 
+import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface CaregiverDao {
     UUID getFirstOrganizationId();
     boolean isTokenInUse(String token);
     List<CaregiverResponseDto> getAllCaregivers();
+    void updateCaregiver(UUID id, CreateCaregiverRequestDto request);
 }

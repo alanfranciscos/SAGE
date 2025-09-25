@@ -41,6 +41,13 @@ public class CaregiverController {
         return ResponseEntity.created(uri).body(caregiverId);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateCaregiver(@PathVariable UUID id, @RequestBody CreateCaregiverRequestDto requestDto) {
+        requestDto.validate();
+        caregiverService.updateCaregiver(id, requestDto);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<CaregiverResponseDto>> getAllCaregivers() {
         List<CaregiverResponseDto> caregivers = caregiverService.getAllCaregivers();
