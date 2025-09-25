@@ -2,6 +2,8 @@ package com.sage.dao.resident;
 
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +19,14 @@ public class ResidentDaoImpl {
 
     private static final Logger logger = Logger.getLogger(ResidentDaoImpl.class.getName());
 
-    private final Connection connection;
+    final Connection connection;
 
     public ResidentDaoImpl(Connection connection) {
         this.connection = connection;
+    }
+
+    public Connection getConnection() {
+        return this.connection;
     }
 
     private String toCamelCase(String snakeCase) {
@@ -211,6 +217,120 @@ public class ResidentDaoImpl {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error fetching resident details by ID", e);
             throw new RuntimeException("Error fetching resident details by ID", e);
+        }
+    }
+
+    public void insertResident(UUID residentId, String fullName, String cpf, char sex, ZonedDateTime birthDate, String residentialUnit) {
+        String sql = "INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, active) "
+                + "VALUES (?, ?, ?, ?, ?, NOW(), NOW(), ?, TRUE)";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, residentId);
+            ps.setString(2, fullName);
+            ps.setString(3, cpf);
+            ps.setString(4, String.valueOf(sex));
+            ps.setObject(5, birthDate == null ? null : birthDate.toOffsetDateTime());
+            ps.setString(6, residentialUnit);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error inserting resident", e);
+            throw new RuntimeException("Error inserting resident", e);
+        }
+    }
+
+    public void insertResidentEmergencyContact(UUID emergencyId, UUID residentId, String emergencyName, String emergencyPhone, String relationship) {
+        String sql = "INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES (?, ?, ?, ?, ?)";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, emergencyId);
+            ps.setObject(2, residentId);
+            ps.setString(3, emergencyName);
+            ps.setString(4, emergencyPhone);
+            ps.setString(5, relationship);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error inserting emergency contact", e);
+            throw new RuntimeException("Error inserting emergency contact", e);
+        }
+    }
+
+    public void insertControlResident(UUID controlId, int controlNumber, UUID alarmId, UUID residentId) {
+        String sql = "INSERT INTO control_resident (id, control_id, alarm_id, resident_id) VALUES (?, ?, ?, ?)";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, controlId);
+            ps.setInt(2, controlNumber);
+            ps.setObject(3, alarmId);
+            ps.setObject(4, residentId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error inserting control_resident", e);
+            throw new RuntimeException("Error inserting control_resident", e);
+        }
+    }
+
+    public UUID getFirstAlarmId() {
+        try (var stmt = connection.prepareStatement("SELECT id FROM alarm LIMIT 1")) {
+            try (var rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return (UUID) rs.getObject("id");
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error fetching alarm id", e);
+            throw new RuntimeException("Error fetching alarm id", e);
+        }
+        throw new RuntimeException("No alarm found to associate with control_resident");
+    }
+
+    public Map<String, Object> updateResident(
+            UUID id,
+            String fullName,
+            String cpf,
+            char sex,
+            ZonedDateTime birthDate,
+            String emergencyName,
+            String emergencyPhone,
+            String relationship,
+            String residentialUnit,
+            Integer controlNumber
+    ) {        // Atualiza dados do residente
+        String updateResidentSql = "UPDATE resident SET full_name = ?, cpf = ?, sex = ?, birth_date = ?, updated_at = NOW(), residential_unit = ? WHERE id = ?";
+        String updateEmergencySql = "UPDATE resident_emergency_contact SET full_name = ?, relationship = ?, phone = ? WHERE resident_id = ?";
+        String updateControlSql = "UPDATE control_resident SET control_id = ? WHERE resident_id = ?";
+
+        try {
+            // Resident
+            try (var ps = connection.prepareStatement(updateResidentSql)) {
+                ps.setString(1, fullName);
+                ps.setString(2, cpf);
+                ps.setString(3, String.valueOf(sex));
+                ps.setObject(4, birthDate == null ? null : birthDate.toOffsetDateTime());
+                ps.setString(5, residentialUnit);
+                ps.setObject(6, id);
+                ps.executeUpdate();
+            }
+
+            // Emergency contact (só se algum campo for preenchido)
+            if ((emergencyName != null && !emergencyName.isEmpty()) || (emergencyPhone != null && !emergencyPhone.isEmpty()) || (relationship != null && !relationship.isEmpty())) {
+                try (var ps = connection.prepareStatement(updateEmergencySql)) {
+                    ps.setString(1, emergencyName);
+                    ps.setString(2, relationship);
+                    ps.setString(3, emergencyPhone);
+                    ps.setObject(4, id);
+                    ps.executeUpdate();
+                }
+            }
+
+            if (controlNumber != null) {
+                try (var ps = connection.prepareStatement(updateControlSql)) {
+                    ps.setObject(1, controlNumber);
+                    ps.setObject(2, id);
+                    ps.executeUpdate();
+                }
+            }
+
+            return getResidentDetailsById(id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating resident", e);
+            throw new RuntimeException("Error updating resident", e);
         }
     }
 }

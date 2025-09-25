@@ -13,11 +13,11 @@ INSERT INTO organization (id, alarm_id, full_name, cep, state, city, neighborhoo
 ('f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'Centro de Cuidados Vida Plena', '34567-890', 'MG', 'Belo Horizonte', 'Savassi', 'Rua da Paz', '789');
 
 -- Tabela caregiver
-INSERT INTO caregiver (id, organization_id, full_name, active, email, image_data, phone, cpf, work_start_time, work_end_time) VALUES
-('11111111-2222-4333-a444-555666777888', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Maria Santos', true, 'maria.santos@email.com', 'https://image.com/maria.jpg', '11987654321', '12345678900', '2025-01-01 08:00:00+00', '2025-01-01 18:00:00+00'),
-('22222222-3333-4444-b555-666777888999', 'e5f6a7b8-c9d0-4123-e456-789abcdef012', 'Carlos Oliveira', true, 'carlos.oliveira@email.com', 'https://image.com/carlos.jpg', '21987654321', '23456789011', '2025-01-01 06:00:00+00', '2025-01-01 14:00:00+00'),
-('33333333-4444-5555-c666-777888999000', 'f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'Ana Lima', true, 'ana.lima@email.com', 'https://image.com/ana.jpg', '31987654321', '34567890122', '2025-01-01 14:00:00+00', '2025-01-01 22:00:00+00'),
-('44444444-5555-6666-d777-888999000111', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Roberto Silva', true, 'roberto.silva@email.com', 'https://image.com/roberto.jpg', '11976543210', '45678901233', '2025-01-01 22:00:00+00', '2025-01-02 06:00:00+00');
+INSERT INTO caregiver (id, organization_id, full_name, active, phone, email, cpf, token, last_used_token) VALUES
+('11111111-2222-4333-a444-555666777888', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Maria Santos', true, '11987654321', 'maria.santos@email.com', '12345678900', 'A1B2C3D4', null),
+('22222222-3333-4444-b555-666777888999', 'e5f6a7b8-c9d0-4123-e456-789abcdef012', 'Carlos Oliveira', true, '21987654321', 'carlos.oliveira@email.com', '23456789011', 'B2C3D4E5', null),
+('33333333-4444-5555-c666-777888999000', 'f6a7b8c9-d0e1-4234-f567-89abcdef0123', 'Ana Lima', true, '31987654321', 'ana.lima@email.com', '34567890122', 'C3D4E5F6', null),
+('44444444-5555-6666-d777-888999000111', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Roberto Silva', true, '11976543210', 'roberto.silva@email.com', '45678901233', 'D4E5F6A7', null);
 
 -- Tabela caregiver_password
 INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) VALUES
@@ -39,7 +39,6 @@ INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_a
 -- Tabela resident_emergency_contact
 INSERT INTO resident_emergency_contact (id, resident_id, full_name, phone, relationship) VALUES
 ('eee11111-fff2-4222-3333-444455556666', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'Maria Silva', '11987651234', 'Filha'),
-('fff22222-aaa3-4333-4444-555566667777', '89ac8c08-e80b-4b68-b87e-e6aa6fcf60d7', 'José Silva', '11987651235', 'Filho'),
 ('aaa33333-bbb4-4444-5555-666677778888', '416f4967-89b1-49f8-a8d3-134c6e63cf5b', 'Carlos Costa', '21987651236', 'Sobrinho'),
 ('bbb44444-ccc5-4555-6666-777788889999', '04d1f1c0-3022-4e53-9f34-d0136c89c9ed', 'Ana Gomes', '31987651237', 'Neta'),
 ('ccc55555-ddd6-4666-7777-888899990000', '55555555-6666-4777-8888-999000111222', 'Roberto Fernandes', '11987651238', 'Neto'),

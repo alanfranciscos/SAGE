@@ -12,7 +12,6 @@ import com.sage.dto.v1.resident.response.ResidentListResponseDto;
 import com.sage.dto.v1.resident.response.ResidentResponseDto;
 import com.sage.exception.AlreadyExistsException;
 import com.sage.exception.NotFoundException;
-import com.sage.model.file.FileType;
 import com.sage.model.resident.Resident;
 import com.sage.model.resident.control.ControlResident;
 import com.sage.model.resident.emergency.ResidentEmergencyContact;
@@ -81,14 +80,13 @@ public class OldResidentServiceImpl implements ResidentService {
 
         UUID residentId = this.residentDao.createResident(resident);
 
-        if (!requestDto.imageData().isEmpty()) {
-            String imagePath = this.fileHelperService.saveBase64File(
-                    requestDto.imageData().get(),
-                    FileType.RESIDENT_IMAGE, residentId.toString()
-            );
-            this.residentDao.updateImageData(residentId, imagePath);
-        }
-
+        // if (!requestDto.imageData().isEmpty()) {
+        //     String imagePath = this.fileHelperService.saveBase64File(
+        //             requestDto.imageData().get(),
+        //             FileType.RESIDENT_IMAGE, residentId.toString()
+        //     );
+        //     this.residentDao.updateImageData(residentId, imagePath);
+        // }
         this.residentEmergencyContactService.create(requestDto, residentId);
 
         this.controlResidentService.create(requestDto, residentId);
@@ -111,14 +109,14 @@ public class OldResidentServiceImpl implements ResidentService {
 
         resident.setId(id);
         resident.setUpdatedAt(ZonedDateTime.now());
-        this.residentDao.updateResident(resident);
-        if (requestDto.imageData().isPresent() && !requestDto.imageData().get().isEmpty()) {
-            String imagePath = this.fileHelperService.saveBase64File(
-                    requestDto.imageData().get(),
-                    FileType.RESIDENT_IMAGE, id.toString()
-            );
-            this.residentDao.updateImageData(id, imagePath);
-        }
+        // this.residentDao.updateResident(resident);
+        // if (requestDto.imageData().isPresent() && !requestDto.imageData().get().isEmpty()) {
+        //     String imagePath = this.fileHelperService.saveBase64File(
+        //             requestDto.imageData().get(),
+        //             FileType.RESIDENT_IMAGE, id.toString()
+        //     );
+        //     this.residentDao.updateImageData(id, imagePath);
+        // }
 
         this.residentEmergencyContactService.update(requestDto, id);
         this.controlResidentService.update(requestDto, id);

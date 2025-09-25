@@ -74,9 +74,9 @@ public class ResidentEmergencyContactDaoImpl implements ResidentEmergencyContact
                 + "WHERE resident_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, requestDto.emergencyName().orElse(null));
-            stmt.setString(2, requestDto.emergencyPhone().orElse(null));
-            stmt.setString(3, requestDto.relationship().orElse(null));
+            stmt.setString(1, requestDto.emergencyName());
+            stmt.setString(2, requestDto.emergencyPhone());
+            stmt.setString(3, requestDto.relationship());
             stmt.setObject(4, residentId);
 
             stmt.executeUpdate();
