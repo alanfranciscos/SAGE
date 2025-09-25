@@ -126,4 +126,16 @@ public class CaregiverDaoImpl implements CaregiverDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void updateCaregiverActiveStatus(UUID id, boolean active) {
+        String sql = "UPDATE caregiver SET active = ? WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setBoolean(1, active);
+            ps.setObject(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

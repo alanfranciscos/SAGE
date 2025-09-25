@@ -12,4 +12,6 @@ public interface CaregiverDao {
     boolean isTokenInUse(String token);
     List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search);
     void updateCaregiver(UUID id, CreateCaregiverRequestDto request);
+
+    void updateCaregiverActiveStatus(UUID id, boolean active);
 }

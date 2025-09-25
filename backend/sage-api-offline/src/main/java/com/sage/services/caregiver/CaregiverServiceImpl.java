@@ -37,6 +37,11 @@ public class CaregiverServiceImpl implements CaregiverService {
         caregiverDao.updateCaregiver(id, request);
     }
 
+    @Override
+    public void updateCaregiverActiveStatus(UUID id, boolean active) {
+        caregiverDao.updateCaregiverActiveStatus(id, active);
+    }
+
     private String generateUniqueToken() {
         String token;
         do {
