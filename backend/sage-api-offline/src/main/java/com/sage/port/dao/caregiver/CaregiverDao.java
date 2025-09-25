@@ -10,6 +10,6 @@ public interface CaregiverDao {
     UUID createCaregiver(String fullName, String cpf, String email, String phone, String token, UUID organizationId, String position);
     UUID getFirstOrganizationId();
     boolean isTokenInUse(String token);
-    List<CaregiverResponseDto> getAllCaregivers();
+    List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search);
     void updateCaregiver(UUID id, CreateCaregiverRequestDto request);
 }

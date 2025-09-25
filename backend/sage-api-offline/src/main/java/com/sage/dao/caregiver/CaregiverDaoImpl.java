@@ -45,10 +45,30 @@ public class CaregiverDaoImpl implements CaregiverDao {
     }
 
     @Override
-    public List<CaregiverResponseDto> getAllCaregivers() {
-        String sql = "SELECT full_name, cpf, token, active, last_used_token FROM caregiver";
+    public List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search) {
+        StringBuilder sql = new StringBuilder("SELECT full_name, cpf, token, active, last_used_token FROM caregiver");
+        List<Object> params = new ArrayList<>();
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" WHERE full_name ILIKE ? OR email ILIKE ? OR phone ILIKE ? OR cpf ILIKE ?");
+            String searchPattern = "%" + search + "%";
+            params.add(searchPattern);
+            params.add(searchPattern);
+            params.add(searchPattern);
+            params.add(searchPattern);
+        }
+
+        sql.append(" ORDER BY full_name LIMIT ? OFFSET ?");
+        params.add(limit);
+        params.add(skip);
+
         List<CaregiverResponseDto> caregivers = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+            for (Object param : params) {
+                ps.setObject(i++, param);
+            }
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 caregivers.add(new CaregiverResponseDto(

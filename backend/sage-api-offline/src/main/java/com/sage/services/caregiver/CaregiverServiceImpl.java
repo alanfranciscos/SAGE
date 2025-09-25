@@ -1,15 +1,15 @@
 package com.sage.services.caregiver;
 
-import com.sage.dao.caregiver.CaregiverDaoImpl;
-import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
-import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
-import com.sage.port.services.caregiver.CaregiverService;
-import org.springframework.stereotype.Service;
-
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
+import com.sage.dao.caregiver.CaregiverDaoImpl;
+import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
+import com.sage.port.services.caregiver.CaregiverService;
 
 @Service
 public class CaregiverServiceImpl implements CaregiverService {
@@ -28,8 +28,8 @@ public class CaregiverServiceImpl implements CaregiverService {
     }
 
     @Override
-    public List<CaregiverResponseDto> getAllCaregivers() {
-        return caregiverDao.getAllCaregivers();
+    public List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search) {
+        return caregiverDao.getAllCaregivers(limit, skip, search);
     }
 
     @Override

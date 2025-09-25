@@ -49,8 +49,12 @@ public class CaregiverController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CaregiverResponseDto>> getAllCaregivers() {
-        List<CaregiverResponseDto> caregivers = caregiverService.getAllCaregivers();
+    public ResponseEntity<List<CaregiverResponseDto>> getAllCaregivers(
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "0") int skip,
+            @RequestParam(required = false) String search
+    ) {
+        List<CaregiverResponseDto> caregivers = caregiverService.getAllCaregivers(limit, skip, search);
         return ResponseEntity.ok(caregivers);
     }
 }
