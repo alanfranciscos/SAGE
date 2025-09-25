@@ -1,6 +1,5 @@
 <app-main>
   <div class="alerts-container">
-    <!-- Topbar -->
     <div class="topbar">
       <div class="title-wrapper">
         <div class="icon-wrapper">
@@ -19,13 +18,10 @@
       </div>
     </div>
 
-    <!-- Tabs -->
     <div class="tabs-container">
       <mat-tab-group [(selectedIndex)]="selectedTabIndex">
-        <!-- Chamados Ativos -->
         <mat-tab label="Chamados Ativos">
           <div class="alerts-content">
-            <!-- Coluna esquerda: cards -->
             <div class="alerts-list">
               <app-alert-resident-card
                 *ngFor="let alert of activeAlerts"
@@ -42,7 +38,6 @@
               </app-alert-resident-card>
             </div>
 
-            <!-- Coluna direita: detalhes -->
             <div class="alert-details">
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card
@@ -56,10 +51,8 @@
           </div>
         </mat-tab>
 
-        <!-- Histórico -->
         <mat-tab label="Histórico">
           <div class="alerts-content">
-            <!-- Coluna esquerda: cards -->
             <div class="alerts-list">
               <app-alert-resident-card
                 *ngFor="let alert of finishedAlerts"
@@ -76,7 +69,6 @@
               </app-alert-resident-card>
             </div>
 
-            <!-- Coluna direita: detalhes -->
             <div class="alert-details">
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card

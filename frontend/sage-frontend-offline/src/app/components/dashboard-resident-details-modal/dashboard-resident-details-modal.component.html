@@ -18,7 +18,7 @@
             class="resident-image"
           />
         </div>
-        <h3 class="resident-name">{{ residentDetails?.fullName }}</h3>
+        <!-- <h3 class="resident-name">{{ residentDetails?.fullName }}</h3> -->
       </div>
 
       <!-- Dados -->
@@ -40,7 +40,7 @@
 
         <div class="detail-item">
           <label>Nome da Emergência</label>
-          <span>{{ residentDetails?.emergencyName }}</span>
+          <span>{{ residentDetails?.emergencyFullName }}</span>
         </div>
 
         <div class="detail-item">
@@ -50,12 +50,12 @@
 
         <div class="detail-item">
           <label>Parentesco</label>
-          <span>{{ residentDetails?.relationship }}</span>
+          <span>{{ residentDetails?.emergencyRelationship }}</span>
         </div>
 
         <div class="detail-item">
           <label>Número de Controle</label>
-          <span>{{ residentDetails?.controlNumber }}</span>
+          <span>{{ residentDetails?.controlId }}</span>
         </div>
 
         <div class="detail-item">

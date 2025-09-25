@@ -7,18 +7,10 @@ import { DashboardResidentCardComponent } from '../../components/dashboard-resid
 import { DashboardResidentDetailsModalComponent } from '../../components/dashboard-resident-details-modal/dashboard-resident-details-modal.component';
 import { SearchInputComponent } from '../../components/search-input/search-input.component';
 import { ButtonComponent } from '../../components/button/button.component';
+import { Resident } from '../../model/Resident';
 
 type ResidentStatus = 'normal' | 'critical' | 'warning';
-interface Resident {
-  id: string;
-  residentImage: string;
-  residentName: string;
-  houseNumber: string;
-  lastCallDateTime: string;
-  status: ResidentStatus;
-  lastCallTime: string;
-  totalCallsLast24Hours: string;
-}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -42,58 +34,62 @@ export class DashboardComponent implements OnInit {
 
   selectedResidentId: string | null = null;
   showModal = false;
-  // residents: Resident[] = [];
-
-  residents: Resident[] = Array.from({ length: 12 }, (_, i) => {
-    const id = (i + 1).toString();
-    const residentName = `Residente ${i + 1}`;
-    const houseNumber = (100 + i).toString();
-    const statusOptions: ResidentStatus[] = ['normal', 'critical', 'warning'];
-    const status = statusOptions[i % statusOptions.length];
-    const hour = String(8 + (i % 12)).padStart(2, '0');
-    const minute = String((i * 7) % 60).padStart(2, '0');
-    const lastCallTime = `${hour}:${minute}`;
-    const lastCallDateTime = `2025-09-18T${lastCallTime}:00`;
-    const totalCallsLast24Hours = Math.floor(Math.random() * 6).toString();
-
-    return {
-      id,
-      residentImage: 'https://via.placeholder.com/100',
-      residentName,
-      houseNumber,
-      lastCallDateTime,
-      status,
-      lastCallTime,
-      totalCallsLast24Hours,
-    };
-  });
+  residents: Resident[] = [];
 
   constructor(private residentService: ResidentService) {}
   async ngOnInit(): Promise<void> {
     try {
       this.totalResidents =
         await this.residentService.getTotalResidentsNumber();
-      console.log('totalResidents', this.totalResidents);
+      // console.log('totalResidents', this.totalResidents);
       this.totalResolvedToday =
         await this.residentService.getTotalResolvedToday();
-      console.log('totalResolvedToday', this.totalResolvedToday);
+      // console.log('totalResolvedToday', this.totalResolvedToday);
 
       this.meanTime = await this.residentService.getMeanTime();
-      console.log('meanTime', this.meanTime);
+      // console.log('meanTime', this.meanTime);
       this.totalActiveCalls =
         await this.residentService.getTotalActiveResidentsCalls();
-      console.log('totalActiveCalls', this.totalActiveCalls);
+      this.residents = await this.residentService.getResidents(10, 0);
+      console.log('residents', this.residents);
+
+      // console.log('totalActiveCalls', this.totalActiveCalls);
     } catch (error) {}
-    this.residents = this.residents.sort((a, b) => {
-      const priority: Record<ResidentStatus, number> = {
-        critical: 1,
-        warning: 2,
-        normal: 3,
-      };
-      return priority[a.status] - priority[b.status];
-    });
   }
 
+  // async getResidents() {
+  //   try {
+  //     this.residents = await this.residentService.getResidents(5, 0);
+  //     console.log('residents', this.residents);
+  //   } catch (error) {}
+  // }
+  getStatus(
+    severity: 'emergency' | 'warning' | null
+  ): 'normal' | 'warning' | 'critical' {
+    if (severity === 'emergency') return 'critical';
+    if (severity === 'warning') return 'warning';
+    return 'normal';
+  }
+  getLastCallText(lastEndAt: string | null): string {
+    if (!lastEndAt) return 'sem chamados';
+
+    const now = new Date();
+    const lastCall = new Date(lastEndAt);
+    const diffMs = now.getTime() - lastCall.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    const years = Math.floor(diffDays / 365);
+    const remainingDaysAfterYears = diffDays % 365;
+    const months = Math.floor(remainingDaysAfterYears / 30);
+    const days = remainingDaysAfterYears % 30;
+
+    let result = 'há ';
+    if (years > 0) result += `${years} ano${years > 1 ? 's' : ''} `;
+    if (months > 0) result += `${months} mes${months > 1 ? 'es' : ''} `;
+    if (days > 0) result += `${days} dia${days > 1 ? 's' : ''}`;
+
+    return result.trim();
+  }
   onOpenDetails(residentId: string) {
     this.selectedResidentId =
       this.residents.find((resident) => resident.id === residentId)?.id || null;

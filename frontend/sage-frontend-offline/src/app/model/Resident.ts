@@ -19,13 +19,20 @@ export interface ResidentHeaderResponseDto {
 }
 
 export interface ResidentDetailsResponseDto extends ResidentHeaderResponseDto {
+  id: string;
+  fullName: string;
   cpf: string;
   sex: string;
   birthDate: string;
-  emergencyName?: string;
-  emergencyPhone?: string;
-  relationship?: string;
-  controlNumber: number;
+  residentialUnit: string;
+  imageData: string;
+  active: boolean;
+  controlId: number;
+  createdAt: string;
+  updatedAt: string;
+  emergencyFullName: string;
+  emergencyPhone: string;
+  emergencyRelationship: string;
 }
 
 export interface ResidentListResponseDto {
@@ -33,4 +40,14 @@ export interface ResidentListResponseDto {
   warningResidents: ResidentHeaderResponseDto[];
   normalResidents: ResidentHeaderResponseDto[];
   totalResidents: number;
+}
+
+export interface Resident {
+  id: string;
+  fullName: string;
+  residentialUnit: string;
+  imageData: string;
+  severityLevel: 'emergency' | 'warning' | null;
+  lastEndAt: string | null;
+  callsLastDay: number;
 }

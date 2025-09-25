@@ -15,7 +15,6 @@
     <div>
       <h3>{{ residentName }}</h3>
       <p>Casa {{ houseNumber }}</p>
-      <p>Última chamada: {{ lastCallDateTime }}</p>
     </div>
   </div>
   <div class="resident-info">
@@ -27,8 +26,9 @@
       <i [class]="getStatusIcon()"></i>
       <span>{{ getStatusText() }}</span>
     </div>
-    <h3>Ultimo chamado:{{ residentName }}</h3>
-    <p>Chamados 24h: {{ houseNumber }}</p>
+    <!-- <h3>Ultimo chamado:{{ lastCallDateTime }}</h3> -->
+    <p>Chamados 24h: {{ totalCallsLast24Hours }}</p>
+    <p>Última chamada: {{ lastCallDateTime }}</p>
   </div>
 
   <button (click)="onButtonClick(); $event.stopPropagation()">

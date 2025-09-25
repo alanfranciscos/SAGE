@@ -32,11 +32,19 @@ export class DashboardResidentDetailsModalComponent {
       return;
     }
 
-    const details = await this.residentControllerService.getResidentById(this.residentId);
+    const details = await this.residentControllerService.getResidentById(
+      this.residentId
+    );
 
     if (details?.birthDate) {
       const date = new Date(details.birthDate);
       details.birthDate = date.toISOString().split('T')[0]; // formata para yyyy-MM-dd
+    }
+
+    if (details?.sex === 'M') {
+      details.sex = 'Masculino';
+    } else if (details?.sex === 'F') {
+      details.sex = 'Feminino';
     }
 
     this.residentDetails = details;

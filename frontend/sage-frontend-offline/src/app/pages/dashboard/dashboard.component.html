@@ -45,13 +45,12 @@
       <app-dashboard-resident-card
         *ngFor="let resident of residents"
         [residentId]="resident.id"
-        [residentImage]="resident.residentImage"
-        [residentName]="resident.residentName"
-        [houseNumber]="resident.houseNumber"
-        [lastCallDateTime]="resident.lastCallDateTime"
-        [status]="resident.status"
-        [lastCallTime]="resident.lastCallTime"
-        [totalCallsLast24Hours]="resident.totalCallsLast24Hours"
+        [residentImage]="resident.imageData"
+        [residentName]="resident.fullName"
+        [houseNumber]="resident.residentialUnit"
+        [lastCallDateTime]="getLastCallText(resident.lastEndAt)"
+        [status]="getStatus(resident.severityLevel)"
+        [totalCallsLast24Hours]="resident.callsLastDay.toString()"
         (openDetails)="onOpenDetails($event)"
       ></app-dashboard-resident-card>
     </div>
