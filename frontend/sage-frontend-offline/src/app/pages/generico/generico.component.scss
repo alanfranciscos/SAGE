@@ -1,0 +1,74 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.description {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-input {
+    width: 16rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.nurse-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.nurse-table th,
+.nurse-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.token {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge-active {
+    background-color: #006C36;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.badge-inactive {
+    background-color: #ccc;
+    color: #333;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}

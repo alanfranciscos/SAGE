@@ -1,0 +1,59 @@
+<div class="card">
+  <h2>Atendimento do chamado</h2>
+
+  <div class="resident-info">
+    <img
+      [src]="alertDetail.imageData"
+      alt="Foto do residente"
+      class="resident-photo"
+    />
+    <div>
+      <p>
+        <strong>{{ alertDetail.fullName }}</strong>
+      </p>
+      <p>{{ calcularIdade(alertDetail.birthDate) }} anos</p>
+      <p>Casa {{ alertDetail.residentialUnit }}</p>
+    </div>
+  </div>
+
+  <p>
+    <strong>Tempo decorrido:</strong>
+    <span class="elapsed">{{ alertDetail.time }}</span>
+  </p>
+
+  <p>
+    <strong>Prioridade:</strong>
+    <span class="badge level" [ngClass]="alertDetail.level">
+      {{ alertDetail.level | titlecase }}
+    </span>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <span class="badge status" [ngClass]="alertDetail.status">
+      {{ alertDetail.status.replace("_", " ") | titlecase }}
+    </span>
+  </p>
+
+  <!-- Caso esteja pendente -->
+  <div *ngIf="alertDetail.status === 'pendente'; else atendidoBlock">
+    <label for="obs"><strong>Observações:</strong></label>
+    <textarea
+      id="obs"
+      [(ngModel)]="newObservation"
+      placeholder="Digite as observações"
+    ></textarea>
+
+    <button class="btn finalizar" (click)="atenderChamado()">
+      Finalizar Atendimento
+    </button>
+  </div>
+
+  <!-- Caso já esteja atendido -->
+  <ng-template #atendidoBlock>
+    <p><strong>Observações do atendimento:</strong></p>
+    <div class="observations">
+      {{ alertDetail.observations || "Sem observações" }}
+    </div>
+  </ng-template>
+</div>

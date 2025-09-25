@@ -1,0 +1,65 @@
+<app-main>
+  <div class="content">
+    <div class="topbar">
+      <div><span>Dashboard</span></div>
+      <div>
+        <app-search-input
+          placeholder="Digite para pesquisar..."
+        ></app-search-input>
+        <app-button
+          [label]="'Cadastrar Paciente'"
+          [type]="'primary'"
+          (clicked)="onRegisterResident()"
+        ></app-button>
+      </div>
+    </div>
+    <div class="summary-cards">
+      <app-summary-card
+        title="Residentes Cadastrados"
+        [value]="totalResidents"
+        icon="residents"
+        color="default"
+      ></app-summary-card>
+      <app-summary-card
+        title="Chamados ativos"
+        [value]="totalActiveCalls"
+        icon="calls"
+        color="red"
+      ></app-summary-card>
+      <app-summary-card
+        title="Resolvidos no dia"
+        [value]="totalResolvedToday"
+        icon="resolved"
+        color="green"
+      ></app-summary-card>
+      <app-summary-card
+        title="Tempo médio"
+        [value]="meanTime"
+        icon="time"
+        color="default"
+      ></app-summary-card>
+    </div>
+    <div class="residents-title">
+      <span>Status dos Residentes</span>
+    </div>
+    <div class="residents-container">
+      <app-dashboard-resident-card
+        *ngFor="let resident of residents"
+        [residentId]="resident.id"
+        [residentImage]="resident.imageData"
+        [residentName]="resident.fullName"
+        [houseNumber]="resident.residentialUnit"
+        [lastCallDateTime]="getLastCallText(resident.lastEndAt)"
+        [status]="getStatus(resident.severityLevel)"
+        [totalCallsLast24Hours]="resident.callsLastDay.toString()"
+        (openDetails)="onOpenDetails($event)"
+      ></app-dashboard-resident-card>
+    </div>
+
+    <app-dashboard-resident-details-modal
+      [residentId]="selectedResidentId"
+      [showModal]="showModal"
+      (closeModal)="onCloseModal()"
+    ></app-dashboard-resident-details-modal>
+  </div>
+</app-main>

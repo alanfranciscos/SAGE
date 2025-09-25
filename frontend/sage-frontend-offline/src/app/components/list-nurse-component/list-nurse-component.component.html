@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-header">
+    <div class="header">
+      <div>
+        <div class="title">
+          <i class="fa-solid fa-users"></i>
+          Enfermeiras Ativas ({{ activeNurseCount }})
+        </div>
+        <div class="description">
+          Visualize e gerencie os tokens das enfermeiras cadastradas.
+        </div>
+      </div>
+      <div class="search">
+        <i class="fa-solid fa-magnifying-glass text-muted"></i>
+        <input
+          type="text"
+          placeholder="Buscar por nome ou registro..."
+          [(ngModel)]="nurseSearchTerm"
+          class="search-input"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <table class="nurse-table">
+      <thead>
+        <tr>
+          <th>Nome da Enfermeira</th>
+          <th>Registro Profissional</th>
+          <th>Token de Acesso</th>
+          <th>Status</th>
+          <th>Último Uso</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let nurse of filteredNurses">
+          <td>
+            <strong>{{ nurse.name }}</strong>
+          </td>
+          <td>{{ nurse.registration }}</td>
+          <td>
+            <div class="token">
+              <code>
+                {{
+                  showTokens[nurse.id]
+                    ? nurse.token
+                    : (nurse.token | slice : 0 : 2) + "****"
+                }}
+              </code>
+              <button (click)="toggleToken(nurse.id)">
+                <i
+                  class="fa-solid"
+                  [ngClass]="showTokens[nurse.id] ? 'fa-eye-slash' : 'fa-eye'"
+                ></i>
+              </button>
+              <button (click)="copyToClipboard(nurse.token)">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+            </div>
+          </td>
+          <td>
+            <div class="status">
+              <span [ngClass]="nurse.status">
+                {{ nurse.status }}
+              </span>
+              <input
+                type="checkbox"
+                [checked]="nurse.status === 'active'"
+                (change)="handleToggleStatus(nurse.id)"
+              />
+            </div>
+          </td>
+          <td>{{ nurse.lastUse }}</td>
+          <td>
+            <div class="actions">
+              <button (click)="confirmAction('regenerate', nurse.id)">
+                <i class="fa-solid fa-rotate"></i>
+              </button>
+              <button (click)="handleEditNurse(nurse)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-edit-nurse-dialog
+  [editingNurse]="editingNurse"
+  (update)="handleUpdateNurse($event)"
+  (cancel)="editingNurse = null"
+></app-edit-nurse-dialog>
