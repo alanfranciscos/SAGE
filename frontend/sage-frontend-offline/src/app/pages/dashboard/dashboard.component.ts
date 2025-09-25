@@ -8,6 +8,7 @@ import { DashboardResidentDetailsModalComponent } from '../../components/dashboa
 import { SearchInputComponent } from '../../components/search-input/search-input.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import { Resident } from '../../model/Resident';
+import { Router } from '@angular/router';
 
 type ResidentStatus = 'normal' | 'critical' | 'warning';
 
@@ -36,7 +37,10 @@ export class DashboardComponent implements OnInit {
   showModal = false;
   residents: Resident[] = [];
 
-  constructor(private residentService: ResidentService) {}
+  constructor(
+    private residentService: ResidentService,
+    private router: Router
+  ) {}
   async ngOnInit(): Promise<void> {
     try {
       this.totalResidents =
@@ -99,5 +103,9 @@ export class DashboardComponent implements OnInit {
   onCloseModal() {
     this.showModal = false;
     this.selectedResidentId = null;
+  }
+
+  onRegisterResident() {
+    this.router.navigate(['residents/register']);
   }
 }

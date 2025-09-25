@@ -44,6 +44,10 @@
         [type]="'primary'"
         (clicked)="form.valid && onRegisterNurse()"
       ></app-button>
+      <div>
+        <span class="token_1">Token gerado: </span>
+        <span class="token_2">{{ nurse.token }}</span>
+      </div>
     </form>
   </div>
 </div>

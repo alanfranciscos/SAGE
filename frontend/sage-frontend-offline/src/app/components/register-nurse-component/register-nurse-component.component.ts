@@ -7,6 +7,7 @@ interface RegisterNurse {
   cpf: string;
   email: string;
   tel: string;
+  token: string;
 }
 
 @Component({
@@ -21,12 +22,14 @@ export class RegisterNurseComponentComponent {
   @Input() cpf: string = '';
   @Input() email: string = '';
   @Input() tel: string = '';
+  @Input() token: string = '';
 
   nurse = {
     name: 'Maria',
     cpf: '12312312',
     email: 'asdsaa@asdasd.com',
     tel: '123231323',
+    token: '123123',
   };
   onRegisterNurse() {
     throw new Error('Method not implemented.');

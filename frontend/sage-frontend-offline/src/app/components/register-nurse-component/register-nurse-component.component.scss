@@ -1,37 +1,76 @@
 .container {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 1rem;
-    margin: auto;
-    border-radius: 11px;
-    padding: 1rem;
-    background-color: #F5F5F5;
-    max-width: 80%;
-    margin: 0 auto;
+    max-width: 90%;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.header {
-    text-align: left;
-}
-
-.title {
-    font-size: 1.3rem;
-    font-weight: bold;
+.header .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #006C36;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.header span {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1rem;
+    display: block;
 }
 
 .form {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
 }
 
 .input {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+}
 
-    label {
-        font-weight: bold;
+.input label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #444;
+}
+
+.input input {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input input:focus {
+    border-color: #006C36;
+    outline: none;
+}
+
+.token_1 {
+    font-weight: 500;
+    color: #006C36;
+}
+
+.token_2 {
+    font-weight: bold;
+    color: #006C36;
+    background-color: #e6f4ec;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+/* 🔄 Responsividade */
+@media (max-width: 768px) {
+    .form {
+        grid-template-columns: 1fr;
     }
 }

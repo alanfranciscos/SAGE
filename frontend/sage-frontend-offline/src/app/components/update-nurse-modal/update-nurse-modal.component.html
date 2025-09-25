@@ -1,0 +1,47 @@
+<div class="dialog-backdrop" *ngIf="editingNurse">
+  <div class="dialog">
+    <div class="dialog-header">
+      <h2>Editar Enfermeira</h2>
+      <p>Atualize os dados da enfermeira selecionada.</p>
+    </div>
+
+    <form class="dialog-body" (ngSubmit)="handleUpdateNurse()">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input
+          type="text"
+          [(ngModel)]="editingNurse.name"
+          name="name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Registro Profissional</label>
+        <input
+          type="text"
+          [(ngModel)]="editingNurse.registration"
+          name="registration"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" [(ngModel)]="editingNurse.email" name="email" />
+      </div>
+
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" [(ngModel)]="editingNurse.tel" name="tel" />
+      </div>
+
+      <div class="dialog-footer">
+        <button type="button" class="btn-outline" (click)="cancelEdit()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-primary">Salvar Alterações</button>
+      </div>
+    </form>
+  </div>
+</div>
