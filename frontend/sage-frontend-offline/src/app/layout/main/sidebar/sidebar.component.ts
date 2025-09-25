@@ -37,6 +37,7 @@ export class SidebarComponent implements OnInit {
     alerts: 'fa-solid fa-bell',
     reports: 'fa-solid fa-file-lines',
     settings: 'fa-solid fa-gear',
+    nurse: 'fa-solid fa-user-nurse',
   };
 
   getIconClass(item: string): string {

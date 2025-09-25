@@ -77,6 +77,18 @@
       </a>
     </app-tooltip-wrapper>
     <app-tooltip-wrapper
+      tooltip="Ir para a tela de gerenciamento de enfermeiros"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a [routerLink]="['/nurse-manager']" class="item">
+        <i [class]="getIconClass('nurse')" class="item-icon"></i>
+
+        <p class="item-text">Enfermeiros</p>
+      </a>
+    </app-tooltip-wrapper>
+    <app-tooltip-wrapper
       tooltip="Ir para a tela de configurações"
       position="right"
       [showDelay]="500"
@@ -89,7 +101,7 @@
       </a>
     </app-tooltip-wrapper>
   </div>
-  <div class="exit-container">
+  <!-- <div class="exit-container">
     <a [routerLink]="['/']" class="exit">
       <app-button
         [label]="'Sair'"
@@ -99,5 +111,5 @@
         [disabled]="true"
       ></app-button>
     </a>
-  </div>
+  </div> -->
 </aside>
