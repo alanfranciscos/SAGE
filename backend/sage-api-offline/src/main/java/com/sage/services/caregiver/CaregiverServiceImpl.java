@@ -1,11 +1,13 @@
 package com.sage.services.caregiver;
 
-import java.security.SecureRandom;
-import java.util.UUID;
-
+import com.sage.dao.caregiver.CaregiverDaoImpl;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import org.springframework.stereotype.Service;
 
-import com.sage.dao.caregiver.CaregiverDaoImpl;
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.UUID;
+
 
 @Service
 public class CaregiverServiceImpl {
@@ -20,6 +22,10 @@ public class CaregiverServiceImpl {
         String token = generateUniqueToken();
         UUID organizationId = caregiverDao.getFirstOrganizationId();
         return caregiverDao.createCaregiver(fullName, cpf, email, phone, token, organizationId, position);
+    }
+
+    public List<CaregiverResponseDto> getAllCaregivers() {
+        return caregiverDao.getAllCaregivers();
     }
 
     private String generateUniqueToken() {

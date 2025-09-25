@@ -1,11 +1,15 @@
 package com.sage.dao.caregiver;
 
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -32,6 +36,26 @@ public class CaregiverDaoImpl {
             ps.setString(9, position);
             ps.executeUpdate();
             return caregiverId;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<CaregiverResponseDto> getAllCaregivers() {
+        String sql = "SELECT full_name, cpf, token, active, last_used_token FROM caregiver";
+        List<CaregiverResponseDto> caregivers = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                caregivers.add(new CaregiverResponseDto(
+                        rs.getString("full_name"),
+                        rs.getString("cpf"),
+                        rs.getString("token"),
+                        rs.getBoolean("active"),
+                        rs.getObject("last_used_token", OffsetDateTime.class)
+                ));
+            }
+            return caregivers;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

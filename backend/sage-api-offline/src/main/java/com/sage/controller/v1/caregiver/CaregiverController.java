@@ -1,15 +1,14 @@
 package com.sage.controller.v1.caregiver;
 
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import com.sage.services.caregiver.CaregiverServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,5 +39,11 @@ public class CaregiverController {
                 .buildAndExpand(caregiverId)
                 .toUri();
         return ResponseEntity.created(uri).body(caregiverId);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CaregiverResponseDto>> getAllCaregivers() {
+        List<CaregiverResponseDto> caregivers = caregiverService.getAllCaregivers();
+        return ResponseEntity.ok(caregivers);
     }
 }
