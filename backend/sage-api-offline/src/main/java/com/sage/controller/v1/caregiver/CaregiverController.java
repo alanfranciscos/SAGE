@@ -1,0 +1,44 @@
+package com.sage.controller.v1.caregiver;
+
+import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
+import com.sage.services.caregiver.CaregiverServiceImpl;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/v1/caregiver")
+public class CaregiverController {
+
+    private final CaregiverServiceImpl caregiverService;
+
+    public CaregiverController(CaregiverServiceImpl caregiverService) {
+        this.caregiverService = caregiverService;
+    }
+
+    @PostMapping
+    public ResponseEntity<UUID> createCaregiver(@RequestBody CreateCaregiverRequestDto caregiverRequestDto) {
+        caregiverRequestDto.validate();
+
+        UUID caregiverId = caregiverService.createCaregiver(
+                caregiverRequestDto.fullName(),
+                caregiverRequestDto.cpf(),
+                caregiverRequestDto.email(),
+                caregiverRequestDto.phone(),
+                caregiverRequestDto.position()
+        );
+
+        final URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(caregiverId)
+                .toUri();
+        return ResponseEntity.created(uri).body(caregiverId);
+    }
+}
