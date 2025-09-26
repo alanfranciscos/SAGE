@@ -1,12 +1,6 @@
 package com.sage.services.assist;
 
-import java.time.ZonedDateTime;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.springframework.stereotype.Service;
-
+import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.exception.AlreadyExistsException;
 import com.sage.exception.NotFoundException;
@@ -17,6 +11,12 @@ import com.sage.port.dao.assist.AssistDao;
 import com.sage.port.services.assist.AssistService;
 import com.sage.port.services.resident.ControlResidentService;
 import com.sage.port.services.resident.ResidentService;
+import org.springframework.stereotype.Service;
+
+import java.time.ZonedDateTime;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class AssistServiceImpl implements AssistService {
@@ -115,5 +115,10 @@ public class AssistServiceImpl implements AssistService {
             ZonedDateTime endAt
     ) {
         // Implementation here
+    }
+
+    @Override
+    public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip) {
+        return assistDao.getPendingAssists(limit, skip);
     }
 }

@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.dto.v1.assist.response.PendingAssistResponseDto;
 import com.sage.model.assist.Assist;
+import com.sage.model.assist.SeverityLevel;
 import com.sage.port.dao.assist.AssistDao;
 
 public class OldAssistDaoImpl implements AssistDao {
@@ -138,5 +143,60 @@ public class OldAssistDaoImpl implements AssistDao {
         }
 
         return assist.getId();
+    }
+
+    @Override
+    public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip) {
+        String countSql = "SELECT COUNT(*) FROM assist WHERE end_at IS NULL";
+        long total = 0;
+
+        try (PreparedStatement countStatement = connection.prepareStatement(countSql)) {
+            try (ResultSet resultSet = countStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    total = resultSet.getLong(1);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error counting pending assists: {0}", e.getMessage());
+            throw new RuntimeException("Error counting pending assists: " + e.getMessage(), e);
+        }
+
+        String sql = "SELECT "
+                + "a.id, "
+                + "r.full_name, "
+                + "r.residential_unit, "
+                + "NOW() - a.called_at AS elapsed_time, "
+                + "a.severity_level, "
+                + "CASE WHEN a.assignment_at IS NULL THEN 'pending' ELSE 'in_attendance' END AS status "
+                + "FROM assist a "
+                + "JOIN resident r ON a.resident_id = r.id "
+                + "WHERE a.end_at IS NULL "
+                + "ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END, a.called_at "
+                + "LIMIT ? OFFSET ?";
+
+        List<PendingAssistResponseDto> pendingAssists = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, skip);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    pendingAssists.add(new PendingAssistResponseDto(
+                            resultSet.getObject("id", UUID.class),
+                            resultSet.getString("full_name"),
+                            resultSet.getString("residential_unit"),
+                            resultSet.getString("elapsed_time"),
+                            SeverityLevel.fromValue(resultSet.getString("severity_level")),
+                            resultSet.getString("status")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error getting pending assists: {0}", e.getMessage());
+            throw new RuntimeException("Error getting pending assists: " + e.getMessage(), e);
+        }
+
+        return new PaginatedPendingAssistResponseDto(pendingAssists, total, limit, skip);
     }
 }
