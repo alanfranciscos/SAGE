@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RegisterComponent } from '../../layout/register/register.component';
 import { InputComponent } from '../../components/input/input.component';
 import { SelectInputComponent } from '../../components/select-input/select-input.component';
@@ -14,6 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
+import { Control } from '../../model/Control';
+import { ControlService } from '../../controller/control/control.service';
+import { ToastrService } from 'ngx-toastr';
 
 export enum ResidentInputField {
   FULL_NAME = 'fullName',
@@ -44,10 +47,11 @@ export enum ResidentInputField {
   templateUrl: './register-resident.component.html',
   styleUrl: './register-resident.component.scss',
 })
-export class RegisterResidentComponent {
+export class RegisterResidentComponent implements OnInit {
   steps = ['Identificação', 'Contato de emergência', 'Residência'];
   currentStep: number = 0;
   ResidentInputField = ResidentInputField;
+  availableControls: number[] = [];
   today = new Date().toISOString().split('T')[0];
   residentListResponseDto: CreateResidentRequestDto = {
     fullName: '',
@@ -65,8 +69,14 @@ export class RegisterResidentComponent {
 
   constructor(
     private residentControllerService: ResidentService,
-    private router: Router
+    private router: Router,
+    private controlService: ControlService,
+    private toastr: ToastrService
   ) {}
+  async ngOnInit(): Promise<void> {
+    this.availableControls = await this.controlService.getAvailableControls();
+    console.log('Controles disponíveis:', this.availableControls);
+  }
 
   validateStep(): boolean {
     switch (this.currentStep) {
@@ -127,7 +137,7 @@ export class RegisterResidentComponent {
   }
 
   onCancel(): void {
-    this.router.navigate(['/residents']);
+    this.router.navigate(['/']);
   }
 
   private formatFields(): CreateResidentRequestDto {
@@ -152,10 +162,12 @@ export class RegisterResidentComponent {
       await this.residentControllerService.createResident(
         this.residentListResponseDto
       );
-      this.router.navigate(['/residents']);
+
+      this.toastr.success('Residente criado com sucesso!', 'Sucesso');
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Error creating resident:', error);
-      alert('Falha ao criar residente. Por favor, tente novamente.');
+      this.toastr.error('Falha ao criar residente. Tente novamente.', 'Erro');
     }
   }
 

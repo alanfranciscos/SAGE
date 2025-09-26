@@ -5,10 +5,10 @@ import { RegisterResidentComponent } from './pages/register-resident/register-re
 import { AlertsComponent } from './pages/alerts/alerts.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-// import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GenericoComponent } from './pages/generico/generico.component';
 import { NurseManagerComponent } from './pages/nurse-manager/nurse-manager.component';
+import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
 
 export const routes: Routes = [
   {
@@ -19,10 +19,10 @@ export const routes: Routes = [
     path: 'residents/register',
     component: RegisterResidentComponent,
   },
-  // {
-  //   path: 'residents/update/:id',
-  //   component: UpdateResidentComponent,
-  // },
+  {
+    path: 'residents/update/:id',
+    component: UpdateResidentComponent,
+  },
   {
     path: 'alerts',
     component: AlertsComponent,
@@ -39,8 +39,8 @@ export const routes: Routes = [
     path: 'nurse-manager',
     component: NurseManagerComponent,
   },
-  // {
-  //   path: '**',
-  //   component: ListResidentsComponent,
-  // },
+  {
+    path: '**',
+    component: DashboardComponent,
+  },
 ];
