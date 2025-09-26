@@ -11,6 +11,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sage.dto.v1.assist.response.AttendedAssistResponseDto;
+import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.assist.response.PendingAssistResponseDto;
 import com.sage.model.assist.Assist;
@@ -198,5 +200,60 @@ public class OldAssistDaoImpl implements AssistDao {
         }
 
         return new PaginatedPendingAssistResponseDto(pendingAssists, total, limit, skip);
+    }
+
+    @Override
+    public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip) {
+        String countSql = "SELECT COUNT(*) FROM assist WHERE end_at IS NOT NULL";
+        long total = 0;
+
+        try (PreparedStatement countStatement = connection.prepareStatement(countSql)) {
+            try (ResultSet resultSet = countStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    total = resultSet.getLong(1);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error counting attended assists: {0}", e.getMessage());
+            throw new RuntimeException("Error counting attended assists: " + e.getMessage(), e);
+        }
+
+        String sql = "SELECT "
+                + "a.id, "
+                + "r.full_name, "
+                + "r.residential_unit, "
+                + "a.end_at - a.called_at AS elapsed_time, "
+                + "a.detail, "
+                + "a.severity_level "
+                + "FROM assist a "
+                + "JOIN resident r ON a.resident_id = r.id "
+                + "WHERE a.end_at IS NOT NULL "
+                + "ORDER BY a.end_at DESC "
+                + "LIMIT ? OFFSET ?";
+
+        List<AttendedAssistResponseDto> attendedAssists = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, skip);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    attendedAssists.add(new AttendedAssistResponseDto(
+                            resultSet.getObject("id", UUID.class),
+                            resultSet.getString("full_name"),
+                            resultSet.getString("residential_unit"),
+                            resultSet.getString("elapsed_time"),
+                            resultSet.getString("detail"),
+                            SeverityLevel.fromValue(resultSet.getString("severity_level"))
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error getting attended assists: {0}", e.getMessage());
+            throw new RuntimeException("Error getting attended assists: " + e.getMessage(), e);
+        }
+
+        return new PaginatedAttendedAssistResponseDto(attendedAssists, total, limit, skip);
     }
 }

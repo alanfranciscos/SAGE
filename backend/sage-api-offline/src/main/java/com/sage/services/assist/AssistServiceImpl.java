@@ -1,5 +1,6 @@
 package com.sage.services.assist;
 
+import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.exception.AlreadyExistsException;
@@ -120,5 +121,10 @@ public class AssistServiceImpl implements AssistService {
     @Override
     public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip) {
         return assistDao.getPendingAssists(limit, skip);
+    }
+
+    @Override
+    public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip) {
+        return assistDao.getAttendedAssists(limit, skip);
     }
 }
