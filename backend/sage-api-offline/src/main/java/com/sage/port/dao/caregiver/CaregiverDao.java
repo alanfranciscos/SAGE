@@ -4,6 +4,7 @@ import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface CaregiverDao {
@@ -14,4 +15,10 @@ public interface CaregiverDao {
     void updateCaregiver(UUID id, CreateCaregiverRequestDto request);
 
     void updateCaregiverActiveStatus(UUID id, boolean active);
+
+    Optional<UUID> findByCpf(String cpf);
+
+    Optional<UUID> findByEmail(String email);
+
+    Optional<UUID> findByPhone(String phone);
 }

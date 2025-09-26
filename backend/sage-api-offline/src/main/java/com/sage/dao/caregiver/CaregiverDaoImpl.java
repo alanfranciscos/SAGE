@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -138,4 +139,50 @@ public class CaregiverDaoImpl implements CaregiverDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Optional<UUID> findByCpf(String cpf) {
+        String sql = "SELECT id FROM caregiver WHERE cpf = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, cpf);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of((UUID) rs.getObject("id"));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<UUID> findByEmail(String email) {
+        String sql = "SELECT id FROM caregiver WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of((UUID) rs.getObject("id"));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<UUID> findByPhone(String phone) {
+        String sql = "SELECT id FROM caregiver WHERE phone = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of((UUID) rs.getObject("id"));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
