@@ -19,10 +19,12 @@ public class TCPServerSocket {
         while (true){
             try{
                 Socket socket = serverSocket.accept();
-                System.out.println("Conexão recebida da central: " + socket.getInetAddress().getHostAddress());
-                ConnectionHandler connectionHandler = new ConnectionHandler(socket);
+                String alarmPanelIpAdress = socket.getInetAddress().getHostAddress();
+//                System.out.println("Conexão recebida da central: " + alarmPanelIpAdress);
+                ConnectionHandler connectionHandler = new ConnectionHandler(alarmPanelIpAdress, socket);
                 new Thread(connectionHandler).start();
             } catch(Exception e){
+                System.out.println(e.getMessage());
                 System.out.println("Erro na conexão: " + e.getMessage());
             }
         }

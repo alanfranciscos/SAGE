@@ -27,42 +27,30 @@ public class Utils {
         return checksum == 0;
     }
 
-    public static void verifyModel(byte[] buffer) {
-        System.out.println("=================x=================");
+    public static String verifyModel(byte[] buffer) {
         byte modelo = (byte) buffer[41];
         switch (modelo) {
             case (byte) 0xA0:
-                System.out.println("Active 32 Duo");
-                break;
+                return "Active 32 Duo";
             case (byte) 0xA1:
-                System.out.println("Active 20 Ultra");
-                break;
+                return "Active 20 Ultra";
             case (byte) 0xA2:
-                System.out.println("Active 8 Ultra");
-                break;
+                return "Active 8 Ultra";
             case (byte) 0xA3:
-                System.out.println("Active 20 Ethernet");
-                break;
+                return "Active 20 Ethernet";
             case (byte) 0xA4:
-                System.out.println("Active 100 Bus");
-                break;
+                return "Active 100 Bus";
             case (byte) 0xA5:
-                System.out.println("Active 20 Bus");
-                break;
+                return "Active 20 Bus";
             case (byte) 0xA6:
-                System.out.println("Active Full 32");
-                break;
+                return "Active Full 32";
             case (byte) 0xA7:
-                System.out.println("Active 20");
-                break;
+                return "Active 20";
             case (byte) 0xA9:
-                System.out.println("Active 8W");
-                break;
+                return "Active 8W";
             default:
-                System.out.println("Modelo desconhecido");
-                break;
+                return "Modelo desconhecido";
         }
-        System.out.println("=================x=================");
     }
 
     public static void verifyEvent(byte[] buffer) {
@@ -71,17 +59,16 @@ public class Utils {
         evento.append((char) buffer[9]);
         evento.append((char) buffer[10]);
         evento.append((char) buffer[11]);
-        System.out.println("EVENTO: " + evento.toString());
+//        System.out.println("EVENTO: " + evento.toString());
     }
 
     public static String bytesToAscii(byte[] data, int length) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            // Mostra apenas caracteres "printáveis" (32 a 126)
             if (data[i] >= 32 && data[i] <= 126) {
                 sb.append((char) data[i]);
             } else {
-                sb.append("."); // substitui não-printáveis por ponto
+                sb.append(".");
             }
         }
         return sb.toString();

@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
 })
 export class SearchInputComponent {
-  @Input() title: string = 'Pesquisar';
+  @Input() title: string = '';
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   @Input() placeholder: string = 'Digite para pesquisar...';

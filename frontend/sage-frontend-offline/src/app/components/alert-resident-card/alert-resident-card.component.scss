@@ -1,0 +1,87 @@
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f1f3f5; // cinza claro
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    width: 80%;
+    margin: 0.5rem auto;
+}
+
+.image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.info .name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.info .details {
+    color: #444;
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+}
+
+.badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.badge {
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+}
+
+/* === Cores para o nível === */
+.badge.normal {
+    background: #4caf50;
+}
+
+.badge.medio {
+    background: #ff9800;
+}
+
+.badge.critico {
+    background: #f44336;
+}
+
+/* === Cores para o status === */
+.badge.pendente {
+    background: #f44336;
+}
+
+.badge.em_atendimento {
+    background: #ff9800;
+}
+
+.badge.atendido {
+    background: #4caf50;
+}
+
+/* === Observação padrão do card === */
+.observation {
+    width: 80%;
+    margin: 0.5rem auto 0;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0 0 12px 12px;
+    background: #f1f3f5;
+    /* mesmo fundo do card */
+    border: none;
+    /* sem borda */
+    font-size: 0.9rem;
+    color: #333;
+}

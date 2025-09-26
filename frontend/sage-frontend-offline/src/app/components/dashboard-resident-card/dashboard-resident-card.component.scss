@@ -1,0 +1,110 @@
+.resident-card {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 16px;
+  color: #222;
+  transition: all 0.3s ease;
+
+  &.status-normal {
+    border-color: #8a8a8a;
+    background-color: #f1efef;
+  }
+
+  &.status-warning {
+    border-color: orange;
+    background-color: #fff5e6;
+  }
+
+  &.status-critical {
+    border-color: red;
+    background-color: #ffe6e6;
+  }
+
+  .resident-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    img{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #999;
+    }
+
+  }
+
+  .resident-info {
+    margin: 12px 12px 12px 0px ;
+    font-size: 14px;
+  }
+  .resident-info > * {
+  margin-bottom: 8px;
+}
+  
+
+  .resident-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #555;
+    }
+  }
+}
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid;
+
+  &.status-normal {
+    border-color: #007246;
+    background-color: #890f99;
+    color: #007246;
+  }
+
+  &.status-warning {
+    border-color: orange;
+    background-color: #fff5e6;
+    color: orange;
+  }
+
+  &.status-critical {
+    border-color: red;
+    background-color: #ffe6e6;
+    color: red;
+  }
+
+  i {
+    font-size: 10px;
+  }
+}
+
+button {
+  display: block;
+  margin: 16px auto 0; 
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #017250;
+  color: white;
+  font-weight: bold;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #555;
+  }
+}

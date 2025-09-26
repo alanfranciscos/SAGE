@@ -1,0 +1,37 @@
+<div
+  class="resident-card"
+  [ngClass]="'status-' + status"
+  (click)="onCardClick()"
+>
+  <div class="resident-header">
+    <div class="">
+      <img
+        [src]="residentImage || 'assets/default_user_avatar.png'"
+        alt="Resident"
+        width="80"
+        height="80"
+      />
+    </div>
+    <div>
+      <h3>{{ residentName }}</h3>
+      <p>Casa {{ houseNumber }}</p>
+    </div>
+  </div>
+  <div class="resident-info">
+    <div
+      class="status-badge"
+      [style.border-color]="getStatusColor()"
+      [style.color]="getStatusColor()"
+    >
+      <i [class]="getStatusIcon()"></i>
+      <span>{{ getStatusText() }}</span>
+    </div>
+    <!-- <h3>Ultimo chamado:{{ lastCallDateTime }}</h3> -->
+    <p>Chamados 24h: {{ totalCallsLast24Hours }}</p>
+    <p>Última chamada: {{ lastCallDateTime }}</p>
+  </div>
+
+  <button (click)="onButtonClick(); $event.stopPropagation()">
+    {{ status === "normal" ? "Detalhes" : "Atender" }}
+  </button>
+</div>

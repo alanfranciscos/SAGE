@@ -1,6 +1,7 @@
 package org.example.communicationservice;
 
 import org.example.api.HttpService;
+import org.example.model.AlarmPanel;
 import org.example.utils.Utils;
 
 import java.io.IOException;
@@ -16,11 +17,13 @@ public class ConnectionHandler implements Runnable {
     private volatile long lastKeepAliveTime = System.currentTimeMillis();
     private volatile boolean online = true;
     private byte seq;
+    private AlarmPanel alarmPanel;
 
     HttpService httpService;
-    public ConnectionHandler(Socket socket) {
+    public ConnectionHandler(String alarmPanelIpAdress, Socket socket) {
         this.socket = socket;
         this.seq = 0x00;
+        this.alarmPanel = new AlarmPanel(alarmPanelIpAdress);
         this.httpService = new HttpService();
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
@@ -28,14 +31,15 @@ public class ConnectionHandler implements Runnable {
             if (diff > 5 * 60 * 1000) {
                 if (online) {
                     online = false;
-                    System.out.println("Central OFFLINE (sem keep alive por 5 minutos)");
+//                    System.out.println("Central OFFLINE (sem keep alive por 5 minutos)");
                 }
             } else {
                 if (!online) {
                     online = true;
-                    System.out.println("Central voltou ONLINE");
+//                    System.out.println("Central voltou ONLINE");
                 }
             }
+            httpService.makePanelConnectionStatusPostRequest(online);
         }, 30, 30, TimeUnit.SECONDS);
     }
 
@@ -46,11 +50,11 @@ public class ConnectionHandler implements Runnable {
             int bytesRead;
 
             while ((bytesRead = inputStream.read(buffer)) != -1) {
-                System.out.print("Recebido: ");
-                Utils.printHex(buffer, bytesRead, "Recebido: ");
+//                System.out.print("Recebido: ");
+//                Utils.printHex(buffer, bytesRead, "Recebido: ");
 
                 if (!Utils.validateChecksum(buffer, bytesRead)) {
-                    System.out.println("Checksum inválido. Pacote ignorado.");
+//                    System.out.println("Checksum inválido. Pacote ignorado.");
                     continue;
                 }
 
@@ -59,8 +63,19 @@ public class ConnectionHandler implements Runnable {
 
                 switch (cmd) {
                     case 0x21:
-                        System.out.println("CONVERTENDO HEX PARA ASCII (0x21): " + Utils.bytesToAscii(buffer, bytesRead));
-                        Utils.verifyModel(buffer);
+//                        System.out.println("CONVERTENDO HEX PARA ASCII (0x21): " + Utils.bytesToAscii(buffer, bytesRead));
+                        String serialNumber = Utils.bytesToAscii(buffer, bytesRead).substring(4, 14);
+//                        System.out.println("Número: " + numero);
+
+                        String rawMac = Utils.bytesToAscii(buffer, bytesRead).substring(29, 41);
+                        String mac = rawMac.replaceAll("(.{2})", "$1:").replaceAll(":$", "");
+//                        System.out.println("MAC: " + mac);
+                        String model = Utils.verifyModel(buffer);
+
+                        alarmPanel.setSerialNumber(serialNumber);
+                        alarmPanel.setMacAdress(mac);
+                        alarmPanel.setModel(model);
+
                         respondConnection(outputStream, seq, cmd);
                         break;
 
@@ -70,7 +85,9 @@ public class ConnectionHandler implements Runnable {
                         break;
 
                     case 0x24:
-                        System.out.println("CONVERTENDO HEX PARA ASCII (0x24): " + Utils.bytesToAscii(buffer, bytesRead));
+//                        System.out.println("CONVERTENDO HEX PARA ASCII (0x24): " + Utils.bytesToAscii(buffer, bytesRead));
+                        String countNumber = Utils.bytesToAscii(buffer, bytesRead).substring(4, 7);
+                        alarmPanel.setCount(countNumber);
                         Utils.verifyEvent(buffer);
                         respondEvent(outputStream, buffer, seq, cmd);
                         break;
@@ -120,7 +137,7 @@ public class ConnectionHandler implements Runnable {
             usuario.append((char) buffer[14]);
             usuario.append((char) buffer[15]);
             usuario.append((char) buffer[16]);
-            httpService.makePostRequest(Integer.parseInt(usuario.toString()));
+            httpService.makeUserPostRequest(Integer.parseInt(usuario.toString()));
         }
 
         sendResponse(out, response, "Resposta EVENTO enviada");
@@ -129,7 +146,21 @@ public class ConnectionHandler implements Runnable {
     private void sendResponse(OutputStream out, byte[] response, String message) throws IOException {
         out.write(response);
         out.flush();
-        Utils.printHex(response, response.length, "Enviado: ");
-        System.out.println(message);
+//        Utils.printHex(response, response.length, "Enviado: ");
+//        System.out.println(message);
+    }
+
+
+    private boolean MakePanelInfoPostRequest(){
+        if(alarmPanel.getCount() != null
+                && alarmPanel.getIpAdress() != null
+                && alarmPanel.getModel() != null
+                && alarmPanel.getMacAdress() != null
+                && alarmPanel.getSerialNumber() != null){
+            httpService.makePanelInfoPostRequest(alarmPanel);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
