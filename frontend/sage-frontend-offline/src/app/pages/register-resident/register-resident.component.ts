@@ -56,6 +56,9 @@ export class RegisterResidentComponent {
     birthDate: '',
     residentialUnit: '',
     controlNumber: 0,
+    emergencyName: '',
+    emergencyPhone: '',
+    relationship: '',
   };
   cpfInvalido?: boolean;
   telefoneInvalido: boolean = false;
@@ -79,7 +82,8 @@ export class RegisterResidentComponent {
       case 2:
         return (
           this.residentListResponseDto.residentialUnit !== '' &&
-          this.residentListResponseDto.controlNumber > 0
+          this.residentListResponseDto.controlNumber > 0 &&
+          this.residentListResponseDto.controlNumber <= 100
         );
       default:
         return false;
@@ -130,6 +134,12 @@ export class RegisterResidentComponent {
     return {
       ...this.residentListResponseDto,
       fullName: this.residentListResponseDto.fullName.trim(),
+      cpf: this.residentListResponseDto.cpf.replace(/\D/g, ''),
+      emergencyPhone: this.residentListResponseDto.emergencyPhone.replace(
+        /\D/g,
+        ''
+      ),
+
       birthDate: new Date(
         this.residentListResponseDto.birthDate.trim()
       ).toISOString(),
@@ -157,6 +167,16 @@ export class RegisterResidentComponent {
       this.cpfInvalido =
         cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
     }
+    if (field === ResidentInputField.CONTROL_NUMBER) {
+      const value = Number(event);
+      if (isNaN(value) || value < 0 || value > 100) {
+        alert('O número de controle deve estar entre 0 e 100.');
+        this.residentListResponseDto.controlNumber = 0;
+        return;
+      }
+      this.residentListResponseDto.controlNumber = value;
+    }
+
     if (field === ResidentInputField.BIRTH_DATE) {
       const selectedDate = new Date(event);
       const today = new Date();
@@ -167,6 +187,12 @@ export class RegisterResidentComponent {
         this.residentListResponseDto.birthDate = '';
         return;
       }
+    }
+    if (field === ResidentInputField.CPF) {
+      const cpfNumerico = event.replace(/\D/g, '');
+      this.residentListResponseDto.cpf = cpfNumerico;
+      this.cpfInvalido =
+        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
     }
 
     this.validateStep();

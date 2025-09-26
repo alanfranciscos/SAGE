@@ -83,6 +83,8 @@
     [required]="false"
     (valueChange)="onInputChange(ResidentInputField.EMERGENCY_PHONE, $event)"
     [value]="residentListResponseDto.emergencyPhone || ''"
+    [mask]="'(00) 00000-0000'"
+    [dropSpecialCharacters]="false"
   ></app-input>
 
   <div *ngIf="telefoneInvalido" class="error-message">
@@ -100,11 +102,15 @@
   } @if(currentStep === 2) {
   <app-input
     label="Número do controle"
-    placeholder="Digite o numero do controle"
+    placeholder="Digite o número do controle"
+    type="number"
     [required]="true"
+    [minControlNumber]="0"
+    [maxControlNumber]="100"
     (valueChange)="onInputChange(ResidentInputField.CONTROL_NUMBER, $event)"
-    [value]="residentListResponseDto.controlNumber || '0'"
-  ></app-input>
+    [value]="residentListResponseDto.controlNumber || 0"
+  />
+
   <app-input
     label="Número da residência"
     placeholder="Digite o endereco da residencia"
