@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import com.sage.dto.v1.assist.response.AttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
 import com.sage.dto.v1.assist.response.PendingAssistResponseDto;
 import com.sage.model.assist.Assist;
 import com.sage.model.assist.SeverityLevel;
@@ -255,5 +256,43 @@ public class OldAssistDaoImpl implements AssistDao {
         }
 
         return new PaginatedAttendedAssistResponseDto(attendedAssists, total, limit, skip);
+    }
+
+    @Override
+    public Optional<PendingAssistDetailResponseDto> getPendingAssistById(UUID assistId) {
+        String sql = "SELECT "
+                + "a.id, "
+                + "r.full_name, "
+                + "DATE_PART('year', AGE(r.birth_date)) as age, "
+                + "r.residential_unit, "
+                + "NOW() - a.called_at AS elapsed_time, "
+                + "a.severity_level, "
+                + "CASE WHEN a.assignment_at IS NULL THEN 'pending' ELSE 'in_attendance' END AS status "
+                + "FROM assist a "
+                + "JOIN resident r ON a.resident_id = r.id "
+                + "WHERE a.id = ? AND a.end_at IS NULL";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, assistId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(new PendingAssistDetailResponseDto(
+                            resultSet.getObject("id", UUID.class),
+                            resultSet.getString("full_name"),
+                            resultSet.getInt("age"),
+                            resultSet.getString("residential_unit"),
+                            resultSet.getString("elapsed_time"),
+                            SeverityLevel.fromValue(resultSet.getString("severity_level")),
+                            resultSet.getString("status")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error getting pending assist by id: {0}", e.getMessage());
+            throw new RuntimeException("Error getting pending assist by id: " + e.getMessage(), e);
+        }
+
+        return Optional.empty();
     }
 }

@@ -2,6 +2,7 @@ package com.sage.services.assist;
 
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.exception.AlreadyExistsException;
 import com.sage.exception.NotFoundException;
@@ -126,5 +127,11 @@ public class AssistServiceImpl implements AssistService {
     @Override
     public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip) {
         return assistDao.getAttendedAssists(limit, skip);
+    }
+
+    @Override
+    public PendingAssistDetailResponseDto getPendingAssistById(UUID assistId) {
+        return assistDao.getPendingAssistById(assistId)
+                .orElseThrow(() -> new NotFoundException("Pending assist not found with id: " + assistId));
     }
 }
