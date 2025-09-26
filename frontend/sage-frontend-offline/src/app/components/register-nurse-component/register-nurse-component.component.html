@@ -16,7 +16,7 @@
           type="text"
           id="name"
           name="name"
-          [(ngModel)]="nurse.name"
+          [(ngModel)]="nurse.fullName"
           required
         />
       </div>
@@ -36,7 +36,7 @@
       </div>
       <div class="input">
         <label for="tel">Telefone</label>
-        <input type="text" id="tel" name="tel" [(ngModel)]="nurse.tel" />
+        <input type="text" id="tel" name="tel" [(ngModel)]="nurse.phone" />
       </div>
 
       <app-button

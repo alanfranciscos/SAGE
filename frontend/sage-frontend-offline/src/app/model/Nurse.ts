@@ -9,3 +9,11 @@ export interface Nurse {
   lastUse: string;
   registration: string;
 }
+export interface RegisterNurseDto {
+  fullName: string;
+  cpf: string;
+  email?: string;
+  phone?: string;
+  position?: string;
+  token: string;
+}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Nurse } from '../model/Nurse';
+import { Nurse, RegisterNurseDto } from '../model/Nurse';
 import { ApiService } from '../services/api/api.service';
 
 @Injectable({
@@ -45,5 +45,12 @@ export class NurseService {
       lastUse: item.lastUsedToken ?? 'Nunca usado',
       registration: '', // backend não retorna
     }));
+  }
+  async registerNurse(nurse: RegisterNurseDto): Promise<void> {
+    const response = await this.api.post('/v1/caregiver', nurse);
+
+    if (response.status !== 201 && response.status !== 200) {
+      throw new Error('Erro ao cadastrar enfermeira');
+    }
   }
 }
