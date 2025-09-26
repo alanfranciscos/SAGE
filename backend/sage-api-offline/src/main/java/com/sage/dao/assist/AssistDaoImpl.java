@@ -383,4 +383,21 @@ public class AssistDaoImpl implements AssistDao {
 
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Assist> findById(UUID assistId) {
+        String sql = "SELECT * FROM assist WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, assistId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(Assist.mapFromResultSet(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error finding Assist by id: {0}", e.getMessage());
+        }
+        return Optional.empty();
+    }
 }

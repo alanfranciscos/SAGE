@@ -15,16 +15,9 @@ public interface AssistService {
             ZonedDateTime calledAt
     );
 
-    void assignCarregiver(
-            UUID id,
-            UUID carregiverId,
-            ZonedDateTime assignmentAt
-    );
+    void startAssist(UUID assistId, String caregiverToken);
 
-    void finishAssist(
-            UUID id,
-            ZonedDateTime endAt
-    );
+    void finishAssist(UUID assistId, String caregiverToken, String details);
 
     PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip);
 

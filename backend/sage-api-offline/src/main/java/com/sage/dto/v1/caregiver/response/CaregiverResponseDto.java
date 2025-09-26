@@ -1,8 +1,10 @@
 package com.sage.dto.v1.caregiver.response;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public record CaregiverResponseDto(
+        UUID id,
         String fullName,
         String cpf,
         String token,

@@ -5,9 +5,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sage.dto.v1.assist.request.CreateAssistRequestDto;
+import com.sage.dto.v1.assist.request.FinishAssistRequestDto;
+import com.sage.dto.v1.assist.request.StartAssistRequestDto;
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
@@ -82,5 +85,23 @@ public class AssistController {
     ) {
         AssistHistoryResponseDto assistHistory = assistService.getAssistHistoryById(assistId);
         return ResponseEntity.ok(assistHistory);
+    }
+
+    @PatchMapping("/{assistId}/start")
+    public ResponseEntity<Void> startAssist(
+            @PathVariable UUID assistId,
+            @RequestBody StartAssistRequestDto request
+    ) {
+        assistService.startAssist(assistId, request.getCaregiverToken());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{assistId}/finish")
+    public ResponseEntity<Void> finishAssist(
+            @PathVariable UUID assistId,
+            @RequestBody FinishAssistRequestDto request
+    ) {
+        assistService.finishAssist(assistId, request.getCaregiverToken(), request.getDetails());
+        return ResponseEntity.noContent().build();
     }
 }

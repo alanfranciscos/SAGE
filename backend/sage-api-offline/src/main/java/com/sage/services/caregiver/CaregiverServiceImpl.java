@@ -75,6 +75,12 @@ public class CaregiverServiceImpl implements CaregiverService {
         caregiverDao.updateCaregiverActiveStatus(id, active);
     }
 
+    @Override
+    public CaregiverResponseDto findByToken(String token) {
+        return caregiverDao.findByToken(token)
+                .orElseThrow(() -> new NotFoundException("Caregiver not found with token: " + token));
+    }
+
     private String generateUniqueToken() {
         String token;
         do {

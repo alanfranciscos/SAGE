@@ -46,4 +46,6 @@ public interface AssistDao {
 
     Optional<AssistHistoryResponseDto> getAssistHistoryById(UUID assistId);
 
+    Optional<Assist> findById(UUID assistId);
+
 }
