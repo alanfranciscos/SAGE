@@ -25,7 +25,7 @@
 .title-header-setings {
     display: flex;
     gap: 8px;
-        font-size: 1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #333;
 }
@@ -36,7 +36,7 @@
 }
 
 .title-line-info {
-        font-size: 1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #333;
     display: flex;
@@ -79,4 +79,39 @@
     font-size: 1rem;
     font-weight: 700;
     color: #333;
+}
+
+.send-port-settings {
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 16px;
+    color: #222;
+    transition: all 0.3s ease;
+    border-color: #8a8a8a;
+    background-color: #f1efef;
+    display: grid;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.send-settings-line {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    gap: 8px;
+    padding: 16px 16px 0px 16px;
+}
+
+.title-line-settings {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    gap: 8px;
+    padding: 0px 16px 0px 16px;
+}
+
+.send-settings-button{
+    
 }

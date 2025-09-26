@@ -74,3 +74,16 @@
     </div>
 
 </div>
+
+<div class="send-port-settings">
+
+    <div class="title-line-settings"><i [class]="getIconClass('port')" style="color: #0069c5;"></i>
+        <p>Porta para recepção de eventos</p>
+    </div>
+    <div class="send-settings-line">
+        <input type="text" [(ngModel)]="portNumber" appRegexHexa maxlength="4">
+        <app-button [label]="'Enviar'" [type]="'secondary'" class="send-settings-button" [size]="'medium'"
+            [disabled]="false" (click)="sendPort(portNumber)"></app-button>
+    </div>
+    
+</div>
