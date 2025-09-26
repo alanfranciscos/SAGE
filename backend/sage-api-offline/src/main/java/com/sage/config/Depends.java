@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.sage.config.settings.Settings;
-import com.sage.dao.assist.OldAssistDaoImpl;
+import com.sage.dao.assist.AssistDaoImpl;
 import com.sage.dao.resident.OldResidentDaoImpl;
 import com.sage.dao.resident.ResidentHeaderDaoImpl;
 import com.sage.dao.resident.control.ControlResidentDaoImpl;
@@ -44,7 +44,7 @@ public class Depends {
 
     @Bean
     public AssistDao assistDao(final Connection connection) {
-        return new OldAssistDaoImpl(connection);
+        return new AssistDaoImpl(connection);
     }
 
     @Bean
