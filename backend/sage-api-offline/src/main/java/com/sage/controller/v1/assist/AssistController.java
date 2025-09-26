@@ -1,19 +1,16 @@
 package com.sage.controller.v1.assist;
 
+import com.sage.dto.v1.assist.request.CreateAssistRequestDto;
+import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.port.services.assist.AssistService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.sage.dto.v1.assist.request.CreateAssistRequestDto;
-import com.sage.port.services.assist.AssistService;
 
 @RestController
 @RequestMapping("/v1/assist")
@@ -41,6 +38,14 @@ public class AssistController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
 
+    @GetMapping("/pending")
+    public ResponseEntity<PaginatedPendingAssistResponseDto> getPendingAssists(
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "0") int skip
+    ) {
+        PaginatedPendingAssistResponseDto pendingAssists = assistService.getPendingAssists(limit, skip);
+        return ResponseEntity.ok(pendingAssists);
     }
 }

@@ -1,9 +1,10 @@
 package com.sage.port.dao.assist;
 
+import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.model.assist.Assist;
+
 import java.util.Optional;
 import java.util.UUID;
-
-import com.sage.model.assist.Assist;
 
 public interface AssistDao {
 
@@ -33,5 +34,7 @@ public interface AssistDao {
      * or empty if not found
      */
     Optional<Assist> findByResidentIdAndEndAtIsNull(UUID residentId);
+
+    PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip);
 
 }
