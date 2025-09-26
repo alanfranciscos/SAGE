@@ -1,5 +1,6 @@
 package com.sage.services.assist;
 
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
@@ -133,5 +134,11 @@ public class AssistServiceImpl implements AssistService {
     public PendingAssistDetailResponseDto getPendingAssistById(UUID assistId) {
         return assistDao.getPendingAssistById(assistId)
                 .orElseThrow(() -> new NotFoundException("Pending assist not found with id: " + assistId));
+    }
+
+    @Override
+    public AssistHistoryResponseDto getAssistHistoryById(UUID assistId) {
+        return assistDao.getAssistHistoryById(assistId)
+                .orElseThrow(() -> new NotFoundException("Assist history not found with id: " + assistId));
     }
 }

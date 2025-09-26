@@ -1,5 +1,6 @@
 package com.sage.port.services.assist;
 
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
@@ -30,4 +31,6 @@ public interface AssistService {
     PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip);
 
     PendingAssistDetailResponseDto getPendingAssistById(UUID assistId);
+
+    AssistHistoryResponseDto getAssistHistoryById(UUID assistId);
 }

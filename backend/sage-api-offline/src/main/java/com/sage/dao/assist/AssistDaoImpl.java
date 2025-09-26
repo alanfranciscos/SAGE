@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import com.sage.dto.v1.assist.response.AttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
@@ -341,5 +342,45 @@ public class AssistDaoImpl implements AssistDao {
             logger.log(Level.SEVERE, "Error calculating mean assist time: {0}", e.getMessage());
             throw new RuntimeException("Error calculating mean assist time", e);
         }
+    }
+
+    @Override
+    public Optional<AssistHistoryResponseDto> getAssistHistoryById(UUID assistId) {
+        String sql = "SELECT "
+                + "a.id, "
+                + "r.full_name, "
+                + "DATE_PART('year', AGE(r.birth_date)) as age, "
+                + "r.residential_unit, "
+                + "a.end_at - a.called_at AS elapsed_time, "
+                + "a.severity_level, "
+                + "'finalizado' as status, "
+                + "a.detail "
+                + "FROM assist a "
+                + "JOIN resident r ON a.resident_id = r.id "
+                + "WHERE a.id = ? AND a.end_at IS NOT NULL";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, assistId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(new AssistHistoryResponseDto(
+                            resultSet.getObject("id", UUID.class),
+                            resultSet.getString("full_name"),
+                            resultSet.getInt("age"),
+                            resultSet.getString("residential_unit"),
+                            resultSet.getString("elapsed_time"),
+                            SeverityLevel.fromValue(resultSet.getString("severity_level")),
+                            resultSet.getString("status"),
+                            resultSet.getString("detail")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error getting assist history by id: {0}", e.getMessage());
+            throw new RuntimeException("Error getting assist history by id: " + e.getMessage(), e);
+        }
+
+        return Optional.empty();
     }
 }

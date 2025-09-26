@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,5 +74,13 @@ public class AssistController {
     ) {
         PaginatedAttendedAssistResponseDto attendedAssists = assistService.getAttendedAssists(limit, skip);
         return ResponseEntity.ok(attendedAssists);
+    }
+
+    @GetMapping("/history/{assistId}")
+    public ResponseEntity<AssistHistoryResponseDto> getAssistHistoryById(
+            @PathVariable UUID assistId
+    ) {
+        AssistHistoryResponseDto assistHistory = assistService.getAssistHistoryById(assistId);
+        return ResponseEntity.ok(assistHistory);
     }
 }
