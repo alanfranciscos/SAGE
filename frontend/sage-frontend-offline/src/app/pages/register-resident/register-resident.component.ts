@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
 
 export enum ResidentInputField {
   FULL_NAME = 'fullName',
@@ -38,6 +39,7 @@ export enum ResidentInputField {
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
+    CommonModule,
   ],
   templateUrl: './register-resident.component.html',
   styleUrl: './register-resident.component.scss',
@@ -54,14 +56,13 @@ export class RegisterResidentComponent {
     birthDate: '',
     residentialUnit: '',
     controlNumber: 0,
-    
   };
   cpfInvalido?: boolean;
+  telefoneInvalido: boolean = false;
 
   constructor(
     private residentControllerService: ResidentService,
-    private router: Router,
-
+    private router: Router
   ) {}
 
   validateStep(): boolean {
@@ -85,35 +86,31 @@ export class RegisterResidentComponent {
     }
   }
 
-private validarCPF(cpf: string): boolean {
-  cpf = cpf.replace(/\D/g, '');
+  private validarCPF(cpf: string): boolean {
+    cpf = cpf.replace(/\D/g, '');
 
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+      soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
 
-  let soma = 0;
-  for (let i = 0; i < 9; i++) {
-    soma += parseInt(cpf.charAt(i)) * (10 - i);
+    let resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(9))) return false;
+
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+      soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(10))) return false;
+
+    return true;
   }
-
-  let resto = (soma * 10) % 11;
-  if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(9))) return false;
-
-  soma = 0;
-  for (let i = 0; i < 10; i++) {
-    soma += parseInt(cpf.charAt(i)) * (11 - i);
-  }
-
-  resto = (soma * 10) % 11;
-  if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(10))) return false;
-
-  return true;
-}
-
-
-
 
   updateStep(event: number): void {
     if (event < this.currentStep) {
@@ -152,27 +149,28 @@ private validarCPF(cpf: string): boolean {
     }
   }
 
-onInputChange(field: ResidentInputField, event: any): void {
-  (this.residentListResponseDto as any)[field] = event;
+  onInputChange(field: ResidentInputField, event: any): void {
+    (this.residentListResponseDto as any)[field] = event;
 
-  if (field === ResidentInputField.CPF) {
-    const cpfNumerico = event.replace(/\D/g, '');
-    this.cpfInvalido = cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
-  }
-  if (field === ResidentInputField.BIRTH_DATE) {
-    const selectedDate = new Date(event);
-    const today = new Date();
-    selectedDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    if (selectedDate > today) {
-      alert('A data de nascimento não pode ser no futuro.');
-      this.residentListResponseDto.birthDate = '';
-      return;
+    if (field === ResidentInputField.CPF) {
+      const cpfNumerico = event.replace(/\D/g, '');
+      this.cpfInvalido =
+        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
     }
-  }
+    if (field === ResidentInputField.BIRTH_DATE) {
+      const selectedDate = new Date(event);
+      const today = new Date();
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate > today) {
+        alert('A data de nascimento não pode ser no futuro.');
+        this.residentListResponseDto.birthDate = '';
+        return;
+      }
+    }
 
-  this.validateStep();
-}
+    this.validateStep();
+  }
   private imageFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

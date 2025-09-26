@@ -48,6 +48,9 @@ export class SidebarComponent implements OnInit {
     this.activeItem = this.router.url;
     this.totalActiveCalls =
       await this.residentService.getTotalActiveResidentsCalls();
+    this.residentService.totalActiveCalls$.subscribe((total) => {
+      this.totalActiveCalls = total;
+    });
   }
 
   setActiveItem(item: string) {

@@ -29,7 +29,7 @@
 // })
 // export class ListResidentsComponent {
 //   residents: Resident | null = null;
-
+//   totalResidents: number = 0;
 //   hasAlert: boolean = false;
 //   alertType: 'warning' | 'several' = 'warning';
 //   loadingResidents: boolean = true;

@@ -16,16 +16,16 @@
     (valueChange)="onInputChange(ResidentInputField.FULL_NAME, $event)"
     [value]="residentListResponseDto.fullName || ''"
   ></app-input>
-  <app-input
+  <!-- <app-input
     label="CPF"
     placeholder="Digite o CPF do residente"
     type="email"
     [required]="true"
     (valueChange)="onInputChange(ResidentInputField.CPF, $event)"
     [value]="residentListResponseDto.cpf || ''"
-  ></app-input>
+  ></app-input> -->
 
-  <!-- <app-input
+  <app-input
     label="CPF"
     placeholder="Digite o CPF do paciente"
     [required]="true"
@@ -37,7 +37,7 @@
 
   @if(cpfInvalido) {
   <div class="error-message">CPF inválido. Verifique os números digitados.</div>
-  } -->
+  }
 
   <app-select-input
     label="Sexo"
@@ -68,6 +68,14 @@
     (valueChange)="onInputChange(ResidentInputField.EMERGENCY_NAME, $event)"
     [value]="residentListResponseDto.emergencyName || ''"
   ></app-input>
+  <!-- <app-input
+    label="Telefone do contato de emergência"
+    placeholder="Digite o telefone do contato de emergência do residente"
+    type="tel"
+    [required]="false"
+    (valueChange)="onInputChange(ResidentInputField.EMERGENCY_PHONE, $event)"
+    [value]="residentListResponseDto.emergencyPhone || ''"
+  ></app-input> -->
   <app-input
     label="Telefone do contato de emergência"
     placeholder="Digite o telefone do contato de emergência do residente"
@@ -76,6 +84,11 @@
     (valueChange)="onInputChange(ResidentInputField.EMERGENCY_PHONE, $event)"
     [value]="residentListResponseDto.emergencyPhone || ''"
   ></app-input>
+
+  <div *ngIf="telefoneInvalido" class="error-message">
+    Telefone inválido. Verifique os números digitados.
+  </div>
+
   <app-input
     label="Parentesco com o residente"
     placeholder="Digite o grau de parentesco com o residente"

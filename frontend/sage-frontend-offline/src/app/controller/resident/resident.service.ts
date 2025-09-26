@@ -6,12 +6,16 @@ import {
   ResidentDetailsResponseDto,
   Resident,
 } from '../../model/Resident';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ResidentService {
   api: ReturnType<ApiService['getApi']>;
+  private totalActiveCallsSubject = new BehaviorSubject<number>(0);
+  totalActiveCalls$ = this.totalActiveCallsSubject.asObservable();
+
   constructor(private apiService: ApiService) {
     this.api = this.apiService.getApi();
   }
@@ -51,6 +55,15 @@ export class ResidentService {
     return response.data.total;
   }
 
+  // async getTotalActiveResidentsCalls(): Promise<number> {
+  //   const response = await this.api.get<{ activeAlerts: number }>(
+  //     'api/v1/resident/card/active-alerts'
+  //   );
+  //   if (response.status !== 200) {
+  //     throw new Error('Failed to fetch total number of active alerts');
+  //   }
+  //   return response.data.activeAlerts;
+  // }
   async getTotalActiveResidentsCalls(): Promise<number> {
     const response = await this.api.get<{ activeAlerts: number }>(
       'api/v1/resident/card/active-alerts'
@@ -58,8 +71,18 @@ export class ResidentService {
     if (response.status !== 200) {
       throw new Error('Failed to fetch total number of active alerts');
     }
+
+    // 👈 Atualiza o BehaviorSubject
+    this.totalActiveCallsSubject.next(response.data.activeAlerts);
+
     return response.data.activeAlerts;
   }
+
+  // 👈 opcional: função para forçar atualização manual
+  async refreshTotalActiveCalls(): Promise<number> {
+    return await this.getTotalActiveResidentsCalls();
+  }
+
   async getMeanTime(): Promise<string> {
     const response = await this.api.get<{ meanTimeAssist: string }>(
       'api/v1/resident/card/mean-time'
