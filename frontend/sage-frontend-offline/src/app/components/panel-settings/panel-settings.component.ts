@@ -19,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PanelSettingsComponent implements OnInit {
   @Input() panel_model: string = 'Active Full 32';
-  @Input() status: string = 'Online';
+  @Input() status: boolean = true;
   @Input() ip_address: string = '192.168.1.100';
   @Input() mac_address: string = '00:1A:2B:3C:4D:5E';
   @Input() account: string = '0001';

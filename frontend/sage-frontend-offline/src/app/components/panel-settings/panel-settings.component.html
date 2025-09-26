@@ -18,11 +18,12 @@
             </div>
         </div>
         <div class="info">
-            <div class="title-line-info"><i [class]="getIconClass('status')" style="color: #0069c5;"></i>
+            <div class="title-line-info"><i [class]="getIconClass('status')"
+                    [ngStyle]="{ color: status === true ? '#0069c5' : 'red' }"></i>
                 <p>Status</p>
             </div>
             <div class="data">
-                <p>{{status}}</p>
+                <p>{{ status ? 'Online' : 'Offline' }}</p>
             </div>
         </div>
     </div>
@@ -85,5 +86,5 @@
         <app-button [label]="'Enviar'" [type]="'secondary'" class="send-settings-button" [size]="'medium'"
             [disabled]="false" (click)="sendPort(portNumber)"></app-button>
     </div>
-    
+
 </div>
