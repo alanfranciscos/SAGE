@@ -1,18 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface Nurse {
-  id: string;
-  name: string;
-  cpf: string;
-  email: string;
-  tel: string;
-  token: string;
-  status: 'active' | 'inactive';
-  lastUse: string;
-  registration: string;
-}
+import { Nurse } from '../../model/Nurse'; // importa a interface oficial
 
 @Component({
   selector: 'app-edit-nurse-dialog',
