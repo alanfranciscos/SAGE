@@ -79,6 +79,14 @@ public class ResidentServiceImpl {
             String residentialUnit,
             Integer controlNumber
     ) {
+
+        if (residentDao.existsByCpf(cpf)) {
+            throw new com.sage.exception.AlreadyExistsException("Resident with this CPF already exists.");
+        }
+        if (controlNumber != null && residentDao.existsByControlNumber(controlNumber)) {
+            throw new com.sage.exception.AlreadyExistsException("Resident with this control number already exists.");
+        }
+
         UUID residentId = UUID.randomUUID();
         UUID emergencyId = UUID.randomUUID();
         UUID controlId = UUID.randomUUID();
@@ -128,6 +136,21 @@ public class ResidentServiceImpl {
             String residentialUnit,
             Integer controlNumber
     ) {
+
+        if (residentDao.existsByCpf(cpf)) {
+            Map<String, Object> resident = residentDao.getResidentDetailsById(id);
+            if (!resident.get("cpf").equals(cpf)) {
+                throw new com.sage.exception.AlreadyExistsException("Resident with this CPF already exists.");
+            }
+        }
+
+        if (controlNumber != null && residentDao.existsByControlNumber(controlNumber)) {
+            Map<String, Object> resident = residentDao.getResidentDetailsById(id);
+            if (!resident.get("controlNumber").equals(controlNumber)) {
+                throw new com.sage.exception.AlreadyExistsException("Resident with this control number already exists.");
+            }
+        }
+
         Connection connection = residentDao.getConnection();
         try {
             connection.setAutoCommit(false);

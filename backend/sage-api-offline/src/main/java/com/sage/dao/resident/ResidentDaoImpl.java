@@ -333,4 +333,36 @@ public class ResidentDaoImpl {
             throw new RuntimeException("Error updating resident", e);
         }
     }
+
+    public boolean existsByCpf(String cpf) {
+        String sql = "SELECT EXISTS(SELECT 1 FROM resident WHERE cpf = ?)";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setString(1, cpf);
+            try (var rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean(1);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error checking if resident exists by CPF", e);
+            throw new RuntimeException("Error checking if resident exists by CPF", e);
+        }
+        return false;
+    }
+
+    public boolean existsByControlNumber(Integer controlNumber) {
+        String sql = "SELECT EXISTS(SELECT 1 FROM control_resident WHERE control_id = ?)";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, controlNumber);
+            try (var rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean(1);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error checking if resident exists by control number", e);
+            throw new RuntimeException("Error checking if resident exists by control number", e);
+        }
+        return false;
+    }
 }
