@@ -171,7 +171,7 @@ public class OldAssistDaoImpl implements AssistDao {
                 + "FROM assist a "
                 + "JOIN resident r ON a.resident_id = r.id "
                 + "WHERE a.end_at IS NULL "
-                + "ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END, a.called_at "
+                + "ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END DESC "
                 + "LIMIT ? OFFSET ?";
 
         List<PendingAssistResponseDto> pendingAssists = new ArrayList<>();
