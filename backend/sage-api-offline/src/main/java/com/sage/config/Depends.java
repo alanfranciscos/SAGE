@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.sage.config.settings.Settings;
+import com.sage.dao.alarm.AlarmDaoImpl;
 import com.sage.dao.assist.AssistDaoImpl;
 import com.sage.dao.resident.OldResidentDaoImpl;
 import com.sage.dao.resident.ResidentHeaderDaoImpl;
 import com.sage.dao.resident.control.ControlResidentDaoImpl;
 import com.sage.dao.resident.emergency.ResidentEmergencyContactDaoImpl;
 import com.sage.dao.sse.AssistSseDaoImpl;
+import com.sage.port.dao.alarm.AlarmDao;
 import com.sage.port.dao.assist.AssistDao;
 import com.sage.port.dao.resident.ControlResidentDao;
 import com.sage.port.dao.resident.ResidentDao;
@@ -50,6 +52,11 @@ public class Depends {
     @Bean
     public AssistSseDao assistSseDao(final Settings settings) {
         return new AssistSseDaoImpl(settings);
+    }
+
+    @Bean
+    public AlarmDao alarmDao(final Connection connection) {
+        return new AlarmDaoImpl(connection);
     }
 
 }

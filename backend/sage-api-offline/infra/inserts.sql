@@ -1,10 +1,10 @@
 -- Inserts para todas as tabelas
 
 -- Tabela alarm
-INSERT INTO alarm (id, serial_number, count_number) VALUES
--- ('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0),
-('b2c3d4e5-f6a7-4890-b123-456789abcdef', 'ALM002', 0),
-('c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'ALM003', 0);
+INSERT INTO alarm (id, model, status, ip_address, mac_address, account, serial_number, port) VALUES
+-- ('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Modelo-X1', 'Online', '192.168.1.10', '00:1B:44:11:3A:B7', 'Conta-001', 'SN-001', 5000),
+('b2c3d4e5-f6a7-4890-b123-456789abcdef', 'Modelo-Y2', 'Offline', '192.168.1.11', '00:1B:44:11:3A:B8', 'Conta-002', 'SN-002', 5001),
+('c3d4e5f6-a7b8-4901-c234-56789abcdef0', 'Modelo-Z3', 'Online', '192.168.1.12', '00:1B:44:11:3A:B9', 'Conta-003', 'SN-003', 5002);
 
 -- Tabela organization
 INSERT INTO organization (id, alarm_id, full_name, cep, state, city, neighborhood, street, organization_number) VALUES
