@@ -12,7 +12,7 @@ export class RegexHexaDirective {
   @HostListener('input', ['$event'])
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    let cleaned = input.value.replace(/[^0-9a-fA-F]/g, '').toUpperCase();
+    let cleaned = input.value.replace(/[^0-9]/g, '').toUpperCase();
 
     if (cleaned !== input.value) {
       input.value = cleaned;
