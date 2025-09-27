@@ -19,6 +19,8 @@ public class ConnectionHandler implements Runnable {
     private byte seq;
     private AlarmPanel alarmPanel;
 
+    private String serialNumber = "";
+
     HttpService httpService;
     public ConnectionHandler(String alarmPanelIpAdress, Socket socket) {
         this.socket = socket;
@@ -40,6 +42,9 @@ public class ConnectionHandler implements Runnable {
                 }
             }
             httpService.makePanelConnectionStatusPostRequest(online);
+            if(serialNumber != "" && serialNumber != null){
+                httpService.makePanelInfoGetRequest(serialNumber);
+            }
         }, 30, 30, TimeUnit.SECONDS);
     }
 
@@ -64,7 +69,7 @@ public class ConnectionHandler implements Runnable {
                 switch (cmd) {
                     case 0x21:
 //                        System.out.println("CONVERTENDO HEX PARA ASCII (0x21): " + Utils.bytesToAscii(buffer, bytesRead));
-                        String serialNumber = Utils.bytesToAscii(buffer, bytesRead).substring(4, 14);
+                        serialNumber = Utils.bytesToAscii(buffer, bytesRead).substring(4, 14);
 //                        System.out.println("Número: " + numero);
 
                         String rawMac = Utils.bytesToAscii(buffer, bytesRead).substring(29, 41);
@@ -151,7 +156,7 @@ public class ConnectionHandler implements Runnable {
     }
 
 
-    private boolean MakePanelInfoPostRequest(){
+    public boolean MakePanelInfoPostRequest(){
         if(alarmPanel.getCount() != null
                 && alarmPanel.getIpAdress() != null
                 && alarmPanel.getModel() != null
@@ -162,5 +167,9 @@ public class ConnectionHandler implements Runnable {
         } else {
             return false;
         }
+    }
+
+    public void MakePanelInfoGetRequest(String panelSerialNumber){
+        httpService.makePanelInfoGetRequest(panelSerialNumber);
     }
 }

@@ -51,12 +51,43 @@ public class HttpService {
                     + "}";
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/api/v1/assist"))
+                    .uri(URI.create("http://localhost:8080/api/v1/alarms/serial/" + alarmPanel.getSerialNumber()))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("Status do envio de dados da central: " + response.statusCode());
+            System.out.println("Resposta do envio de dados da central: " + response.body());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void makePanelInfoGetRequest(String panelSerialNumber) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+//            String jsonBody = "{"
+//                    + "\"serial_number\": \"" + alarmPanel.getSerialNumber() + "\","
+//                    + "\"count_number\": \"" + alarmPanel.getCount() + "\""
+//                    + "\"ip_address\": \"" + alarmPanel.getIpAdress() + "\""
+//                    + "\"mac_address\": \"" + alarmPanel.getMacAdress() + "\""
+//                    + "\"model\": \"" + alarmPanel.getModel() + "\""
+//                    + "}";
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/api/v1/alarms/serial/" + panelSerialNumber))
+                    .version(HttpClient.Version.HTTP_2)
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
             System.out.println("Status do envio de dados da central: " + response.statusCode());
             System.out.println("Resposta do envio de dados da central: " + response.body());
