@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="header">
+    <div class="title">
+      <i class="fa-solid fa-plus"></i> <span>Cadastrar Nova Cuidadora</span>
+    </div>
+    <span
+      >Preencha os dados abaixo para adicionar uma nova cuidadora à equipe. Um
+      token de 6 caracteres será gerado automaticamente.</span
+    >
+  </div>
+  <div>
+    <form class="form" #form="ngForm" (ngSubmit)="onRegisterNurse()">
+      <div class="input">
+        <label for="name">Nome</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="nurse.fullName"
+          required
+        />
+      </div>
+      <div class="input">
+        <label for="cpf">CPF</label>
+        <input
+          type="text"
+          id="cpf"
+          name="cpf"
+          [(ngModel)]="nurse.cpf"
+          required
+        />
+      </div>
+      <div class="input">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" [(ngModel)]="nurse.email" />
+      </div>
+      <div class="input">
+        <label for="tel">Telefone</label>
+        <input type="text" id="tel" name="tel" [(ngModel)]="nurse.phone" />
+      </div>
+
+      <app-button
+        [label]="'Gerar Token e Cadastrar Cuidadora'"
+        [type]="'primary'"
+        (clicked)="form.valid && onRegisterNurse()"
+      ></app-button>
+      <div>
+        <span class="token_1">Token gerado: </span>
+        <span class="token_2">{{ nurse.token }}</span>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,10 +1,29 @@
 <aside class="sidebar">
   <div class="logo-container">
-    <img src="assets/svg/logo.svg" alt="SAGE Logo" class="logo" />
+    <img src="assets/svg/logoFull.png" alt="SAGE Logo" class="logo" />
   </div>
   <div class="items">
-    <app-tooltip-wrapper
+    <!-- <app-tooltip-wrapper
       tooltip="Ir para a tela de residentes"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a
+        [routerLink]="[links.get('antigo-dashboard')]"
+        class="item"
+        [ngClass]="{
+          'item-active': links.get('antigo-dashboard') === getActiveRoute()
+        }"
+        (click)="setActiveItem('antigo-dashboard')"
+      >
+        <i [class]="getIconClass('dashboard')" class="item-icon"></i>
+
+        <p class="item-text">Residentes</p>
+      </a>
+    </app-tooltip-wrapper> -->
+    <app-tooltip-wrapper
+      tooltip="Ir para o painel de controle"
       position="right"
       [showDelay]="500"
       [hideDelay]="200"
@@ -17,7 +36,9 @@
         }"
         (click)="setActiveItem('dashboard')"
       >
-        <p class="item-text">Residentes</p>
+        <i [class]="getIconClass('dashboard')" class="item-icon"></i>
+
+        <p class="item-text">Painel de Controle</p>
       </a>
     </app-tooltip-wrapper>
     <app-tooltip-wrapper
@@ -32,6 +53,14 @@
         [ngClass]="{ 'item-active': getActiveRoute() === '/alerts' }"
         (click)="setActiveItem('alerts')"
       >
+        <!-- <i [class]="getIconClass('alerts')" class="item-icon"></i> -->
+        <div class="icon-wrapper">
+          <i [class]="getIconClass('alerts')" class="item-icon"></i>
+          <span *ngIf="totalActiveCalls > 0" class="badge">{{
+            totalActiveCalls
+          }}</span>
+        </div>
+
         <p class="item-text">Alertas</p>
       </a>
     </app-tooltip-wrapper>
@@ -42,7 +71,21 @@
       [hideDelay]="200"
     >
       <a [routerLink]="['/reports']" class="item">
+        <i [class]="getIconClass('reports')" class="item-icon"></i>
+
         <p class="item-text">Relatórios</p>
+      </a>
+    </app-tooltip-wrapper>
+    <app-tooltip-wrapper
+      tooltip="Ir para a tela de gerenciamento de enfermeiros"
+      position="right"
+      [showDelay]="500"
+      [hideDelay]="200"
+    >
+      <a [routerLink]="['/nurse-manager']" class="item">
+        <i [class]="getIconClass('nurse')" class="item-icon"></i>
+
+        <p class="item-text">Cuidador(a)</p>
       </a>
     </app-tooltip-wrapper>
     <app-tooltip-wrapper
@@ -52,11 +95,13 @@
       [hideDelay]="200"
     >
       <a [routerLink]="['/settings']" class="item">
+        <i [class]="getIconClass('settings')" class="item-icon"></i>
+
         <p class="item-text">Configurações</p>
       </a>
     </app-tooltip-wrapper>
   </div>
-  <div class="exit-container">
+  <!-- <div class="exit-container">
     <a [routerLink]="['/']" class="exit">
       <app-button
         [label]="'Sair'"
@@ -66,5 +111,5 @@
         [disabled]="true"
       ></app-button>
     </a>
-  </div>
+  </div> -->
 </aside>

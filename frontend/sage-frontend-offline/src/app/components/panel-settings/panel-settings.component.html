@@ -1,0 +1,94 @@
+<div class="main">
+
+    <div class="settings-card">
+
+        <div class="header-settings">
+            <div class="title-header-setings"><i [class]="getIconClass('title')" style="color: #0069c5;"></i>
+                <p>Dados da central de alarmes</p>
+            </div>
+            <p>Informações técnicas do dispositivo conectado</p>
+        </div>
+
+        <div class="line-info">
+            <div class="info">
+                <div class="title-line-info"><i [class]="getIconClass('model')" style="color: #0069c5;"></i>
+                    <p>Modelo</p>
+                </div>
+
+                <div class="data">
+                    <p>{{panel_model}}</p>
+                </div>
+            </div>
+            <div class="info">
+                <div class="title-line-info"><i [class]="getIconClass('status')"
+                        [ngStyle]="{ color: status === true ? '#0069c5' : 'red' }"></i>
+                    <p>Status</p>
+                </div>
+                <div class="data">
+                    <p>{{ status ? 'Online' : 'Offline' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="line-info">
+            <div class="info">
+                <div class="title-line-info"><i [class]="getIconClass('ip_address')" style="color: #0069c5;"></i>
+                    <p>Endereço IP</p>
+                </div>
+                <div class="data">
+                    <p>{{ip_address}}</p>
+                </div>
+            </div>
+            <div class="info">
+                <div class="title-line-info"><i [class]="getIconClass('mac_address')" style="color: #0069c5;"></i>
+                    <p>Endereço MAC</p>
+                </div>
+                <div class="data">
+                    <p>{{mac_address}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="line-info">
+            <div class="info">
+                <div class="title-line-info"><i [class]="getIconClass('account')" style="color: #0069c5;"></i>
+                    <p>Conta</p>
+                </div>
+                <div class="data">
+                    <p>{{account}}</p>
+                </div>
+            </div>
+            <div class="info">
+                <div class="title-line-info"><i [class]="getIconClass('serial_number')" style="color: #0069c5;"></i>
+                    <p>Número de Série</p>
+                </div>
+                <div class="data">
+                    <p>{{serial_number}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="notice-card">
+        <div class="title-notice-card"><i [class]="getIconClass('notice')" style="color: #0069c5;"></i>
+            <p>Informações Importantes</p>
+        </div>
+        <p>Estas são as configurações atuais do seu dispositivo SAGE. Para realizar alterações nas configurações, entre
+            em contato com o suporte técnico ou utilize o painel administrativo apropriado.</p>
+    </div>
+
+    <div class="send-port-settings">
+
+        <div class="title-line-settings"><i [class]="getIconClass('port')" style="color: #0069c5;"></i>
+            <p>Porta para recepção de eventos</p>
+        </div>
+        <div class="send-settings-line">
+            <input type="text" [(ngModel)]="portNumber" appRegexHexa maxlength="4">
+            <app-button [label]="'Enviar'" [type]="'secondary'" class="send-settings-button" [size]="'medium'"
+                [disabled]="false" (click)="sendPort(portNumber)"></app-button>
+        </div>
+
+    </div>
+
+</div>

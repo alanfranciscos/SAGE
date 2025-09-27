@@ -1,4 +1,14 @@
-<main class="main-container">
+<!-- <main class="main-container">
     <app-sidebar />
     <ng-content></ng-content>
 </main>
+ -->
+
+<div class="layout">
+  <aside class="sidebar">
+    <app-sidebar />
+  </aside>
+  <section class="content">
+    <ng-content></ng-content>
+  </section>
+</div>

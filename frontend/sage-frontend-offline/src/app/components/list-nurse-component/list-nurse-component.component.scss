@@ -1,0 +1,123 @@
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    max-width: 90%;
+    margin: 2rem auto;
+    overflow-x: auto;
+}
+
+.card-header {
+    margin-bottom: 1.5rem;
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #006C36;
+}
+
+.description {
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 0.3rem;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-input {
+    width: 16rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+.nurse-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.nurse-table th {
+    text-align: left;
+    padding: 0.75rem;
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+}
+
+.nurse-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.token {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.token code {
+    background-color: #f0f0f0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status span.active {
+    background-color: #006C36;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.status span.inactive {
+    background-color: #ccc;
+    color: #333;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.actions button:hover {
+    background-color: #f0f0f0;
+}

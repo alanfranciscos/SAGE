@@ -10,8 +10,6 @@ import {
 } from '../../model/Resident';
 import { updateComponent } from '../../layout/update/update.component';
 
-
-
 @Component({
   selector: 'app-update-resident',
   standalone: true,
@@ -24,15 +22,13 @@ import { updateComponent } from '../../layout/update/update.component';
   templateUrl: './update-resident.component.html',
   styleUrl: './update-resident.component.scss',
 })
-
-
 export class UpdateResidentComponent implements OnInit {
   title = 'Atualizar Paciente';
   steps = ['Identificação', 'Contato de emergência', 'Residência'];
   currentStep = 0;
   validStep = false;
   residentId!: string;
-  
+
   residentData: CreateResidentRequestDto = {
     fullName: '',
     cpf: '',
@@ -43,6 +39,7 @@ export class UpdateResidentComponent implements OnInit {
     residentialUnit: '',
     controlNumber: 0,
     imageData: '',
+    relationship: '',
   };
 
   constructor(
@@ -54,7 +51,6 @@ export class UpdateResidentComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.residentId = this.route.snapshot.paramMap.get('id')!;
     await this.loadResident();
-    
   }
 
   async loadResident() {
@@ -66,14 +62,12 @@ export class UpdateResidentComponent implements OnInit {
         fullName: resident.fullName,
         cpf: resident.cpf,
         sex: resident.sex,
-        birthDate: resident.birthDate
-          ? resident.birthDate.split('T')[0]
-          : '',
-        emergencyName: resident.emergencyName ?? '',
-        emergencyPhone: resident.emergencyPhone ?? '',
-        residentialUnit: resident.residentialUnit ?? '',
-        relationship: resident.relationship ?? '',
-        controlNumber: resident.controlNumber ?? '',
+        birthDate: resident.birthDate ? resident.birthDate.split('T')[0] : '',
+        emergencyName: resident.emergencyFullName,
+        emergencyPhone: resident.emergencyPhone,
+        residentialUnit: resident.residentialUnit,
+        relationship: resident.emergencyRelationship,
+        controlNumber: resident.controlId,
         imageData: resident.imageData ?? '',
       };
     } catch (err) {
@@ -126,16 +120,15 @@ export class UpdateResidentComponent implements OnInit {
     this.router.navigate(['/residents']);
   }
   onImageSelected(file: File | null) {
-  if (!file) {
-    this.residentData.imageData = '';
-    return;
+    if (!file) {
+      this.residentData.imageData = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.residentData.imageData = reader.result as string; // base64
+    };
+    reader.readAsDataURL(file);
   }
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    this.residentData.imageData = reader.result as string; // base64
-  };
-  reader.readAsDataURL(file);
-}
-
 }

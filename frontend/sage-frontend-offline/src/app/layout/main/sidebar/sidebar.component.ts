@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../components/button/button.component';
 import { Router, RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
-import { TooltipWrapperComponent } from "../../../components/tooltip-wrapper/tooltip-wrapper.component";
+import { CommonModule, NgClass } from '@angular/common';
+import { TooltipWrapperComponent } from '../../../components/tooltip-wrapper/tooltip-wrapper.component';
+import { ResidentService } from '../../../controller/resident/resident.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [ButtonComponent, RouterLink, TooltipWrapperComponent,NgClass],
+  imports: [
+    ButtonComponent,
+    RouterLink,
+    TooltipWrapperComponent,
+    NgClass,
+    CommonModule,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   activeItem: string = '';
   links: Map<string, string> = new Map<string, string>([
     ['dashboard', '/'],
@@ -19,10 +26,31 @@ export class SidebarComponent {
     ['profile', '/profile'],
   ]);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private residentService: ResidentService
+  ) {}
+  totalActiveCalls: number = 0;
 
-  ngOnInit(): void {
+  private iconMap: Record<string, string> = {
+    dashboard: 'fa-solid fa-chart-line',
+    alerts: 'fa-solid fa-bell',
+    reports: 'fa-solid fa-file-lines',
+    settings: 'fa-solid fa-gear',
+    nurse: 'fa-solid fa-user-nurse',
+  };
+
+  getIconClass(item: string): string {
+    return this.iconMap[item] || 'fa-solid fa-circle-question';
+  }
+
+  async ngOnInit(): Promise<void> {
     this.activeItem = this.router.url;
+    this.totalActiveCalls =
+      await this.residentService.getTotalActiveResidentsCalls();
+    this.residentService.totalActiveCalls$.subscribe((total) => {
+      this.totalActiveCalls = total;
+    });
   }
 
   setActiveItem(item: string) {

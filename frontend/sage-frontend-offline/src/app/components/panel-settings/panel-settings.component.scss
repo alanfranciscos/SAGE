@@ -1,0 +1,96 @@
+.main{
+    margin: 1rem 0 2rem 0;
+}
+    
+
+.settings-card {
+    border: 0.125rem solid transparent;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border-color: #8a8a8a;
+    background-color: #f1efef;
+    display: grid;
+    gap: 1rem;
+}
+
+.header-settings {
+    border: 0.125rem solid transparent;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border-color: #8a8a8a;
+    display: grid;
+    gap: 1rem;
+}
+
+.title-header-setings {
+    display: flex;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.line-info {
+    display: flex;
+    gap: 1rem;
+}
+
+.title-line-info {
+    font-weight: 700;
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.data {
+    padding: 0 2rem 1rem 2rem;
+}
+
+.info {
+    border: 0.125rem solid transparent;
+    border-radius: 0.5rem;
+    border-color: #8a8a8a;
+    display: grid;
+    flex: 1;
+    gap: 1rem;
+}
+
+.notice-card {
+    border: 0.125rem solid transparent;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border-color: #8a8a8a;
+    background-color: #f1efef;
+    display: grid;
+    gap: 1rem;
+    margin: 1rem 0 1rem 0;
+}
+
+.title-notice-card {
+    display: flex;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.send-port-settings {
+    border: 0.125rem solid transparent;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border-color: #8a8a8a;
+    background-color: #f1efef;
+}
+
+.send-settings-line {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.title-line-settings {
+    font-weight: 700;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.send-settings-button{
+    //to do
+}
