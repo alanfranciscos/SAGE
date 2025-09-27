@@ -100,16 +100,22 @@
     [value]="residentListResponseDto.relationship || ''"
   ></app-input>
   } @if(currentStep === 2) {
-  <app-input
-    label="Número do controle"
-    placeholder="Digite o número do controle"
-    type="number"
-    [required]="true"
-    [minControlNumber]="0"
-    [maxControlNumber]="100"
-    (valueChange)="onInputChange(ResidentInputField.CONTROL_NUMBER, $event)"
-    [value]="residentListResponseDto.controlNumber || 0"
-  />
+  <label for="controlNumber">Número do controle</label>
+  <select
+    id="controlNumber"
+    [value]="residentListResponseDto.controlNumber || ''"
+    (change)="
+      onInputChange(
+        ResidentInputField.CONTROL_NUMBER,
+        $any($event.target)?.value
+      )
+    "
+  >
+    <option value="" disabled>Selecione um controle</option>
+    <option *ngFor="let control of availableControls" [value]="control">
+      Controle #{{ control }}
+    </option>
+  </select>
 
   <app-input
     label="Número da residência"
