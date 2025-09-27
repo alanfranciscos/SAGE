@@ -16,7 +16,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [CommonModule, FormsModule,NgxMaskDirective],
+  imports: [CommonModule, FormsModule, NgxMaskDirective],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   providers: [
@@ -37,8 +37,9 @@ export class InputComponent implements ControlValueAccessor {
   @Input() disabled: boolean = false;
   @Input() mask?: string;
   @Input() dropSpecialCharacters: boolean = true;
+  @Input() minControlNumber: number = 0;
+  @Input() maxControlNumber: number = 100;
   @Input() max?: string;
-
 
   @Output() valueChange = new EventEmitter<string>();
 

@@ -5,9 +5,9 @@ import { RegisterResidentComponent } from './pages/register-resident/register-re
 import { AlertsComponent } from './pages/alerts/alerts.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-// import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
+import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { GenericoComponent } from './pages/generico/generico.component';
+import { NurseManagerComponent } from './pages/nurse-manager/nurse-manager.component';
 
 export const routes: Routes = [
   {
@@ -35,11 +35,13 @@ export const routes: Routes = [
     component: SettingsComponent,
   },
   {
-    path: 'generico',
-    component: GenericoComponent,
+    path: 'nurse-manager',
+    component: NurseManagerComponent,
   },
-  // {
-  //   path: '**',
-  //   component: ListResidentsComponent,
-  // },
+  {
+    path: '**',
+    // component: ListResidentsComponent
+  }
+
+
 ];

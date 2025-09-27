@@ -21,4 +21,6 @@ public interface CaregiverDao {
     Optional<UUID> findByEmail(String email);
 
     Optional<UUID> findByPhone(String phone);
+
+    Optional<CaregiverResponseDto> findByToken(String token);
 }

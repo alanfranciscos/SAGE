@@ -14,7 +14,7 @@ interface Alert {
   name: string;
   room: string;
   time: string;
-  severity: 'Crítico' | 'Alto' | 'Médio';
+  severity: 'medio' | 'alto' | 'critico';
   status: 'pendente' | 'em_atendimento' | 'atendido';
   image: string;
   observations?: string;
@@ -56,7 +56,7 @@ export class AlertsComponent implements OnInit {
       name: 'Ana Costa',
       room: 'Quarto 150',
       time: 'há 2m2s',
-      severity: 'Crítico',
+      severity: 'critico',
       status: 'pendente',
       image: 'ana.jpg',
       observations: 'Paciente atendido pelo Dr. Paulo',
@@ -66,7 +66,7 @@ export class AlertsComponent implements OnInit {
       name: 'Maria Silva',
       room: 'Quarto 101',
       time: 'há 5m2s',
-      severity: 'Alto',
+      severity: 'alto',
       status: 'pendente',
       image: 'maria.jpg',
     },
@@ -75,7 +75,7 @@ export class AlertsComponent implements OnInit {
       name: 'João Santos',
       room: 'Quarto 205',
       time: 'há 10m',
-      severity: 'Médio',
+      severity: 'medio',
       status: 'pendente',
       image: 'joao.jpg',
     },
@@ -84,7 +84,7 @@ export class AlertsComponent implements OnInit {
       name: 'João Santos',
       room: 'Quarto 205',
       time: 'há 10m',
-      severity: 'Médio',
+      severity: 'medio',
       status: 'atendido',
       image: 'joao.jpg',
       observations: 'Paciente atendido pelo Dr. Paulo',
@@ -94,7 +94,7 @@ export class AlertsComponent implements OnInit {
       name: 'Maria Oliveira',
       room: 'Quarto 202',
       time: 'há 15m',
-      severity: 'Crítico',
+      severity: 'critico',
       status: 'atendido',
       image: 'maria.jpg',
       observations: 'Paciente atendido pelo Dr. Paulo',
@@ -105,16 +105,28 @@ export class AlertsComponent implements OnInit {
 
   selectAlert(alert: Alert) {
     this.selectedAlert = alert; // agora a classe active funciona
-    // this.selectedAlertDetail = {
-    //   id: alert.id,
-    //   fullName: alert.name,
-    //   residentialUnit: alert.room,
-    //   time: alert.time,
-    //   level: alert.severity,
-    //   status: alert.status,
-    //   imageData: alert.image,
-    //   observations: alert.observations,
-    // };
+    this.selectedAlertDetail = {
+      id: alert.id,
+      fullName: alert.name,
+      residentialUnit: alert.room,
+      time: alert.time,
+      severity: alert.severity,
+      status: alert.status,
+      imageData: alert.image,
+      observations: alert.observations,
+
+      cpf: 'string',
+      sex: 'string',
+      birthDate: 'string',
+
+      active: true,
+      controlId: 0,
+      createdAt: 'string',
+      updatedAt: 'string',
+      emergencyFullName: 'string',
+      emergencyPhone: 'string',
+      emergencyRelationship: 'string',
+    };
   }
 
   async onSearch(searchTerm: string) {

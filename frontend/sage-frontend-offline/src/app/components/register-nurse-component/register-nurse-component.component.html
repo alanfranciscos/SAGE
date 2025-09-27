@@ -1,10 +1,10 @@
 <div class="container">
   <div class="header">
     <div class="title">
-      <i class="fa-solid fa-plus"></i> <span>Cadastrar Nova Enfermeira</span>
+      <i class="fa-solid fa-plus"></i> <span>Cadastrar Nova Cuidadora</span>
     </div>
     <span
-      >Preencha os dados abaixo para adicionar uma nova enfermeira à equipe. Um
+      >Preencha os dados abaixo para adicionar uma nova cuidadora à equipe. Um
       token de 6 caracteres será gerado automaticamente.</span
     >
   </div>
@@ -16,7 +16,7 @@
           type="text"
           id="name"
           name="name"
-          [(ngModel)]="nurse.name"
+          [(ngModel)]="nurse.fullName"
           required
         />
       </div>
@@ -36,11 +36,11 @@
       </div>
       <div class="input">
         <label for="tel">Telefone</label>
-        <input type="text" id="tel" name="tel" [(ngModel)]="nurse.tel" />
+        <input type="text" id="tel" name="tel" [(ngModel)]="nurse.phone" />
       </div>
 
       <app-button
-        [label]="'Gerar Token e Cadastrar Enfermeira'"
+        [label]="'Gerar Token e Cadastrar Cuidadora'"
         [type]="'primary'"
         (clicked)="form.valid && onRegisterNurse()"
       ></app-button>

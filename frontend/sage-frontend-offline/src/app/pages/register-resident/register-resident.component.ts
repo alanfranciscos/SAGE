@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RegisterComponent } from '../../layout/register/register.component';
 import { InputComponent } from '../../components/input/input.component';
 import { SelectInputComponent } from '../../components/select-input/select-input.component';
@@ -13,6 +13,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { Control } from '../../model/Control';
+import { ControlService } from '../../controller/control/control.service';
+import { ToastrService } from 'ngx-toastr';
 
 export enum ResidentInputField {
   FULL_NAME = 'fullName',
@@ -38,14 +42,16 @@ export enum ResidentInputField {
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
+    CommonModule,
   ],
   templateUrl: './register-resident.component.html',
   styleUrl: './register-resident.component.scss',
 })
-export class RegisterResidentComponent {
+export class RegisterResidentComponent implements OnInit {
   steps = ['Identificação', 'Contato de emergência', 'Residência'];
   currentStep: number = 0;
   ResidentInputField = ResidentInputField;
+  availableControls: number[] = [];
   today = new Date().toISOString().split('T')[0];
   residentListResponseDto: CreateResidentRequestDto = {
     fullName: '',
@@ -54,15 +60,23 @@ export class RegisterResidentComponent {
     birthDate: '',
     residentialUnit: '',
     controlNumber: 0,
-    
+    emergencyName: '',
+    emergencyPhone: '',
+    relationship: '',
   };
   cpfInvalido?: boolean;
+  telefoneInvalido: boolean = false;
 
   constructor(
     private residentControllerService: ResidentService,
     private router: Router,
-
+    private controlService: ControlService,
+    private toastr: ToastrService
   ) {}
+  async ngOnInit(): Promise<void> {
+    this.availableControls = await this.controlService.getAvailableControls();
+    console.log('Controles disponíveis:', this.availableControls);
+  }
 
   validateStep(): boolean {
     switch (this.currentStep) {
@@ -78,42 +92,39 @@ export class RegisterResidentComponent {
       case 2:
         return (
           this.residentListResponseDto.residentialUnit !== '' &&
-          this.residentListResponseDto.controlNumber > 0
+          this.residentListResponseDto.controlNumber > 0 &&
+          this.residentListResponseDto.controlNumber <= 100
         );
       default:
         return false;
     }
   }
 
-private validarCPF(cpf: string): boolean {
-  cpf = cpf.replace(/\D/g, '');
+  private validarCPF(cpf: string): boolean {
+    cpf = cpf.replace(/\D/g, '');
 
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+      soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
 
-  let soma = 0;
-  for (let i = 0; i < 9; i++) {
-    soma += parseInt(cpf.charAt(i)) * (10 - i);
+    let resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(9))) return false;
+
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+      soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(10))) return false;
+
+    return true;
   }
-
-  let resto = (soma * 10) % 11;
-  if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(9))) return false;
-
-  soma = 0;
-  for (let i = 0; i < 10; i++) {
-    soma += parseInt(cpf.charAt(i)) * (11 - i);
-  }
-
-  resto = (soma * 10) % 11;
-  if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(10))) return false;
-
-  return true;
-}
-
-
-
 
   updateStep(event: number): void {
     if (event < this.currentStep) {
@@ -126,13 +137,19 @@ private validarCPF(cpf: string): boolean {
   }
 
   onCancel(): void {
-    this.router.navigate(['/residents']);
+    this.router.navigate(['/']);
   }
 
   private formatFields(): CreateResidentRequestDto {
     return {
       ...this.residentListResponseDto,
       fullName: this.residentListResponseDto.fullName.trim(),
+      cpf: this.residentListResponseDto.cpf.replace(/\D/g, ''),
+      emergencyPhone: this.residentListResponseDto.emergencyPhone.replace(
+        /\D/g,
+        ''
+      ),
+
       birthDate: new Date(
         this.residentListResponseDto.birthDate.trim()
       ).toISOString(),
@@ -145,34 +162,53 @@ private validarCPF(cpf: string): boolean {
       await this.residentControllerService.createResident(
         this.residentListResponseDto
       );
-      this.router.navigate(['/residents']);
+
+      this.toastr.success('Residente criado com sucesso!', 'Sucesso');
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Error creating resident:', error);
-      alert('Falha ao criar residente. Por favor, tente novamente.');
+      this.toastr.error('Falha ao criar residente. Tente novamente.', 'Erro');
     }
   }
 
-onInputChange(field: ResidentInputField, event: any): void {
-  (this.residentListResponseDto as any)[field] = event;
+  onInputChange(field: ResidentInputField, event: any): void {
+    (this.residentListResponseDto as any)[field] = event;
 
-  if (field === ResidentInputField.CPF) {
-    const cpfNumerico = event.replace(/\D/g, '');
-    this.cpfInvalido = cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
-  }
-  if (field === ResidentInputField.BIRTH_DATE) {
-    const selectedDate = new Date(event);
-    const today = new Date();
-    selectedDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    if (selectedDate > today) {
-      alert('A data de nascimento não pode ser no futuro.');
-      this.residentListResponseDto.birthDate = '';
-      return;
+    if (field === ResidentInputField.CPF) {
+      const cpfNumerico = event.replace(/\D/g, '');
+      this.cpfInvalido =
+        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
     }
-  }
+    if (field === ResidentInputField.CONTROL_NUMBER) {
+      const value = Number(event);
+      if (isNaN(value) || value < 0 || value > 100) {
+        alert('O número de controle deve estar entre 0 e 100.');
+        this.residentListResponseDto.controlNumber = 0;
+        return;
+      }
+      this.residentListResponseDto.controlNumber = value;
+    }
 
-  this.validateStep();
-}
+    if (field === ResidentInputField.BIRTH_DATE) {
+      const selectedDate = new Date(event);
+      const today = new Date();
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate > today) {
+        alert('A data de nascimento não pode ser no futuro.');
+        this.residentListResponseDto.birthDate = '';
+        return;
+      }
+    }
+    if (field === ResidentInputField.CPF) {
+      const cpfNumerico = event.replace(/\D/g, '');
+      this.residentListResponseDto.cpf = cpfNumerico;
+      this.cpfInvalido =
+        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
+    }
+
+    this.validateStep();
+  }
   private imageFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

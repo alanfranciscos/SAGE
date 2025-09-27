@@ -47,7 +47,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
 
     @Override
     public List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search) {
-        StringBuilder sql = new StringBuilder("SELECT full_name, cpf, token, active, last_used_token FROM caregiver");
+        StringBuilder sql = new StringBuilder("SELECT id, full_name, cpf, token, active, last_used_token FROM caregiver");
         List<Object> params = new ArrayList<>();
 
         if (search != null && !search.trim().isEmpty()) {
@@ -73,6 +73,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 caregivers.add(new CaregiverResponseDto(
+                        (UUID) rs.getObject("id"),
                         rs.getString("full_name"),
                         rs.getString("cpf"),
                         rs.getString("token"),
@@ -178,6 +179,28 @@ public class CaregiverDaoImpl implements CaregiverDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.of((UUID) rs.getObject("id"));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<CaregiverResponseDto> findByToken(String token) {
+        String sql = "SELECT id, full_name, cpf, token, active, last_used_token FROM caregiver WHERE token = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, token);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new CaregiverResponseDto(
+                        (UUID) rs.getObject("id"),
+                        rs.getString("full_name"),
+                        rs.getString("cpf"),
+                        rs.getString("token"),
+                        rs.getBoolean("active"),
+                        rs.getObject("last_used_token", OffsetDateTime.class)
+                ));
             }
             return Optional.empty();
         } catch (SQLException e) {

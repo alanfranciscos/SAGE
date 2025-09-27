@@ -3,9 +3,9 @@ export interface CreateResidentRequestDto {
   cpf: string;
   sex: string;
   birthDate: string;
-  emergencyName?: string;
-  emergencyPhone?: string;
-  relationship?: string;
+  emergencyName: string;
+  emergencyPhone: string;
+  relationship: string;
   residentialUnit: string;
   controlNumber: number;
   imageData?: string;

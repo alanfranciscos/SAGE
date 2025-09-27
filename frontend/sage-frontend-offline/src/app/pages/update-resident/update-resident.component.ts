@@ -10,54 +10,44 @@
 // } from '../../model/Resident';
 // import { updateComponent } from '../../layout/update/update.component';
 
-// @Component({
-//   selector: 'app-update-resident',
-//   standalone: true,
-//   imports: [
-//     updateComponent,
-//     InputComponent,
-//     SelectInputComponent,
-//     ImageInputComponent,
-//   ],
-//   templateUrl: './update-resident.component.html',
-//   styleUrl: './update-resident.component.scss',
-// })
+@Component({
+  selector: 'app-update-resident',
+  standalone: true,
+  imports: [
+    updateComponent,
+    InputComponent,
+    SelectInputComponent,
+    ImageInputComponent,
+  ],
+  templateUrl: './update-resident.component.html',
+  styleUrl: './update-resident.component.scss',
+})
+export class UpdateResidentComponent implements OnInit {
+  title = 'Atualizar Paciente';
+  steps = ['Identificação', 'Contato de emergência', 'Residência'];
+  currentStep = 0;
+  validStep = false;
+  residentId!: string;
 
-// export class UpdateResidentComponent implements OnInit {
-//   title = 'Atualizar Paciente';
-//   steps = ['Identificação', 'Contato de emergência', 'Residência'];
-//   currentStep = 0;
-//   validStep = false;
-//   residentId!: string;
-
-//   residentData: CreateResidentRequestDto = {
-//     fullName: '',
-//     cpf: '',
-//     sex: '',
-//     birthDate: '',
-//     emergencyName: '',
-//     emergencyPhone: '',
-//     residentialUnit: '',
-//     controlNumber: 0,
-//     imageData: '',
-//   };
-
-//   constructor(
-//     private residentService: ResidentService,
-//     private router: Router,
-//     private route: ActivatedRoute
-//   ) {}
-
-//   async ngOnInit(): Promise<void> {
-//     this.residentId = this.route.snapshot.paramMap.get('id')!;
-//     await this.loadResident();
+  residentData: CreateResidentRequestDto = {
+    fullName: '',
+    cpf: '',
+    sex: '',
+    birthDate: '',
+    emergencyName: '',
+    emergencyPhone: '',
+    residentialUnit: '',
+    controlNumber: 0,
+    imageData: '',
+    relationship: '',
+  };
 
 //   }
 
-//   async loadResident() {
-//     try {
-//       const resident: ResidentDetailsResponseDto =
-//         await this.residentService.getResidentById(this.residentId);
+  async ngOnInit(): Promise<void> {
+    this.residentId = this.route.snapshot.paramMap.get('id')!;
+    await this.loadResident();
+  }
 
 //       this.residentData = {
 //         fullName: resident.fullName,
@@ -80,9 +70,24 @@
 //     }
 //   }
 
-//   updateStep(step: number) {
-//     this.currentStep = step;
-//   }
+      this.residentData = {
+        fullName: resident.fullName,
+        cpf: resident.cpf,
+        sex: resident.sex,
+        birthDate: resident.birthDate ? resident.birthDate.split('T')[0] : '',
+        emergencyName: resident.emergencyFullName,
+        emergencyPhone: resident.emergencyPhone,
+        residentialUnit: resident.residentialUnit,
+        relationship: resident.emergencyRelationship,
+        controlNumber: resident.controlId,
+        imageData: resident.imageData ?? '',
+      };
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao carregar os dados do paciente.');
+      this.router.navigate(['/residents']);
+    }
+  }
 
 //   validateStep(): boolean {
 //     switch (this.currentStep) {
@@ -128,11 +133,19 @@
 //     return;
 //   }
 
-//   const reader = new FileReader();
-//   reader.onload = () => {
-//     this.residentData.imageData = reader.result as string; // base64
-//   };
-//   reader.readAsDataURL(file);
-// }
+  onCancel() {
+    this.router.navigate(['/residents']);
+  }
+  onImageSelected(file: File | null) {
+    if (!file) {
+      this.residentData.imageData = '';
+      return;
+    }
 
-// }
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.residentData.imageData = reader.result as string; // base64
+    };
+    reader.readAsDataURL(file);
+  }
+}

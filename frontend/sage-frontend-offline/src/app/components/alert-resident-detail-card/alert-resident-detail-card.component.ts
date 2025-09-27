@@ -4,7 +4,7 @@ import { ResidentDetailsResponseDto } from '../../model/Resident';
 import { CommonModule } from '@angular/common';
 
 export interface ResidentAlertDetail extends ResidentDetailsResponseDto {
-  level: 'Médio' | 'Alto' | 'Crítico';
+  severity: 'medio' | 'alto' | 'critico';
   status: 'pendente' | 'em_atendimento' | 'atendido';
   observations?: string;
   time: string; // tempo decorrido

@@ -37,6 +37,7 @@ export class SidebarComponent implements OnInit {
     alerts: 'fa-solid fa-bell',
     reports: 'fa-solid fa-file-lines',
     settings: 'fa-solid fa-gear',
+    nurse: 'fa-solid fa-user-nurse',
   };
 
   getIconClass(item: string): string {
@@ -47,6 +48,9 @@ export class SidebarComponent implements OnInit {
     this.activeItem = this.router.url;
     this.totalActiveCalls =
       await this.residentService.getTotalActiveResidentsCalls();
+    this.residentService.totalActiveCalls$.subscribe((total) => {
+      this.totalActiveCalls = total;
+    });
   }
 
   setActiveItem(item: string) {
