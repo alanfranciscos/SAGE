@@ -47,7 +47,7 @@ export class NurseService {
     }));
   }
   async registerNurse(nurse: RegisterNurseDto): Promise<void> {
-    const response = await this.api.post('/v1/caregiver', nurse);
+    const response = await this.api.post('/api/v1/caregiver', nurse);
 
     if (response.status !== 201 && response.status !== 200) {
       throw new Error('Erro ao cadastrar enfermeira');

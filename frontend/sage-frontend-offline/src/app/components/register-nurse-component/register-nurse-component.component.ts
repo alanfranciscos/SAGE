@@ -63,13 +63,15 @@ export class RegisterNurseComponentComponent {
 
   async onRegisterNurse() {
     this.nurse = this.formatFields();
-
     try {
       await this.nurseService.registerNurse(this.nurse);
-      alert('Enfermeira cadastrada com sucesso!');
+      alert('Cuidador cadastrada com sucesso!');
+
+      // Recarrega a página
+      window.location.reload();
     } catch (error) {
       console.error(error);
-      alert('Erro ao cadastrar enfermeira. Veja o console.');
+      alert('Erro ao cadastrar cuidador. Veja o console.');
     }
   }
 
