@@ -1,6 +1,9 @@
 package com.sage.port.services.assist;
 
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
+import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -12,16 +15,15 @@ public interface AssistService {
             ZonedDateTime calledAt
     );
 
-    void assignCarregiver(
-            UUID id,
-            UUID carregiverId,
-            ZonedDateTime assignmentAt
-    );
+    void startAssist(UUID assistId, String caregiverToken);
 
-    void finishAssist(
-            UUID id,
-            ZonedDateTime endAt
-    );
+    void finishAssist(UUID assistId, String caregiverToken, String details);
 
     PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip);
+
+    PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip);
+
+    PendingAssistDetailResponseDto getPendingAssistById(UUID assistId);
+
+    AssistHistoryResponseDto getAssistHistoryById(UUID assistId);
 }

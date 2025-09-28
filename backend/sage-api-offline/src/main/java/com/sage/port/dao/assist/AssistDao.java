@@ -1,6 +1,9 @@
 package com.sage.port.dao.assist;
 
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
+import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
+import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
 import com.sage.model.assist.Assist;
 
 import java.util.Optional;
@@ -36,5 +39,13 @@ public interface AssistDao {
     Optional<Assist> findByResidentIdAndEndAtIsNull(UUID residentId);
 
     PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip);
+
+    PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip);
+
+    Optional<PendingAssistDetailResponseDto> getPendingAssistById(UUID assistId);
+
+    Optional<AssistHistoryResponseDto> getAssistHistoryById(UUID assistId);
+
+    Optional<Assist> findById(UUID assistId);
 
 }
