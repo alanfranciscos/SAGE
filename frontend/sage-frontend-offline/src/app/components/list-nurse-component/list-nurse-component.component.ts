@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { EditNurseDialogComponent } from '../update-nurse-modal/update-nurse-modal.component';
 import { Nurse } from '../../model/Nurse';
 import { NurseService } from '../../controller/nurse.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-nurse',
@@ -18,7 +19,10 @@ export class ListNurseComponent implements OnInit {
   nurses: Nurse[] = [];
   editingNurse: Nurse | null = null;
 
-  constructor(private nurseService: NurseService) {}
+  constructor(
+    private nurseService: NurseService,
+    private toastr: ToastrService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.loadNurses();
@@ -62,14 +66,41 @@ export class ListNurseComponent implements OnInit {
   handleEditNurse(nurse: Nurse): void {
     this.editingNurse = { ...nurse };
   }
-
-  handleUpdateNurse(updated: Nurse): void {
-    const index = this.nurses.findIndex((n) => n.cpf === updated.cpf);
-    if (index !== -1) {
-      this.nurses[index] = updated;
-      this.editingNurse = null;
+  async handleUpdateNurse(updated: Nurse): Promise<void> {
+    if (!updated.id) {
+      console.error('ID da enfermeira não encontrado!');
+      return;
     }
+
+    try {
+      const payload = {
+        fullName: updated.name,
+        cpf: updated.cpf,
+        email: updated.email,
+        phone: updated.tel,
+        position: 'employee',
+      };
+
+      const saved = await this.nurseService.updateNurse(updated.id, payload);
+
+      // Atualiza a lista local
+      const index = this.nurses.findIndex((n) => n.id === saved.id);
+      if (index !== -1) {
+        this.nurses[index] = { ...this.nurses[index], ...payload };
+      }
+
+      this.editingNurse = null;
+      this.toastr.success('Enfermeira atualizada com sucesso!', 'Sucesso');
+    } catch (err) {
+      console.error('Erro ao atualizar enfermeira:', err);
+      this.toastr.error(
+        'Falha ao atualizar enfermeira. Tente novamente.',
+        'Erro'
+      );
+    }
+    window.location.reload();
   }
+
   confirmAction(action: 'regenerate', cpf: string): void {
     const nurse = this.nurses.find((n) => n.cpf === cpf);
     if (!nurse) return;

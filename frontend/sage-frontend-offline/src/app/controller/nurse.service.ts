@@ -35,15 +35,15 @@ export class NurseService {
 
     // 🔄 mapeia os campos
     return response.data.map((item) => ({
-      id: item.cpf, // ou outro identificador único
+      id: item.id, // UUID vindo do backend
       name: item.fullName,
       cpf: item.cpf,
-      email: '', // backend não retorna
-      tel: '', // backend não retorna
+      email: item.email ?? '',
+      tel: item.phone ?? '',
       token: item.token,
       status: item.active ? 'active' : 'inactive',
       lastUse: item.lastUsedToken ?? 'Nunca usado',
-      registration: '', // backend não retorna
+      registration: item.registration ?? '',
     }));
   }
   async registerNurse(nurse: RegisterNurseDto): Promise<void> {
@@ -52,5 +52,18 @@ export class NurseService {
     if (response.status !== 201 && response.status !== 200) {
       throw new Error('Erro ao cadastrar enfermeira');
     }
+  }
+  async updateNurse(id: string, nursePayload: any): Promise<any> {
+    const response = await this.api.put(
+      `/api/v1/caregiver/${id}`,
+      nursePayload
+    );
+
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error('Erro ao atualizar enfermeira');
+    }
+
+    // ⚡ Retorna algo útil se precisar atualizar a lista
+    return { id, ...nursePayload };
   }
 }
