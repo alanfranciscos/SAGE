@@ -1,6 +1,7 @@
 package com.sage.controller.v1.alarm;
 
 import com.sage.dto.v1.alarm.request.CreateAlarmRequestDto;
+import com.sage.dto.v1.alarm.request.UpdateAlarmPortRequestDto;
 import com.sage.dto.v1.alarm.request.UpdateAlarmRequestDto;
 import com.sage.dto.v1.alarm.response.AlarmResponseDto;
 import com.sage.model.alarm.Alarm;
@@ -36,6 +37,12 @@ public class AlarmController {
     public ResponseEntity<AlarmResponseDto> updateBySerialNumber(@PathVariable String serialNumber, @RequestBody UpdateAlarmRequestDto request) {
         Alarm updatedAlarm = alarmService.updateBySerialNumber(serialNumber, request);
         return ResponseEntity.ok(updatedAlarm.toResponseDto());
+    }
+
+    @PatchMapping("/serial/{serialNumber}/port")
+    public ResponseEntity<Void> updatePortBySerialNumber(@PathVariable String serialNumber, @RequestBody UpdateAlarmPortRequestDto request) {
+        alarmService.updatePortBySerialNumber(serialNumber, request);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/serial/{serialNumber}")

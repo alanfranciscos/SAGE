@@ -45,7 +45,7 @@ public class AlarmDaoImpl implements AlarmDao {
 
     @Override
     public void update(Alarm alarm) {
-        String sql = "UPDATE alarm SET model = ?, status = ?, ip_address = ?, mac_address = ?, account = ?, serial_number = ?, port = ? " +
+        String sql = "UPDATE alarm SET model = ?, status = ?, ip_address = ?, mac_address = ?, account = ?, serial_number = ? " +
                      "WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, alarm.getModel());
@@ -54,12 +54,24 @@ public class AlarmDaoImpl implements AlarmDao {
             ps.setString(4, alarm.getMacAddress());
             ps.setString(5, alarm.getAccount());
             ps.setString(6, alarm.getSerialNumber());
-            ps.setInt(7, alarm.getPort());
-            ps.setObject(8, alarm.getId());
+            ps.setObject(7, alarm.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error updating alarm", e);
             throw new RuntimeException("Error updating alarm", e);
+        }
+    }
+
+    @Override
+    public void updatePort(Alarm alarm) {
+        String sql = "UPDATE alarm SET port = ? WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, alarm.getPort());
+            ps.setObject(2, alarm.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating alarm port", e);
+            throw new RuntimeException("Error updating alarm port", e);
         }
     }
 
