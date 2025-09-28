@@ -25,17 +25,19 @@
     ></app-input>
 
     <!-- CPF -->
-    <app-input
-      label="CPF"
-      placeholder="Digite o CPF da enfermeira"
-      [required]="true"
-      (valueChange)="onInputChange('cpf', $event)"
-      [value]="nurse.cpf || ''"
-      [mask]="'000.000.000-00'"
-      [dropSpecialCharacters]="false"
-    ></app-input>
-    <div *ngIf="cpfInvalido" class="error-message">
-      CPF inválido. Verifique os números digitados.
+    <div>
+      <app-input
+        label="CPF"
+        placeholder="Digite o CPF da enfermeira"
+        [required]="true"
+        (valueChange)="onInputChange('cpf', $event)"
+        [value]="nurse.cpf || ''"
+        [mask]="'000.000.000-00'"
+        [dropSpecialCharacters]="false"
+      ></app-input>
+      <div *ngIf="cpfInvalido" class="error-message">
+        CPF inválido. Verifique os números digitados.
+      </div>
     </div>
 
     <!-- Email -->
@@ -49,17 +51,19 @@
     ></app-input>
 
     <!-- Telefone -->
-    <app-input
-      label="Telefone"
-      placeholder="Digite o telefone da enfermeira"
-      type="tel"
-      (valueChange)="onInputChange('phone', $event)"
-      [value]="nurse.phone || ''"
-      [mask]="'(00) 00000-0000'"
-      [dropSpecialCharacters]="false"
-    ></app-input>
-    <div *ngIf="telefoneInvalido" class="error-message">
-      Telefone inválido. Verifique os números digitados.
+    <div>
+      <app-input
+        label="Telefone"
+        placeholder="Digite o telefone da enfermeira"
+        type="tel"
+        (valueChange)="onInputChange('phone', $event)"
+        [value]="nurse.phone || ''"
+        [mask]="'(00) 00000-0000'"
+        [dropSpecialCharacters]="false"
+      ></app-input>
+      <div *ngIf="telefoneInvalido" class="error-message">
+        Telefone inválido. Verifique os números digitados.
+      </div>
     </div>
 
     <!-- Botão -->
