@@ -64,4 +64,12 @@ public class CaregiverController {
         List<CaregiverResponseDto> caregivers = caregiverService.getAllCaregivers(limit, skip, search);
         return ResponseEntity.ok(caregivers);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CaregiverResponseDto> getCaregiverById(@PathVariable UUID id) {
+        CaregiverResponseDto caregiver = caregiverService.getCaregiverById(id);
+        return ResponseEntity.ok(caregiver);
+    }
+
+
 }
