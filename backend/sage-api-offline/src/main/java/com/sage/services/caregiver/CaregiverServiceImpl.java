@@ -81,6 +81,12 @@ public class CaregiverServiceImpl implements CaregiverService {
                 .orElseThrow(() -> new NotFoundException("Caregiver not found with token: " + token));
     }
 
+    @Override
+    public CaregiverResponseDto getCaregiverById(UUID id) {
+        return caregiverDao.findById(id)
+                .orElseThrow(() -> new NotFoundException("Caregiver not found with ID: " + id));
+    }
+
     private String generateUniqueToken() {
         String token;
         do {

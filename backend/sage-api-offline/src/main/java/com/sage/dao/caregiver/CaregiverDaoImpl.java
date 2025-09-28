@@ -208,4 +208,26 @@ public class CaregiverDaoImpl implements CaregiverDao {
         }
     }
 
+    @Override
+    public Optional<CaregiverResponseDto> findById(UUID id) {
+        String sql = "SELECT id, full_name, cpf, token, active, last_used_token FROM caregiver WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new CaregiverResponseDto(
+                        (UUID) rs.getObject("id"),
+                        rs.getString("full_name"),
+                        rs.getString("cpf"),
+                        rs.getString("token"),
+                        rs.getBoolean("active"),
+                        rs.getObject("last_used_token", OffsetDateTime.class)
+                ));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
