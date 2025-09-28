@@ -10,9 +10,14 @@ DROP TABLE IF EXISTS caregiver CASCADE;
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE alarm (
-    id UUID PRIMARY KEY,
-    serial_number VARCHAR(50) unique not NULL,
-    count_number int
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    model VARCHAR(100),
+    status VARCHAR(10) CHECK (status IN ('Online', 'Offline')),
+    ip_address VARCHAR(45),
+    mac_address VARCHAR(17),
+    account VARCHAR(100),
+    serial_number VARCHAR(512) UNIQUE NOT NULL,
+    port INTEGER
 );
 
 CREATE TABLE organization (
@@ -152,5 +157,5 @@ EXECUTE FUNCTION notify_assist();
 
 
 -- Insert base data
-INSERT INTO alarm (id, serial_number, count_number) VALUES
-('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'ALM001', 0);
+INSERT INTO alarm (id, model, status, ip_address, mac_address, account, serial_number, port) VALUES
+('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Modelo-X1', 'Online', '192.168.1.10', '00:1B:44:11:3A:B7', 'Conta-001', '2785040674', 5000);

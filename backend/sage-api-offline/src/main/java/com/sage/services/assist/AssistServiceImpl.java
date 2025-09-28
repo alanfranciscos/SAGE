@@ -1,24 +1,29 @@
 package com.sage.services.assist;
 
+import java.time.ZonedDateTime;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.springframework.stereotype.Service;
+
+import com.sage.dto.v1.assist.response.AssistHistoryResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedAttendedAssistResponseDto;
 import com.sage.dto.v1.assist.response.PaginatedPendingAssistResponseDto;
 import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.exception.AlreadyExistsException;
+import com.sage.exception.InvalidInputException;
 import com.sage.exception.NotFoundException;
 import com.sage.model.assist.Assist;
 import com.sage.model.assist.SeverityLevel;
 import com.sage.model.resident.control.ControlResident;
 import com.sage.port.dao.assist.AssistDao;
 import com.sage.port.services.assist.AssistService;
+import com.sage.port.services.caregiver.CaregiverService;
 import com.sage.port.services.resident.ControlResidentService;
 import com.sage.port.services.resident.ResidentService;
-import org.springframework.stereotype.Service;
-
-import java.time.ZonedDateTime;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service
 public class AssistServiceImpl implements AssistService {
@@ -28,15 +33,17 @@ public class AssistServiceImpl implements AssistService {
     private final AssistDao assistDao;
 
     private final ResidentService residentService;
+    private final CaregiverService caregiverService;
     private final ControlResidentService controlResidentService;
 
     public AssistServiceImpl(
             AssistDao assistDao,
             ResidentService residentService,
-            ControlResidentService controlResidentService
+            CaregiverService caregiverService, ControlResidentService controlResidentService
     ) {
         this.assistDao = assistDao;
         this.residentService = residentService;
+        this.caregiverService = caregiverService;
         this.controlResidentService = controlResidentService;
     }
 
@@ -103,20 +110,48 @@ public class AssistServiceImpl implements AssistService {
     }
 
     @Override
-    public void assignCarregiver(
-            UUID id,
-            UUID carregiverId,
-            ZonedDateTime assignmentAt
-    ) {
-        // Implementation here
+    public void startAssist(UUID assistId, String caregiverToken) {
+        CaregiverResponseDto caregiver = caregiverService.findByToken(caregiverToken);
+        if (!caregiver.active()) {
+            throw new InvalidInputException("Caregiver is not active.");
+        }
+
+        Assist assist = assistDao.findById(assistId)
+                .orElseThrow(() -> new NotFoundException("Assist not found with id: " + assistId));
+
+        if (assist.getAssignmentAt() != null) {
+            throw new AlreadyExistsException("Assist has already been started.");
+        }
+
+        assist.setCaregiverId(caregiver.id());
+        assist.setAssignmentAt(ZonedDateTime.now());
+
+        assistDao.update(assist);
     }
 
     @Override
-    public void finishAssist(
-            UUID id,
-            ZonedDateTime endAt
-    ) {
-        // Implementation here
+    public void finishAssist(UUID assistId, String caregiverToken, String details) {
+        CaregiverResponseDto caregiver = caregiverService.findByToken(caregiverToken);
+
+        Assist assist = assistDao.findById(assistId)
+                .orElseThrow(() -> new NotFoundException("Assist not found with id: " + assistId));
+
+        if (assist.getAssignmentAt() == null) {
+            throw new InvalidInputException("Assist has not been started yet.");
+        }
+
+        if (assist.getCaregiverId() == null || !assist.getCaregiverId().equals(caregiver.id())) {
+            throw new InvalidInputException("This caregiver did not start the assist.");
+        }
+
+        if (assist.getEndAt() != null) {
+            throw new AlreadyExistsException("Assist has already been finished.");
+        }
+
+        assist.setEndAt(ZonedDateTime.now());
+        assist.setDetail(details);
+
+        assistDao.update(assist);
     }
 
     @Override
@@ -133,5 +168,11 @@ public class AssistServiceImpl implements AssistService {
     public PendingAssistDetailResponseDto getPendingAssistById(UUID assistId) {
         return assistDao.getPendingAssistById(assistId)
                 .orElseThrow(() -> new NotFoundException("Pending assist not found with id: " + assistId));
+    }
+
+    @Override
+    public AssistHistoryResponseDto getAssistHistoryById(UUID assistId) {
+        return assistDao.getAssistHistoryById(assistId)
+                .orElseThrow(() -> new NotFoundException("Assist history not found with id: " + assistId));
     }
 }

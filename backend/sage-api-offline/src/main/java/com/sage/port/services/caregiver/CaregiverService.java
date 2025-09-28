@@ -12,4 +12,6 @@ public interface CaregiverService {
     void updateCaregiver(UUID id, CreateCaregiverRequestDto request);
 
     void updateCaregiverActiveStatus(UUID id, boolean active);
+
+    CaregiverResponseDto findByToken(String token);
 }
