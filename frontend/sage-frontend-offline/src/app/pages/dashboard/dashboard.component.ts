@@ -37,6 +37,10 @@ export class DashboardComponent implements OnInit {
   selectedResidentId: string | null = null;
   showModal = false;
   residents: Resident[] = [];
+  page = 0;
+  pageSize = 6;
+  loading = false;
+  allLoaded = false;
 
   constructor(
     private residentService: ResidentService,
@@ -133,6 +137,29 @@ export class DashboardComponent implements OnInit {
       console.error(err);
     }
   }
+  async loadResidentsPage() {
+    if (this.loading || this.allLoaded) return;
+
+    this.loading = true;
+
+    try {
+      const newResidents = await this.residentService.getResidents(
+        this.pageSize,
+        this.page * this.pageSize
+      );
+
+      if (newResidents.length < this.pageSize) {
+        this.allLoaded = true; // acabou os residentes
+      }
+
+      this.residents = [...this.residents, ...newResidents];
+      this.page++;
+    } catch (error) {
+      console.error('Erro ao carregar residentes:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
 
   private sortResidents(residents: Resident[]): Resident[] {
     const severityOrder: Record<string, number> = {
@@ -190,5 +217,15 @@ export class DashboardComponent implements OnInit {
 
   onRegisterResident() {
     this.router.navigate(['residents/register']);
+  }
+  onScroll(event: any) {
+    const element = event.target;
+    const threshold = 150; // quando faltar 150px para o fim
+    if (
+      element.scrollHeight - element.scrollTop - element.clientHeight <
+      threshold
+    ) {
+      this.loadResidentsPage();
+    }
   }
 }
