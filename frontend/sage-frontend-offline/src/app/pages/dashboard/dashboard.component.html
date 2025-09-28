@@ -42,7 +42,7 @@
     <div class="residents-title">
       <span>Status dos Residentes</span>
     </div>
-    <div class="residents-container">
+    <div class="residents-container" (scroll)="onScroll($event)">
       <app-dashboard-resident-card
         *ngFor="let resident of residents"
         [residentId]="resident.id"
