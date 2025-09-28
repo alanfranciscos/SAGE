@@ -1,0 +1,51 @@
+import { Injectable } from '@angular/core';
+import { ApiService } from '../api/api.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthenticationService {
+  private loggedIn = false;
+  private token: string | null = null;
+
+  constructor(private apiService: ApiService) { }
+
+  isLoggedIn(): boolean {
+    return this.loggedIn;
+  }
+
+  getToken(): string | null {
+    return this.token;
+  }
+
+  async login(email: string, password: string): Promise<boolean> {
+    try {
+      const response = await this.apiService.getApi().post<any>('/v1/auth/login', {
+        email: email,
+        password: password
+      });
+      const data = response.data;
+      this.token = data.token;
+      this.loggedIn = true;
+
+      if (this.token) {
+        localStorage.setItem('token', this.token);
+      }
+
+      this.apiService.getApi().defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+
+      return true;
+    } catch (error) {
+      console.error('Falha no login', error);
+      this.loggedIn = false;
+      return false;
+    }
+  }
+
+  logout(): void {
+    this.loggedIn = false;
+    this.token = null;
+    localStorage.removeItem('token');
+    this.apiService.getApi().defaults.headers.common['Authorization'] = undefined;
+  }
+}
