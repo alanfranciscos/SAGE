@@ -8,6 +8,7 @@ import { AlertResidentCardComponent } from '../../components/alert-resident-card
 import { AlertResidentDetailCardComponent } from '../../components/alert-resident-detail-card/alert-resident-detail-card.component';
 import { ResidentAlertDetail } from '../../components/alert-resident-detail-card/alert-resident-detail-card.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AssistService } from '../../controller/alert/alert.service';
 
 interface Alert {
   id: string;
@@ -35,11 +36,53 @@ interface Alert {
   ],
 })
 export class AlertsComponent implements OnInit {
-  constructor(private residentService: ResidentService) {}
+  activeAlerts: Alert[] = [];
+  finishedAlerts: Alert[] = [];
+  constructor(
+    private residentService: ResidentService,
+    private assistService: AssistService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.totalActiveCalls =
       await this.residentService.getTotalActiveResidentsCalls();
+    await this.loadAlerts();
+  }
+  private async loadAlerts() {
+    try {
+      const response = await this.assistService.getPendingAssists(10, 0);
+
+      // Convertemos o retorno do backend para o formato do seu Alert
+      this.activeAlerts = response.data
+        .filter((a) => a.status === 'pending' || a.status === 'in_attendance')
+        .map((a) => ({
+          id: a.assistId,
+          name: a.fullName,
+          room: a.residentialUnit,
+          time: a.elapsedTime,
+          severity:
+            a.severityLevel.toLowerCase() === 'warning' ? 'medio' : 'critico',
+          status: this.mapStatusFromApi(a.status),
+          image: 'default.jpg',
+          observations: a.observations ?? '',
+        }));
+
+      this.finishedAlerts = response.data
+        .filter((a) => a.status === 'attended' || a.status === 'completed')
+        .map((a) => ({
+          id: a.assistId,
+          name: a.fullName,
+          room: a.residentialUnit,
+          time: a.elapsedTime,
+          severity:
+            a.severityLevel.toLowerCase() === 'warning' ? 'medio' : 'critico',
+          status: this.mapStatusFromApi(a.status),
+          image: 'default.jpg',
+          observations: a.observations ?? '',
+        }));
+    } catch (err) {
+      console.error('Erro ao carregar alertas:', err);
+    }
   }
   totalActiveCalls: number = 0;
   selectedTabIndex: number = 0;
@@ -136,42 +179,31 @@ export class AlertsComponent implements OnInit {
   getIconClass(item: string): string {
     return this.iconMap[item] || 'fa-solid fa-circle-question';
   }
-  get activeAlerts() {
-    return this.alerts.filter(
-      (a) =>
-        a.status.toLowerCase() === 'pendente' ||
-        a.status.toLowerCase() === 'em_atendimento'
-    );
-  }
 
-  get finishedAlerts() {
-    return this.alerts.filter(
-      (a) =>
-        a.status.toLowerCase() === 'finalizado' ||
-        a.status.toLowerCase() === 'atendido'
-    );
-  }
   mapLevel(severity: string): 'normal' | 'medio' | 'critico' {
-    switch (severity.toLowerCase()) {
-      case 'crítico':
-        return 'critico';
-      case 'alto':
-        return 'medio';
-      case 'médio':
-        return 'medio';
-      default:
-        return 'normal';
-    }
+    if (severity.toLowerCase() === 'emergency') return 'critico';
+    if (severity.toLowerCase() === 'warning') return 'medio';
+    return 'normal';
   }
 
   mapStatus(status: string): 'pendente' | 'em_atendimento' | 'atendido' {
+    if (status.toLowerCase() === 'in_attendance') return 'em_atendimento';
+    if (status.toLowerCase() === 'pending') return 'pendente';
+    if (status.toLowerCase() === 'attended') return 'atendido';
+    return 'pendente';
+  }
+  private mapStatusFromApi(
+    status: string
+  ): 'pendente' | 'em_atendimento' | 'atendido' {
     switch (status.toLowerCase()) {
-      case 'pendente':
+      case 'pending':
         return 'pendente';
-      case 'atendido':
+      case 'in_attendance':
+        return 'em_atendimento';
+      case 'attended':
         return 'atendido';
       default:
-        return 'em_atendimento';
+        return 'pendente'; // fallback
     }
   }
 }
