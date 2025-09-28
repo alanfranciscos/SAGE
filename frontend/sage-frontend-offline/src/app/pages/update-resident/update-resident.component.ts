@@ -9,24 +9,26 @@ import {
   ResidentDetailsResponseDto,
 } from '../../model/Resident';
 import { updateComponent } from '../../layout/update/update.component';
+import { CommonModule } from '@angular/common';
+import { RegisterComponent } from '../../layout/register/register.component';
 
 @Component({
   selector: 'app-update-resident',
   standalone: true,
   imports: [
-    updateComponent,
     InputComponent,
     SelectInputComponent,
     ImageInputComponent,
+    CommonModule,
+    RegisterComponent,
   ],
   templateUrl: './update-resident.component.html',
   styleUrl: './update-resident.component.scss',
 })
 export class UpdateResidentComponent implements OnInit {
-  title = 'Atualizar Paciente';
+  title = 'Atualizar Residente';
   steps = ['Identificação', 'Contato de emergência', 'Residência'];
   currentStep = 0;
-  validStep = false;
   residentId!: string;
 
   residentData: CreateResidentRequestDto = {
@@ -53,7 +55,7 @@ export class UpdateResidentComponent implements OnInit {
     await this.loadResident();
   }
 
-  async loadResident() {
+  private async loadResident() {
     try {
       const resident: ResidentDetailsResponseDto =
         await this.residentService.getResidentById(this.residentId);
@@ -72,13 +74,15 @@ export class UpdateResidentComponent implements OnInit {
       };
     } catch (err) {
       console.error(err);
-      alert('Erro ao carregar os dados do paciente.');
+      alert('Erro ao carregar os dados do residente.');
       this.router.navigate(['/residents']);
     }
   }
 
   updateStep(step: number) {
-    this.currentStep = step;
+    if (step < this.currentStep || this.validateStep()) {
+      this.currentStep = step;
+    }
   }
 
   validateStep(): boolean {
@@ -102,23 +106,34 @@ export class UpdateResidentComponent implements OnInit {
     }
   }
 
+  private formatFields(): CreateResidentRequestDto {
+    return {
+      ...this.residentData,
+      fullName: this.residentData.fullName.trim(),
+      cpf: this.residentData.cpf.replace(/\D/g, ''), // só números
+      emergencyPhone: this.residentData.emergencyPhone.replace(/\D/g, ''), // só números
+      birthDate: new Date(this.residentData.birthDate).toISOString(),
+      controlNumber: Number(this.residentData.controlNumber), // garante que é number
+    };
+  }
+
   async onFinish() {
     try {
-      await this.residentService.updateResident(
-        this.residentId,
-        this.residentData
-      );
-      alert('Paciente atualizado com sucesso!');
+      const formattedData = this.formatFields();
+      await this.residentService.updateResident(this.residentId, formattedData);
+      alert('Residente atualizado com sucesso!');
       this.router.navigate(['/residents']);
     } catch (err) {
       console.error(err);
-      alert('Erro ao atualizar paciente.');
+      alert('Erro ao atualizar residente.');
     }
+    console.log('Finalizar atualização:', this.residentData);
   }
 
   onCancel() {
     this.router.navigate(['/residents']);
   }
+
   onImageSelected(file: File | null) {
     if (!file) {
       this.residentData.imageData = '';

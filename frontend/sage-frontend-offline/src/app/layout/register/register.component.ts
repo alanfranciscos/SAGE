@@ -11,7 +11,7 @@ type Steps = Record<number, string>;
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  @Input() title: string = 'Registro de Paciente';
+  @Input() title: string = 'Registro de Residente';
   @Input() steps!: string[];
   @Input() validStep: boolean = false;
   currentStep: number = 0;
