@@ -1,51 +1,15 @@
-// import { Component, Input } from '@angular/core';
-// import { FormsModule } from '@angular/forms';
-// import { ButtonComponent } from '../button/button.component';
-
-// interface RegisterNurse {
-//   name: string;
-//   cpf: string;
-//   email: string;
-//   tel: string;
-//   token: string;
-// }
-
-// @Component({
-//   selector: 'app-register-nurse-component',
-//   standalone: true,
-//   imports: [FormsModule, ButtonComponent],
-//   templateUrl: './register-nurse-component.component.html',
-//   styleUrl: './register-nurse-component.component.scss',
-// })
-// export class RegisterNurseComponentComponent {
-//   @Input() nome: string = '';
-//   @Input() cpf: string = '';
-//   @Input() email: string = '';
-//   @Input() tel: string = '';
-//   @Input() token: string = '';
-
-//   nurse = {
-//     name: 'Maria',
-//     cpf: '12312312',
-//     email: 'asdsaa@asdasd.com',
-//     tel: '123231323',
-//     token: '123123',
-//   };
-//   onRegisterNurse() {
-//     throw new Error('Method not implemented.');
-//   }
-// }
-
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
+import { InputComponent } from '../input/input.component';
+import { CommonModule } from '@angular/common';
 import { RegisterNurseDto } from '../../model/Nurse';
 import { NurseService } from '../../controller/nurse.service';
 
 @Component({
   selector: 'app-register-nurse-component',
   standalone: true,
-  imports: [FormsModule, ButtonComponent],
+  imports: [FormsModule, ButtonComponent, InputComponent, CommonModule],
   templateUrl: './register-nurse-component.component.html',
   styleUrl: './register-nurse-component.component.scss',
 })
@@ -55,33 +19,71 @@ export class RegisterNurseComponentComponent {
     cpf: '',
     email: '',
     phone: '',
-    position: 'Enfermeira',
-    token: '',
+    position: 'employee',
   };
+
+  cpfInvalido: boolean = false;
+  telefoneInvalido: boolean = false;
 
   constructor(private nurseService: NurseService) {}
 
-  // Gera token de 6 caracteres
-  generateToken(): string {
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  private validarCPF(cpf: string): boolean {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+    let soma = 0;
+    for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+    let resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(9))) return false;
+
+    soma = 0;
+    for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(10))) return false;
+
+    return true;
+  }
+
+  private validarTelefone(telefone: string): boolean {
+    const telNumerico = telefone.replace(/\D/g, '');
+    return telNumerico.length === 10 || telNumerico.length === 11;
+  }
+
+  // Normaliza os campos antes de enviar
+  private formatFields(): RegisterNurseDto {
+    return {
+      ...this.nurse,
+      fullName: this.nurse.fullName.trim(),
+      cpf: this.nurse.cpf.replace(/\D/g, ''),
+      phone: this.nurse.phone!.replace(/\D/g, ''),
+    };
   }
 
   async onRegisterNurse() {
-    const payload: RegisterNurseDto = {
-      fullName: this.nurse.fullName,
-      cpf: this.nurse.cpf,
-      email: this.nurse.email,
-      phone: this.nurse.phone,
-      position: 'Enfermeira',
-      token: this.nurse.token || this.generateToken(),
-    };
+    this.nurse = this.formatFields();
 
     try {
-      await this.nurseService.registerNurse(payload);
+      await this.nurseService.registerNurse(this.nurse);
       alert('Enfermeira cadastrada com sucesso!');
     } catch (error) {
       console.error(error);
       alert('Erro ao cadastrar enfermeira. Veja o console.');
+    }
+  }
+
+  onInputChange(field: keyof RegisterNurseDto, event: any) {
+    (this.nurse as any)[field] = event;
+
+    if (field === 'cpf') {
+      const cpfNumerico = event.replace(/\D/g, '');
+      this.cpfInvalido =
+        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
+    }
+
+    if (field === 'phone') {
+      this.telefoneInvalido = !this.validarTelefone(event);
     }
   }
 }

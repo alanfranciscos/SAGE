@@ -15,5 +15,5 @@ export interface RegisterNurseDto {
   email?: string;
   phone?: string;
   position?: string;
-  token: string;
+  token?: string;
 }

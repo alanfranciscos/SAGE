@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <div class="header">
     <div class="title">
       <i class="fa-solid fa-plus"></i> <span>Cadastrar Nova Cuidadora</span>
@@ -50,4 +50,83 @@
       </div>
     </form>
   </div>
+</div> -->
+
+<div class="container">
+  <div class="header">
+    <div class="title">
+      <i class="fa-solid fa-plus"></i>
+      <span>Cadastrar Nova Cuidadora</span>
+    </div>
+    <span>
+      Preencha os dados abaixo para adicionar uma nova cuidadora à equipe. Um
+      token de 6 caracteres será gerado automaticamente.
+    </span>
+  </div>
+
+  <form
+    class="form"
+    #form="ngForm"
+    (ngSubmit)="form.valid && onRegisterNurse()"
+  >
+    <!-- Nome -->
+    <app-input
+      label="Nome"
+      placeholder="Digite o nome da enfermeira"
+      [required]="true"
+      (valueChange)="onInputChange('fullName', $event)"
+      [value]="nurse.fullName || ''"
+    ></app-input>
+
+    <!-- CPF -->
+    <app-input
+      label="CPF"
+      placeholder="Digite o CPF da enfermeira"
+      [required]="true"
+      (valueChange)="onInputChange('cpf', $event)"
+      [value]="nurse.cpf || ''"
+      [mask]="'000.000.000-00'"
+      [dropSpecialCharacters]="false"
+    ></app-input>
+    <div *ngIf="cpfInvalido" class="error-message">
+      CPF inválido. Verifique os números digitados.
+    </div>
+
+    <!-- Email -->
+    <app-input
+      label="Email"
+      placeholder="Digite o email da enfermeira"
+      type="email"
+      [required]="true"
+      (valueChange)="onInputChange('email', $event)"
+      [value]="nurse.email || ''"
+    ></app-input>
+
+    <!-- Telefone -->
+    <app-input
+      label="Telefone"
+      placeholder="Digite o telefone da enfermeira"
+      type="tel"
+      (valueChange)="onInputChange('phone', $event)"
+      [value]="nurse.phone || ''"
+      [mask]="'(00) 00000-0000'"
+      [dropSpecialCharacters]="false"
+    ></app-input>
+    <div *ngIf="telefoneInvalido" class="error-message">
+      Telefone inválido. Verifique os números digitados.
+    </div>
+
+    <!-- Botão -->
+    <app-button
+      [label]="'Gerar Token e Cadastrar Cuidadora'"
+      [type]="'primary'"
+      (clicked)="form.valid && onRegisterNurse()"
+    ></app-button>
+
+    <!-- Token gerado -->
+    <div>
+      <span class="token_1">Token gerado: </span>
+      <span class="token_2">{{ nurse.token }}</span>
+    </div>
+  </form>
 </div>
