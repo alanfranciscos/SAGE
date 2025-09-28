@@ -5,6 +5,7 @@
       <div>
         <app-search-input
           placeholder="Digite para pesquisar..."
+          (search)="onSearch($event)"
         ></app-search-input>
         <app-button
           [label]="'Cadastrar Residente'"
@@ -43,17 +44,23 @@
       <span>Status dos Residentes</span>
     </div>
     <div class="residents-container" (scroll)="onScroll($event)">
-      <app-dashboard-resident-card
-        *ngFor="let resident of residents"
-        [residentId]="resident.id"
-        [residentImage]="resident.imageData"
-        [residentName]="resident.fullName"
-        [houseNumber]="resident.residentialUnit"
-        [lastCallDateTime]="getLastCallText(resident.lastEndAt)"
-        [status]="getStatus(resident.severityLevel)"
-        [totalCallsLast24Hours]="resident.callsLastDay.toString()"
-        (openDetails)="onOpenDetails($event)"
-      ></app-dashboard-resident-card>
+      <ng-container *ngIf="filteredResidents.length; else notFound">
+        <app-dashboard-resident-card
+          *ngFor="let resident of filteredResidents"
+          [residentId]="resident.id"
+          [residentImage]="resident.imageData"
+          [residentName]="resident.fullName"
+          [houseNumber]="resident.residentialUnit"
+          [lastCallDateTime]="getLastCallText(resident.lastEndAt)"
+          [status]="getStatus(resident.severityLevel)"
+          [totalCallsLast24Hours]="resident.callsLastDay.toString()"
+          (openDetails)="onOpenDetails($event)"
+        ></app-dashboard-resident-card>
+      </ng-container>
+
+      <ng-template #notFound>
+        <div class="not-found">Não encontrado</div>
+      </ng-template>
     </div>
 
     <app-dashboard-resident-details-modal
