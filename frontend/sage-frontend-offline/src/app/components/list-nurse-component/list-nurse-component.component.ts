@@ -119,4 +119,49 @@ export class ListNurseComponent implements OnInit {
     // 👉 aqui você pode depois integrar com NurseService para chamar o backend
     // ex: this.nurseService.regenerateToken(cpf).then(...)
   }
+
+  // async toggleActive(nurse: Nurse) {
+  //   if (!nurse.id) return;
+
+  //   const newStatus = nurse.status === 'active' ? false : true;
+
+  //   try {
+  //     await this.nurseService.setActiveStatus(nurse.id, newStatus);
+  //     nurse.status = newStatus ? 'active' : 'inactive'; // Atualiza localmente
+  //     this.toastr.success(
+  //       `Enfermeira ${nurse.name} agora está ${
+  //         newStatus ? 'ativa' : 'inativa'
+  //       }`,
+  //       'Sucesso'
+  //     );
+  //   } catch (err) {
+  //     console.error('Erro ao alterar status da enfermeira:', err);
+  //     this.toastr.error(
+  //       'Falha ao alterar status da enfermeira. Tente novamente.',
+  //       'Erro'
+  //     );
+  //   }
+  // }
+  async toggleActive(nurse: Nurse) {
+    if (!nurse.id) return;
+
+    const newStatus = nurse.status === 'active' ? false : true;
+
+    try {
+      await this.nurseService.setActiveStatus(nurse.id, newStatus);
+      nurse.status = newStatus ? 'active' : 'inactive'; // atualiza localmente
+      this.toastr.success(
+        `Enfermeira ${nurse.name} agora está ${
+          newStatus ? 'ativa' : 'inativa'
+        }`,
+        'Sucesso'
+      );
+    } catch (err) {
+      console.error('Erro ao alterar status da enfermeira:', err);
+      this.toastr.error(
+        'Falha ao alterar status da enfermeira. Tente novamente.',
+        'Erro'
+      );
+    }
+  }
 }

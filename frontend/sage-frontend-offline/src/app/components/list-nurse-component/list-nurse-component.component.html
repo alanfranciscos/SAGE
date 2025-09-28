@@ -67,10 +67,7 @@
               <input
                 type="checkbox"
                 [checked]="nurse.status === 'active'"
-                (change)="
-                  nurse.status =
-                    nurse.status === 'active' ? 'inactive' : 'active'
-                "
+                (change)="toggleActive(nurse)"
               />
             </div>
           </td>

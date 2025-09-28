@@ -35,7 +35,7 @@ export class NurseService {
 
     // 🔄 mapeia os campos
     return response.data.map((item) => ({
-      id: item.id, // UUID vindo do backend
+      id: item.id,
       name: item.fullName,
       cpf: item.cpf,
       email: item.email ?? '',
@@ -65,5 +65,9 @@ export class NurseService {
 
     // ⚡ Retorna algo útil se precisar atualizar a lista
     return { id, ...nursePayload };
+  }
+  async setActiveStatus(id: string, active: boolean): Promise<void> {
+    await this.api.patch(`/api/v1/caregiver/${id}/active`, { active });
+    // não precisa verificar status, se houver erro, vai cair no catch
   }
 }
