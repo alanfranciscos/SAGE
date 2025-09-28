@@ -6,6 +6,5 @@ public record UpdateAlarmRequestDto(
     String ipAddress,
     String macAddress,
     String account,
-    String serialNumber,
-    int port
+    String serialNumber
 ) {}

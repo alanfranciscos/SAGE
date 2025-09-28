@@ -1,6 +1,7 @@
 package com.sage.services.alarm;
 
 import com.sage.dto.v1.alarm.request.CreateAlarmRequestDto;
+import com.sage.dto.v1.alarm.request.UpdateAlarmPortRequestDto;
 import com.sage.dto.v1.alarm.request.UpdateAlarmRequestDto;
 import com.sage.exception.NotFoundException;
 import com.sage.model.alarm.Alarm;
@@ -54,6 +55,14 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
+    public void updatePortBySerialNumber(String serialNumber, UpdateAlarmPortRequestDto request) {
+        Alarm alarm = alarmDao.findBySerialNumber(serialNumber)
+                .orElseThrow(() -> new NotFoundException("Alarm with serial number " + serialNumber + " not found"));
+        alarm.setPort(request.port());
+        alarmDao.updatePort(alarm);
+    }
+
+    @Override
     public Optional<Alarm> getBySerialNumber(String serialNumber) {
         return alarmDao.findBySerialNumber(serialNumber);
     }
@@ -73,6 +82,5 @@ public class AlarmServiceImpl implements AlarmService {
         alarm.setMacAddress(request.macAddress());
         alarm.setAccount(request.account());
         alarm.setSerialNumber(request.serialNumber());
-        alarm.setPort(request.port());
     }
 }
