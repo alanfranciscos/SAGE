@@ -42,6 +42,6 @@ export class LoginComponent {
 
   cadastrar() {
     this.router.navigate(['nurse-manager/register']);
-    this.dialogRef.close(undefined); // ou apenas this.dialogRef.close();
+    this.dialogRef.close(undefined);
   }
 }
