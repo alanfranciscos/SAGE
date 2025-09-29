@@ -20,7 +20,7 @@ export class AuthenticationService {
 
   async login(email: string, password: string): Promise<boolean> {
     try {
-      const response = await this.apiService.getApi().post<any>('/v1/auth/login', {
+      const response = await this.apiService.getApi().post<any>('/api/auth/login', {
         email: email,
         password: password
       });

@@ -245,21 +245,23 @@ public class CaregiverDaoImpl implements CaregiverDao {
             ps.setObject(1, uuid);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return Optional.of(new CaregiverResponseFromPasswordTableDto(
+                CaregiverResponseFromPasswordTableDto dto = new CaregiverResponseFromPasswordTableDto(
                         (UUID) rs.getObject("id"),
                         (UUID) rs.getObject("caregiver_id"),
                         rs.getString("caregiver_password"),
                         rs.getObject("created_at", OffsetDateTime.class),
                         rs.getBoolean("active"),
                         rs.getBoolean("staging"),
-                        rs.getObject("verification_code", OffsetDateTime.class),
+                        rs.getString("verification_code"),
                         rs.getObject("code_valid_until", OffsetDateTime.class)
-                ));
+                );
+                return Optional.of(dto);
             }
             return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 
 }

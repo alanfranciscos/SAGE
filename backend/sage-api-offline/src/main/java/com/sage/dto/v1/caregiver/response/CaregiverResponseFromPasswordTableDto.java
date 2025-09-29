@@ -10,7 +10,7 @@ public record CaregiverResponseFromPasswordTableDto(
         OffsetDateTime created_at,
         boolean active,
         boolean staging,
-        OffsetDateTime  verification_code,
+        String verification_code,
         OffsetDateTime  code_valid_until
 
 ) {
