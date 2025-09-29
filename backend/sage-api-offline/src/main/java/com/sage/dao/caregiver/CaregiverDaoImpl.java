@@ -77,8 +77,6 @@ public class CaregiverDaoImpl implements CaregiverDao {
                 caregivers.add(new CaregiverResponseDto(
                         (UUID) rs.getObject("id"),
                         rs.getString("full_name"),
-                        rs.getString("phone"),
-                        rs.getString("email"),
                         rs.getString("cpf"),
                         rs.getString("email"),
                         rs.getString("phone"),
@@ -202,8 +200,6 @@ public class CaregiverDaoImpl implements CaregiverDao {
                 return Optional.of(new CaregiverResponseDto(
                         (UUID) rs.getObject("id"),
                         rs.getString("full_name"),
-                        rs.getString("phone"),
-                        rs.getString("email"),
                         rs.getString("cpf"),
                         rs.getString("email"),
                         rs.getString("phone"),
