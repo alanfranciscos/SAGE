@@ -1,6 +1,7 @@
 package com.sage.port.dao.caregiver;
 
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface CaregiverDao {
     Optional<UUID> findByPhone(String phone);
 
     Optional<CaregiverResponseDto> findByToken(String token);
+
+    Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email);
+
+    Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid);
 }

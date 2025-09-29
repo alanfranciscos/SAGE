@@ -1,10 +1,5 @@
 package com.sage.dao.caregiver;
 
-import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
-import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
-import com.sage.port.dao.caregiver.CaregiverDao;
-import org.springframework.stereotype.Repository;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
+import org.springframework.stereotype.Repository;
+
+import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
+import com.sage.port.dao.caregiver.CaregiverDao;
 
 @Repository
 public class CaregiverDaoImpl implements CaregiverDao {
@@ -47,7 +49,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
 
     @Override
     public List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search) {
-        StringBuilder sql = new StringBuilder("SELECT id, full_name, cpf, token, active, last_used_token FROM caregiver");
+        StringBuilder sql = new StringBuilder("SELECT id, full_name, phone, email, cpf, token, active, last_used_token FROM caregiver");
         List<Object> params = new ArrayList<>();
 
         if (search != null && !search.trim().isEmpty()) {
@@ -75,6 +77,8 @@ public class CaregiverDaoImpl implements CaregiverDao {
                 caregivers.add(new CaregiverResponseDto(
                         (UUID) rs.getObject("id"),
                         rs.getString("full_name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
                         rs.getString("cpf"),
                         rs.getString("token"),
                         rs.getBoolean("active"),
@@ -196,10 +200,60 @@ public class CaregiverDaoImpl implements CaregiverDao {
                 return Optional.of(new CaregiverResponseDto(
                         (UUID) rs.getObject("id"),
                         rs.getString("full_name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
                         rs.getString("cpf"),
                         rs.getString("token"),
                         rs.getBoolean("active"),
                         rs.getObject("last_used_token", OffsetDateTime.class)
+                ));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
+        String sql = "SELECT * FROM caregiver WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new CaregiverResponseDto(
+                        (UUID) rs.getObject("id"),
+                        rs.getString("full_name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("cpf"),
+                        rs.getString("token"),
+                        rs.getBoolean("active"),
+                        rs.getObject("last_used_token", OffsetDateTime.class)
+                ));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid) {
+        String sql = "SELECT * FROM caregiver_password WHERE caregiver_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, uuid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new CaregiverResponseFromPasswordTableDto(
+                        (UUID) rs.getObject("id"),
+                        (UUID) rs.getObject("caregiver_id"),
+                        rs.getString("caregiver_password"),
+                        rs.getObject("created_at", OffsetDateTime.class),
+                        rs.getBoolean("active"),
+                        rs.getBoolean("staging"),
+                        rs.getObject("verification_code", OffsetDateTime.class),
+                        rs.getObject("code_valid_until", OffsetDateTime.class)
                 ));
             }
             return Optional.empty();
