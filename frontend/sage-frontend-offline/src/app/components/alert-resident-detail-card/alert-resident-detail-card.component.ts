@@ -39,4 +39,19 @@ export class AlertResidentDetailCardComponent {
     }
     return idade;
   }
+  handleAtendimento() {
+    if (this.alertDetail.status === 'pendente') {
+      // Iniciar atendimento
+      this.alertDetail.status = 'em_atendimento';
+    } else if (this.alertDetail.status === 'em_atendimento') {
+      // Finalizar atendimento
+      if (!this.newObservation.trim()) {
+        alert('Digite alguma observação antes de finalizar!');
+        return;
+      }
+      this.alertDetail.status = 'atendido';
+      this.alertDetail.observations = this.newObservation;
+      this.newObservation = '';
+    }
+  }
 }
