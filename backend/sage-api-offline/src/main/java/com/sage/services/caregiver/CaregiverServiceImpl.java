@@ -1,18 +1,19 @@
 package com.sage.services.caregiver;
 
-import com.sage.dao.caregiver.CaregiverDaoImpl;
-import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
-import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
-import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
-import com.sage.exception.AlreadyExistsException;
-import com.sage.exception.NotFoundException;
-import com.sage.port.services.caregiver.CaregiverService;
-import org.springframework.stereotype.Service;
-
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.sage.dao.caregiver.CaregiverDaoImpl;
+import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
+import com.sage.exception.AlreadyExistsException;
+import com.sage.exception.NotFoundException;
+import com.sage.port.services.caregiver.CaregiverService;
 
 @Service
 public class CaregiverServiceImpl implements CaregiverService {
@@ -93,6 +94,11 @@ public class CaregiverServiceImpl implements CaregiverService {
     public Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid) {
         return Optional.ofNullable(caregiverDao.getCaregiverFromPasswordTable(uuid)
                 .orElseThrow(() -> new NotFoundException("Caregiver from password table not found with uuid: " + uuid)));
+            }
+
+    public CaregiverResponseDto getCaregiverById(UUID id) {
+        return caregiverDao.findById(id)
+                .orElseThrow(() -> new NotFoundException("Caregiver not found with ID: " + id));
     }
 
     private String generateUniqueToken() {

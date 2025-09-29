@@ -5,7 +5,9 @@
 
   <div class="info">
     <div class="name">{{ name }}</div>
-    <div class="details">🏠 Casa: {{ room }} &nbsp; ⏳ {{ time }}</div>
+    <div class="details">
+      🏠 Casa: {{ room }} &nbsp; ⏳ {{ formatElapsedTime(time) }}
+    </div>
   </div>
 
   <div class="badges">

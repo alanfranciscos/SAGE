@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ResidentService } from '../../controller/resident/resident.service';
 import { MainComponent } from '../../layout/main/main.component';
@@ -23,6 +23,7 @@ import { SseService } from '../../controller/sse/sse.service';
     DashboardResidentDetailsModalComponent,
     SearchInputComponent,
     ButtonComponent,
+    CommonModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit {
   pageSize = 6;
   loading = false;
   allLoaded = false;
+  searchTerm: string = '';
 
   constructor(
     private residentService: ResidentService,
@@ -48,45 +50,6 @@ export class DashboardComponent implements OnInit {
     private sseService: SseService
   ) {}
 
-  // async ngOnInit(): Promise<void> {
-  //   this.subscription = this.sseService.messages$.subscribe(async (msg) => {
-  //     if (!msg) return;
-
-  //     console.log('Dashboard recebeu evento SSE:', msg);
-
-  //     if (msg.type === 'assignment-change') {
-  //       try {
-  //         const residents = await this.residentService.getResidents(10, 0);
-  //         this.residents = this.sortResidents(residents);
-
-  //         this.totalResidents =
-  //           await this.residentService.getTotalResidentsNumber();
-  //         this.totalResolvedToday =
-  //           await this.residentService.getTotalResolvedToday();
-  //         this.meanTime = await this.residentService.getMeanTime();
-  //         this.totalActiveCalls =
-  //           await this.residentService.getTotalActiveResidentsCalls();
-  //       } catch (error) {
-  //         console.error('Erro ao atualizar dashboard via SSE:', error);
-  //       }
-  //     }
-  //   });
-
-  //   try {
-  //     this.totalResidents =
-  //       await this.residentService.getTotalResidentsNumber();
-  //     this.totalResolvedToday =
-  //       await this.residentService.getTotalResolvedToday();
-  //     this.meanTime = await this.residentService.getMeanTime();
-  //     this.totalActiveCalls =
-  //       await this.residentService.getTotalActiveResidentsCalls();
-
-  //     const residents = await this.residentService.getResidents(10, 0);
-  //     this.residents = this.sortResidents(residents);
-  //   } catch (error) {
-  //     console.error('Erro ao carregar dashboard:', error);
-  //   }
-  // }
   ngOnInit() {
     // Assinatura reativa
     this.residentService.totalActiveCalls$.subscribe((total) => {
@@ -203,11 +166,38 @@ export class DashboardComponent implements OnInit {
 
     return result.trim();
   }
+  onSearch(term: string) {
+    this.searchTerm = term.trim().toLowerCase();
+    this.loadResidentsSearch();
+  }
+
+  async loadResidentsSearch() {
+    try {
+      const residents = await this.residentService.getResidents(
+        10,
+        0,
+        this.searchTerm
+      );
+      this.residents = this.sortResidents(residents);
+    } catch (err) {
+      console.error('Erro ao buscar residentes:', err);
+    }
+  }
 
   onOpenDetails(residentId: string) {
     this.selectedResidentId =
       this.residents.find((resident) => resident.id === residentId)?.id || null;
     this.showModal = true;
+  }
+  get filteredResidents(): Resident[] {
+    if (!this.searchTerm) return this.residents;
+
+    return this.residents.filter(
+      (r) =>
+        r.fullName.toLowerCase().includes(this.searchTerm) ||
+        r.residentialUnit.toString().includes(this.searchTerm) ||
+        (r.id && r.id.toLowerCase().includes(this.searchTerm))
+    );
   }
 
   onCloseModal() {

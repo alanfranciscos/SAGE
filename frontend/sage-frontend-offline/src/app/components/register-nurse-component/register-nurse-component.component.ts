@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
 import { InputComponent } from '../input/input.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { RegisterNurseDto } from '../../model/Nurse';
 import { NurseService } from '../../controller/nurse.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register-nurse-component',
@@ -25,7 +26,10 @@ export class RegisterNurseComponentComponent {
   cpfInvalido: boolean = false;
   telefoneInvalido: boolean = false;
 
-  constructor(private nurseService: NurseService) {}
+  constructor(
+    private nurseService: NurseService,
+    private toastr: ToastrService
+  ) {}
 
   private validarCPF(cpf: string): boolean {
     cpf = cpf.replace(/\D/g, '');
@@ -61,17 +65,17 @@ export class RegisterNurseComponentComponent {
     };
   }
 
-  async onRegisterNurse() {
+  async onRegisterNurse(form: NgForm): Promise<void> {
     this.nurse = this.formatFields();
     try {
       await this.nurseService.registerNurse(this.nurse);
-      alert('Cuidador cadastrada com sucesso!');
-
-      // Recarrega a página
       window.location.reload();
+      this.toastr.success('Cuidador cadastrada com sucesso!');
+      form.resetForm();
+      // Recarrega a página
     } catch (error) {
       console.error(error);
-      alert('Erro ao cadastrar cuidador. Veja o console.');
+      this.toastr.error('Erro ao cadastrar cuidador. Veja o console.');
     }
   }
 

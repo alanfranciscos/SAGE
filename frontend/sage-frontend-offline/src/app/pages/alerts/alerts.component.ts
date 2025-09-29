@@ -15,10 +15,9 @@ interface Alert {
   name: string;
   room: string;
   time: string;
-  severity: 'medio' | 'alto' | 'critico';
-  status: 'pendente' | 'em_atendimento' | 'atendido';
+  severity: 'medio' | 'critico';
+  status: 'pendente' | 'em_atendimento';
   image: string;
-  observations?: string;
 }
 
 @Component({
@@ -52,7 +51,6 @@ export class AlertsComponent implements OnInit {
     try {
       const response = await this.assistService.getPendingAssists(10, 0);
 
-      // Convertemos o retorno do backend para o formato do seu Alert
       this.activeAlerts = response.data
         .filter((a) => a.status === 'pending' || a.status === 'in_attendance')
         .map((a) => ({
@@ -60,8 +58,7 @@ export class AlertsComponent implements OnInit {
           name: a.fullName,
           room: a.residentialUnit,
           time: a.elapsedTime,
-          severity:
-            a.severityLevel.toLowerCase() === 'warning' ? 'medio' : 'critico',
+          severity: this.mapLevelFromApi(a.severityLevel),
           status: this.mapStatusFromApi(a.status),
           image: 'default.jpg',
           observations: a.observations ?? '',
@@ -74,8 +71,7 @@ export class AlertsComponent implements OnInit {
           name: a.fullName,
           room: a.residentialUnit,
           time: a.elapsedTime,
-          severity:
-            a.severityLevel.toLowerCase() === 'warning' ? 'medio' : 'critico',
+          severity: this.mapLevelFromApi(a.severityLevel),
           status: this.mapStatusFromApi(a.status),
           image: 'default.jpg',
           observations: a.observations ?? '',
@@ -93,56 +89,6 @@ export class AlertsComponent implements OnInit {
     settings: 'fa-solid fa-gear',
   };
   selectedAlertDetail?: ResidentAlertDetail;
-  alerts: Alert[] = [
-    {
-      id: '1',
-      name: 'Ana Costa',
-      room: 'Quarto 150',
-      time: 'há 2m2s',
-      severity: 'critico',
-      status: 'pendente',
-      image: 'ana.jpg',
-      observations: 'Paciente atendido pelo Dr. Paulo',
-    },
-    {
-      id: '2',
-      name: 'Maria Silva',
-      room: 'Quarto 101',
-      time: 'há 5m2s',
-      severity: 'alto',
-      status: 'pendente',
-      image: 'maria.jpg',
-    },
-    {
-      id: '3',
-      name: 'João Santos',
-      room: 'Quarto 205',
-      time: 'há 10m',
-      severity: 'medio',
-      status: 'pendente',
-      image: 'joao.jpg',
-    },
-    {
-      id: '3',
-      name: 'João Santos',
-      room: 'Quarto 205',
-      time: 'há 10m',
-      severity: 'medio',
-      status: 'atendido',
-      image: 'joao.jpg',
-      observations: 'Paciente atendido pelo Dr. Paulo',
-    },
-    {
-      id: '4',
-      name: 'Maria Oliveira',
-      room: 'Quarto 202',
-      time: 'há 15m',
-      severity: 'critico',
-      status: 'atendido',
-      image: 'maria.jpg',
-      observations: 'Paciente atendido pelo Dr. Paulo',
-    },
-  ];
 
   selectedAlert?: Alert; // guarda o card clicado
 
@@ -156,7 +102,6 @@ export class AlertsComponent implements OnInit {
       severity: alert.severity,
       status: alert.status,
       imageData: alert.image,
-      observations: alert.observations,
 
       cpf: 'string',
       sex: 'string',
@@ -192,18 +137,17 @@ export class AlertsComponent implements OnInit {
     if (status.toLowerCase() === 'attended') return 'atendido';
     return 'pendente';
   }
-  private mapStatusFromApi(
-    status: string
-  ): 'pendente' | 'em_atendimento' | 'atendido' {
+  private mapStatusFromApi(status: string): 'pendente' | 'em_atendimento' {
     switch (status.toLowerCase()) {
       case 'pending':
         return 'pendente';
       case 'in_attendance':
         return 'em_atendimento';
-      case 'attended':
-        return 'atendido';
       default:
-        return 'pendente'; // fallback
+        return 'pendente';
     }
+  }
+  private mapLevelFromApi(severity: string): 'medio' | 'critico' {
+    return severity.toUpperCase() === 'EMERGENCY' ? 'critico' : 'medio';
   }
 }

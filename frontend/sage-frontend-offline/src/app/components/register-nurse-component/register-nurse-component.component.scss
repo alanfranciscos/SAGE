@@ -68,6 +68,12 @@
     margin-left: 0.5rem;
 }
 
+.error-message {
+    color: red;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
 /* 🔄 Responsividade */
 @media (max-width: 768px) {
     .form {

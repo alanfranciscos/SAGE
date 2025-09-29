@@ -8,13 +8,7 @@ import { ResidentService } from '../../../controller/resident/resident.service';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [
-    ButtonComponent,
-    RouterLink,
-    TooltipWrapperComponent,
-    NgClass,
-    CommonModule,
-  ],
+  imports: [RouterLink, TooltipWrapperComponent, NgClass, CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

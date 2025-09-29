@@ -9,8 +9,11 @@ public record CaregiverResponseDto(
         String phone,
         String email,
         String cpf,
+        String email,
+        String phone,
         String token,
         boolean active,
         OffsetDateTime lastUsedToken
-) {
+        ) {
+
 }

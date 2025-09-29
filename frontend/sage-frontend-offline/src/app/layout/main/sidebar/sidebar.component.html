@@ -69,6 +69,7 @@
       position="right"
       [showDelay]="500"
       [hideDelay]="200"
+      [ngClass]="{ 'item-active': getActiveRoute() === '/reports' }"
     >
       <a [routerLink]="['/reports']" class="item">
         <i [class]="getIconClass('reports')" class="item-icon"></i>
@@ -81,6 +82,7 @@
       position="right"
       [showDelay]="500"
       [hideDelay]="200"
+      [ngClass]="{ 'item-active': getActiveRoute() === '/nurse-manager' }"
     >
       <a [routerLink]="['/nurse-manager']" class="item">
         <i [class]="getIconClass('nurse')" class="item-icon"></i>
@@ -93,6 +95,7 @@
       position="right"
       [showDelay]="500"
       [hideDelay]="200"
+      [ngClass]="{ 'item-active': getActiveRoute() === '/settings' }"
     >
       <a [routerLink]="['/settings']" class="item">
         <i [class]="getIconClass('settings')" class="item-icon"></i>

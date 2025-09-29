@@ -36,7 +36,7 @@
   </p>
 
   <!-- Caso esteja pendente -->
-  <div *ngIf="alertDetail.status === 'pendente'; else atendidoBlock">
+  <div *ngIf="alertDetail.status !== 'atendido'">
     <label for="obs"><strong>Observações:</strong></label>
     <textarea
       id="obs"
@@ -44,12 +44,15 @@
       placeholder="Digite as observações"
     ></textarea>
 
-    <button class="btn finalizar" (click)="atenderChamado()">
-      Finalizar Atendimento
+    <button class="btn" (click)="handleAtendimento()">
+      {{
+        alertDetail.status === "pendente"
+          ? "Iniciar Atendimento"
+          : "Finalizar Atendimento"
+      }}
     </button>
   </div>
 
-  <!-- Caso já esteja atendido -->
   <ng-template #atendidoBlock>
     <p><strong>Observações do atendimento:</strong></p>
     <div class="observations">
