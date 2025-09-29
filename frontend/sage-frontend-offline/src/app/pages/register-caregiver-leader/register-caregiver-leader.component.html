@@ -1,0 +1,44 @@
+<!-- <app-register class="register-caregiver-leader" [title]="'Cadastrar Enfermeiro(a) Líder'" [steps]="steps"
+  (updatedStep)="updateStep($event)" (cancel)="onCancel()" (finish)="onFinish()" [validStep]="validateStep()">
+  @if(currentStep === 0) {
+  <app-image-input (imageChange)="onImageChange($event)"></app-image-input>
+  <app-input label="Nome" placeholder="Digite o nome" [required]="true"
+    (valueChange)="onInputChange(CaregiverLeaderInputField.FULL_NAME, $event)"
+    [value]="residentListResponseDto.fullName || ''"></app-input>
+
+  <app-input label="CPF" placeholder="Digite o CPF" [required]="true"
+    (valueChange)="onInputChange(CaregiverLeaderInputField.CPF, $event)" [value]="residentListResponseDto.cpf || ''"
+    [mask]="'000.000.000-00'" [dropSpecialCharacters]="false"></app-input>
+
+  @if(cpfInvalido) {
+  <div class="error-message">CPF inválido. Verifique os números digitados.</div>
+  }
+
+  <app-select-input label="Sexo" [options]="[
+      { value: '', label: 'Selecione o sexo', disabled: true },
+      { value: 'M', label: 'Masculino' },
+      { value: 'F', label: 'Feminino' }
+    ]" [required]="true" (valueChange)="onInputChange(CaregiverLeaderInputField.SEX, $event)"
+    [value]="residentListResponseDto.sex || ''"></app-select-input>
+  <app-input label="Data de Nascimento" placeholder="Digite a data de nascimento" type="date" [required]="true"
+    [max]="today" (valueChange)="onInputChange(CaregiverLeaderInputField.BIRTH_DATE, $event)"
+    [value]="residentListResponseDto.birthDate || ''"></app-input>
+
+  } @if(currentStep === 1) {
+  <app-input label="E-mail" placeholder="Digite o e-mail para autenticação" [required]="false"
+    (valueChange)="onInputChange(CaregiverLeaderInputField.EMERGENCY_NAME, $event)"
+    [value]="residentListResponseDto.emergencyName || ''"></app-input>
+  <app-input label="Senha" placeholder="Digite a senha para autenticação" type="tel" [required]="false"
+    (valueChange)="onInputChange(CaregiverLeaderInputField.EMERGENCY_PHONE, $event)"
+    [value]="residentListResponseDto.emergencyPhone || ''" [mask]="'(00) 00000-0000'"
+    [dropSpecialCharacters]="false"></app-input>
+
+  <div *ngIf="telefoneInvalido" class="error-message">
+    Telefone inválido. Verifique os números digitados.
+  </div>
+
+  <app-input label="Confirmar senha" placeholder="Digite novamente a senha" type="text" [required]="false"
+    (valueChange)="onInputChange(CaregiverLeaderInputField.RELATIONSHIP, $event)"
+    [value]="residentListResponseDto.relationship || ''"></app-input>
+  }
+</app-register> -->

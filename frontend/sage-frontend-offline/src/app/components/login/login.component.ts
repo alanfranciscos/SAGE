@@ -7,12 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, 
-    CommonModule, 
+  imports: [FormsModule,
+    CommonModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
@@ -26,8 +27,9 @@ export class LoginComponent {
 
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
-    private authService: AuthenticationService
-  ) {}
+    private authService: AuthenticationService,
+    private router: Router,
+  ) { }
 
   async login() {
     const success = await this.authService.login(this.email, this.password);
@@ -36,5 +38,10 @@ export class LoginComponent {
     } else {
       alert('Email ou senha incorretos');
     }
+  }
+
+  cadastrar() {
+    this.router.navigate(['nurse-manager/register']);
+    this.dialogRef.close(undefined); // ou apenas this.dialogRef.close();
   }
 }
