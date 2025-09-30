@@ -38,8 +38,13 @@ export class LoginComponent implements OnInit {
     this.loginIfCredentialsIsValid();
   }
 
-  async checkIfHasCaregiverLeader(){
-    const hasCaregiverLeader = await this.caregiverLeaderService
+  async checkIfHasCaregiverLeader() {
+    const hasCaregiverLeader = await this.caregiverLeaderService.countAllActiveCaregiverLeader();
+    if (hasCaregiverLeader === 0) {
+      this.registerButtonEnabled = false;
+    } else {
+      this.registerButtonEnabled = true;
+    }
   }
 
   async login() {
@@ -56,7 +61,7 @@ export class LoginComponent implements OnInit {
     this.dialogRef.close(undefined);
   }
 
-    loginIfCredentialsIsValid() {
+  loginIfCredentialsIsValid() {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/']);
     }

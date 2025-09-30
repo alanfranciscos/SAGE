@@ -27,17 +27,12 @@ export class CaregiverLeaderService {
     return response.data?.id ?? 'Resident created successfully';
   }
 
-    async findAllCaregiverLeader(
-  ): Promise<string> {
+  async countAllActiveCaregiverLeader(
+  ): Promise<number> {
     const response = await this.api.get(
-      'api/v1/resident'
+      'api/v1/caregiver/count-caregiver-leader'
     );
-
-    if (response.status != 201) {
-      throw new Error('Failed to create resident');
-    }
-
-    return response.data?.id ?? 'Resident created successfully';
+    return response.data.total;
   }
 
 }
