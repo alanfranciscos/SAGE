@@ -35,7 +35,6 @@ public class AuthController {
         CaregiverResponseFromPasswordTableDto userResponseFromPasswordTableDto = this.caregiverService.getCaregiverFromPasswordTable(user.id()).orElseThrow(() -> new RuntimeException("User not found for uuid"));
         String hash = passwordEncoder.encode("123456");
         System.out.println(hash);
-//        if(passwordEncoder.matches(body.password(), hash)) {
         if(passwordEncoder.matches(body.password(), userResponseFromPasswordTableDto.caregiver_password())) {
             System.out.println("IF");
             String token = this.tokenService.generateToken(user);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email = '';
   password = '';
 
@@ -30,6 +30,9 @@ export class LoginComponent {
     private authService: AuthenticationService,
     private router: Router,
   ) { }
+  ngOnInit(): void {
+    this.loginIfCredentialsIsValid();
+  }
 
   async login() {
     const success = await this.authService.login(this.email, this.password);
@@ -43,5 +46,11 @@ export class LoginComponent {
   cadastrar() {
     this.router.navigate(['nurse-manager/register']);
     this.dialogRef.close(undefined);
+  }
+
+    loginIfCredentialsIsValid() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
   }
 }
