@@ -1,10 +1,13 @@
 package com.sage.port.services.caregiver;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
-
-import java.util.List;
-import java.util.UUID;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
 
 public interface CaregiverService {
     UUID createCaregiver(String fullName, String cpf, String email, String phone, String position);
@@ -15,5 +18,12 @@ public interface CaregiverService {
 
     CaregiverResponseDto findByToken(String token);
 
+    Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email);
+
+    Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid);
+    
     CaregiverResponseDto getCaregiverById(UUID id);
+    UUID createPassword(UUID caregiverId, String rawPassword);
+
+
 }

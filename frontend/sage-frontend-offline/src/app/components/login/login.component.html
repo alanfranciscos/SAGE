@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Login</h2>
+
+<form (ngSubmit)="login()" mat-dialog-content id="loginForm">
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" [(ngModel)]="password" name="password" required />
+    </mat-form-field>
+</form>
+
+<mat-dialog-actions>
+    <div style="margin-right: auto;">
+        <button mat-raised-button color="primary" (click)="cadastrar()">Cadastrar</button>
+    </div>
+    
+    <button mat-button mat-dialog-close>Cancelar</button>
+    
+    <button mat-raised-button color="primary" type="submit" form="loginForm">Entrar</button>
+</mat-dialog-actions>

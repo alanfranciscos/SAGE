@@ -1,16 +1,39 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AlarmPanel {
 
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("model")
     private String model;
-    private String ipAdress;
-    private String macAdress;
-    private String count;
+    @JsonProperty("ipAddress")
+    private String ipAddress;
+    @JsonProperty("macAddress")
+    private String macAddress;
+    @JsonProperty("account")
+    private String account;
+    @JsonProperty("serialNumber")
     private String serialNumber;
+    @JsonProperty("port")
+    private String port;
+    @JsonProperty("status")
+    private String status;
 
-    public AlarmPanel(String ipAdress) {
-        this.ipAdress = ipAdress;
+    public String getId() {
+        return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public AlarmPanel(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public AlarmPanel(){}
 
     public String getModel() {
         return model;
@@ -20,28 +43,28 @@ public class AlarmPanel {
         this.model = model;
     }
 
-    public String getIpAdress() {
-        return ipAdress;
+    public String getIpAddress() {
+        return ipAddress;
     }
 
-    public void setIpAdress(String ipAdress) {
-        this.ipAdress = ipAdress;
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
-    public String getMacAdress() {
-        return macAdress;
+    public String getMacAddress() {
+        return macAddress;
     }
 
-    public void setMacAdress(String macAdress) {
-        this.macAdress = macAdress;
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
     }
 
-    public String getCount() {
-        return count;
+    public String getAccount() {
+        return account;
     }
 
-    public void setCount(String count) {
-        this.count = count;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getSerialNumber() {
@@ -51,4 +74,21 @@ public class AlarmPanel {
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
 }

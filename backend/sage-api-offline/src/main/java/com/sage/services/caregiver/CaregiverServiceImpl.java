@@ -1,16 +1,21 @@
 package com.sage.services.caregiver;
 
+import java.security.SecureRandom;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.sage.dao.caregiver.CaregiverDaoImpl;
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
+import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
 import com.sage.exception.AlreadyExistsException;
 import com.sage.exception.NotFoundException;
 import com.sage.port.services.caregiver.CaregiverService;
-import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CaregiverServiceImpl implements CaregiverService {
@@ -81,10 +86,34 @@ public class CaregiverServiceImpl implements CaregiverService {
                 .orElseThrow(() -> new NotFoundException("Caregiver not found with token: " + token));
     }
 
+//    @Override
+//    public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
+//        return Optional.ofNullable(caregiverDao.findByEmailAndReturnsCaregiverResponseDto(email)
+//                .orElseThrow(() -> new NotFoundException("Caregiver not found with email: " + email)));
+//    }
+    @Override
+    public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
+        return caregiverDao.findByEmailAndReturnsCaregiverResponseDto(email);
+    }
+
+    @Override
+    public Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid) {
+        return Optional.ofNullable(caregiverDao.getCaregiverFromPasswordTable(uuid)
+                .orElseThrow(() -> new NotFoundException("Caregiver from password table not found with uuid: " + uuid)));
+    }
+
     @Override
     public CaregiverResponseDto getCaregiverById(UUID id) {
         return caregiverDao.findById(id)
                 .orElseThrow(() -> new NotFoundException("Caregiver not found with ID: " + id));
+    }
+
+    @Override
+    public UUID createPassword(UUID caregiverId, String hashedPassword) {
+        String verificationCode = generateUniqueToken();
+        OffsetDateTime codeValidUntil = OffsetDateTime.now(ZoneOffset.UTC).plusHours(24);
+        return caregiverDao.createPassword(caregiverId, hashedPassword, verificationCode, codeValidUntil);
+
     }
 
     private String generateUniqueToken() {
@@ -106,6 +135,7 @@ public class CaregiverServiceImpl implements CaregiverService {
             int rndCharAt = random.nextInt(DATA_FOR_RANDOM_STRING.length());
             char rndChar = DATA_FOR_RANDOM_STRING.charAt(rndCharAt);
             sb.append(rndChar);
-        }        return sb.toString();
+        }
+        return sb.toString();
     }
 }

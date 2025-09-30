@@ -1,15 +1,22 @@
 package com.sage.controller.v1.alarm;
 
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.sage.dto.v1.alarm.request.CreateAlarmRequestDto;
-import com.sage.dto.v1.alarm.request.UpdateAlarmPortRequestDto;
 import com.sage.dto.v1.alarm.request.UpdateAlarmRequestDto;
 import com.sage.dto.v1.alarm.response.AlarmResponseDto;
 import com.sage.model.alarm.Alarm;
 import com.sage.port.services.alarm.AlarmService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/alarms")
@@ -34,16 +41,17 @@ public class AlarmController {
     }
 
     @PutMapping("/serial/{serialNumber}")
-    public ResponseEntity<AlarmResponseDto> updateBySerialNumber(@PathVariable String serialNumber, @RequestBody UpdateAlarmRequestDto request) {
+    public ResponseEntity<AlarmResponseDto> updateBySerialNumber(@PathVariable String serialNumber,
+            @RequestBody UpdateAlarmRequestDto request) {
         Alarm updatedAlarm = alarmService.updateBySerialNumber(serialNumber, request);
         return ResponseEntity.ok(updatedAlarm.toResponseDto());
     }
 
-    @PatchMapping("/serial/{serialNumber}/port")
-    public ResponseEntity<Void> updatePortBySerialNumber(@PathVariable String serialNumber, @RequestBody UpdateAlarmPortRequestDto request) {
-        alarmService.updatePortBySerialNumber(serialNumber, request);
-        return ResponseEntity.noContent().build();
-    }
+    // @PatchMapping("/serial/{serialNumber}/port")
+    // public ResponseEntity<Void> updatePortBySerialNumber(@PathVariable String serialNumber, @RequestBody UpdateAlarmPortRequestDto request) {
+    //     alarmService.updatePortBySerialNumber(serialNumber, request);
+    //     return ResponseEntity.noContent().build();
+    // }
 
     @GetMapping("/serial/{serialNumber}")
     public ResponseEntity<AlarmResponseDto> getBySerialNumber(@PathVariable String serialNumber) {

@@ -4,6 +4,7 @@ import { ButtonComponent } from '../button/button.component';
 import { FormsModule } from '@angular/forms';
 import { RegexHexaDirective } from '../../directive/regex-hexa.directive';
 import { ToastrService } from 'ngx-toastr';
+import { SettingsService } from '../../controller/settings/settings.service';
 
 @Component({
   selector: 'app-panel-settings',
@@ -18,18 +19,41 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './panel-settings.component.scss'
 })
 export class PanelSettingsComponent implements OnInit {
-  @Input() panel_model: string = 'Active Full 32';
+  @Input() panel_model: string = 'Indefinido';
   @Input() status: boolean = true;
-  @Input() ip_address: string = '192.168.1.100';
-  @Input() mac_address: string = '00:1A:2B:3C:4D:5E';
-  @Input() account: string = '0001';
-  @Input() serial_number: string = '0123456789';
+  @Input() ip_address: string = 'Indefinido';
+  @Input() mac_address: string = 'Indefinido';
+  @Input() account: string = 'Indefinido';
+  @Input() serial_number: string = 'Indefinido';
   portNumber: string = '';
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService,
+    private settingsService: SettingsService,
+  ) { }
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  async ngOnInit(): Promise<void> {
+    const settingsDetails = await this.settingsService.getPanelSettingsBySerialNumber(
+      "2785040674"
+    );
+
+    console.log(settingsDetails.model === null);
+
+    this.serial_number = settingsDetails.serialNumber;
+
+    this.status = settingsDetails.status === 'Online' ? true : false;
+
+    this.panel_model = settingsDetails.model === null ? "Indefinido" : settingsDetails.model;
+
+    this.panel_model = settingsDetails.model === null ? "Indefinido" : settingsDetails.model;
+
+    this.ip_address = settingsDetails.ipAddress === null ? "Indefinido" : settingsDetails.ipAddress;
+
+    this.mac_address = settingsDetails.macAddress === null ? "Indefinido" : settingsDetails.macAddress;
+
+    this.account = settingsDetails.account === null ? "Indefinido" : settingsDetails.account;
+
+    console.log(settingsDetails);
+
   }
 
   private iconMap: Record<string, string> = {
