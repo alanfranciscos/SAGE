@@ -1,10 +1,15 @@
 package com.sage.dao.resident;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +75,7 @@ public class ResidentDaoImpl {
         String sql = "SELECT r.id, "
                 + "       r.full_name, "
                 + "       r.residential_unit, "
-                + "       r.image_data, "
+                + "       COALESCE(r.image_data, 'output-files/resident-image/default.png') AS image_data, "
                 + "       MAX(a.end_at) AS last_end_at, "
                 + "       COUNT(a.id) FILTER (WHERE a.called_at >= NOW() - INTERVAL '24 hours') AS calls_last_day "
                 + "FROM resident r "
@@ -103,7 +108,9 @@ public class ResidentDaoImpl {
                 while (resultSet.next()) {
                     Map<String, Object> resident = new java.util.HashMap<>();
                     resident.put("id", resultSet.getObject("id"));
-                    resident.put("imageData", resultSet.getString("image_data"));
+                    String imagePath = resultSet.getString("image_data");
+                    String base64Image = encodeFileToBase64(imagePath);
+                    resident.put("imageData", base64Image);
                     resident.put("fullName", resultSet.getString("full_name"));
                     resident.put("lastEndAt", resultSet.getString("last_end_at"));
                     resident.put("residentialUnit", resultSet.getString("residential_unit"));
@@ -125,7 +132,7 @@ public class ResidentDaoImpl {
                 = "SELECT r.id, "
                 + "       r.full_name, "
                 + "       r.residential_unit, "
-                + "       r.image_data, "
+                + "       COALESCE(r.image_data, 'output-files/resident-image/default.png') AS image_data, "
                 + "       a.id AS assist_id, "
                 + "       a.called_at, "
                 + "       a.severity_level, "
@@ -168,7 +175,9 @@ public class ResidentDaoImpl {
                 while (resultSet.next()) {
                     Map<String, Object> resident = new HashMap<>();
                     resident.put("id", resultSet.getObject("id"));
-                    resident.put("imageData", resultSet.getString("image_data"));
+                    String imagePath = resultSet.getString("image_data");
+                    String base64Image = encodeFileToBase64(imagePath);
+                    resident.put("imageData", base64Image);
                     resident.put("fullName", resultSet.getString("full_name"));
                     resident.put("lastEndAt", resultSet.getString("last_end_at"));
                     resident.put("residentialUnit", resultSet.getString("residential_unit"));
@@ -375,6 +384,23 @@ public class ResidentDaoImpl {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error updating resident image data", e);
             throw new RuntimeException("Error updating resident image data", e);
+        }
+    }
+
+    private String encodeFileToBase64(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            byte[] fileContent = Files.readAllBytes(path);
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
+        } catch (IOException e) {
+            try {
+                Path defaultPath = Paths.get("output-files/resident-image/default.png");
+                byte[] fileContent = Files.readAllBytes(defaultPath);
+                return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, "Could not read default image file");
+                return ""; // Or some other error indicator
+            }
         }
     }
 }
