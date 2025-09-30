@@ -8,12 +8,14 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
+import com.sage.dto.v1.reports.response.PerformanceMetricsDto;
 import com.sage.port.dao.reports.ReportsDao;
 
 @Repository
@@ -180,6 +182,66 @@ public class ReportsDaoImpl implements ReportsDao {
         }
 
         return weekdayCalls;
+    }
+
+    @Override
+    public Map<String, PerformanceMetricsDto> getTopFiveCallResidents(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        StringBuilder sql = new StringBuilder("SELECT r.full_name, COUNT(a.id) AS quantity, AVG(a.end_at - a.called_at) AS mean_response FROM assist a JOIN resident r ON a.resident_id = r.id WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        applyFilters(sql, params, startDate, endDate, caregiverId, severity);
+
+        sql.append(" GROUP BY r.full_name ORDER BY quantity DESC LIMIT 5");
+
+        Map<String, PerformanceMetricsDto> result = new LinkedHashMap<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String residentName = rs.getString("full_name");
+                    long quantity = rs.getLong("quantity");
+                    String meanResponse = rs.getString("mean_response");
+                    result.put(residentName, new PerformanceMetricsDto(quantity, meanResponse));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting top five call residents", e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String, PerformanceMetricsDto> getTopFiveCaregiverPerformance(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        StringBuilder sql = new StringBuilder("SELECT c.full_name, COUNT(a.id) AS quantity, AVG(a.end_at - a.called_at) AS mean_response FROM assist a JOIN caregiver c ON a.caregiver_id = c.id WHERE a.caregiver_id IS NOT NULL");
+        List<Object> params = new ArrayList<>();
+
+        applyFilters(sql, params, startDate, endDate, caregiverId, severity);
+
+        sql.append(" GROUP BY c.full_name ORDER BY quantity DESC LIMIT 5");
+
+        Map<String, PerformanceMetricsDto> result = new LinkedHashMap<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String caregiverName = rs.getString("full_name");
+                    long quantity = rs.getLong("quantity");
+                    String meanResponse = rs.getString("mean_response");
+                    result.put(caregiverName, new PerformanceMetricsDto(quantity, meanResponse));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting top five caregiver performance", e);
+        }
+
+        return result;
     }
 
     private void applyFilters(StringBuilder sql, List<Object> params, LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {

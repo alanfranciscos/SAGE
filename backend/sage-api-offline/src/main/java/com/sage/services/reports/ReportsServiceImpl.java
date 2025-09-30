@@ -4,6 +4,7 @@ import com.sage.dto.v1.reports.response.AverageResolutionTimeResponseDto;
 import com.sage.dto.v1.reports.response.AverageResponseTimeResponseDto;
 import com.sage.dto.v1.reports.response.CriticalAssistsRateResponseDto;
 import com.sage.dto.v1.reports.response.HourlyCallsResponseDto;
+import com.sage.dto.v1.reports.response.PerformanceMetricsDto;
 import com.sage.dto.v1.reports.response.TotalAssistsResponseDto;
 import com.sage.dto.v1.reports.response.WeekdayCallsResponseDto;
 import com.sage.port.dao.reports.ReportsDao;
@@ -57,5 +58,15 @@ public class ReportsServiceImpl implements ReportsService {
     public WeekdayCallsResponseDto getWeekdayCalls(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
         Map<String, Double> weekdayCalls = reportsDao.getWeekdayCalls(startDate, endDate, caregiverId, severity);
         return new WeekdayCallsResponseDto(weekdayCalls);
+    }
+
+    @Override
+    public Map<String, PerformanceMetricsDto> getTopFiveCallResidents(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        return reportsDao.getTopFiveCallResidents(startDate, endDate, caregiverId, severity);
+    }
+
+    @Override
+    public Map<String, PerformanceMetricsDto> getTopFiveCaregiverPerformance(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        return reportsDao.getTopFiveCaregiverPerformance(startDate, endDate, caregiverId, severity);
     }
 }
