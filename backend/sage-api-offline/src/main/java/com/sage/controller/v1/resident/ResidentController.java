@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.services.resident.ResidentServiceImpl;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * ResidentController provides endpoints for managing residents in the system.
@@ -95,6 +97,12 @@ public class ResidentController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getResidentDetails(@PathVariable UUID id) {
         return ResponseEntity.ok(this.residentService.getResidentDetailsById(id));
+    }
+
+    @PatchMapping("/{id}/image")
+    public ResponseEntity<Void> uploadImage(@PathVariable UUID id, @RequestParam("imageData") MultipartFile imageData) {
+        residentService.updateResidentImage(id, imageData);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/card/total")

@@ -365,4 +365,16 @@ public class ResidentDaoImpl {
         }
         return false;
     }
+
+    public void updateImageData(UUID residentId, String imageData) {
+        String sql = "UPDATE resident SET image_data = ? WHERE id = ?";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setString(1, imageData);
+            ps.setObject(2, residentId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error updating resident image data", e);
+            throw new RuntimeException("Error updating resident image data", e);
+        }
+    }
 }

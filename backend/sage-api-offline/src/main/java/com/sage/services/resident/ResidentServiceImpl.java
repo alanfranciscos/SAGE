@@ -1,5 +1,9 @@
 package com.sage.services.resident;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -9,9 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sage.dao.assist.AssistDaoImpl;
 import com.sage.dao.resident.ResidentDaoImpl;
+import com.sage.exception.InvalidInputException;
 
 @Service
 public class ResidentServiceImpl {
@@ -185,6 +191,36 @@ public class ResidentServiceImpl {
                 throw new RuntimeException("Error updating resident", ex);
             }
         }
+    }
+
+    public void updateResidentImage(UUID residentId, MultipartFile imageData) {
+        if (imageData == null || imageData.isEmpty()) {
+            throw new InvalidInputException("Image data cannot be empty.");
+        }
+
+        String originalFilename = imageData.getOriginalFilename();
+        if (originalFilename == null || !isValidImageExtension(originalFilename)) {
+            throw new InvalidInputException("Invalid image file type. Only PNG, JPG, and JPEG are allowed.");
+        }
+
+        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String newFileName = residentId + extension;
+        Path imagePath = Paths.get("output-files/resident-image/", newFileName);
+
+        try {
+            Files.createDirectories(imagePath.getParent());
+            Files.write(imagePath, imageData.getBytes());
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to save image file", e);
+            throw new RuntimeException("Failed to save image file", e);
+        }
+
+        residentDao.updateImageData(residentId, imagePath.toString());
+    }
+
+    private boolean isValidImageExtension(String filename) {
+        String lowerCaseFilename = filename.toLowerCase();
+        return lowerCaseFilename.endsWith(".png") || lowerCaseFilename.endsWith(".jpg") || lowerCaseFilename.endsWith(".jpeg");
     }
 
 }

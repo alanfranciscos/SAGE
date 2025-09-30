@@ -6,6 +6,7 @@ import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.dto.v1.resident.response.ResidentDetailResponseDto;
 import com.sage.dto.v1.resident.response.ResidentResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * ResidentService provides methods to manage residents in the system. It allows
@@ -38,6 +39,8 @@ public interface ResidentService extends ResidentHeaderService {
             UpdateResidentRequestDto requestDto,
             UUID id
     );
+
+    void updateResidentImage(UUID id, MultipartFile imageData);
 
     /**
      * Get a resident by their UUID.

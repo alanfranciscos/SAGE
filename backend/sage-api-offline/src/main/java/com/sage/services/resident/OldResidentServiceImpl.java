@@ -19,6 +19,7 @@ import com.sage.port.services.resident.ControlResidentService;
 import com.sage.port.services.resident.ResidentEmergencyContactService;
 import com.sage.port.services.resident.ResidentHeaderService;
 import com.sage.port.services.resident.ResidentService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class OldResidentServiceImpl implements ResidentService {
@@ -129,6 +130,11 @@ public class OldResidentServiceImpl implements ResidentService {
                 resident.isActive()
         );
         return response;
+    }
+
+    @Override
+    public void updateResidentImage(UUID id, MultipartFile imageData) {
+        throw new UnsupportedOperationException("This method is not supported in OldResidentServiceImpl.");
     }
 
     @Override
