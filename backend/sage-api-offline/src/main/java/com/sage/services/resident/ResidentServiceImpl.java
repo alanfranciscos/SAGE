@@ -152,7 +152,7 @@ public class ResidentServiceImpl {
 
         if (controlNumber != null && residentDao.existsByControlNumber(controlNumber)) {
             Map<String, Object> resident = residentDao.getResidentDetailsById(id);
-            if (!resident.get("controlNumber").equals(controlNumber)) {
+            if (!resident.get("controlId").equals(controlNumber)) {
                 throw new com.sage.exception.AlreadyExistsException("Resident with this control number already exists.");
             }
         }
