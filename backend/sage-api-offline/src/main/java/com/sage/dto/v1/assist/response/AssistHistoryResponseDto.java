@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Getter
@@ -18,7 +19,7 @@ public class AssistHistoryResponseDto {
     private String fullName;
     private Integer age;
     private String residentialUnit;
-    private String elapsedTime;
+    private ZonedDateTime elapsedTime;
     private SeverityLevel severityLevel;
     private String status;
     private String details;
