@@ -20,6 +20,7 @@ interface Alert {
   status: 'pendente' | 'em_atendimento' | 'atendido';
   image: string;
   observations?: string;
+  age: number;
 }
 
 @Component({
@@ -66,16 +67,50 @@ export class AlertsComponent implements OnInit {
   }
 
   // ================== Carregar Ativos ==================
+  // private async loadActiveAlerts() {
+  //   try {
+  //     const response = await this.assistService
+  //       .getPendingAssists(10, 0)
+  //       .toPromise();
+  //     this.activeAlerts = response.data
+  //       .filter(
+  //         (a: any) => a.status === 'pending' || a.status === 'in_attendance'
+  //       )
+  //       .map((a: any) => this.mapApiToAlert(a));
+  //   } catch (err) {
+  //     console.error('Erro ao carregar chamados ativos:', err);
+  //   }
+  // }
   private async loadActiveAlerts() {
     try {
-      const response = await this.assistService
+      const response: any = await this.assistService
         .getPendingAssists(10, 0)
         .toPromise();
-      this.activeAlerts = response.data
-        .filter(
-          (a: any) => a.status === 'pending' || a.status === 'in_attendance'
-        )
-        .map((a: any) => this.mapApiToAlert(a));
+
+      const alerts: Alert[] = [];
+
+      for (const a of response.data) {
+        if (a.status === 'pending' || a.status === 'in_attendance') {
+          // Busca detalhes do assist para pegar idade
+          const assistDetails: any = await this.assistService
+            .getPendingAssistById(a.assistId)
+            .toPromise();
+
+          alerts.push({
+            id: assistDetails.assistId,
+            name: assistDetails.fullName,
+            room: assistDetails.residentialUnit,
+            time: this.formatDateTime(assistDetails.elapsedTime),
+            severity: this.mapLevelFromApi(assistDetails.severityLevel),
+            status: this.mapStatusFromApi(assistDetails.status),
+            image: 'default.jpg',
+            observations: assistDetails.observations ?? '',
+            age: assistDetails.age,
+          });
+        }
+      }
+
+      this.activeAlerts = alerts; // atualiza a view corretamente
     } catch (err) {
       console.error('Erro ao carregar chamados ativos:', err);
     }
@@ -104,16 +139,16 @@ export class AlertsComponent implements OnInit {
 
       this.finishedAlerts = response.data.map((a: any) => ({
         id: a.assistId,
-        name: a.patientName, // atenção: mudou de fullName → patientName
-        room: a.patientUnit, // fullName → patientUnit
-        time: a.elapsedTime,
+        name: a.patientName,
+        room: a.patientUnit,
+        time: this.formatDateTime(a.elapsedTime),
         severity: this.mapLevelFromApi(a.severityLevel),
-        status: 'atendido', // histórico → sempre 'atendido'
+        status: 'atendido',
         image: 'default.jpg',
-        observations: a.description ?? '', // description
+        observations: a.description ?? '',
       }));
 
-      console.log('Histórico carregado:', this.finishedAlerts); // para debugar
+      console.log('Histórico carregado:', this.finishedAlerts);
     } catch (err) {
       console.error('Erro ao carregar histórico de alertas:', err);
     }
@@ -147,12 +182,29 @@ export class AlertsComponent implements OnInit {
       id: a.assistId,
       name: a.fullName,
       room: a.residentialUnit,
-      time: a.elapsedTime,
+      time: this.formatDateTime(a.elapsedTime),
       severity: this.mapLevelFromApi(a.severityLevel),
       status: this.mapStatusFromApi(a.status),
       image: 'default.jpg',
       observations: a.observations ?? '',
+      age: a.age,
     };
+  }
+  private formatTime(time: string): string {
+    const date = new Date(time);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  private formatDateTime(time: string): string {
+    const date = new Date(time);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // meses começam do 0
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 
   private mapAlertToDetail(alert: Alert): ResidentAlertDetail {
@@ -160,7 +212,7 @@ export class AlertsComponent implements OnInit {
       id: alert.id,
       fullName: alert.name,
       residentialUnit: alert.room,
-      time: alert.time,
+      time: this.formatTime(alert.time),
       severity: alert.severity,
       status: alert.status,
       observations: alert.observations ?? '',
@@ -168,6 +220,7 @@ export class AlertsComponent implements OnInit {
       cpf: 'string',
       sex: 'string',
       birthDate: 'string',
+      age: alert.age,
       active: true,
       controlId: 0,
       createdAt: 'string',
@@ -187,14 +240,15 @@ export class AlertsComponent implements OnInit {
       id: a.assistId,
       fullName: a.fullName,
       residentialUnit: a.residentialUnit,
-      time: a.elapsedTime,
+      time: this.formatTime(a.elapsedTime),
       severity: this.mapLevelFromApi(a.severityLevel),
       status,
       observations: a.details ?? '',
       imageData: image,
       cpf: 'string',
       sex: 'string',
-      birthDate: 'string',
+      birthDate: '', // não precisa usar
+      age: a.age,
       active: true,
       controlId: 0,
       createdAt: 'string',

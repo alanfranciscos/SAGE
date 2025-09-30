@@ -47,8 +47,10 @@ export class AlertResidentDetailCardComponent {
       this.newObservation = '';
     }
   }
-  calcularIdade(birthDate: string): number {
+  calcularIdade(birthDate: string | undefined | null): number {
+    if (!birthDate) return 0; // caso não tenha data
     const nascimento = new Date(birthDate);
+    if (isNaN(nascimento.getTime())) return 0; // data inválida
     const hoje = new Date();
     let idade = hoje.getFullYear() - nascimento.getFullYear();
     const m = hoje.getMonth() - nascimento.getMonth();
@@ -57,6 +59,7 @@ export class AlertResidentDetailCardComponent {
     }
     return idade;
   }
+
   handleAtendimento() {
     if (this.alertDetail.status === 'pendente') {
       this.openStartAssistDialog(); // inicia atendimento

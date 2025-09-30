@@ -31,6 +31,10 @@ export class AssistService {
     return this.http.get(`${this.baseUrl}/pending?limit=${limit}&skip=${skip}`);
   }
 
+  getPendingAssistById(assistId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/pending/${assistId}`);
+  }
+
   getFinishedAssists(limit: number, skip: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/history?limit=${limit}&skip=${skip}`);
   }

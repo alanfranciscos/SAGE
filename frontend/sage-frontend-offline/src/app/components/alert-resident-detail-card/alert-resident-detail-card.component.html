@@ -11,7 +11,8 @@
       <p>
         <strong>{{ alertDetail.fullName }}</strong>
       </p>
-      <p>{{ calcularIdade(alertDetail.birthDate) }} anos</p>
+      <p>Idade: {{ alertDetail.age }} anos</p>
+
       <p>Casa {{ alertDetail.residentialUnit }}</p>
     </div>
   </div>
@@ -44,7 +45,7 @@
       placeholder="Digite as observações"
     ></textarea>
 
-    <button class="btn" (click)="handleAtendimento()">
+    <button class="alert-button success" (click)="handleAtendimento()">
       {{
         alertDetail.status === "pendente"
           ? "Iniciar Atendimento"
