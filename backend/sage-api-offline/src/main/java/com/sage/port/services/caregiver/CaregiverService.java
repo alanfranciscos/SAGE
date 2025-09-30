@@ -28,4 +28,6 @@ public interface CaregiverService {
 
     UUID createPassword(UUID caregiverId, String rawPassword);
 
+    Long getCountCaregiverLeader();
+
 }

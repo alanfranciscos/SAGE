@@ -1,7 +1,9 @@
 package com.sage.controller.v1.caregiver;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -78,6 +80,14 @@ public class CaregiverController {
     public ResponseEntity<CaregiverResponseDto> getCaregiverById(@PathVariable UUID id) {
         CaregiverResponseDto caregiver = caregiverService.getCaregiverById(id);
         return ResponseEntity.ok(caregiver);
+    }
+
+    @GetMapping("/count-caregiver-leader")
+    public Map<String, Long> getCountCaregiverLeader() {
+        Long total = caregiverService.getCountCaregiverLeader();
+        Map<String, Long> map = new HashMap<>();
+        map.put("total", total);
+        return map;
     }
 
 }

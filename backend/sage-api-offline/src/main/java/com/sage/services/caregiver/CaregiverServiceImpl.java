@@ -116,6 +116,11 @@ public class CaregiverServiceImpl implements CaregiverService {
 
     }
 
+    @Override
+    public Long getCountCaregiverLeader() {
+        return caregiverDao.getCountCaregiverLeader();
+    }
+
     private String generateUniqueToken() {
         String token;
         do {
