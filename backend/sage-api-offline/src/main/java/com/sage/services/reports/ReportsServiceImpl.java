@@ -5,6 +5,7 @@ import com.sage.dto.v1.reports.response.AverageResponseTimeResponseDto;
 import com.sage.dto.v1.reports.response.CriticalAssistsRateResponseDto;
 import com.sage.dto.v1.reports.response.HourlyCallsResponseDto;
 import com.sage.dto.v1.reports.response.TotalAssistsResponseDto;
+import com.sage.dto.v1.reports.response.WeekdayCallsResponseDto;
 import com.sage.port.dao.reports.ReportsDao;
 import com.sage.port.services.reports.ReportsService;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,11 @@ public class ReportsServiceImpl implements ReportsService {
     public HourlyCallsResponseDto getHourlyCallsByDay(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
         Map<Integer, Double> hourlyCalls = reportsDao.getHourlyCallsByDay(startDate, endDate, caregiverId, severity);
         return new HourlyCallsResponseDto(hourlyCalls);
+    }
+
+    @Override
+    public WeekdayCallsResponseDto getWeekdayCalls(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        Map<String, Double> weekdayCalls = reportsDao.getWeekdayCalls(startDate, endDate, caregiverId, severity);
+        return new WeekdayCallsResponseDto(weekdayCalls);
     }
 }

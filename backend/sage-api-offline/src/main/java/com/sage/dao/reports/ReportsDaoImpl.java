@@ -147,6 +147,41 @@ public class ReportsDaoImpl implements ReportsDao {
         return hourlyCalls;
     }
 
+    @Override
+    public Map<String, Double> getWeekdayCalls(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        StringBuilder sql = new StringBuilder("SELECT TO_CHAR(a.called_at, 'Day') AS weekday, COUNT(*) AS total_calls FROM assist a WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        applyFilters(sql, params, startDate, endDate, caregiverId, severity);
+
+        sql.append(" GROUP BY weekday ORDER BY weekday");
+
+        Map<String, Double> weekdayCalls = new HashMap<>();
+        long numberOfDays = 1;
+        if (startDate != null && endDate != null) {
+            numberOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+        double numberOfWeeks = Math.max(1.0, numberOfDays / 7.0);
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String weekday = rs.getString("weekday").trim();
+                    long totalCalls = rs.getLong("total_calls");
+                    double average = (double) totalCalls / numberOfWeeks;
+                    weekdayCalls.put(weekday, average);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting weekday calls", e);
+        }
+
+        return weekdayCalls;
+    }
+
     private void applyFilters(StringBuilder sql, List<Object> params, LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
         if (startDate != null) {
             sql.append(" AND a.called_at >= ?");

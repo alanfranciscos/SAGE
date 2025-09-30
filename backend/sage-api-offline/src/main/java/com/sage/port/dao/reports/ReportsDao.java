@@ -14,4 +14,6 @@ public interface ReportsDao {
     double getCriticalAssistsRate(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity);
 
     Map<Integer, Double> getHourlyCallsByDay(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity);
+
+    Map<String, Double> getWeekdayCalls(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity);
 }
