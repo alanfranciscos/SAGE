@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -169,13 +171,13 @@ public class AssistDaoImpl implements AssistDao {
                 + "a.id, "
                 + "r.full_name, "
                 + "r.residential_unit, "
-                + "NOW() - a.called_at AS elapsed_time, "
+                + "a.called_at AS elapsed_time, "
                 + "a.severity_level, "
                 + "CASE WHEN a.assignment_at IS NULL THEN 'pending' ELSE 'in_attendance' END AS status "
                 + "FROM assist a "
                 + "JOIN resident r ON a.resident_id = r.id "
                 + "WHERE a.end_at IS NULL "
-                + "ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END DESC "
+                + "ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END "
                 + "LIMIT ? OFFSET ?";
 
         List<PendingAssistResponseDto> pendingAssists = new ArrayList<>();
@@ -190,7 +192,7 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
                             resultSet.getString("residential_unit"),
-                            resultSet.getString("elapsed_time"),
+                            resultSet.getObject("elapsed_time", OffsetDateTime.class).atZoneSameInstant(ZoneId.systemDefault()),
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
                             resultSet.getString("status")
                     ));
@@ -224,7 +226,7 @@ public class AssistDaoImpl implements AssistDao {
                 + "a.id, "
                 + "r.full_name, "
                 + "r.residential_unit, "
-                + "a.end_at - a.called_at AS elapsed_time, "
+                + "a.called_at AS elapsed_time, "
                 + "a.detail, "
                 + "a.severity_level "
                 + "FROM assist a "
@@ -245,7 +247,7 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
                             resultSet.getString("residential_unit"),
-                            resultSet.getString("elapsed_time"),
+                            resultSet.getObject("elapsed_time", OffsetDateTime.class).atZoneSameInstant(ZoneId.systemDefault()),
                             resultSet.getString("detail"),
                             SeverityLevel.fromValue(resultSet.getString("severity_level"))
                     ));
@@ -266,7 +268,7 @@ public class AssistDaoImpl implements AssistDao {
                 + "r.full_name, "
                 + "DATE_PART('year', AGE(r.birth_date)) as age, "
                 + "r.residential_unit, "
-                + "NOW() - a.called_at AS elapsed_time, "
+                + "a.called_at AS elapsed_time, "
                 + "a.severity_level, "
                 + "CASE WHEN a.assignment_at IS NULL THEN 'pending' ELSE 'in_attendance' END AS status "
                 + "FROM assist a "
@@ -283,7 +285,7 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getString("full_name"),
                             resultSet.getInt("age"),
                             resultSet.getString("residential_unit"),
-                            resultSet.getString("elapsed_time"),
+                            resultSet.getObject("elapsed_time", OffsetDateTime.class).atZoneSameInstant(ZoneId.systemDefault()),
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
                             resultSet.getString("status")
                     ));
@@ -351,7 +353,7 @@ public class AssistDaoImpl implements AssistDao {
                 + "r.full_name, "
                 + "DATE_PART('year', AGE(r.birth_date)) as age, "
                 + "r.residential_unit, "
-                + "a.end_at - a.called_at AS elapsed_time, "
+                + "a.called_at AS elapsed_time, "
                 + "a.severity_level, "
                 + "'finalizado' as status, "
                 + "a.detail "
@@ -369,7 +371,7 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getString("full_name"),
                             resultSet.getInt("age"),
                             resultSet.getString("residential_unit"),
-                            resultSet.getString("elapsed_time"),
+                            resultSet.getObject("elapsed_time", OffsetDateTime.class).atZoneSameInstant(ZoneId.systemDefault()),
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
                             resultSet.getString("status"),
                             resultSet.getString("detail")
