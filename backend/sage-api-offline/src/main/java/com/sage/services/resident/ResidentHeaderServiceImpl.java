@@ -10,7 +10,6 @@ import com.sage.model.assist.SeverityLevel;
 import com.sage.model.resident.ResidentHeader;
 import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.dao.resident.ResidentHeaderDao;
-import com.sage.port.services.helper.file.FileHelperService;
 import com.sage.port.services.resident.ResidentHeaderService;
 
 @Service
@@ -18,22 +17,24 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
 
     private final ResidentHeaderDao residentHeaderDao;
     private final ResidentDao residentDao;
-    private final FileHelperService fileHelperService;
+    // private final FileHelperService fileHelperService;
 
-    public ResidentHeaderServiceImpl(ResidentHeaderDao residentHeaderDao, ResidentDao residentDao, FileHelperService fileHelperService) {
+    public ResidentHeaderServiceImpl(ResidentHeaderDao residentHeaderDao, ResidentDao residentDao) {
+        //FileHelperService fileHelperService) {
+
         this.residentHeaderDao = residentHeaderDao;
+
         this.residentDao = residentDao;
-        this.fileHelperService = fileHelperService;
+        // this.fileHelperService = fileHelperService;
     }
 
-    private void parseImageData(List<ResidentHeader> residentHeaders) {
-        for (ResidentHeader resident : residentHeaders) {
-            if (resident.getImageData() != null) {
-                resident.setImageBytes(this.fileHelperService.getBase64File(resident.getImageData()).getBytes());
-            }
-        }
-    }
-
+    // private void parseImageData(List<ResidentHeader> residentHeaders) {
+    //     for (ResidentHeader resident : residentHeaders) {
+    //         if (resident.getImageData() != null) {
+    //             resident.setImageBytes(this.fileHelperService.getBase64File(resident.getImageData()).getBytes());
+    //         }
+    //     }
+    // }
     @Override
     public ResidentListResponseDto listResidents(int limit, int skip, String search) {
         int originalLimit = limit;
@@ -45,7 +46,7 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                 listResidentsBySeverityLevelAssist(SeverityLevel.EMERGENCY, limit, skip, null);
         if (residentHeadersEmergency != null) {
             limit -= residentHeadersEmergency.size();
-            this.parseImageData(residentHeadersEmergency);
+            // this.parseImageData(residentHeadersEmergency);
         } else {
             residentHeadersEmergency = new ArrayList<>();
         }
@@ -65,7 +66,7 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
 
         if (residentHeadersWarning != null) {
             limit -= residentHeadersWarning.size();
-            this.parseImageData(residentHeadersWarning);
+            // this.parseImageData(residentHeadersWarning);
         } else {
             residentHeadersWarning = new ArrayList<>();
         }
@@ -85,7 +86,7 @@ public class ResidentHeaderServiceImpl implements ResidentHeaderService {
                 listResidentsBySeverityLevelAssist(null, limit, skip, search);
 
         if (residentHeaders != null) {
-            this.parseImageData(residentHeaders);
+            //  this.parseImageData(residentHeaders);
         } else {
             residentHeaders = new ArrayList<>();
         }
