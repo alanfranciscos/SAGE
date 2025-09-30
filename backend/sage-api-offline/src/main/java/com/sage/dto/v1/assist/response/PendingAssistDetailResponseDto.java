@@ -11,7 +11,8 @@ public record PendingAssistDetailResponseDto(
         String residentialUnit,
         String elapsedTime,
         SeverityLevel severityLevel,
-        String status
-        ) {
+        String status,
+        String imageData
+) {
 
 }

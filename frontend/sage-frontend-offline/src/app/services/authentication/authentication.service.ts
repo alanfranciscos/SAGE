@@ -8,7 +8,18 @@ export class AuthenticationService {
   private loggedIn = false;
   private token: string | null = null;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) { this.restoreSession(); }
+
+  private restoreSession(): void {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            this.token = storedToken;
+            this.loggedIn = true;
+            this.apiService.setToken(storedToken); 
+        } else {
+            this.loggedIn = false;
+        }
+    }
 
   isLoggedIn(): boolean {
     return this.loggedIn;
@@ -40,6 +51,15 @@ export class AuthenticationService {
       this.loggedIn = false;
       return false;
     }
+  }
+
+  isAuthenticated(): boolean {
+    let token = localStorage.getItem('token');
+
+    if (token != null) {
+      return true;
+    }
+    return false;
   }
 
   logout(): void {

@@ -10,7 +10,8 @@ public record AttendedAssistResponseDto(
         String patientUnit,
         String elapsedTime,
         String description,
-        SeverityLevel severityLevel
-        ) {
+        SeverityLevel severityLevel,
+        String imageData
+) {
 
 }
