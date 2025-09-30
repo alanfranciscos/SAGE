@@ -2,7 +2,9 @@ package com.sage.controller.v1.auth;
 
 import com.sage.config.security.TokenService;
 import com.sage.dto.v1.auth.LoginRequestDTO;
+import com.sage.dto.v1.auth.RegisterRequestDTO;
 import com.sage.dto.v1.auth.ResponseDTO;
+import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
 import com.sage.services.caregiver.CaregiverServiceImpl;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,20 +47,33 @@ public class AuthController {
     }
 
 
-//    @PostMapping("/register")
-//    public ResponseEntity register(@RequestBody RegisterRequestDTO body){
-//        Optional<User> user = this.repository.findByEmail(body.email());
-//
-//        if(user.isEmpty()) {
-//            User newUser = new User();
-//            newUser.setPassword(passwordEncoder.encode(body.password()));
-//            newUser.setEmail(body.email());
-//            newUser.setName(body.name());
-//            this.repository.save(newUser);
-//
-//            String token = this.tokenService.generateToken(newUser);
-//            return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token));
-//        }
-//        return ResponseEntity.badRequest().build();
-//    }
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody RegisterRequestDTO body){
+        Optional<CaregiverResponseDto> optionalUser = this.caregiverService.findByEmailAndReturnsCaregiverResponseDto(body.email());
+
+        if(optionalUser.isPresent()) {
+            return ResponseEntity.badRequest().body("Usuário já cadastrado com este e-mail.");
+        }
+
+        UUID caregiverId = caregiverService.createCaregiver(
+                body.fullName(),
+                body.cpf(),
+                body.email(),
+                body.phone(),
+                "chieff"
+        );
+
+        System.out.println("CAREGIVER ID: " + caregiverId);
+
+        String hashedPassword = passwordEncoder.encode(body.caregiver_password());
+
+        UUID passwordId = caregiverService.createPassword(caregiverId, hashedPassword);
+        System.out.println("PASSWORD ID: " + passwordId);
+
+        CaregiverResponseDto newUser = caregiverService.getCaregiverById(caregiverId);
+
+        String token = this.tokenService.generateToken(newUser);
+
+        return ResponseEntity.ok(new ResponseDTO(newUser.fullName(), token));
+    }
 }

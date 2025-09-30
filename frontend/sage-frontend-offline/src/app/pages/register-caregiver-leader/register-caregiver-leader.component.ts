@@ -23,7 +23,7 @@ export enum CaregiverLeaderInputField {
   EMAIL = 'email',
   CPF = 'cpf',
   PASSWORD = 'caregiver_password', 
-  CONFIRM_PASSWORD = 'confirmPassword', // Novo ENUM para o campo de confirmação
+  CONFIRM_PASSWORD = 'confirmPassword',
 }
 
 @Component({
@@ -56,14 +56,13 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
     caregiver_password: '', 
   };
   
-  // NOVA PROPRIEDADE
   confirmPassword: '' = '';
 
   cpfInvalido?: boolean;
   telefoneInvalido: boolean = false;
   emailInvalido: boolean = false;
   senhaInvalida: boolean = false; 
-  senhaNaoConfere: boolean = false; // Novo estado para senhas que não coincidem
+  senhaNaoConfere: boolean = false;
 
   private readonly EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   private readonly PASSWORD_COMPLEXITY_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$/;
@@ -82,7 +81,6 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
   validateStep(): boolean {
     switch (this.currentStep) {
       case 0:
-        // Lógica da Etapa 0... (Sem alterações nesta seção)
         const { fullName, cpf, phone } = this.caregiverLeaderListResponseDto;
         const cpfNumerico = this.formatCPF(cpf);
         const phoneNumerico = this.formatPhone(phone);
@@ -98,19 +96,15 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
       case 1:
         const { email, caregiver_password } = this.caregiverLeaderListResponseDto;
 
-        // 1. Campos não vazios
         const camposPreenchidosAuth = email.trim() !== '' && caregiver_password.trim() !== '' && this.confirmPassword.trim() !== '';
         if (!camposPreenchidosAuth) return false;
 
-        // 2. Validação de Email
         const emailValido = this.EMAIL_REGEX.test(email);
         this.emailInvalido = !emailValido;
         
-        // 3. Validação de Complexidade de Senha
         const senhaForte = this.PASSWORD_COMPLEXITY_REGEX.test(caregiver_password);
         this.senhaInvalida = !senhaForte;
         
-        // 4. Validação de Confirmação de Senha (NOVA LÓGICA)
         const senhasCoincidem = caregiver_password === this.confirmPassword;
         this.senhaNaoConfere = !senhasCoincidem;
 
@@ -122,7 +116,6 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
   }
 
   private validarCPF(cpf: string): boolean {
-    // Lógica do CPF... (Sem alterações)
     cpf = cpf.replace(/\D/g, '');
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
     let soma = 0;
@@ -143,7 +136,6 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
   }
 
   updateStep(event: number): void {
-    // Lógica do passo... (Sem alterações)
     if (event < this.currentStep) {
       this.currentStep = event;
       return;
@@ -185,7 +177,6 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
     
     const dadosParaEnvio = this.formatFields();
     
-    // NOVO: Imprime os dados no console antes de enviar
     console.log('Dados do Enfermeiro(a) Líder prontos para envio:', dadosParaEnvio);
 
     try {
@@ -209,14 +200,12 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
   }
 
   onInputChange(field: CaregiverLeaderInputField, event: any): void {
-    // 1. Atualiza o valor. Verifica se o campo é a confirmação de senha.
     if (field === CaregiverLeaderInputField.CONFIRM_PASSWORD) {
         this.confirmPassword = event;
     } else {
         (this.caregiverLeaderListResponseDto as any)[field] = event;
     }
 
-    // 2. Lógica de Validação Específica por Campo
     if (field === CaregiverLeaderInputField.CPF) {
       const cpfNumerico = this.formatCPF(event);
       this.caregiverLeaderListResponseDto.cpf = cpfNumerico;
@@ -228,14 +217,12 @@ export class RegisterCaregiverLeaderComponent implements OnInit {
       this.caregiverLeaderListResponseDto.phone = phoneNumerico;
     }
     
-    // Revalida a etapa para atualizar o estado da validação de senha/confirmação
     if (field === CaregiverLeaderInputField.PASSWORD || field === CaregiverLeaderInputField.CONFIRM_PASSWORD) {
         this.validateStep();
     }
   }
   
   private imageFileToBase64(file: File): Promise<string> {
-    // Lógica de Base64... (Sem alterações)
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result as string);

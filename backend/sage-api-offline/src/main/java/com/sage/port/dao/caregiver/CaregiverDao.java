@@ -1,5 +1,6 @@
 package com.sage.port.dao.caregiver;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,4 +31,6 @@ public interface CaregiverDao {
     Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid);
     
     Optional<CaregiverResponseDto> findById(UUID id);
+
+    UUID createPassword(UUID caregiverId, String hashedPassword, String verificationCode, OffsetDateTime codeValidUntil);
 }

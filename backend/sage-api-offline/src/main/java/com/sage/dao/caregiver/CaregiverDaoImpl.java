@@ -239,8 +239,36 @@ public class CaregiverDaoImpl implements CaregiverDao {
     }
 
     @Override
+    public UUID createPassword(UUID caregiverId, String hashedPassword, String verificationCode, OffsetDateTime codeValidUntil) {
+        String sql = "INSERT INTO caregiver_password (caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) " +
+                "VALUES (?, ?, now(), FALSE, TRUE, ?, ?)";
+        UUID caregiverPasswordId = UUID.randomUUID();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setObject(1, caregiverId);
+            ps.setString(2, hashedPassword);
+            ps.setString(3, verificationCode);
+            ps.setObject(4, codeValidUntil);
+
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getObject(1, UUID.class);
+                }
+            }
+
+            throw new SQLException("Falha ao obter o ID da senha recém-criada.");
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Falha ao criar registro de senha para o cuidador.", e);
+        }
+    }
+    @Override
     public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
         String sql = "SELECT * FROM caregiver WHERE email = ?";
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();

@@ -1,5 +1,6 @@
 package com.sage.port.services.caregiver;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,4 +23,7 @@ public interface CaregiverService {
     Optional<CaregiverResponseFromPasswordTableDto> getCaregiverFromPasswordTable(UUID uuid);
     
     CaregiverResponseDto getCaregiverById(UUID id);
+    UUID createPassword(UUID caregiverId, String rawPassword);
+
+
 }
