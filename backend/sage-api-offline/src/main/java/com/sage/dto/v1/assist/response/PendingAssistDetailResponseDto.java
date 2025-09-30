@@ -1,18 +1,17 @@
 package com.sage.dto.v1.assist.response;
 
-import com.sage.model.assist.SeverityLevel;
-
-import java.time.ZonedDateTime;
 import java.util.UUID;
+
+import com.sage.model.assist.SeverityLevel;
 
 public record PendingAssistDetailResponseDto(
         UUID assistId,
         String fullName,
         Integer age,
         String residentialUnit,
-        ZonedDateTime elapsedTime,
+        String elapsedTime,
         SeverityLevel severityLevel,
         String status
-) {
+        ) {
 
 }
