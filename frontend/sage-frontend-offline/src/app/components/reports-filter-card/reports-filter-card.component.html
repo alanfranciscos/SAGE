@@ -1,0 +1,75 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Controles e Filtros</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="filters-grid">
+      <!-- Período -->
+      <div class="filter-group">
+        <label class="filter-label">Período</label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Início" />
+            <input matEndDate placeholder="Fim" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <!-- Residente -->
+      <div class="filter-group">
+        <label class="filter-label">Residente</label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            placeholder="Buscar residente..."
+            [formControl]="residentFilter"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Equipe/Profissional -->
+      <div class="filter-group">
+        <label class="filter-label">Equipe/Profissional</label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            placeholder="Buscar profissional..."
+            [formControl]="teamFilter"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Tipo de Alarme -->
+      <div class="filter-group">
+        <label class="filter-label">Tipo de Alarme</label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-select [formControl]="alarmType" placeholder="Selecionar tipo">
+            <mat-option
+              *ngFor="let option of alarmTypes"
+              [value]="option.value"
+            >
+              {{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- 
+
+(dateChange)="
+              dateRangeChange.emit({
+                start: $event.value?.begin,
+                end: $event.value?.end
+              })
+            " -->

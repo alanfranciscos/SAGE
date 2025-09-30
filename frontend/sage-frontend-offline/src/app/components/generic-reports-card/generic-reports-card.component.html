@@ -1,0 +1,24 @@
+<p>generic-reports-card works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">{{ title }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="reports-list">
+      <div class="report-row" *ngFor="let report of reports">
+        <span class="report-label">{{ report.label }}</span>
+
+        <div class="report-progress">
+          <div class="progress-bar-bg">
+            <div
+              class="progress-bar color-{{ report.color }}"
+              [style.width.%]="report.value"
+            ></div>
+          </div>
+          <span class="report-value">{{ report.value }}%</span>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

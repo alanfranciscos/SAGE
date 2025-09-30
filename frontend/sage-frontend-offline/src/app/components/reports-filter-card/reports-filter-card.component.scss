@@ -1,0 +1,39 @@
+:host {
+    display: block;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .filters-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .filters-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    font-size: 14px;
+    /* equivalente ao text-sm */
+    font-weight: 500;
+    /* equivalente ao font-medium */
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.full-width {
+    width: 100%;
+}
