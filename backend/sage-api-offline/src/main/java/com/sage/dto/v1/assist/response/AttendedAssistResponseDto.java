@@ -1,15 +1,16 @@
 package com.sage.dto.v1.assist.response;
 
-import com.sage.model.assist.SeverityLevel;
-
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import com.sage.model.assist.SeverityLevel;
+
 public record AttendedAssistResponseDto(
-    UUID assistId,
-    String patientName,
-    String patientUnit,
-    ZonedDateTime elapsedTime,
-    String description,
-    SeverityLevel severityLevel
-) {}
+        UUID assistId,
+        String patientName,
+        String patientUnit,
+        String elapsedTime,
+        String description,
+        SeverityLevel severityLevel
+        ) {
+
+}
