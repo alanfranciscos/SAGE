@@ -1,6 +1,7 @@
 package com.sage.port.dao.reports;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.UUID;
 
 public interface ReportsDao {
@@ -11,4 +12,6 @@ public interface ReportsDao {
     String getAverageResolutionTime(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity);
 
     double getCriticalAssistsRate(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity);
+
+    Map<Integer, Double> getHourlyCallsByDay(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity);
 }

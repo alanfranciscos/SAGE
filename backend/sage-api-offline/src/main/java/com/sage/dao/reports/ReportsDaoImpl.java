@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -90,7 +93,7 @@ public class ReportsDaoImpl implements ReportsDao {
 
     @Override
     public double getCriticalAssistsRate(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
-        StringBuilder sql = new StringBuilder("SELECT (COUNT(CASE WHEN severity_level = 'emergency' THEN 1 END) * 100.0) / COUNT(*) FROM assist a WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT (COUNT(CASE WHEN severity_level = 'EMERGENCY' THEN 1 END) * 100.0) / COUNT(*) FROM assist a WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
         applyFilters(sql, params, startDate, endDate, caregiverId, severity);
@@ -110,6 +113,40 @@ public class ReportsDaoImpl implements ReportsDao {
         return 0;
     }
 
+    @Override
+    public Map<Integer, Double> getHourlyCallsByDay(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        StringBuilder sql = new StringBuilder("SELECT EXTRACT(HOUR FROM a.called_at) AS hour, COUNT(*) AS total_calls FROM assist a WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        applyFilters(sql, params, startDate, endDate, caregiverId, severity);
+
+        sql.append(" GROUP BY hour ORDER BY hour");
+
+        Map<Integer, Double> hourlyCalls = new HashMap<>();
+        long numberOfDays = 1;
+        if (startDate != null && endDate != null) {
+            numberOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int hour = rs.getInt("hour");
+                    long totalCalls = rs.getLong("total_calls");
+                    double average = (double) totalCalls / numberOfDays;
+                    hourlyCalls.put(hour, average);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting hourly calls by day", e);
+        }
+
+        return hourlyCalls;
+    }
+
     private void applyFilters(StringBuilder sql, List<Object> params, LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
         if (startDate != null) {
             sql.append(" AND a.called_at >= ?");
@@ -125,7 +162,7 @@ public class ReportsDaoImpl implements ReportsDao {
         }
         if (severity != null && !severity.isEmpty()) {
             sql.append(" AND a.severity_level = ?");
-            params.add(severity);
+            params.add(severity.toUpperCase());
         }
     }
 }

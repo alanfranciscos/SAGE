@@ -3,12 +3,14 @@ package com.sage.services.reports;
 import com.sage.dto.v1.reports.response.AverageResolutionTimeResponseDto;
 import com.sage.dto.v1.reports.response.AverageResponseTimeResponseDto;
 import com.sage.dto.v1.reports.response.CriticalAssistsRateResponseDto;
+import com.sage.dto.v1.reports.response.HourlyCallsResponseDto;
 import com.sage.dto.v1.reports.response.TotalAssistsResponseDto;
 import com.sage.port.dao.reports.ReportsDao;
 import com.sage.port.services.reports.ReportsService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -42,5 +44,11 @@ public class ReportsServiceImpl implements ReportsService {
     public CriticalAssistsRateResponseDto getCriticalAssistsRate(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
         double criticalAssistsRate = reportsDao.getCriticalAssistsRate(startDate, endDate, caregiverId, severity);
         return new CriticalAssistsRateResponseDto(criticalAssistsRate);
+    }
+
+    @Override
+    public HourlyCallsResponseDto getHourlyCallsByDay(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
+        Map<Integer, Double> hourlyCalls = reportsDao.getHourlyCallsByDay(startDate, endDate, caregiverId, severity);
+        return new HourlyCallsResponseDto(hourlyCalls);
     }
 }
