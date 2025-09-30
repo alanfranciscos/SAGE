@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router } from '@angular/router';
+import { CaregiverLeaderService } from '../../controller/caregiver-leader/caregiver-leader.service';
 
 @Component({
   selector: 'app-login',
@@ -24,14 +25,21 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   email = '';
   password = '';
+  public registerButtonEnabled: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
     private authService: AuthenticationService,
     private router: Router,
+    private caregiverLeaderService: CaregiverLeaderService,
   ) { }
   ngOnInit(): void {
+    this.checkIfHasCaregiverLeader();
     this.loginIfCredentialsIsValid();
+  }
+
+  async checkIfHasCaregiverLeader(){
+    const hasCaregiverLeader = await this.caregiverLeaderService
   }
 
   async login() {
