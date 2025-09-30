@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
 import org.springframework.stereotype.Repository;
@@ -265,6 +266,21 @@ public class CaregiverDaoImpl implements CaregiverDao {
             throw new RuntimeException("Falha ao criar registro de senha para o cuidador.", e);
         }
     }
+
+    @Override
+    public Long getCountCaregiverLeader() {
+        String sql = "SELECT COUNT(*) FROM caregiver_password WHERE active = true;";
+        try (var preparedStatement = connection.prepareStatement(sql); var resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getLong(1);
+            } else {
+                return 0L;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error counting caregiver-leaders-active", e);
+        }
+    }
+
     @Override
     public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
         String sql = "SELECT * FROM caregiver WHERE email = ?";

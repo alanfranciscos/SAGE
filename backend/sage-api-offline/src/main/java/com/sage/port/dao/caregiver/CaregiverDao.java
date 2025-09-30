@@ -33,4 +33,6 @@ public interface CaregiverDao {
     Optional<CaregiverResponseDto> findById(UUID id);
 
     UUID createPassword(UUID caregiverId, String hashedPassword, String verificationCode, OffsetDateTime codeValidUntil);
+
+    Long getCountCaregiverLeader();
 }

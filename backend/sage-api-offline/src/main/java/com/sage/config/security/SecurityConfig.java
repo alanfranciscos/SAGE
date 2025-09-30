@@ -49,8 +49,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/v1/caregiver/**").authenticated()
-                .anyRequest().permitAll()
+                                .requestMatchers("/v1/caregiver/count-caregiver-leader").permitAll()
+                                .requestMatchers("/v1/caregiver/**").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
