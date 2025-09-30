@@ -29,9 +29,8 @@
                 [room]="alert.room"
                 [time]="alert.time"
                 [imageUrl]="alert.image"
-                [level]="mapLevel(alert.severity)"
-                [status]="mapStatus(alert.status)"
-                [observation]="alert.observations"
+                [level]="alert.severity"
+                [status]="alert.status"
                 (click)="selectAlert(alert)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
               >
@@ -60,9 +59,8 @@
                 [room]="alert.room"
                 [time]="alert.time"
                 [imageUrl]="alert.image"
-                [level]="mapLevel(alert.severity)"
-                [status]="mapStatus(alert.status)"
-                [observation]="alert.observations"
+                [level]="alert.severity"
+                [status]="alert.status"
                 (click)="selectAlert(alert)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
               >

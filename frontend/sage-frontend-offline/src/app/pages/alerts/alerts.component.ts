@@ -8,16 +8,16 @@ import { AlertResidentCardComponent } from '../../components/alert-resident-card
 import { AlertResidentDetailCardComponent } from '../../components/alert-resident-detail-card/alert-resident-detail-card.component';
 import { ResidentAlertDetail } from '../../components/alert-resident-detail-card/alert-resident-detail-card.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AssistService } from '../../controller/alert/alert.service';
 
 interface Alert {
   id: string;
   name: string;
   room: string;
   time: string;
-  severity: 'medio' | 'alto' | 'critico';
-  status: 'pendente' | 'em_atendimento' | 'atendido';
+  severity: 'medio' | 'critico';
+  status: 'pendente' | 'em_atendimento';
   image: string;
-  observations?: string;
 }
 
 @Component({
@@ -35,11 +35,50 @@ interface Alert {
   ],
 })
 export class AlertsComponent implements OnInit {
-  constructor(private residentService: ResidentService) {}
+  activeAlerts: Alert[] = [];
+  finishedAlerts: Alert[] = [];
+  constructor(
+    private residentService: ResidentService,
+    private assistService: AssistService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.totalActiveCalls =
       await this.residentService.getTotalActiveResidentsCalls();
+    await this.loadAlerts();
+  }
+  private async loadAlerts() {
+    try {
+      const response = await this.assistService.getPendingAssists(10, 0);
+
+      this.activeAlerts = response.data
+        .filter((a) => a.status === 'pending' || a.status === 'in_attendance')
+        .map((a) => ({
+          id: a.assistId,
+          name: a.fullName,
+          room: a.residentialUnit,
+          time: a.elapsedTime,
+          severity: this.mapLevelFromApi(a.severityLevel),
+          status: this.mapStatusFromApi(a.status),
+          image: 'default.jpg',
+          observations: a.observations ?? '',
+        }));
+
+      this.finishedAlerts = response.data
+        .filter((a) => a.status === 'attended' || a.status === 'completed')
+        .map((a) => ({
+          id: a.assistId,
+          name: a.fullName,
+          room: a.residentialUnit,
+          time: a.elapsedTime,
+          severity: this.mapLevelFromApi(a.severityLevel),
+          status: this.mapStatusFromApi(a.status),
+          image: 'default.jpg',
+          observations: a.observations ?? '',
+        }));
+    } catch (err) {
+      console.error('Erro ao carregar alertas:', err);
+    }
   }
   totalActiveCalls: number = 0;
   selectedTabIndex: number = 0;
@@ -50,56 +89,6 @@ export class AlertsComponent implements OnInit {
     settings: 'fa-solid fa-gear',
   };
   selectedAlertDetail?: ResidentAlertDetail;
-  alerts: Alert[] = [
-    {
-      id: '1',
-      name: 'Ana Costa',
-      room: 'Quarto 150',
-      time: 'há 2m2s',
-      severity: 'critico',
-      status: 'pendente',
-      image: 'ana.jpg',
-      observations: 'Paciente atendido pelo Dr. Paulo',
-    },
-    {
-      id: '2',
-      name: 'Maria Silva',
-      room: 'Quarto 101',
-      time: 'há 5m2s',
-      severity: 'alto',
-      status: 'pendente',
-      image: 'maria.jpg',
-    },
-    {
-      id: '3',
-      name: 'João Santos',
-      room: 'Quarto 205',
-      time: 'há 10m',
-      severity: 'medio',
-      status: 'pendente',
-      image: 'joao.jpg',
-    },
-    {
-      id: '3',
-      name: 'João Santos',
-      room: 'Quarto 205',
-      time: 'há 10m',
-      severity: 'medio',
-      status: 'atendido',
-      image: 'joao.jpg',
-      observations: 'Paciente atendido pelo Dr. Paulo',
-    },
-    {
-      id: '4',
-      name: 'Maria Oliveira',
-      room: 'Quarto 202',
-      time: 'há 15m',
-      severity: 'critico',
-      status: 'atendido',
-      image: 'maria.jpg',
-      observations: 'Paciente atendido pelo Dr. Paulo',
-    },
-  ];
 
   selectedAlert?: Alert; // guarda o card clicado
 
@@ -113,7 +102,6 @@ export class AlertsComponent implements OnInit {
       severity: alert.severity,
       status: alert.status,
       imageData: alert.image,
-      observations: alert.observations,
 
       cpf: 'string',
       sex: 'string',
@@ -136,42 +124,30 @@ export class AlertsComponent implements OnInit {
   getIconClass(item: string): string {
     return this.iconMap[item] || 'fa-solid fa-circle-question';
   }
-  get activeAlerts() {
-    return this.alerts.filter(
-      (a) =>
-        a.status.toLowerCase() === 'pendente' ||
-        a.status.toLowerCase() === 'em_atendimento'
-    );
-  }
 
-  get finishedAlerts() {
-    return this.alerts.filter(
-      (a) =>
-        a.status.toLowerCase() === 'finalizado' ||
-        a.status.toLowerCase() === 'atendido'
-    );
-  }
   mapLevel(severity: string): 'normal' | 'medio' | 'critico' {
-    switch (severity.toLowerCase()) {
-      case 'crítico':
-        return 'critico';
-      case 'alto':
-        return 'medio';
-      case 'médio':
-        return 'medio';
-      default:
-        return 'normal';
-    }
+    if (severity.toLowerCase() === 'emergency') return 'critico';
+    if (severity.toLowerCase() === 'warning') return 'medio';
+    return 'normal';
   }
 
   mapStatus(status: string): 'pendente' | 'em_atendimento' | 'atendido' {
+    if (status.toLowerCase() === 'in_attendance') return 'em_atendimento';
+    if (status.toLowerCase() === 'pending') return 'pendente';
+    if (status.toLowerCase() === 'attended') return 'atendido';
+    return 'pendente';
+  }
+  private mapStatusFromApi(status: string): 'pendente' | 'em_atendimento' {
     switch (status.toLowerCase()) {
-      case 'pendente':
+      case 'pending':
         return 'pendente';
-      case 'atendido':
-        return 'atendido';
-      default:
+      case 'in_attendance':
         return 'em_atendimento';
+      default:
+        return 'pendente';
     }
+  }
+  private mapLevelFromApi(severity: string): 'medio' | 'critico' {
+    return severity.toUpperCase() === 'EMERGENCY' ? 'critico' : 'medio';
   }
 }

@@ -1,0 +1,55 @@
+<app-register class="register-caregiver-leader" [title]="'Cadastrar Enfermeiro(a) Líder'" [steps]="steps"
+  (updatedStep)="updateStep($event)" (cancel)="onCancel()" (finish)="onFinish()" [validStep]="validateStep()">
+
+  @if(currentStep === 0) {
+    <app-image-input (imageChange)="onImageChange($event)"></app-image-input>
+
+    <app-input label="Nome Completo" placeholder="Digite o nome completo" [required]="true"
+      (valueChange)="onInputChange(CaregiverLeaderInputField.FULL_NAME, $event)"
+      [value]="caregiverLeaderListResponseDto.fullName || ''"></app-input>
+
+    <app-input label="CPF" placeholder="Digite o CPF" [required]="true"
+      (valueChange)="onInputChange(CaregiverLeaderInputField.CPF, $event)" [value]="caregiverLeaderListResponseDto.cpf || ''"
+      [mask]="'000.000.000-00'" [dropSpecialCharacters]="false"></app-input>
+
+    @if(cpfInvalido) {
+      <div class="error-message">CPF inválido. Verifique os números digitados.</div>
+    }
+
+    <app-input label="Telefone" placeholder="Digite o telefone" [required]="true" type="tel"
+      (valueChange)="onInputChange(CaregiverLeaderInputField.PHONE, $event)"
+      [value]="caregiverLeaderListResponseDto.phone || ''" [mask]="'(00) 00000-0000'"
+      [dropSpecialCharacters]="false"></app-input>
+      
+    @if(telefoneInvalido) {
+      <div class="error-message">Telefone inválido. O número deve ter 10 ou 11 dígitos.</div>
+    }
+    
+  } @if(currentStep === 1) {
+    <app-input label="E-mail" placeholder="Digite o e-mail para autenticação" [required]="true"
+      (valueChange)="onInputChange(CaregiverLeaderInputField.EMAIL, $event)"
+      [value]="caregiverLeaderListResponseDto.email || ''"></app-input>
+    
+    @if(emailInvalido) {
+      <div class="error-message">E-mail inválido. Digite um formato válido (ex: seu.email&#64;dominio.com).</div>
+    }
+
+    <app-input label="Senha" placeholder="Digite a senha para autenticação" type="password" [required]="true"
+      (valueChange)="onInputChange(CaregiverLeaderInputField.PASSWORD, $event)"
+      [value]="caregiverLeaderListResponseDto.caregiver_password || ''"></app-input>
+      
+    @if(senhaInvalida) {
+      <div class="error-message">
+        A senha deve ter no mínimo 8 caracteres, com pelo menos uma letra maiúscula, uma minúscula e um número/símbolo.
+      </div>
+    }
+
+    <app-input label="Confirmar Senha" placeholder="Digite novamente a senha" type="password" [required]="true"
+      (valueChange)="onInputChange(CaregiverLeaderInputField.CONFIRM_PASSWORD, $event)"
+      [value]="confirmPassword || ''"></app-input>
+
+    @if(senhaNaoConfere) {
+      <div class="error-message">As senhas digitadas não coincidem.</div>
+    }
+  }
+</app-register>

@@ -1,5 +1,6 @@
 package org.example.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.AlarmPanel;
 
 import java.net.URI;
@@ -30,8 +31,8 @@ public class HttpService {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println("Status do envio de emergencia medica: " + response.statusCode());
-            System.out.println("Resposta do envio de emergencia medica: " + response.body());
+//            System.out.println("Status do envio de emergencia medica: " + response.statusCode());
+//            System.out.println("Resposta do envio de emergencia medica: " + response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,50 +44,96 @@ public class HttpService {
             HttpClient client = HttpClient.newHttpClient();
 
             String jsonBody = "{"
-                    + "\"serial_number\": \"" + alarmPanel.getSerialNumber() + "\","
-                    + "\"count_number\": \"" + alarmPanel.getCount() + "\""
-                    + "\"ip_address\": \"" + alarmPanel.getIpAdress() + "\""
-                    + "\"mac_address\": \"" + alarmPanel.getMacAdress() + "\""
-                    + "\"model\": \"" + alarmPanel.getModel() + "\""
+                    + "\"model\": \"" + alarmPanel.getModel() + "\","
+                    + "\"status\": \"" + alarmPanel.getStatus() + "\","
+                    + "\"ipAddress\": \"" + alarmPanel.getIpAddress() + "\","
+                    + "\"macAddress\": \"" + alarmPanel.getMacAddress() + "\","
+                    + "\"account\": \"" + alarmPanel.getAccount() + "\","
+                    + "\"serialNumber\": \"" + alarmPanel.getSerialNumber() + "\","
+                    + "\"port\": \"" + alarmPanel.getPort() + "\""
                     + "}";
 
+            System.out.println("jsonBody: " + jsonBody);
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/api/v1/assist"))
+                    .uri(URI.create("http://localhost:8080/api/v1/alarms"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println("Status do envio de dados da central: " + response.statusCode());
-            System.out.println("Resposta do envio de dados da central: " + response.body());
+            System.out.println("Status da criação de dados da central: " + response.statusCode());
+//            System.out.println("Resposta da criação de dados da central: " + response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void makePanelConnectionStatusPostRequest(boolean online) {
+    public AlarmPanel makePanelInfoGetRequest(String panelSerialNumber) {
+        AlarmPanel alarmPanel = new AlarmPanel();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/api/v1/alarms/serial/" + panelSerialNumber))
+                    .version(HttpClient.Version.HTTP_2)
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+//            System.out.println("Status do recebimento de dados da central: " + response.statusCode());
+//            System.out.println("Resposta do recebimento de dados da central: " + response.body());
+
+            String jsonResponse = response.body();
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            alarmPanel = mapper.readValue(jsonResponse, AlarmPanel.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return alarmPanel;
+    }
+
+    public void makePanelConnectionStatusPutRequest(String serialNumber, String status, AlarmPanel alarmPanel) {
+
         try {
             HttpClient client = HttpClient.newHttpClient();
 
+
             String jsonBody = "{"
-                    + "\"connection_status\": \"" + online + "\","
+                    + "\"model\": \"" + alarmPanel.getModel() + "\","
+                    + "\"status\": \"" + status + "\","
+                    + "\"ipAddress\": \"" + alarmPanel.getIpAddress() + "\","
+                    + "\"macAddress\": \"" + alarmPanel.getMacAddress() + "\","
+                    + "\"account\": \"" + alarmPanel.getAccount() + "\","
+                    + "\"serialNumber\": \"" + alarmPanel.getSerialNumber() + "\","
+                    + "\"port\": \"" + alarmPanel.getPort() + "\""
                     + "}";
 
+            System.out.println("jsonBody: " + jsonBody);
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/api/v1/assist"))
+                    .uri(URI.create("http://localhost:8080/api/v1/alarms/serial/" + serialNumber))
                     .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println("Status do envio de status de conexão da central: " + response.statusCode());
-            System.out.println("Resposta do envio de status de conexão da central: " + response.body());
+            System.out.println("Status do envio de status da central: " + response.statusCode());
+            System.out.println("Resposta do envio de status da central: " + response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

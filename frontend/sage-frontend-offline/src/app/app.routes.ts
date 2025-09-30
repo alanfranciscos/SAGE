@@ -9,6 +9,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GenericoComponent } from './pages/generico/generico.component';
 import { NurseManagerComponent } from './pages/nurse-manager/nurse-manager.component';
 import { UpdateResidentComponent } from './pages/update-resident/update-resident.component';
+import { caregiverGuard } from './_guard/caregiver.guard';
+import { RegisterCaregiverLeaderComponent } from './pages/register-caregiver-leader/register-caregiver-leader.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +40,11 @@ export const routes: Routes = [
   {
     path: 'nurse-manager',
     component: NurseManagerComponent,
+    canActivate: [caregiverGuard]
+  },
+  {
+    path: 'nurse-manager/register',
+    component: RegisterCaregiverLeaderComponent,
   },
   {
     path: '**',

@@ -1,5 +1,6 @@
-<app-update
+<!-- <app-update
   [title]="title"
+  class="update-resident"
   [steps]="steps"
   [validStep]="validateStep()"
   (updatedStep)="updateStep($event)"
@@ -15,14 +16,14 @@
 
   <app-input
     label="Nome"
-    placeholder="Digite o nome do paciente"
+    placeholder="Digite o nome do residente"
     [required]="true"
     [(value)]="residentData.fullName"
   ></app-input>
 
   <app-input
     label="CPF"
-    placeholder="Digite o CPF do paciente"
+    placeholder="Digite o CPF do residente"
     [required]="true"
     [mask]="'000.000.000-00'"
     [dropSpecialCharacters]="false"
@@ -54,7 +55,7 @@
   ></app-input>
   <app-input
     label="Parentesco"
-    placeholder="Digite o nome do paciente"
+    placeholder="Digite o nome do residente"
     [(value)]="residentData.relationship!"
   ></app-input>
 
@@ -76,4 +77,97 @@
     [(value)]="residentData.residentialUnit"
   ></app-input>
   }
-</app-update>
+</app-update> -->
+
+<app-register
+  class="register-resident"
+  [title]="title"
+  [steps]="steps"
+  (updatedStep)="updateStep($event)"
+  (cancel)="onCancel()"
+  (finish)="onFinish()"
+  [validStep]="validateStep()"
+>
+  <div *ngIf="currentStep === 0" class="step step-1">
+    <app-image-input
+      class="image-input"
+      [image]="residentData.imageData ?? null"
+      (imageChange)="onImageSelected($event)"
+    ></app-image-input>
+
+    <div class="form-group">
+      <app-input
+        label="Nome"
+        placeholder="Digite o nome do residente"
+        [required]="true"
+        [(value)]="residentData.fullName"
+      ></app-input>
+
+      <app-input
+        label="CPF"
+        placeholder="Digite o CPF do residente"
+        [required]="true"
+        [mask]="'000.000.000-00'"
+        [dropSpecialCharacters]="false"
+        [(value)]="residentData.cpf"
+      ></app-input>
+
+      <app-select-input
+        label="Sexo"
+        [options]="[
+          { value: '', label: 'Selecione o sexo', disabled: true },
+          { value: 'M', label: 'Masculino' },
+          { value: 'F', label: 'Feminino' }
+        ]"
+        [required]="true"
+        [(value)]="residentData.sex"
+      ></app-select-input>
+
+      <app-input
+        label="Data de Nascimento"
+        type="date"
+        [required]="true"
+        [(value)]="residentData.birthDate"
+      ></app-input>
+    </div>
+  </div>
+
+  <div *ngIf="currentStep === 1" class="step step-2">
+    <div class="form-group">
+      <app-input
+        label="Nome do contato de emergência"
+        placeholder="Digite o nome do contato de emergência"
+        [(value)]="residentData.emergencyName!"
+      ></app-input>
+
+      <app-input
+        label="Parentesco"
+        placeholder="Digite o parentesco"
+        [(value)]="residentData.relationship!"
+      ></app-input>
+
+      <app-input
+        label="Telefone"
+        placeholder="Digite o telefone"
+        type="tel"
+        [mask]="'(00) 00000-0000'"
+        [dropSpecialCharacters]="true"
+        [(value)]="residentData.emergencyPhone!"
+      ></app-input>
+    </div>
+  </div>
+
+  <div *ngIf="currentStep === 2" class="step step-3">
+    <div class="form-group">
+      <app-input
+        label="Número do controle"
+        [(value)]="residentData.controlNumber"
+      ></app-input>
+
+      <app-input
+        label="Residência do residente"
+        [(value)]="residentData.residentialUnit"
+      ></app-input>
+    </div>
+  </div>
+</app-register>
