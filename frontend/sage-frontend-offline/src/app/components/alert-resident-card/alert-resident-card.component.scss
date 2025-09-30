@@ -1,15 +1,21 @@
 .card {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    /* agora a observação vai ficar embaixo */
     background: #F1EFEF;
     border: 2px solid #E0E0E0;
     border-radius: 8px;
-
     padding: 0.8rem 1rem;
     width: 80%;
     margin: 0.5rem auto;
 }
+
+.card-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 .image img {
     width: 60px;
@@ -79,16 +85,12 @@
     background: #017250;
 }
 
-/* === Observação padrão do card === */
 .observation {
-    width: 80%;
-    margin: 0.5rem auto 0;
+    margin-top: 0.5rem;
     padding: 0.5rem 0.8rem;
     border-radius: 0 0 12px 12px;
     background: #f1f3f5;
-    /* mesmo fundo do card */
-    border: none;
-    /* sem borda */
     font-size: 0.9rem;
     color: #333;
+    width: 100%;
 }

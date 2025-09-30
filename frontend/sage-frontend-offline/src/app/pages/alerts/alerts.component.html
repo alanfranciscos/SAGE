@@ -40,7 +40,9 @@
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card
                   [alertDetail]="selectedAlertDetail"
-                ></app-alert-resident-detail-card>
+                  (updated)="onAlertUpdated($event)"
+                >
+                </app-alert-resident-detail-card>
               </ng-container>
               <ng-template #noSelection>
                 <p>Selecione um chamado para ver os detalhes</p>
@@ -62,6 +64,7 @@
                 [status]="alert.status"
                 (click)="selectAlert(alert, true)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
+                [observation]="alert.observations"
               >
               </app-alert-resident-card>
             </div>

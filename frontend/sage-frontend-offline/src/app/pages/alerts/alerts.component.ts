@@ -191,20 +191,35 @@ export class AlertsComponent implements OnInit {
     };
   }
   private formatTime(time: string): string {
-    const date = new Date(time);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+    const match = time.match(/(\d+) days (\d+):(\d+):(\d+)/);
+    if (!match) return time;
+
+    const days = parseInt(match[1], 10);
+    const hours = parseInt(match[2], 10);
+    const minutes = parseInt(match[3], 10);
+
+    let result = '';
+    if (days > 0) result += `${days}d `;
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m`;
+
+    return result.trim();
   }
 
   private formatDateTime(time: string): string {
-    const date = new Date(time);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // meses começam do 0
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
+    const match = time.match(/(\d+) days (\d+):(\d+):(\d+)/);
+    if (!match) return time;
+
+    const days = parseInt(match[1], 10);
+    const hours = parseInt(match[2], 10);
+    const minutes = parseInt(match[3], 10);
+
+    let result = '';
+    if (days > 0) result += `${days}d `;
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m`;
+
+    return result.trim();
   }
 
   private mapAlertToDetail(alert: Alert): ResidentAlertDetail {
@@ -276,6 +291,31 @@ export class AlertsComponent implements OnInit {
         return 'em_atendimento';
       default:
         return 'pendente';
+    }
+  }
+  onAlertUpdated(updatedAlert: ResidentAlertDetail) {
+    // atualiza na lista de ativos
+    const idxActive = this.activeAlerts.findIndex(
+      (a) => a.id === updatedAlert.id
+    );
+    if (idxActive > -1) {
+      this.activeAlerts[idxActive] = {
+        ...this.activeAlerts[idxActive],
+        ...updatedAlert,
+      };
+      this.activeAlerts = [...this.activeAlerts]; // força change detection
+    }
+
+    // atualiza na lista de finalizados (histórico)
+    const idxFinished = this.finishedAlerts.findIndex(
+      (a) => a.id === updatedAlert.id
+    );
+    if (idxFinished > -1) {
+      this.finishedAlerts[idxFinished] = {
+        ...this.finishedAlerts[idxFinished],
+        ...updatedAlert,
+      };
+      this.finishedAlerts = [...this.finishedAlerts]; // força change detection
     }
   }
 
