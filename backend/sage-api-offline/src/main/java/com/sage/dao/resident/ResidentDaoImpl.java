@@ -215,7 +215,17 @@ public class ResidentDaoImpl {
                         String columnName = metaData.getColumnLabel(i); // ex: rec_full_name
                         String camelCaseName = toCamelCase(columnName); // ex: recFullName
                         Object columnValue = resultSet.getObject(i);
-                        resident.put(camelCaseName, columnValue);
+
+                        if ("imageData".equals(camelCaseName)) {
+                            String imagePath = (String) columnValue;
+                            if (imagePath == null) {
+                                imagePath = "output-files/resident-image/default.png";
+                            }
+                            String base64Image = encodeFileToBase64(imagePath);
+                            resident.put(camelCaseName, base64Image);
+                        } else {
+                            resident.put(camelCaseName, columnValue);
+                        }
                     }
 
                     return resident;
@@ -398,7 +408,7 @@ public class ResidentDaoImpl {
                 byte[] fileContent = Files.readAllBytes(defaultPath);
                 return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
             } catch (IOException ex) {
-                logger.log(Level.SEVERE, "Could not read default image file");
+                logger.log(Level.SEVERE, "Could not read default image file", ex);
                 return ""; // Or some other error indicator
             }
         }
