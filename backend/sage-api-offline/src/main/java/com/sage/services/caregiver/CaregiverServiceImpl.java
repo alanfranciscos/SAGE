@@ -111,7 +111,9 @@ public class CaregiverServiceImpl implements CaregiverService {
     @Override
     public UUID createPassword(UUID caregiverId, String hashedPassword) {
         String verificationCode = generateUniqueToken();
+        System.out.println("verificationCode: " + verificationCode);
         OffsetDateTime codeValidUntil = OffsetDateTime.now(ZoneOffset.UTC).plusHours(24);
+        System.out.println("codeValidUntil: " + codeValidUntil.toString());
         return caregiverDao.createPassword(caregiverId, hashedPassword, verificationCode, codeValidUntil);
 
     }

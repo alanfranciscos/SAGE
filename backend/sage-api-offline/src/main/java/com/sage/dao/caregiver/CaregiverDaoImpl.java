@@ -1,9 +1,6 @@
 package com.sage.dao.caregiver;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -244,8 +241,9 @@ public class CaregiverDaoImpl implements CaregiverDao {
         String sql = "INSERT INTO caregiver_password (caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) " +
                 "VALUES (?, ?, now(), FALSE, TRUE, ?, ?)";
         UUID caregiverPasswordId = UUID.randomUUID();
+        System.out.println("caregiverPasswordId do DAO: " + caregiverPasswordId);
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setObject(1, caregiverId);
             ps.setString(2, hashedPassword);
