@@ -28,7 +28,7 @@ export class ApiService {
     this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   };
 
-  removeToken = () => {
-    delete this.api.defaults.headers.common['Authorization'];
-  };
+  // removeToken = () => {
+  //   delete this.api.defaults.headers.common['Authorization'];
+  // };
 }

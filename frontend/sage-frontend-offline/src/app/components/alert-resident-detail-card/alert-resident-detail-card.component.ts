@@ -2,18 +2,32 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ResidentDetailsResponseDto } from '../../model/Resident';
 import { CommonModule } from '@angular/common';
+import { StartAssistDialogComponent } from '../start-assist-dialog/start-assist-dialog.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AssistService } from '../../controller/assist/assist.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface ResidentAlertDetail extends ResidentDetailsResponseDto {
   severity: 'medio' | 'critico';
   status: 'pendente' | 'em_atendimento' | 'atendido';
   observations?: string;
   time: string; // tempo decorrido
+  caregiverToken?: string;
 }
 
 @Component({
   selector: 'app-alert-resident-detail-card',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './alert-resident-detail-card.component.html',
   styleUrls: ['./alert-resident-detail-card.component.scss'],
 })
@@ -21,6 +35,10 @@ export class AlertResidentDetailCardComponent {
   @Input() alertDetail!: ResidentAlertDetail;
 
   newObservation: string = '';
+  constructor(
+    private dialog: MatDialog,
+    private assistService: AssistService
+  ) {}
 
   atenderChamado() {
     if (this.newObservation.trim()) {
@@ -29,8 +47,10 @@ export class AlertResidentDetailCardComponent {
       this.newObservation = '';
     }
   }
-  calcularIdade(birthDate: string): number {
+  calcularIdade(birthDate: string | undefined | null): number {
+    if (!birthDate) return 0; // caso não tenha data
     const nascimento = new Date(birthDate);
+    if (isNaN(nascimento.getTime())) return 0; // data inválida
     const hoje = new Date();
     let idade = hoje.getFullYear() - nascimento.getFullYear();
     const m = hoje.getMonth() - nascimento.getMonth();
@@ -39,19 +59,68 @@ export class AlertResidentDetailCardComponent {
     }
     return idade;
   }
+
   handleAtendimento() {
     if (this.alertDetail.status === 'pendente') {
-      // Iniciar atendimento
-      this.alertDetail.status = 'em_atendimento';
+      this.openStartAssistDialog(); // inicia atendimento
     } else if (this.alertDetail.status === 'em_atendimento') {
-      // Finalizar atendimento
-      if (!this.newObservation.trim()) {
-        alert('Digite alguma observação antes de finalizar!');
-        return;
+      // abrir modal se ainda não tiver token
+      if (!this.alertDetail.caregiverToken) {
+        this.openStartAssistDialog(true); // passa flag para finalizar
+      } else {
+        this.finalizeAssist();
       }
-      this.alertDetail.status = 'atendido';
-      this.alertDetail.observations = this.newObservation;
-      this.newObservation = '';
     }
+  }
+
+  openStartAssistDialog(isFinish: boolean = false) {
+    const dialogRef = this.dialog.open(StartAssistDialogComponent, {
+      width: '400px',
+      data: { assistId: this.alertDetail.id },
+    });
+
+    dialogRef.afterClosed().subscribe((caregiverToken: string | undefined) => {
+      if (caregiverToken) {
+        if (!isFinish) {
+          // start assist
+          this.assistService
+            .startAssist(this.alertDetail.id, caregiverToken)
+            .subscribe({
+              next: () => {
+                this.alertDetail.status = 'em_atendimento';
+                this.alertDetail.caregiverToken = caregiverToken;
+              },
+              error: (err) =>
+                console.error('Erro ao iniciar atendimento:', err),
+            });
+        } else {
+          // finish assist
+          this.alertDetail.caregiverToken = caregiverToken;
+          this.finalizeAssist();
+        }
+      }
+    });
+  }
+
+  finalizeAssist() {
+    if (!this.alertDetail.caregiverToken) {
+      console.error('Token do cuidador não informado!');
+      return;
+    }
+
+    this.assistService
+      .finishAssist(
+        this.alertDetail.id,
+        this.alertDetail.caregiverToken,
+        this.newObservation
+      )
+      .subscribe({
+        next: () => {
+          this.alertDetail.status = 'atendido';
+          this.alertDetail.observations = this.newObservation;
+          this.newObservation = '';
+        },
+        error: (err) => console.error('Erro ao finalizar atendimento:', err),
+      });
   }
 }

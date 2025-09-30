@@ -84,14 +84,70 @@ textarea {
     margin-top: 8px;
 }
 
-.btn.finalizar {
-    width: 100%;
-    margin-top: 12px;
-    padding: 10px;
-    border-radius: 8px;
+// .btn.finalizar {
+//     width: 100%;
+//     margin-top: 12px;
+//     padding: 10px;
+//     border-radius: 8px;
+//     border: none;
+//     background: green;
+//     color: white;
+//     font-weight: bold;
+//     cursor: pointer;
+// }
+/* Botão principal do chamado */
+.alert-button {
+    display: block;
+    /* faz o botão ocupar espaço como bloco */
+    margin: 12px auto 0;
+    /* centraliza horizontalmente e dá espaço superior */
+    padding: 10px 20px;
     border: none;
-    background: green;
-    color: white;
-    font-weight: bold;
+    border-radius: 8px;
+    background-color: #017250;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.alert-button:hover {
+    background-color: #00532a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão secundário, cinza */
+.alert-button.secondary {
+    background-color: #cccccc;
+    color: #333333;
+}
+
+.alert-button.secondary:hover {
+    background-color: #aaaaaa;
+    color: #000000;
+}
+
+/* Botão verde “finalizar atendimento” */
+.alert-button.success {
+    background-color: #017250;
+}
+
+.alert-button.success:hover {
+    background-color: #0f501c;
+}
+
+/* Desabilitado */
+.alert-button:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* Botão maior, para destaque */
+.alert-button.large {
+    padding: 12px 24px;
+    font-size: 1.25rem;
 }

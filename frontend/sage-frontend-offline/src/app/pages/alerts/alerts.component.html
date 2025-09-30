@@ -31,12 +31,11 @@
                 [imageUrl]="alert.image"
                 [level]="alert.severity"
                 [status]="alert.status"
-                (click)="selectAlert(alert)"
+                (click)="selectAlert(alert, false)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
               >
               </app-alert-resident-card>
             </div>
-
             <div class="alert-details">
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card
@@ -61,12 +60,11 @@
                 [imageUrl]="alert.image"
                 [level]="alert.severity"
                 [status]="alert.status"
-                (click)="selectAlert(alert)"
+                (click)="selectAlert(alert, true)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
               >
               </app-alert-resident-card>
             </div>
-
             <div class="alert-details">
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card

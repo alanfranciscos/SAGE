@@ -24,6 +24,7 @@ export interface ResidentDetailsResponseDto extends ResidentHeaderResponseDto {
   cpf: string;
   sex: string;
   birthDate: string;
+  age: number;
   residentialUnit: string;
   imageData: string;
   active: boolean;

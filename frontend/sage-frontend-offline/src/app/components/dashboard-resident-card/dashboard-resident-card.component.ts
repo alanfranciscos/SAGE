@@ -24,7 +24,7 @@ export class DashboardResidentCardComponent {
     normal: {
       text: 'Normal',
       icon: 'fa-solid fa-circle-check',
-      color: '#8a8a8a',
+      color: '#017250',
     },
     warning: {
       text: 'Alerta',

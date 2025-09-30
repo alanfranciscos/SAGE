@@ -11,7 +11,8 @@
       <p>
         <strong>{{ alertDetail.fullName }}</strong>
       </p>
-      <p>{{ calcularIdade(alertDetail.birthDate) }} anos</p>
+      <p>Idade: {{ alertDetail.age }} anos</p>
+
       <p>Casa {{ alertDetail.residentialUnit }}</p>
     </div>
   </div>
@@ -35,7 +36,7 @@
     </span>
   </p>
 
-  <!-- Caso esteja pendente -->
+  <!-- Textarea + botão: só se não finalizado -->
   <div *ngIf="alertDetail.status !== 'atendido'">
     <label for="obs"><strong>Observações:</strong></label>
     <textarea
@@ -44,19 +45,22 @@
       placeholder="Digite as observações"
     ></textarea>
 
-    <button class="btn" (click)="handleAtendimento()">
+    <button class="alert-button success" (click)="handleAtendimento()">
       {{
         alertDetail.status === "pendente"
           ? "Iniciar Atendimento"
-          : "Finalizar Atendimento"
+          : alertDetail.status === "em_atendimento"
+          ? "Finalizar Atendimento"
+          : ""
       }}
     </button>
   </div>
 
-  <ng-template #atendidoBlock>
+  <!-- Observações quando finalizado -->
+  <div *ngIf="alertDetail.status === 'atendido'">
     <p><strong>Observações do atendimento:</strong></p>
     <div class="observations">
       {{ alertDetail.observations || "Sem observações" }}
     </div>
-  </ng-template>
+  </div>
 </div>

@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">{{ title }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="ranking-list">
+      <div
+        class="ranking-item"
+        *ngFor="let resident of residents; let i = index"
+      >
+        <div class="ranking-left">
+          <div class="ranking-index">{{ i + 1 }}</div>
+          <div>
+            <p class="resident-name">{{ resident.name }}</p>
+            <p class="resident-room">{{ resident.room }}</p>
+          </div>
+        </div>
+
+        <div class="ranking-right">
+          <p class="resident-calls">{{ resident.calls }} chamados</p>
+          <p class="resident-response">Resp: {{ resident.avgResponse }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
