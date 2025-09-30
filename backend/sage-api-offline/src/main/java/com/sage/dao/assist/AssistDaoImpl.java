@@ -1,10 +1,15 @@
 package com.sage.dao.assist;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,6 +34,23 @@ public class AssistDaoImpl implements AssistDao {
 
     public AssistDaoImpl(Connection connection) {
         this.connection = connection;
+    }
+
+    private String encodeFileToBase64(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            byte[] fileContent = Files.readAllBytes(path);
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
+        } catch (IOException e) {
+            try {
+                Path defaultPath = Paths.get("output-files/resident-image/default.png");
+                byte[] fileContent = Files.readAllBytes(defaultPath);
+                return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, "Could not read default image file", ex);
+                return ""; // Or some other error indicator
+            }
+        }
     }
 
     private PreparedStatement prepareParametersToSave(
@@ -169,6 +191,7 @@ public class AssistDaoImpl implements AssistDao {
                 + "a.id, "
                 + "r.full_name, "
                 + "r.residential_unit, "
+                + "COALESCE(r.image_data, 'output-files/resident-image/default.png') AS image_data, "
                 + "NOW() - a.called_at AS elapsed_time, "
                 + "a.severity_level, "
                 + "CASE WHEN a.assignment_at IS NULL THEN 'pending' ELSE 'in_attendance' END AS status "
@@ -186,13 +209,16 @@ public class AssistDaoImpl implements AssistDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    String imagePath = resultSet.getString("image_data");
+                    String base64Image = encodeFileToBase64(imagePath);
                     pendingAssists.add(new PendingAssistResponseDto(
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
                             resultSet.getString("residential_unit"),
                             resultSet.getString("elapsed_time"),
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
-                            resultSet.getString("status")
+                            resultSet.getString("status"),
+                            base64Image
                     ));
                 }
             }
@@ -224,6 +250,7 @@ public class AssistDaoImpl implements AssistDao {
                 + "a.id, "
                 + "r.full_name, "
                 + "r.residential_unit, "
+                + "COALESCE(r.image_data, 'output-files/resident-image/default.png') AS image_data, "
                 + "a.end_at - a.called_at AS elapsed_time, "
                 + "a.detail, "
                 + "a.severity_level "
@@ -241,13 +268,16 @@ public class AssistDaoImpl implements AssistDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    String imagePath = resultSet.getString("image_data");
+                    String base64Image = encodeFileToBase64(imagePath);
                     attendedAssists.add(new AttendedAssistResponseDto(
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
                             resultSet.getString("residential_unit"),
                             resultSet.getString("elapsed_time"),
                             resultSet.getString("detail"),
-                            SeverityLevel.fromValue(resultSet.getString("severity_level"))
+                            SeverityLevel.fromValue(resultSet.getString("severity_level")),
+                            base64Image
                     ));
                 }
             }
@@ -264,6 +294,7 @@ public class AssistDaoImpl implements AssistDao {
         String sql = "SELECT "
                 + "a.id, "
                 + "r.full_name, "
+                + "COALESCE(r.image_data, 'output-files/resident-image/default.png') AS image_data, "
                 + "DATE_PART('year', AGE(r.birth_date)) as age, "
                 + "r.residential_unit, "
                 + "NOW() - a.called_at AS elapsed_time, "
@@ -278,6 +309,8 @@ public class AssistDaoImpl implements AssistDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    String imagePath = resultSet.getString("image_data");
+                    String base64Image = encodeFileToBase64(imagePath);
                     return Optional.of(new PendingAssistDetailResponseDto(
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
@@ -285,7 +318,8 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getString("residential_unit"),
                             resultSet.getString("elapsed_time"),
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
-                            resultSet.getString("status")
+                            resultSet.getString("status"),
+                            base64Image
                     ));
                 }
             }
@@ -349,6 +383,7 @@ public class AssistDaoImpl implements AssistDao {
         String sql = "SELECT "
                 + "a.id, "
                 + "r.full_name, "
+                + "COALESCE(r.image_data, 'output-files/resident-image/default.png') AS image_data, "
                 + "DATE_PART('year', AGE(r.birth_date)) as age, "
                 + "r.residential_unit, "
                 + "a.end_at - a.called_at AS elapsed_time, "
@@ -364,6 +399,8 @@ public class AssistDaoImpl implements AssistDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    String imagePath = resultSet.getString("image_data");
+                    String base64Image = encodeFileToBase64(imagePath);
                     return Optional.of(new AssistHistoryResponseDto(
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
@@ -372,7 +409,8 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getString("elapsed_time"),
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
                             resultSet.getString("status"),
-                            resultSet.getString("detail")
+                            resultSet.getString("detail"),
+                            base64Image
                     ));
                 }
             }

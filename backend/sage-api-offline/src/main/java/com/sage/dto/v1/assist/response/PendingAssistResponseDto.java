@@ -10,7 +10,8 @@ public record PendingAssistResponseDto(
         String residentialUnit,
         String elapsedTime,
         SeverityLevel severityLevel,
-        String status
-        ) {
+        String status,
+        String imageData
+) {
 
 }

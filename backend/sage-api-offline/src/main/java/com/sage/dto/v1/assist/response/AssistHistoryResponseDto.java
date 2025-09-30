@@ -23,4 +23,5 @@ public class AssistHistoryResponseDto {
     private SeverityLevel severityLevel;
     private String status;
     private String details;
+    private String imageData;
 }
