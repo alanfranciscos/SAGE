@@ -20,11 +20,11 @@ INSERT INTO caregiver (id, organization_id, full_name, active, phone, email, cpf
 ('44444444-5555-6666-d777-888999000111', 'd4e5f6a7-b8c9-4012-d345-6789abcdef01', 'Roberto Silva', true, '11976543210', 'roberto.silva@email.com', '45678901233', 'D4E5F6A7', null);
 
 -- Tabela caregiver_password
---INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) VALUES
---('aaaa1111-bbbb-4ccc-dddd-eeeefffff000', '11111111-2222-4333-a444-555666777888', '$2a$10$o3HzxYomdPCzyqfv0YpBd.fphmecGQ4qx28JDd.wGEgPAxxxRf3yq', '2025-01-01 10:00:00+00', true, false, 'VERIFY123', '2025-01-02 10:00:00+00'),
---('bbbb2222-cccc-4ddd-eeee-fffff0000111', '22222222-3333-4444-b555-666777888999', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 11:00:00+00', true, false, 'VERIFY456', '2025-01-02 11:00:00+00'),
---('cccc3333-dddd-4eee-ffff-000011112222', '33333333-4444-5555-c666-777888999000', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 12:00:00+00', true, false, 'VERIFY789', '2025-01-02 12:00:00+00'),
---('dddd4444-eeee-4fff-0000-111122223333', '44444444-5555-6666-d777-888999000111', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 13:00:00+00', true, false, 'VERIFY012', '2025-01-02 13:00:00+00');
+INSERT INTO caregiver_password (id, caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) VALUES
+('aaaa1111-bbbb-4ccc-dddd-eeeefffff000', '11111111-2222-4333-a444-555666777888', '$2a$10$o3HzxYomdPCzyqfv0YpBd.fphmecGQ4qx28JDd.wGEgPAxxxRf3yq', '2025-01-01 10:00:00+00', true, false, 'VERIFY123', '2025-01-02 10:00:00+00'),
+('bbbb2222-cccc-4ddd-eeee-fffff0000111', '22222222-3333-4444-b555-666777888999', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 11:00:00+00', true, false, 'VERIFY456', '2025-01-02 11:00:00+00'),
+('cccc3333-dddd-4eee-ffff-000011112222', '33333333-4444-5555-c666-777888999000', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 12:00:00+00', true, false, 'VERIFY789', '2025-01-02 12:00:00+00'),
+('dddd4444-eeee-4fff-0000-111122223333', '44444444-5555-6666-d777-888999000111', '$2a$10$N9qo8uLOickgx2ZMRZoMye.TjKd3QsYsJYWbSSVGJjj4a4gJ5OsW6', '2025-01-01 13:00:00+00', true, false, 'VERIFY012', '2025-01-02 13:00:00+00');
 
 -- Tabela resident
 INSERT INTO resident (id, full_name, cpf, sex, birth_date, created_at, updated_at, residential_unit, image_data, active) VALUES

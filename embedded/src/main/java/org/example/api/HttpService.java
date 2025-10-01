@@ -136,4 +136,29 @@ public class HttpService {
         }
     }
 
+    public int getPortBySerialNumber(String serialNumber) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/api/v1/alarms/serial/" + serialNumber))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                String jsonResponse = response.body();
+                ObjectMapper mapper = new ObjectMapper();
+                return mapper.readTree(jsonResponse).get("port").asInt();
+            } else {
+                System.out.println("Central não encontrada, usando porta padrão");
+                return 6045;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 6045;
+        }
+    }
+
 }
