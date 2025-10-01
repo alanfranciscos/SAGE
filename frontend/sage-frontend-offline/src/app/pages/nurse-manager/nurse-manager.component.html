@@ -8,7 +8,9 @@
     </div>
 
     <div class="user-icon-wrapper" (click)="toggleUserMenu()" tabindex="0" (blur)="closeUserMenu()">
+      <span class="user-name" *ngIf="userName">{{ userName }}</span>
       <i class="fa-solid fa-circle-user user-icon"></i>
+
       <div class="user-menu" *ngIf="isUserMenuOpen">
         <button (click)="onEditProfile($event)">
           <i class="fa-solid fa-pen"></i> Editar
@@ -18,6 +20,7 @@
         </button>
       </div>
     </div>
+
 
   </div>
 

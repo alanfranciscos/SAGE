@@ -7,19 +7,25 @@ import { ApiService } from '../api/api.service';
 export class AuthenticationService {
   private loggedIn = false;
   private token: string | null = null;
+  private userName: string | null = null;
 
-  constructor(private apiService: ApiService) { this.restoreSession(); }
+  constructor(private apiService: ApiService) {
+    this.restoreSession();
+  }
 
   private restoreSession(): void {
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            this.token = storedToken;
-            this.loggedIn = true;
-            this.apiService.setToken(storedToken); 
-        } else {
-            this.loggedIn = false;
-        }
+    const storedToken = localStorage.getItem('token');
+    const storedName = localStorage.getItem('name');
+
+    if (storedToken) {
+      this.token = storedToken;
+      this.loggedIn = true;
+      this.apiService.setToken(storedToken);
+      this.userName = storedName;
+    } else {
+      this.loggedIn = false;
     }
+  }
 
   isLoggedIn(): boolean {
     return this.loggedIn;
@@ -29,22 +35,31 @@ export class AuthenticationService {
     return this.token;
   }
 
+  getUserName(): string | null {
+    return this.userName;
+  }
+
   async login(email: string, password: string): Promise<boolean> {
     try {
       const response = await this.apiService.getApi().post<any>('/api/auth/login', {
-        email: email,
-        password: password
+        email,
+        password
       });
+
       const data = response.data;
       this.token = data.token;
+      this.userName = data.name;
       this.loggedIn = true;
 
       if (this.token) {
         localStorage.setItem('token', this.token);
       }
 
-      this.apiService.getApi().defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+      if (this.userName) {
+        localStorage.setItem('name', this.userName);
+      }
 
+      this.apiService.getApi().defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
       return true;
     } catch (error) {
       console.error('Falha no login', error);
@@ -54,18 +69,15 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    let token = localStorage.getItem('token');
-
-    if (token != null) {
-      return true;
-    }
-    return false;
+    return localStorage.getItem('token') !== null;
   }
 
   logout(): void {
     this.loggedIn = false;
     this.token = null;
+    this.userName = null;
     localStorage.removeItem('token');
+    localStorage.removeItem('name');
     this.apiService.getApi().defaults.headers.common['Authorization'] = undefined;
   }
 }

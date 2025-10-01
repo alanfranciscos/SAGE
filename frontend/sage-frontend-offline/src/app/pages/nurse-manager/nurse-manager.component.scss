@@ -168,3 +168,14 @@ app-dashboard-resident-card {
     }
   }
 }
+
+.user-name {
+  margin-right: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
