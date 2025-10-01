@@ -25,7 +25,7 @@ export class PanelSettingsComponent implements OnInit {
   @Input() mac_address: string = 'Indefinido';
   @Input() account: string = 'Indefinido';
   @Input() serial_number: string = 'Indefinido';
-  portNumber: string = '';
+  @Input() portNumber: string = '6045';
 
   constructor(private toastr: ToastrService,
     private settingsService: SettingsService,
@@ -52,6 +52,8 @@ export class PanelSettingsComponent implements OnInit {
 
     this.account = settingsDetails.account === null ? "Indefinido" : settingsDetails.account;
 
+    this.portNumber = settingsDetails.port?.toString() ?? '6045';
+
     console.log(settingsDetails);
 
   }
@@ -72,15 +74,23 @@ export class PanelSettingsComponent implements OnInit {
     return this.iconMap[item] || 'fa-solid fa-circle-question';
   }
 
-  sendPort(portNumber: string): void {
-    if (portNumber && portNumber.length === 4) {
-      console.log('Porta enviada:', portNumber);
-      this.toastr.success(`Porta ${portNumber} enviada com sucesso!`);
-    } else {
+  async sendPort(portNumber: string): Promise<void> {
+    if (!portNumber || portNumber.length !== 4) {
       this.toastr.error('Porta inválida! Deve conter exatamente 4 caracteres hexadecimais.');
-      console.log('Porta vazia!');
+      return;
     }
 
+    const port = Number(portNumber);
+
+    try {
+      await this.settingsService.updatePanelPort(this.serial_number, port);
+      this.toastr.success(`Porta ${port} enviada com sucesso!`);
+      console.log('Porta enviada:', port);
+    } catch (error) {
+      console.error('Erro ao enviar porta:', error);
+      this.toastr.error('Falha ao enviar a porta. Tente novamente.');
+    }
   }
+
 
 }

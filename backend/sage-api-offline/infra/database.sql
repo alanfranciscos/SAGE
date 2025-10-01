@@ -158,4 +158,4 @@ EXECUTE FUNCTION notify_assist();
 
 -- Insert base data
 INSERT INTO alarm (id, model, status, ip_address, mac_address, account, serial_number, port) VALUES
-('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Modelo-X1', 'Online', '192.168.1.10', '00:1B:44:11:3A:B7', 'Conta-001', '2785040674', 5000);
+('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Active Full 32', 'Offline', '192.168.1.13', '40:91:51:D1:93:70', '0001', '2785040674', 6045);

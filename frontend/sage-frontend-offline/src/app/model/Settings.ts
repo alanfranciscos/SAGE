@@ -6,4 +6,9 @@ export interface SettingsDto {
   macAddress: string;
   account: string;
   serialNumber: string;
+  port: string;
+}
+
+export interface UpdateAlarmPortRequest {
+  port: number;
 }
