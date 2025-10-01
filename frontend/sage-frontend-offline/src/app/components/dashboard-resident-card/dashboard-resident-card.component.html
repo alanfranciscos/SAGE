@@ -28,7 +28,7 @@
     </div>
     <!-- <h3>Ultimo chamado:{{ lastCallDateTime }}</h3> -->
     <p>Chamados 24h: {{ totalCallsLast24Hours }}</p>
-    <p>Última chamada: {{ lastCallDateTime }}</p>
+    <p>Última chamada: {{ formattedLastCall }}</p>
   </div>
 
   <button (click)="onButtonClick(); $event.stopPropagation()">

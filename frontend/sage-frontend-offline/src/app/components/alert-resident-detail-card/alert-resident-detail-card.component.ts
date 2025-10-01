@@ -117,6 +117,7 @@ export class AlertResidentDetailCardComponent {
   finalizeAssist() {
     if (!this.alertDetail.caregiverToken) {
       console.error('Token do cuidador não informado!');
+      this.toastr.error('Token do cuidador não informado!', 'Erro');
       return;
     }
 
@@ -131,15 +132,40 @@ export class AlertResidentDetailCardComponent {
           this.alertDetail.status = 'atendido';
           this.alertDetail.observations = this.newObservation;
           this.newObservation = '';
-          this.toastr.success('Atendimento iniciado com sucesso!', 'Sucesso');
+          this.toastr.success('Atendimento finalizado com sucesso!', 'Sucesso');
           this.updated.emit(this.alertDetail);
+
           window.setTimeout(() => {
             window.location.reload();
           }, 2000);
         },
         error: (err) => {
-          console.error('Erro ao iniciar atendimento:', err);
-          this.toastr.error('Falha ao iniciar atendimento.', 'Erro');
+          console.error('Erro ao finalizar atendimento:', err);
+
+          let message = 'Falha ao finalizar atendimento.';
+
+          // Captura mensagem do backend
+          if (err?.error?.message) {
+            message = err.error.message;
+          } else if (err?.error) {
+            message =
+              typeof err.error === 'string'
+                ? err.error
+                : JSON.stringify(err.error);
+          } else if (err?.message) {
+            message = err.message;
+          }
+
+          // Tradução simples
+          const translations: Record<string, string> = {
+            'This caregiver did not start the assist.':
+              'Este cuidador não iniciou o atendimento.',
+            'Another error message from backend': 'Outra mensagem traduzida',
+          };
+
+          const translatedMessage = translations[message] ?? message;
+
+          this.toastr.error(translatedMessage, 'Erro');
         },
       });
   }

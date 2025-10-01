@@ -38,7 +38,10 @@ export class DashboardResidentDetailsModalComponent {
 
     if (details?.birthDate) {
       const date = new Date(details.birthDate);
-      details.birthDate = date.toISOString().split('T')[0]; // formata para yyyy-MM-dd
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // meses começam do 0
+      const year = date.getFullYear();
+      details.birthDate = `${day}/${month}/${year}`; // formata para dd/MM/yyyy
     }
 
     if (details?.sex === 'M') {

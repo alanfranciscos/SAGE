@@ -208,35 +208,29 @@ export class AlertsComponent implements OnInit {
     };
   }
   private formatTime(time: string): string {
-    const match = time.match(/(\d+) days (\d+):(\d+):(\d+)/);
-    if (!match) return time;
+    if (!time) return '---';
 
-    const days = parseInt(match[1], 10);
+    const cleanTime = time.split('.')[0]; // remove milissegundos
+    const match = cleanTime.match(/(?:(\d+) days )?(\d+):(\d+):(\d+)/);
+    if (!match) return cleanTime;
+
+    const days = parseInt(match[1] ?? '0', 10);
     const hours = parseInt(match[2], 10);
     const minutes = parseInt(match[3], 10);
+    const seconds = parseInt(match[4], 10);
 
     let result = '';
     if (days > 0) result += `${days}d `;
     if (hours > 0) result += `${hours}h `;
-    if (minutes > 0) result += `${minutes}m`;
+    if (minutes > 0) result += `${minutes}m `;
+    if (seconds > 0 && days === 0) result += `${seconds}s`; // mostra segundos apenas se não houver dias
 
     return result.trim();
   }
 
   private formatDateTime(time: string): string {
-    const match = time.match(/(\d+) days (\d+):(\d+):(\d+)/);
-    if (!match) return time;
-
-    const days = parseInt(match[1], 10);
-    const hours = parseInt(match[2], 10);
-    const minutes = parseInt(match[3], 10);
-
-    let result = '';
-    if (days > 0) result += `${days}d `;
-    if (hours > 0) result += `${hours}h `;
-    if (minutes > 0) result += `${minutes}m`;
-
-    return result.trim();
+    // reutiliza a mesma lógica de formatTime
+    return this.formatTime(time);
   }
 
   private mapAlertToDetail(alert: Alert): ResidentAlertDetail {

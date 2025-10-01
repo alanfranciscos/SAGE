@@ -51,7 +51,7 @@
           [residentImage]="resident.imageData"
           [residentName]="resident.fullName"
           [houseNumber]="resident.residentialUnit"
-          [lastCallDateTime]="getLastCallText(resident.lastEndAt)"
+          [lastCallDateTime]="resident.lastEndAt!"
           [status]="getStatus(resident.severityLevel)"
           [totalCallsLast24Hours]="resident.callsLastDay.toString()"
           (openDetails)="onOpenDetails($event)"
