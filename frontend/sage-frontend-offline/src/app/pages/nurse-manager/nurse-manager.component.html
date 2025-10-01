@@ -6,13 +6,22 @@
       </div>
       <span class="page-title">Gerenciamento de Cuidadores e Tokens</span>
     </div>
+
+    <div class="user-menu-wrapper" (click)="toggleUserMenu()" tabindex="0" (blur)="closeUserMenu()">
+      <img src="assets/user-avatar.png" alt="Foto do usuário" class="user-avatar">
+      <div class="user-menu" *ngIf="isUserMenuOpen">
+        <button (click)="onEditProfile($event)">Editar</button>
+        <button (click)="onLogout($event)">Sair</button>
+      </div>
+    </div>
   </div>
 
   <p class="page-description">
-    Cadastre novas cuidadores e gerencie seus tokens de acesso rápido.
+    Cadastre novas cuidadoras e gerencie seus tokens de acesso rápido.
   </p>
 
   <app-register-nurse-component></app-register-nurse-component>
   <app-list-nurse></app-list-nurse>
   <app-instructions></app-instructions>
+  <app-register-caregiver-leader></app-register-caregiver-leader>
 </app-main>

@@ -48,6 +48,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO body){
+
+        System.out.println(body.fullName());
+        System.out.println(body.cpf());
+        System.out.println(body.email());
+        System.out.println(body.phone());
+        System.out.println(body.caregiver_password());
+        System.out.println(body.imageData());
+
         Optional<CaregiverResponseDto> optionalUser = this.caregiverService.findByEmailAndReturnsCaregiverResponseDto(body.email());
 
         if(optionalUser.isPresent()) {
@@ -65,6 +73,8 @@ public class AuthController {
         System.out.println("CAREGIVER ID: " + caregiverId);
 
         String hashedPassword = passwordEncoder.encode(body.caregiver_password());
+
+        System.out.println("hashedPassword: " + hashedPassword);
 
         UUID passwordId = caregiverService.createPassword(caregiverId, hashedPassword);
         System.out.println("PASSWORD ID: " + passwordId);

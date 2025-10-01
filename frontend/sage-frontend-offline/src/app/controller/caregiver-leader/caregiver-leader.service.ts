@@ -12,19 +12,26 @@ export class CaregiverLeaderService {
     this.api = this.apiService.getApi();
   }
 
-  async createCaregiverLeader(
+async createCaregiverLeader(
     createCaregiverLeaderRequestDto: CreateCaregiverLeaderRequestDto
-  ): Promise<string> {
+): Promise<string> {
     const response = await this.api.post(
-      'api/v1/resident',
+      'api/auth/register',
       createCaregiverLeaderRequestDto
     );
 
-    if (response.status != 201) {
-      throw new Error('Failed to create resident');
+    if (response.status !== 200) { 
+      throw new Error('Falha na resposta do servidor.');
     }
+    return response.data?.token || 'Registro realizado com sucesso';
+}
 
-    return response.data?.id ?? 'Resident created successfully';
+  async countAllActiveCaregiverLeader(
+  ): Promise<number> {
+    const response = await this.api.get(
+      'api/v1/caregiver/count-caregiver-leader'
+    );
+    return response.data.total;
   }
 
     async findAllCaregiverLeader(
