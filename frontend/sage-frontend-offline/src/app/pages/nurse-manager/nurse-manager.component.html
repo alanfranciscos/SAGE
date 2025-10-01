@@ -7,13 +7,18 @@
       <span class="page-title">Gerenciamento de Cuidadores e Tokens</span>
     </div>
 
-    <div class="user-menu-wrapper" (click)="toggleUserMenu()" tabindex="0" (blur)="closeUserMenu()">
-      <img src="assets/user-avatar.png" alt="Foto do usuário" class="user-avatar">
+    <div class="user-icon-wrapper" (click)="toggleUserMenu()" tabindex="0" (blur)="closeUserMenu()">
+      <i class="fa-solid fa-circle-user user-icon"></i>
       <div class="user-menu" *ngIf="isUserMenuOpen">
-        <button (click)="onEditProfile($event)">Editar</button>
-        <button (click)="onLogout($event)">Sair</button>
+        <button (click)="onEditProfile($event)">
+          <i class="fa-solid fa-pen"></i> Editar
+        </button>
+        <button (click)="onLogout($event)">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
       </div>
     </div>
+
   </div>
 
   <p class="page-description">
