@@ -202,8 +202,12 @@ export class RegisterResidentComponent implements OnInit {
 
       // 4️⃣ Mostra mensagem de sucesso, limpa formulário e navega
       this.toastr.success('Residente criado com sucesso!', 'Sucesso');
-      this.residentListResponseDto = this.getEmptyResident(); // opcional: limpa o formulário
-      this.router.navigate(['/residents']); // navega para lista de residentes
+
+      // Limpa o formulário
+      this.residentListResponseDto = this.getEmptyResident();
+
+      // Navega para lista de residentes
+      this.router.navigate(['/residents']);
     } catch (error) {
       console.error('Erro ao criar residente ou enviar imagem:', error);
       this.toastr.error('Erro ao criar residente ou enviar imagem.', 'Erro');
@@ -212,7 +216,6 @@ export class RegisterResidentComponent implements OnInit {
     }
   }
 
-  // Função auxiliar para resetar o formulário
   private getEmptyResident(): CreateResidentRequestDto {
     return {
       fullName: '',

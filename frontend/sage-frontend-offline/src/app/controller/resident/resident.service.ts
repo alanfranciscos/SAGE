@@ -134,6 +134,20 @@ export class ResidentService {
     return response.data;
   }
 
+  // async createResident(
+  //     createResidentRequestDto: CreateResidentRequestDto
+  //   ): Promise<string> {
+  //     const response = await this.api.post(
+  //       'api/v1/resident',
+  //       createResidentRequestDto
+  //     );
+
+  //     if (response.status != 201) {
+  //       throw new Error('Failed to create resident');
+  //     }
+
+  //     return response.data?.id ?? 'Resident created successfully';
+  //   }
   async createResident(
     createResidentRequestDto: CreateResidentRequestDto
   ): Promise<string> {
@@ -146,8 +160,10 @@ export class ResidentService {
       throw new Error('Failed to create resident');
     }
 
-    return response.data?.id ?? 'Resident created successfully';
+    // Aqui pegamos a resposta diretamente, que já é o ID
+    return response.data as string;
   }
+
   async updateResident(
     residentId: string,
     updateResidentRequestDto: CreateResidentRequestDto
@@ -175,7 +191,7 @@ export class ResidentService {
       }
     );
 
-    if (response.status !== 200) {
+    if (response.status !== 200 && response.status !== 204) {
       throw new Error('Falha ao atualizar a imagem do residente');
     }
   }
