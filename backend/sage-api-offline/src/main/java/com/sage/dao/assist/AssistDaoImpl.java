@@ -215,7 +215,7 @@ public class AssistDaoImpl implements AssistDao {
                             resultSet.getObject("id", UUID.class),
                             resultSet.getString("full_name"),
                             resultSet.getString("residential_unit"),
-                            resultSet.getString("elapsed_time"),
+                            resultSet.getString("elapsed_time").split("\\.")[0],
                             SeverityLevel.fromValue(resultSet.getString("severity_level")),
                             resultSet.getString("status"),
                             base64Image
