@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
@@ -14,12 +15,12 @@ import com.sage.exception.AlreadyExistsException;
 import com.sage.exception.NotFoundException;
 import com.sage.model.resident.Resident;
 import com.sage.model.resident.control.ControlResident;
+import com.sage.model.resident.emergency.ResidentEmergencyContact;
 import com.sage.port.dao.resident.ResidentDao;
 import com.sage.port.services.resident.ControlResidentService;
 import com.sage.port.services.resident.ResidentEmergencyContactService;
 import com.sage.port.services.resident.ResidentHeaderService;
 import com.sage.port.services.resident.ResidentService;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class OldResidentServiceImpl implements ResidentService {
@@ -139,35 +140,34 @@ public class OldResidentServiceImpl implements ResidentService {
 
     @Override
     public ResidentDetailResponseDto getResidentDetailsById(UUID id) {
-        // Resident resident = this.residentDao.findResidentById(id);
-        // if (resident == null) {
-        //     throw new NotFoundException("Resident not found with ID: " + id);
-        // }
+        Resident resident = this.residentDao.findResidentById(id);
+        if (resident == null) {
+            throw new NotFoundException("Resident not found with ID: " + id);
+        }
         // byte[] imageData = null;
         // if (resident.getImageData() != null) {
         //     imageData = this.fileHelperService.getBase64File(resident.getImageData()).getBytes();
         // }
 
-        // ResidentEmergencyContact residentEmergencyContact = this.residentEmergencyContactService.getByClientId(resident.getId());
-        // ControlResident controlResident = this.controlResidentService.getByResidentId(resident.getId());
-        // ResidentDetailResponseDto response = new ResidentDetailResponseDto(
-        //         resident.getId(),
-        //         resident.getFullName(),
-        //         resident.getCpf(),
-        //         resident.getSex(),
-        //         resident.getBirthDate(),
-        //         resident.getCreatedAt(),
-        //         resident.getUpdatedAt(),
-        //         resident.isActive(),
-        //         imageData,
-        //         residentEmergencyContact != null ? residentEmergencyContact.getFullName() : null,
-        //         residentEmergencyContact != null ? residentEmergencyContact.getPhone() : null,
-        //         residentEmergencyContact != null ? residentEmergencyContact.getRelationship() : null,
-        //         resident.getResidentialUnit(),
-        //         controlResident != null ? controlResident.getControlId() : null
-        // );
-        // return response;
-        return null;
+        ResidentEmergencyContact residentEmergencyContact = this.residentEmergencyContactService.getByClientId(resident.getId());
+        ControlResident controlResident = this.controlResidentService.getByResidentId(resident.getId());
+        ResidentDetailResponseDto response = new ResidentDetailResponseDto(
+                resident.getId(),
+                resident.getFullName(),
+                resident.getCpf(),
+                resident.getSex(),
+                resident.getBirthDate(),
+                resident.getCreatedAt(),
+                resident.getUpdatedAt(),
+                resident.isActive(),
+                null,
+                residentEmergencyContact != null ? residentEmergencyContact.getFullName() : null,
+                residentEmergencyContact != null ? residentEmergencyContact.getPhone() : null,
+                residentEmergencyContact != null ? residentEmergencyContact.getRelationship() : null,
+                resident.getResidentialUnit(),
+                controlResident != null ? controlResident.getControlId() : null
+        );
+        return response;
     }
 
 }
