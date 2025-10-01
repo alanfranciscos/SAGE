@@ -76,8 +76,8 @@ export class AlertsComponent implements OnInit {
       await this.residentService.getTotalActiveResidentsCalls();
     await this.loadActiveAlerts();
     await this.loadFinishedAlerts();
-    await this.loadActiveAlertsPage();
-    await this.loadFinishedAlertsPage();
+    // await this.loadActiveAlertsPage();
+    // await this.loadFinishedAlertsPage();
   }
 
   // ================== Carregar Ativos ==================

@@ -1,10 +1,19 @@
 .card {
-    background: #f1f3f5; // mesmo fundo do card principal
+    background: #f1f3f5;
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    max-width: 350px;
+    width: 100%;
+    max-width: 600px;
+    /* limite máximo */
     margin: auto;
+    box-sizing: border-box;
+
+    /* Força o conteúdo a quebrar dentro do card */
+    overflow-wrap: anywhere;
+    /* quebra palavras longas */
+    word-break: break-word;
+    white-space: normal;
 }
 
 h2 {
@@ -15,19 +24,35 @@ h2 {
 
 .resident-info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     margin-bottom: 16px;
+    flex-wrap: wrap;
+    /* permite que a div de texto vá para linha abaixo da foto */
 }
 
 .resident-photo {
     width: 64px;
     height: 64px;
     border-radius: 50%;
+    object-fit: cover;
 }
+
+.resident-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    /* essencial para quebrar textos dentro de flex */
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
 
 p {
     margin: 8px 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-line;
 }
 
 .badge {
@@ -66,41 +91,45 @@ p {
     background: #4caf50;
 }
 
+p,
+.observations {
+    margin: 8px 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+    /* mantém quebras de linha do usuário */
+}
+
 textarea {
     width: 100%;
-    min-height: 80px;
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
     border-radius: 8px;
     border: 1px solid #ccc;
     padding: 8px;
-    resize: none;
+    resize: vertical;
     margin-top: 8px;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
 }
 
 .observations {
-    background: #f1f3f5; // mesmo fundo do card
+    background: #f1f3f5;
     padding: 8px;
     border-radius: 6px;
     font-size: 14px;
     margin-top: 8px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-line;
 }
 
-// .btn.finalizar {
-//     width: 100%;
-//     margin-top: 12px;
-//     padding: 10px;
-//     border-radius: 8px;
-//     border: none;
-//     background: green;
-//     color: white;
-//     font-weight: bold;
-//     cursor: pointer;
-// }
-/* Botão principal do chamado */
 .alert-button {
     display: block;
-    /* faz o botão ocupar espaço como bloco */
     margin: 12px auto 0;
-    /* centraliza horizontalmente e dá espaço superior */
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
@@ -118,7 +147,6 @@ textarea {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Botão secundário, cinza */
 .alert-button.secondary {
     background-color: #cccccc;
     color: #333333;
@@ -129,7 +157,6 @@ textarea {
     color: #000000;
 }
 
-/* Botão verde “finalizar atendimento” */
 .alert-button.success {
     background-color: #017250;
 }
@@ -138,7 +165,6 @@ textarea {
     background-color: #0f501c;
 }
 
-/* Desabilitado */
 .alert-button:disabled {
     background-color: #e9ecef;
     color: #6c757d;
@@ -146,8 +172,15 @@ textarea {
     opacity: 0.65;
 }
 
-/* Botão maior, para destaque */
 .alert-button.large {
     padding: 12px 24px;
     font-size: 1.25rem;
+}
+
+/* Container de detalhes, garante que o card cresça */
+.alert-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
 }

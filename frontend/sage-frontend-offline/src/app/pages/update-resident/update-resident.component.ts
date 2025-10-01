@@ -11,6 +11,7 @@ import {
 import { updateComponent } from '../../layout/update/update.component';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../../layout/register/register.component';
+import { Toast, ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-resident',
@@ -47,7 +48,8 @@ export class UpdateResidentComponent implements OnInit {
   constructor(
     private residentService: ResidentService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toast: ToastrService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -121,19 +123,31 @@ export class UpdateResidentComponent implements OnInit {
     try {
       const formattedData = this.formatFields();
       await this.residentService.updateResident(this.residentId, formattedData);
-      alert('Residente atualizado com sucesso!');
-      this.router.navigate(['/residents']);
+      this.toast.success('Residente atualizado com sucesso.');
+      this.router.navigate(['/']);
     } catch (err) {
       console.error(err);
-      alert('Erro ao atualizar residente.');
+      this.toast.error('Erro ao atualizar o residente.');
     }
-    console.log('Finalizar atualização:', this.residentData);
+    // console.log('Finalizar atualização:', this.residentData);
   }
 
   onCancel() {
-    this.router.navigate(['/residents']);
+    this.router.navigate(['/']);
   }
 
+  // onImageSelected(file: File | null) {
+  //   if (!file) {
+  //     this.residentData.imageData = '';
+  //     return;
+  //   }
+
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.residentData.imageData = reader.result as string; // base64
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
   onImageSelected(file: File | null) {
     if (!file) {
       this.residentData.imageData = '';
@@ -141,8 +155,13 @@ export class UpdateResidentComponent implements OnInit {
     }
 
     const reader = new FileReader();
-    reader.onload = () => {
-      this.residentData.imageData = reader.result as string; // base64
+    reader.onload = async () => {
+      this.residentData.imageData = reader.result as string;
+
+      try {
+        // envia a imagem para o backend assim que o usuário seleciona
+        await this.residentService.updateResidentImage(this.residentId, file);
+      } catch (err) {}
     };
     reader.readAsDataURL(file);
   }
