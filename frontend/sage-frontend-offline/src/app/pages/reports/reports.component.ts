@@ -5,6 +5,7 @@ import { HeaderCardReportComponent } from '../../components/header-card-report/h
 import { ReportsService } from '../../controller/reports/reports.service';
 import { GenericReportsCardComponent } from '../../components/generic-reports-card/generic-reports-card.component';
 import { GenericReportsRankingCardComponent } from '../../components/generic-reports-ranking-card/generic-reports-ranking-card.component';
+import { DateFilterComponent } from '../../components/search/search-reports.component';
 
 @Component({
   selector: 'app-reports',
@@ -15,22 +16,35 @@ import { GenericReportsRankingCardComponent } from '../../components/generic-rep
     CommonModule,
     GenericReportsCardComponent,
     GenericReportsRankingCardComponent,
+    DateFilterComponent,
   ],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss'],
 })
 export class ReportsComponent implements OnInit {
+  // Rankings
   topCaregivers: any[] = [];
   topResidents: any[] = [];
-
   topCaregiversForTemplate: any[] = [];
   topResidentsForTemplate: any[] = [];
 
+  // Tradução dos dias da semana
+  weekdaysMap: Record<string, string> = {
+    Monday: 'Segunda',
+    Tuesday: 'Terça',
+    Wednesday: 'Quarta',
+    Thursday: 'Quinta',
+    Friday: 'Sexta',
+    Saturday: 'Sábado',
+    Sunday: 'Domingo',
+  };
+
+  // Cards
   cards = [
     {
       title: 'Total de Chamados',
       value: '...',
-      delta: '+12% vs mês anterior',
+      // delta: '+12% vs mês anterior',
       icon: 'notifications',
       iconBgColor: 'bg-blue-100',
       iconColor: 'text-blue-600',
@@ -49,48 +63,43 @@ export class ReportsComponent implements OnInit {
       title: 'Tempo Médio de Resolução',
       value: '...',
       delta: '',
-      icon: 'schedule',
       iconBgColor: 'bg-purple-100',
       iconColor: 'text-purple-600',
+      icon: 'schedule',
       valueClass: 'value-default',
     },
     {
       title: 'Taxa de Chamados Críticos',
       value: '...',
       delta: '',
-      icon: 'priority_high',
       iconBgColor: 'bg-red-100',
       iconColor: 'text-red-600',
+      icon: 'priority_high',
       valueClass: 'value-default',
     },
   ];
 
   constructor(private reportsService: ReportsService) {}
-  formatTimeString(time: string): string {
-    if (!time) return '---';
 
-    // Divide a string entre "days" e o restante
-    const parts = time.split(' days ');
-    if (parts.length === 2) {
-      const days = parts[0];
-      const timePart = parts[1].split('.')[0]; // remove milissegundos
-      const hhmm = timePart.slice(0, 5); // pega só HH:MM
-      return `${days} dias ${hhmm}`;
-    } else {
-      // se não tem "days", pega HH:MM
-      return time.split('.')[0].slice(0, 5);
-    }
+  ngOnInit(): void {
+    this.loadReportData();
   }
 
-  async ngOnInit() {
+  /** ================== CARREGAMENTO DE DADOS ================== **/
+  private async loadReportData() {
     try {
       // Cards
       this.cards[0].value = (
         await this.reportsService.getTotalAssists()
       ).toString();
-      this.cards[1].value = await this.reportsService.getAverageResponseTime();
-      this.cards[2].value =
+
+      const avgResponse = await this.reportsService.getAverageResponseTime();
+      const avgResolution =
         await this.reportsService.getAverageResolutionTime();
+
+      this.cards[1].value = this.formatElapsedTime(avgResponse);
+      this.cards[2].value = this.formatElapsedTime(avgResolution);
+
       const criticalRate = await this.reportsService.getCriticalAssistsRate();
       this.cards[3].value = `${criticalRate}%`;
       this.cards[3].valueClass = criticalRate > 0 ? 'value-red' : 'value-green';
@@ -100,20 +109,99 @@ export class ReportsComponent implements OnInit {
         await this.reportsService.getTopFiveCaregiverPerformance();
       this.topResidents = await this.reportsService.getTopFiveCallResidents();
 
-      // Transformar para o formato do ranking
       this.topCaregiversForTemplate = this.topCaregivers.map((c) => ({
         name: c.name,
         calls: c.quantity,
-        avgResponse: c.meanResponse,
+        avgResponse: this.formatElapsedTime(c.meanResponse),
       }));
 
       this.topResidentsForTemplate = this.topResidents.map((r) => ({
         name: r.name,
         calls: r.quantity,
-        avgResponse: r.meanResponse,
+        avgResponse: this.formatElapsedTime(r.meanResponse),
       }));
     } catch (error) {
       console.error('Erro ao carregar dados do relatório:', error);
+    }
+  }
+
+  /** ================== FORMATAÇÃO DE TEMPO ================== **/
+  formatElapsedTime(time: string): string {
+    if (!time) return '---';
+
+    const match = time.match(/(\d+) days (\d+):(\d+):(\d+)/);
+    if (!match) return time.split('.')[0];
+
+    const days = parseInt(match[1], 10);
+    const hours = parseInt(match[2], 10);
+    const minutes = parseInt(match[3], 10);
+
+    let result = '';
+    if (days > 0) result += `${days} dias `;
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m`;
+
+    return result.trim();
+  }
+
+  /** ================== TRADUZIR DIAS DA SEMANA ================== **/
+  translateWeekdays(data: Record<string, number>): {
+    labels: string[];
+    values: number[];
+  } {
+    const labels: string[] = [];
+    const values: number[] = [];
+
+    for (const key in data) {
+      labels.push(this.weekdaysMap[key] || key);
+      values.push(data[key]);
+    }
+
+    return { labels, values };
+  }
+  async onDateFilterChange(filter: { startDate: string; endDate: string }) {
+    try {
+      const { startDate, endDate } = filter;
+
+      // Cards
+      this.cards[0].value = (
+        await this.reportsService.getTotalAssists(startDate, endDate)
+      ).toString();
+
+      const avgResponse = await this.reportsService.getAverageResponseTime(
+        startDate,
+        endDate
+      );
+      const avgResolution = await this.reportsService.getAverageResolutionTime(
+        startDate,
+        endDate
+      );
+
+      this.cards[1].value = this.formatElapsedTime(avgResponse);
+      this.cards[2].value = this.formatElapsedTime(avgResolution);
+
+      const criticalRate = await this.reportsService.getCriticalAssistsRate(); // Se quiser, pode criar versão com filtro
+      this.cards[3].value = `${criticalRate}%`;
+      this.cards[3].valueClass = criticalRate > 0 ? 'value-red' : 'value-green';
+
+      // Rankings
+      this.topCaregivers =
+        await this.reportsService.getTopFiveCaregiverPerformance(); // Pode filtrar se backend permitir
+      this.topResidents = await this.reportsService.getTopFiveCallResidents();
+
+      this.topCaregiversForTemplate = this.topCaregivers.map((c) => ({
+        name: c.name,
+        calls: c.quantity,
+        avgResponse: this.formatElapsedTime(c.meanResponse),
+      }));
+
+      this.topResidentsForTemplate = this.topResidents.map((r) => ({
+        name: r.name,
+        calls: r.quantity,
+        avgResponse: this.formatElapsedTime(r.meanResponse),
+      }));
+    } catch (error) {
+      console.error('Erro ao aplicar filtro de datas:', error);
     }
   }
 }

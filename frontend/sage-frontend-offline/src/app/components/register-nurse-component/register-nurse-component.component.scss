@@ -10,7 +10,7 @@
 .header .title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #006C36;
+    color: #0069C5;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -50,18 +50,18 @@
 }
 
 .input input:focus {
-    border-color: #006C36;
+    border-color: #0069C5;
     outline: none;
 }
 
 .token_1 {
     font-weight: 500;
-    color: #006C36;
+    color: #0069C5;
 }
 
 .token_2 {
     font-weight: bold;
-    color: #006C36;
+    color: #0069C5;
     background-color: #e6f4ec;
     padding: 0.3rem 0.6rem;
     border-radius: 4px;

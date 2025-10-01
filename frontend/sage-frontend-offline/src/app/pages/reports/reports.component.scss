@@ -1,24 +1,65 @@
-.reports-grid {
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.content {
+    flex: 1;
+    /* ocupa o espaço restante */
+    overflow-y: auto;
+    /* scroll único */
+    padding: 1rem;
+    padding-bottom: 80px;
+    /* espaço para o footer */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #f5f5f5;
+    box-sizing: border-box;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar .title span {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.topbar .subtitle span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    padding-bottom: 1rem;
+}
+
+/* Grids */
+.reports-grid,
+.reports-graph,
+.reports-ranking-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr); // 1 coluna padrão
-    gap: 1.5rem; // espaçamento entre os cards
+    gap: 1.5rem;
+}
+
+.reports-grid {
+    grid-template-columns: repeat(1, 1fr);
 
     @media (min-width: 640px) {
-        // telas >= sm
         grid-template-columns: repeat(2, 1fr);
     }
 
     @media (min-width: 1024px) {
-        // telas >= lg
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-
 .reports-graph {
-    margin-top: 2rem;
-    display: grid;
-    gap: 1.5rem;
     grid-template-columns: 1fr;
 
     @media (min-width: 1024px) {
@@ -27,11 +68,21 @@
 }
 
 .reports-ranking-grid {
-    display: grid;
-    gap: 1.5rem;
     grid-template-columns: 1fr;
 
     @media (min-width: 1024px) {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* Footer fixo */
+.app-footer {
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 600;
+
 }

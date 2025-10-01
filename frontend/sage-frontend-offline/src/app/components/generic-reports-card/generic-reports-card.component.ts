@@ -27,10 +27,22 @@ export class GenericReportsCardComponent implements OnInit {
     try {
       if (this.title === 'Chamados por Dia da Semana') {
         const data = await this.reportsService.getCallsByWeekday();
+
+        // Mapa para traduzir dias
+        const weekdaysMap: Record<string, string> = {
+          Monday: 'Segunda',
+          Tuesday: 'Terça',
+          Wednesday: 'Quarta',
+          Thursday: 'Quinta',
+          Friday: 'Sexta',
+          Saturday: 'Sábado',
+          Sunday: 'Domingo',
+        };
+
         this.reports = Object.entries(data).map(([day, value]) => ({
-          label: day,
+          label: weekdaysMap[day] || day, // traduzir dia
           value,
-          color: 'blue', // você pode variar cores conforme quiser
+          color: 'blue', // você pode variar cores se quiser
         }));
       } else if (this.title === 'Chamados por Hora do Dia') {
         const data = await this.reportsService.getCallsHourlyByDay();

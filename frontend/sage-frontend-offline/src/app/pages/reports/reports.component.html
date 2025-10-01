@@ -1,38 +1,77 @@
-<!-- <app-main>
-  <div class="header">
-    <div class="reports-grid">
-      <ng-container *ngFor="let card of cards">
-        <app-header-card-report
-          [title]="card.title"
-          [value]="card.value"
-          [delta]="card.delta"
-          [icon]="card.icon"
-          [iconBgColor]="card.iconBgColor"
-          [iconColor]="card.iconColor"
-          [valueClass]="card.valueClass"
-        ></app-header-card-report>
-      </ng-container>
+<app-main>
+  <div class="content">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="title">
+        <span>Painel de Relatórios</span>
+      </div>
+    </div>
+    <div>
+      <app-date-filter
+        (filterChange)="onDateFilterChange($event)"
+      ></app-date-filter>
+    </div>
+    <!-- Grid de Cards de Resumo -->
+    <div>
+      <div class="topbar">
+        <div class="subtitle">
+          <span>Visão Geral dos Indicadores Chave</span>
+        </div>
+      </div>
+      <div class="reports-grid">
+        <ng-container *ngFor="let card of cards">
+          <app-header-card-report
+            [title]="card.title"
+            [value]="card.value"
+            [delta]="card.delta"
+            [icon]="card.icon"
+            [iconBgColor]="card.iconBgColor"
+            [iconColor]="card.iconColor"
+            [valueClass]="card.valueClass"
+          ></app-header-card-report>
+        </ng-container>
+      </div>
     </div>
 
-    <div class="reports-graph">
-      <app-generic-reports-card
-        title="Chamados por Dia da Semana"
-      ></app-generic-reports-card>
-      <app-generic-reports-card
-        title="Chamados por Hora do Dia"
-      ></app-generic-reports-card>
+    <!-- Gráficos -->
+    <div>
+      <div class="topbar">
+        <div class="subtitle">
+          <span>Padrões e Tendências de Acionamento</span>
+        </div>
+      </div>
+      <div class="reports-graph">
+        <app-generic-reports-card
+          title="Chamados por Dia da Semana"
+        ></app-generic-reports-card>
+        <app-generic-reports-card
+          title="Chamados por Hora do Dia"
+        ></app-generic-reports-card>
+      </div>
     </div>
 
-    <div class="reports-ranking-grid">
-      <app-generic-reports-ranking-card
-        title="Top 5 Cuidadores"
-        [residents]="topCaregiversForTemplate"
-      ></app-generic-reports-ranking-card>
-
-      <app-generic-reports-ranking-card
-        title="Top 5 Residentes"
-        [residents]="topResidentsForTemplate"
-      ></app-generic-reports-ranking-card>
+    <!-- Rankings -->
+    <div>
+      <div class="topbar">
+        <div class="subtitle">
+          <span>Desempenho Individual e Foco no Cuidado</span>
+        </div>
+      </div>
+      <div class="reports-ranking-grid">
+        <app-generic-reports-ranking-card
+          title="Top 5 Residentes com Mais Chamados"
+          [residents]="topResidentsForTemplate"
+        ></app-generic-reports-ranking-card>
+        <app-generic-reports-ranking-card
+          title="Desempenho da Equipe de Cuidado"
+          [residents]="topCaregiversForTemplate"
+        ></app-generic-reports-ranking-card>
+      </div>
     </div>
   </div>
-</app-main> -->
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <span></span>
+  </footer>
+</app-main>
