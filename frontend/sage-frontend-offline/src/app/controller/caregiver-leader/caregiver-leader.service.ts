@@ -34,4 +34,17 @@ async createCaregiverLeader(
     return response.data.total;
   }
 
+    async findAllCaregiverLeader(
+  ): Promise<string> {
+    const response = await this.api.get(
+      'api/v1/resident'
+    );
+
+    if (response.status != 201) {
+      throw new Error('Failed to create resident');
+    }
+
+    return response.data?.id ?? 'Resident created successfully';
+  }
+
 }

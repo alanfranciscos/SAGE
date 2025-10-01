@@ -4,8 +4,10 @@ import { RegisterComponent } from '../../layout/register/register.component';
 import { InputComponent } from '../../components/input/input.component';
 import { SelectInputComponent } from '../../components/select-input/select-input.component';
 import { ImageInputComponent } from '../../components/image-input/image-input.component';
+import { lastValueFrom } from 'rxjs';
 import {
   CreateResidentRequestDto,
+  Resident,
   ResidentListResponseDto,
 } from '../../model/Resident';
 import { ResidentService } from '../../controller/resident/resident.service';
@@ -63,6 +65,7 @@ export class RegisterResidentComponent implements OnInit {
     emergencyName: '',
     emergencyPhone: '',
     relationship: '',
+    imageData: '',
   };
   cpfInvalido?: boolean;
   telefoneInvalido: boolean = false;
@@ -156,19 +159,75 @@ export class RegisterResidentComponent implements OnInit {
     };
   }
 
-  async onFinish(): Promise<void> {
-    this.residentListResponseDto = this.formatFields();
-    try {
-      await this.residentControllerService.createResident(
-        this.residentListResponseDto
-      );
+  // async onFinish(): Promise<void> {
+  //   this.residentListResponseDto = this.formatFields();
+  //   try {
+  //     await this.residentControllerService.createResident(
+  //       this.residentListResponseDto
+  //     );
 
+  //     this.toastr.success('Residente criado com sucesso!', 'Sucesso');
+  //     this.router.navigate(['/']);
+  //   } catch (error) {
+  //     console.error('Error creating resident:', error);
+  //     this.toastr.error('Falha ao criar residente. Tente novamente.', 'Erro');
+  //   }
+  // }
+
+  isLoading: boolean = false;
+
+  async onFinish(): Promise<void> {
+    try {
+      this.isLoading = true;
+
+      // 1️⃣ Formata os campos antes de enviar
+      const payload: CreateResidentRequestDto = this.formatFields();
+
+      // 2️⃣ Cria o residente e obtém o ID retornado pelo backend
+      const createdResidentId: string =
+        await this.residentControllerService.createResident(payload);
+      console.log('Residente criado com ID:', createdResidentId);
+
+      // 3️⃣ Se houver imagem e for um File, faz o upload usando o ID
+      if (payload.imageData && payload.imageData instanceof File) {
+        await this.residentControllerService.updateResidentImage(
+          createdResidentId,
+          payload.imageData
+        );
+        console.log(
+          'Imagem enviada com sucesso para o residente:',
+          createdResidentId
+        );
+      }
+
+      // 4️⃣ Mostra mensagem de sucesso, limpa formulário e navega
       this.toastr.success('Residente criado com sucesso!', 'Sucesso');
-      this.router.navigate(['/']);
+
+      // Limpa o formulário
+      this.residentListResponseDto = this.getEmptyResident();
+
+      // Navega para lista de residentes
+      this.router.navigate(['/residents']);
     } catch (error) {
-      console.error('Error creating resident:', error);
-      this.toastr.error('Falha ao criar residente. Tente novamente.', 'Erro');
+      console.error('Erro ao criar residente ou enviar imagem:', error);
+      this.toastr.error('Erro ao criar residente ou enviar imagem.', 'Erro');
+    } finally {
+      this.isLoading = false;
     }
+  }
+
+  private getEmptyResident(): CreateResidentRequestDto {
+    return {
+      fullName: '',
+      cpf: '',
+      sex: '',
+      birthDate: '',
+      residentialUnit: '',
+      controlNumber: 0,
+      emergencyName: '',
+      emergencyPhone: '',
+      relationship: '',
+    };
   }
 
   onInputChange(field: ResidentInputField, event: any): void {
@@ -218,11 +277,9 @@ export class RegisterResidentComponent implements OnInit {
     });
   }
 
-  async onImageChange(event: any): Promise<void> {
-    if (event instanceof File) {
-      const base64String = await this.imageFileToBase64(event);
-      const file = base64String;
-      this.residentListResponseDto.imageData = file;
+  async onImageChange(event: File | null): Promise<void> {
+    if (event) {
+      this.residentListResponseDto.imageData = event; // guarda o File puro
     }
   }
 }

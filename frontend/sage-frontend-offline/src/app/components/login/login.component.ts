@@ -13,14 +13,16 @@ import { CaregiverLeaderService } from '../../controller/caregiver-leader/caregi
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,
+  imports: [
+    FormsModule,
     CommonModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule],
+    MatButtonModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   email = '';
@@ -31,15 +33,16 @@ export class LoginComponent implements OnInit {
     private dialogRef: MatDialogRef<LoginComponent>,
     private authService: AuthenticationService,
     private router: Router,
-    private caregiverLeaderService: CaregiverLeaderService,
-  ) { }
+    private caregiverLeaderService: CaregiverLeaderService
+  ) {}
   ngOnInit(): void {
     this.checkIfHasCaregiverLeader();
     this.loginIfCredentialsIsValid();
   }
 
   async checkIfHasCaregiverLeader() {
-    const hasCaregiverLeader = await this.caregiverLeaderService.countAllActiveCaregiverLeader();
+    const hasCaregiverLeader =
+      await this.caregiverLeaderService.countAllActiveCaregiverLeader();
     console.log(hasCaregiverLeader);
     if (hasCaregiverLeader === 0) {
       this.registerButtonEnabled = false;

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
+import axios from 'axios';
+
 import {
   // ResidentListResponseDto,
   CreateResidentRequestDto,
@@ -132,6 +134,20 @@ export class ResidentService {
     return response.data;
   }
 
+  // async createResident(
+  //     createResidentRequestDto: CreateResidentRequestDto
+  //   ): Promise<string> {
+  //     const response = await this.api.post(
+  //       'api/v1/resident',
+  //       createResidentRequestDto
+  //     );
+
+  //     if (response.status != 201) {
+  //       throw new Error('Failed to create resident');
+  //     }
+
+  //     return response.data?.id ?? 'Resident created successfully';
+  //   }
   async createResident(
     createResidentRequestDto: CreateResidentRequestDto
   ): Promise<string> {
@@ -144,8 +160,10 @@ export class ResidentService {
       throw new Error('Failed to create resident');
     }
 
-    return response.data?.id ?? 'Resident created successfully';
+    // Aqui pegamos a resposta diretamente, que já é o ID
+    return response.data as string;
   }
+
   async updateResident(
     residentId: string,
     updateResidentRequestDto: CreateResidentRequestDto
@@ -157,6 +175,47 @@ export class ResidentService {
 
     if (response.status != 200) {
       throw new Error('Failed to update resident');
+    }
+  }
+  async updateResidentImage(residentId: string, file: File): Promise<void> {
+    const formData = new FormData();
+    formData.append('imageData', file); // o nome deve ser igual ao esperado pelo backend
+
+    const response = await this.api.patch(
+      `http://localhost:8080/api/v1/resident/${residentId}/image`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data', // necessário para envio de arquivos
+        },
+      }
+    );
+
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error('Falha ao atualizar a imagem do residente');
+    }
+  }
+  async uploadResidentImage(residentId: string, file: File): Promise<void> {
+    const formData = new FormData();
+    formData.append('imageData', file); // o nome deve ser igual ao esperado pelo backend
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8080/api/v1/resident/${residentId}/image`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error('Falha ao atualizar a imagem do residente');
+      }
+    } catch (error) {
+      console.error('Erro no upload da imagem:', error);
+      throw error;
     }
   }
 }

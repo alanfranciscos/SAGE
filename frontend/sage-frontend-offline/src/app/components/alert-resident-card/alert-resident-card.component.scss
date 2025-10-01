@@ -1,14 +1,26 @@
 .card {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     background: #F1EFEF;
     border: 2px solid #E0E0E0;
     border-radius: 8px;
-
     padding: 0.8rem 1rem;
     width: 80%;
+    max-width: 600px;
+    /* evita que cresça demais */
     margin: 0.5rem auto;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.card-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* permite quebrar em múltiplas linhas */
+    gap: 0.5rem;
 }
 
 .image img {
@@ -16,11 +28,18 @@
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
+    /* não encolhe */
 }
 
 .info {
-    flex: 1;
+    flex: 1 1 auto;
+    /* cresce e encolhe conforme necessário */
     margin-left: 1rem;
+    min-width: 0;
+    /* essencial para quebra de linha dentro de flex */
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .info .name {
@@ -29,9 +48,11 @@
 }
 
 .info .details {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.9rem;
     margin-top: 0.2rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .badges {
@@ -39,21 +60,22 @@
     flex-direction: column;
     gap: 0.5rem;
     align-items: flex-end;
-
+    flex-shrink: 0;
+    /* não deixa encolher */
 }
 
 .badge {
     display: inline-block;
-    /* permite que a largura se ajuste ao conteúdo */
     padding: 0.3rem 0.7rem;
     border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 500;
     color: #fff;
     white-space: nowrap;
+    /* mantém badge em uma linha */
 }
 
-/* === Cores para o nível === */
+/* === Cores dos níveis === */
 .badge.normal {
     background: #4caf50;
 }
@@ -66,7 +88,7 @@
     background: #f44336;
 }
 
-/* === Cores para o status === */
+/* === Cores do status === */
 .badge.pendente {
     background: #f44336;
 }
@@ -79,16 +101,16 @@
     background: #017250;
 }
 
-/* === Observação padrão do card === */
 .observation {
-    width: 80%;
-    margin: 0.5rem auto 0;
+    margin-top: 0.5rem;
     padding: 0.5rem 0.8rem;
     border-radius: 0 0 12px 12px;
     background: #f1f3f5;
-    /* mesmo fundo do card */
-    border: none;
-    /* sem borda */
     font-size: 0.9rem;
     color: #333;
+    width: 100%;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+    /* mantém quebras de linha do texto */
 }

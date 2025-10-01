@@ -8,7 +8,7 @@ export interface CreateResidentRequestDto {
   relationship: string;
   residentialUnit: string;
   controlNumber: number;
-  imageData?: string;
+  imageData?: File | string;
 }
 
 export interface ResidentHeaderResponseDto {

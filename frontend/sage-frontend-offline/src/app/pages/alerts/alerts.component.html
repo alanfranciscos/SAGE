@@ -1,5 +1,6 @@
 <app-main>
   <div class="alerts-container">
+    <!-- Topbar -->
     <div class="topbar">
       <div class="title-wrapper">
         <div class="icon-wrapper">
@@ -14,15 +15,22 @@
       <div class="search-wrapper">
         <app-search-input
           placeholder="Digite para pesquisar..."
+          (search)="onSearch($event)"
         ></app-search-input>
       </div>
     </div>
 
+    <!-- Tabs -->
     <div class="tabs-container">
       <mat-tab-group [(selectedIndex)]="selectedTabIndex">
+        <!-- Chamados Ativos -->
         <mat-tab label="Chamados Ativos">
           <div class="alerts-content">
-            <div class="alerts-list">
+            <div
+              class="alerts-list"
+              (scroll)="onActiveScroll($event)"
+              *ngIf="selectedTabIndex === 0"
+            >
               <app-alert-resident-card
                 *ngFor="let alert of activeAlerts"
                 [name]="alert.name"
@@ -33,13 +41,19 @@
                 [status]="alert.status"
                 (click)="selectAlert(alert, false)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
-              >
-              </app-alert-resident-card>
+              ></app-alert-resident-card>
+
+              <!-- Loader no fim da lista -->
+              <div *ngIf="activeLoading" class="loading-spinner">
+                Carregando mais...
+              </div>
             </div>
+
             <div class="alert-details">
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card
                   [alertDetail]="selectedAlertDetail"
+                  (updated)="onAlertUpdated($event)"
                 ></app-alert-resident-detail-card>
               </ng-container>
               <ng-template #noSelection>
@@ -49,9 +63,14 @@
           </div>
         </mat-tab>
 
+        <!-- Histórico -->
         <mat-tab label="Histórico">
           <div class="alerts-content">
-            <div class="alerts-list">
+            <div
+              class="alerts-list"
+              (scroll)="onFinishedScroll($event)"
+              *ngIf="selectedTabIndex === 1"
+            >
               <app-alert-resident-card
                 *ngFor="let alert of finishedAlerts"
                 [name]="alert.name"
@@ -60,11 +79,17 @@
                 [imageUrl]="alert.image"
                 [level]="alert.severity"
                 [status]="alert.status"
+                [observation]="alert.observations"
                 (click)="selectAlert(alert, true)"
                 [class.active]="selectedAlertDetail?.id === alert.id"
-              >
-              </app-alert-resident-card>
+              ></app-alert-resident-card>
+
+              <!-- Loader no fim da lista -->
+              <div *ngIf="finishedLoading" class="loading-spinner">
+                Carregando mais...
+              </div>
             </div>
+
             <div class="alert-details">
               <ng-container *ngIf="selectedAlertDetail; else noSelection">
                 <app-alert-resident-detail-card

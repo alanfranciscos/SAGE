@@ -1,0 +1,48 @@
+.summary-card {
+    border: 1px solid #b9b9b9;
+    border-radius: 9px;
+    padding: 16px;
+    margin: 16px 0;
+    background-color: #E9ECEF;
+    min-width: 8rem;
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.summary-icon {
+    font-size: 22px;
+    color: #888;
+}
+
+.summary-value-icon {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.value-red {
+    color: red;
+}
+
+.value-green {
+    color: green;
+}
+
+.value-default {
+    color: rgb(71, 71, 71);
+}
+
+.summary-delta {
+    font-size: 12px;
+    margin-top: 4px;
+    color: #555;
+}

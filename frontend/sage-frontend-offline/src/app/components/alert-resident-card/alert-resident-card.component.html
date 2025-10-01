@@ -1,26 +1,28 @@
 <div class="card" [ngClass]="[level, status]">
-  <div class="image">
-    <img [src]="imageUrl" alt="Residente" />
-  </div>
+  <div class="card-main">
+    <div class="image">
+      <img [src]="imageUrl" alt="Residente" />
+    </div>
 
-  <div class="info">
-    <div class="name">{{ name }}</div>
-    <div class="details">
-      🏠 Casa: {{ room }} &nbsp; ⏳ {{ formatElapsedTime(time) }}
+    <div class="info">
+      <div class="name">{{ name }}</div>
+      <div class="details">
+        🏠 Casa: {{ room }} &nbsp; ⏳ {{ formatElapsedTime(time) }}
+      </div>
+    </div>
+
+    <div class="badges">
+      <span class="badge level" [ngClass]="level">
+        {{ level | titlecase }}
+      </span>
+      <span class="badge status" [ngClass]="status">
+        {{ status.replace("_", " ") | titlecase }}
+      </span>
     </div>
   </div>
 
-  <div class="badges">
-    <span class="badge level" [ngClass]="level">
-      {{ level | titlecase }}
-    </span>
-    <span class="badge status" [ngClass]="status">
-      {{ status.replace("_", " ") | titlecase }}
-    </span>
+  <!-- Observações só aparecem se status === 'atendido' -->
+  <div class="observation" *ngIf="status === 'atendido' && observation">
+    <strong>Observações:</strong> {{ observation }}
   </div>
-</div>
-
-<!-- Observações só aparecem se status === 'atendido' -->
-<div class="observation" *ngIf="status === 'atendido' && observation">
-  <strong>Observações:</strong> {{ observation }}
 </div>
