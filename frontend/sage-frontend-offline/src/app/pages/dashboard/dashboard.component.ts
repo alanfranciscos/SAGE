@@ -218,4 +218,26 @@ export class DashboardComponent implements OnInit {
       this.loadResidentsPage();
     }
   }
+  formatElapsedTime(elapsed: string): string {
+    if (!elapsed) return '-';
+
+    // Ex.: "24 days 03:21:23.453585" ou "3 days 12:05:00"
+    const parts = elapsed.split(' ');
+    let days = 0;
+    let timePart = '00:00';
+
+    if (parts.length === 4 && parts[1] === 'days') {
+      days = parseInt(parts[0], 10);
+      timePart = parts[2]; // horas:minutos:segundos
+    } else if (parts.length === 3 && parts[1] === 'days') {
+      days = parseInt(parts[0], 10);
+      timePart = parts[2];
+    } else if (parts.length === 1) {
+      timePart = parts[0];
+    }
+
+    const [hours, minutes] = timePart.split(':');
+
+    return `${days} dia${days !== 1 ? 's' : ''} ${hours}h${minutes}`;
+  }
 }

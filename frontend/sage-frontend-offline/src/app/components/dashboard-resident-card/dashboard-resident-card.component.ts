@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-resident-card',
@@ -52,13 +53,12 @@ export class DashboardResidentCardComponent {
   onCardClick() {
     this.openDetails.emit(this.residentId); // avisa o pai passando o id
   }
-
+  private router = inject(Router);
   onButtonClick() {
     if (this.status === 'normal') {
       this.openDetails.emit(this.residentId); // abre modal
     } else {
-      // TODO: levar para página de atendimento
-      console.log('Ir para atendimento do residente:', this.residentId);
+      this.router.navigate(['/alerts']);
     }
   }
   getStatusText(): string {

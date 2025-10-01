@@ -9,7 +9,10 @@
       <div class="filter-group">
         <label class="filter-label">Período</label>
         <mat-form-field appearance="outline" class="full-width">
-          <mat-date-range-input [rangePicker]="picker">
+          <mat-date-range-input
+            [rangePicker]="picker"
+            [formControl]="dateRange"
+          >
             <input matStartDate placeholder="Início" />
             <input matEndDate placeholder="Fim" />
           </mat-date-range-input>
@@ -30,6 +33,7 @@
             matInput
             placeholder="Buscar residente..."
             [formControl]="residentFilter"
+            (input)="emitFilters()"
           />
         </mat-form-field>
       </div>
@@ -43,6 +47,7 @@
             matInput
             placeholder="Buscar profissional..."
             [formControl]="teamFilter"
+            (input)="emitFilters()"
           />
         </mat-form-field>
       </div>
@@ -51,7 +56,10 @@
       <div class="filter-group">
         <label class="filter-label">Tipo de Alarme</label>
         <mat-form-field appearance="outline" class="full-width">
-          <mat-select [formControl]="alarmType" placeholder="Selecionar tipo">
+          <mat-select
+            [formControl]="alarmType"
+            (selectionChange)="emitFilters()"
+          >
             <mat-option
               *ngFor="let option of alarmTypes"
               [value]="option.value"
@@ -64,12 +72,3 @@
     </div>
   </mat-card-content>
 </mat-card>
-
-<!-- 
-
-(dateChange)="
-              dateRangeChange.emit({
-                start: $event.value?.begin,
-                end: $event.value?.end
-              })
-            " -->

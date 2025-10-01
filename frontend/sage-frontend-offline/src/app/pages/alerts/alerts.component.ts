@@ -10,6 +10,7 @@ import { ResidentAlertDetail } from '../../components/alert-resident-detail-card
 
 import { ResidentService } from '../../controller/resident/resident.service';
 import { AssistService } from '../../controller/assist/assist.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface Alert {
   id: string;
@@ -47,6 +48,16 @@ export class AlertsComponent implements OnInit {
   totalActiveCalls: number = 0;
   selectedTabIndex: number = 0;
 
+  activePage = 0;
+  activePageSize = 10;
+  activeLoading = false;
+  activeAllLoaded = false;
+
+  finishedPage = 0;
+  finishedPageSize = 10;
+  finishedLoading = false;
+  finishedAllLoaded = false;
+
   private iconMap: Record<string, string> = {
     dashboard: 'fa-solid fa-chart-line',
     alerts: 'fa-solid fa-bell',
@@ -56,7 +67,8 @@ export class AlertsComponent implements OnInit {
 
   constructor(
     private residentService: ResidentService,
-    private assistService: AssistService
+    private assistService: AssistService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -64,6 +76,8 @@ export class AlertsComponent implements OnInit {
       await this.residentService.getTotalActiveResidentsCalls();
     await this.loadActiveAlerts();
     await this.loadFinishedAlerts();
+    await this.loadActiveAlertsPage();
+    await this.loadFinishedAlertsPage();
   }
 
   // ================== Carregar Ativos ==================
@@ -321,5 +335,100 @@ export class AlertsComponent implements OnInit {
 
   async onSearch(searchTerm: string) {
     console.log('Search term:', searchTerm);
+  }
+  async loadActiveAlertsPage() {
+    if (this.activeLoading || this.activeAllLoaded) return;
+
+    this.activeLoading = true;
+    try {
+      const response: any = await this.assistService
+        .getPendingAssists(
+          this.activePageSize,
+          this.activePage * this.activePageSize
+        )
+        .toPromise();
+
+      const alerts: Alert[] = [];
+      for (const a of response.data) {
+        if (a.status === 'pending' || a.status === 'in_attendance') {
+          const assistDetails: any = await this.assistService
+            .getPendingAssistById(a.assistId)
+            .toPromise();
+
+          alerts.push({
+            id: assistDetails.assistId,
+            name: assistDetails.fullName,
+            room: assistDetails.residentialUnit,
+            time: this.formatDateTime(assistDetails.elapsedTime),
+            severity: this.mapLevelFromApi(assistDetails.severityLevel),
+            status: this.mapStatusFromApi(assistDetails.status),
+            image: 'default.jpg',
+            observations: assistDetails.observations ?? '',
+            age: assistDetails.age,
+          });
+        }
+      }
+
+      if (alerts.length < this.activePageSize) this.activeAllLoaded = true;
+      this.activeAlerts = [...this.activeAlerts, ...alerts];
+      this.activePage++;
+    } catch (err) {
+      console.error('Erro ao carregar ativos:', err);
+    } finally {
+      this.activeLoading = false;
+    }
+  }
+  async loadFinishedAlertsPage() {
+    if (this.finishedLoading || this.finishedAllLoaded) return;
+
+    this.finishedLoading = true;
+    try {
+      const response: any = await this.assistService
+        .getFinishedAssists(
+          this.finishedPageSize,
+          this.finishedPage * this.finishedPageSize
+        )
+        .toPromise();
+
+      const alerts: Alert[] = response.data.map((a: any) => ({
+        id: a.assistId,
+        name: a.patientName,
+        room: a.patientUnit,
+        time: this.formatDateTime(a.elapsedTime),
+        severity: this.mapLevelFromApi(a.severityLevel),
+        status: 'atendido',
+        image: 'default.jpg',
+        observations: a.description ?? '',
+      }));
+
+      if (alerts.length < this.finishedPageSize) this.finishedAllLoaded = true;
+      this.finishedAlerts = [...this.finishedAlerts, ...alerts];
+      this.finishedPage++;
+    } catch (err) {
+      console.error('Erro ao carregar histórico:', err);
+    } finally {
+      this.finishedLoading = false;
+    }
+  }
+  onActiveScroll(event: any) {
+    const element = event.target;
+    const threshold = 150;
+    if (
+      element.scrollHeight - element.scrollTop - element.clientHeight <
+      threshold
+    ) {
+      this.loadActiveAlertsPage();
+    }
+  }
+
+  onFinishedScroll(event: any) {
+    const element = event.target;
+    const threshold = 150;
+    if (
+      element.scrollHeight - element.scrollTop - element.clientHeight <
+      threshold
+    ) {
+      this.loadFinishedAlertsPage();
+    }
   }
 }
