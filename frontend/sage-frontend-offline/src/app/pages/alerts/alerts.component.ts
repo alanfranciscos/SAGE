@@ -11,6 +11,7 @@ import { ResidentAlertDetail } from '../../components/alert-resident-detail-card
 import { ResidentService } from '../../controller/resident/resident.service';
 import { AssistService } from '../../controller/assist/assist.service';
 import { ActivatedRoute } from '@angular/router';
+import { SseService } from '../../controller/sse/sse.service';
 
 interface Alert {
   id: string;
@@ -68,7 +69,8 @@ export class AlertsComponent implements OnInit {
   constructor(
     private residentService: ResidentService,
     private assistService: AssistService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sseService: SseService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -76,6 +78,14 @@ export class AlertsComponent implements OnInit {
       await this.residentService.getTotalActiveResidentsCalls();
     await this.loadActiveAlerts();
     await this.loadFinishedAlerts();
+
+    this.sseService.messages$.subscribe(async (msg) => {
+      if (!msg) return;
+
+      await this.loadActiveAlerts();
+      await this.loadFinishedAlerts();
+    });
+
     // await this.loadActiveAlertsPage();
     // await this.loadFinishedAlertsPage();
   }

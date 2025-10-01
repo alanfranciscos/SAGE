@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
 import { TooltipWrapperComponent } from '../../../components/tooltip-wrapper/tooltip-wrapper.component';
 import { ResidentService } from '../../../controller/resident/resident.service';
+import { SseService } from '../../../controller/sse/sse.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,7 +23,8 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private residentService: ResidentService
+    private residentService: ResidentService,
+    private sseService: SseService
   ) {}
   totalActiveCalls: number = 0;
 
@@ -44,6 +46,17 @@ export class SidebarComponent implements OnInit {
       await this.residentService.getTotalActiveResidentsCalls();
     this.residentService.totalActiveCalls$.subscribe((total) => {
       this.totalActiveCalls = total;
+    });
+
+    this.sseService.messages$.subscribe(async (msg) => {
+      if (!msg) return;
+
+
+      this.totalActiveCalls =
+      await this.residentService.getTotalActiveResidentsCalls();
+      this.residentService.totalActiveCalls$.subscribe((total) => {
+        this.totalActiveCalls = total;
+      });
     });
   }
 
