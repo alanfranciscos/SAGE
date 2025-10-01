@@ -95,7 +95,7 @@ public class ReportsDaoImpl implements ReportsDao {
 
     @Override
     public double getCriticalAssistsRate(LocalDate startDate, LocalDate endDate, UUID caregiverId, String severity) {
-        StringBuilder sql = new StringBuilder("SELECT (COUNT(CASE WHEN severity_level = 'EMERGENCY' THEN 1 END) * 100.0) / COUNT(*) FROM assist a WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT (COUNT(CASE WHEN severity_level = 'emergency' THEN 1 END) * 100.0) / COUNT(*) FROM assist a WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
         applyFilters(sql, params, startDate, endDate, caregiverId, severity);
@@ -106,7 +106,7 @@ public class ReportsDaoImpl implements ReportsDao {
             }
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1);
+                    return Math.round(rs.getDouble(1) * 100.0) / 100.0;
                 }
             }
         } catch (SQLException e) {

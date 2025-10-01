@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.sage.dto.v1.auth.ResetPasswordRequestDTO;
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
@@ -29,5 +30,9 @@ public interface CaregiverService {
     UUID createPassword(UUID caregiverId, String rawPassword);
 
     Long getCountCaregiverLeader();
+
+    void sendRecoveryToken(String email);
+
+    void resetPassword(ResetPasswordRequestDTO dto, String passwordHash);
 
 }

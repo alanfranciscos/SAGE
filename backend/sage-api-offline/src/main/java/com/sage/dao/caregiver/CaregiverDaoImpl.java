@@ -329,5 +329,17 @@ public class CaregiverDaoImpl implements CaregiverDao {
         }
     }
 
+    @Override
+    public void updateToken(UUID caregiverId, String token) {
+        String sql = "UPDATE caregiver SET token = ? WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, token);
+            ps.setObject(2, caregiverId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

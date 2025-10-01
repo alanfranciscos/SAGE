@@ -35,4 +35,6 @@ public interface CaregiverDao {
     UUID createPassword(UUID caregiverId, String hashedPassword, String verificationCode, OffsetDateTime codeValidUntil);
 
     Long getCountCaregiverLeader();
+
+    void updateToken(UUID caregiverId, String token);
 }

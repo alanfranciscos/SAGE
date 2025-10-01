@@ -80,4 +80,29 @@ export class AuthenticationService {
     localStorage.removeItem('name');
     this.apiService.getApi().defaults.headers.common['Authorization'] = undefined;
   }
+
+  async sendRecoveryToken(email: string): Promise<void> {
+    try {
+      await this.apiService.getApi().post('/api/auth/forgot-password', { email });
+      console.log('Token de recuperação enviado para o email:', email);
+    } catch (error) {
+      console.error('Erro ao enviar token de recuperação:', error);
+      throw error;
+    }
+  }
+
+  async resetPassword(email: string, token: string, newPassword: string, confirmPassword: string): Promise<void> {
+    try {
+      await this.apiService.getApi().post('/api/auth/reset-password', {
+        email,
+        token,
+        newPassword,
+        confirmPassword
+      });
+      console.log('Senha redefinida com sucesso para:', email);
+    } catch (error) {
+      console.error('Erro ao redefinir senha:', error);
+      throw error;
+    }
+  }
 }

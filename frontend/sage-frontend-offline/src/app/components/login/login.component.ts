@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { CaregiverLeaderService } from '../../controller/caregiver-leader/caregiver-leader.service';
+import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ import { CaregiverLeaderService } from '../../controller/caregiver-leader/caregi
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    NgIf,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -33,8 +35,9 @@ export class LoginComponent implements OnInit {
     private dialogRef: MatDialogRef<LoginComponent>,
     private authService: AuthenticationService,
     private router: Router,
-    private caregiverLeaderService: CaregiverLeaderService
-  ) {}
+    private caregiverLeaderService: CaregiverLeaderService,
+    private dialog: MatDialog
+  ) { }
   ngOnInit(): void {
     this.checkIfHasCaregiverLeader();
     this.loginIfCredentialsIsValid();
@@ -44,12 +47,9 @@ export class LoginComponent implements OnInit {
     const hasCaregiverLeader =
       await this.caregiverLeaderService.countAllActiveCaregiverLeader();
     console.log(hasCaregiverLeader);
-    if (hasCaregiverLeader === 0) {
-      this.registerButtonEnabled = false;
-    } else {
-      this.registerButtonEnabled = true;
-    }
+    this.registerButtonEnabled = hasCaregiverLeader === 0;
   }
+
 
   async login() {
     const success = await this.authService.login(this.email, this.password);
@@ -70,4 +70,13 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+
+  esqueciSenha() {
+    this.dialogRef.close(); 
+    this.dialog.open(RecoverPasswordComponent, {
+      width: '400px',
+      disableClose: false, 
+    });
+  }
+
 }

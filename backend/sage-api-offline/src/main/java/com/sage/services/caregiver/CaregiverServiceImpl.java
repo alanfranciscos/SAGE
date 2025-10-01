@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.sage.dto.v1.auth.ResetPasswordRequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import com.sage.dao.caregiver.CaregiverDaoImpl;
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
@@ -21,6 +24,9 @@ import com.sage.port.services.caregiver.CaregiverService;
 public class CaregiverServiceImpl implements CaregiverService {
 
     private final CaregiverDaoImpl caregiverDao;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     public CaregiverServiceImpl(CaregiverDaoImpl caregiverDao) {
         this.caregiverDao = caregiverDao;
@@ -86,11 +92,6 @@ public class CaregiverServiceImpl implements CaregiverService {
                 .orElseThrow(() -> new NotFoundException("Caregiver not found with token: " + token));
     }
 
-//    @Override
-//    public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
-//        return Optional.ofNullable(caregiverDao.findByEmailAndReturnsCaregiverResponseDto(email)
-//                .orElseThrow(() -> new NotFoundException("Caregiver not found with email: " + email)));
-//    }
     @Override
     public Optional<CaregiverResponseDto> findByEmailAndReturnsCaregiverResponseDto(String email) {
         return caregiverDao.findByEmailAndReturnsCaregiverResponseDto(email);
@@ -144,5 +145,58 @@ public class CaregiverServiceImpl implements CaregiverService {
             sb.append(rndChar);
         }
         return sb.toString();
+    }
+
+    @Override
+    public void sendRecoveryToken(String email) {
+        var caregiverOpt = caregiverDao.findByEmail(email);
+
+        if (caregiverOpt.isEmpty()) {
+            throw new RuntimeException("Email não encontrado.");
+        }
+
+        UUID caregiverId = caregiverOpt.get();
+        String token = generateToken();
+
+        caregiverDao.updateToken(caregiverId, token);
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Recuperação de Senha");
+        message.setText("Seu código de recuperação é: " + token);
+        mailSender.send(message);
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequestDTO dto, String passwordHash) {
+        if (!dto.newPassword().equals(dto.confirmPassword())) {
+            throw new RuntimeException("Senhas não conferem.");
+        }
+
+        var caregiverOpt = caregiverDao.findByEmail(dto.email());
+        if (caregiverOpt.isEmpty()) {
+            throw new RuntimeException("Email não encontrado.");
+        }
+
+        UUID caregiverId = caregiverOpt.get();
+
+        var caregiverDataOpt = caregiverDao.findByToken(dto.token());
+        if (caregiverDataOpt.isEmpty() || !caregiverDataOpt.get().id().equals(caregiverId)) {
+            throw new RuntimeException("Token inválido.");
+        }
+
+        caregiverDao.createPassword(
+                caregiverId,
+                passwordHash,
+                generateToken(),
+                OffsetDateTime.now().plusHours(1)
+        );
+
+        String newToken = generateToken();
+        caregiverDao.updateToken(caregiverId, newToken);
+    }
+
+    private String generateToken() {
+        return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 }
