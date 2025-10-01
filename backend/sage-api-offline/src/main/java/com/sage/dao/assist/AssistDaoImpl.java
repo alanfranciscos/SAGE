@@ -367,7 +367,7 @@ public class AssistDaoImpl implements AssistDao {
                 // "02:41:15" 2h 41m 15s
                 String interval = resultSet.getString(1);
                 if (interval != null) {
-                    return interval;
+                    return interval.split("\\.")[0];
                 }
                 return "0 segundos";
             }
