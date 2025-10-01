@@ -1,9 +1,7 @@
 package com.sage.controller.v1.auth;
 
 import com.sage.config.security.TokenService;
-import com.sage.dto.v1.auth.LoginRequestDTO;
-import com.sage.dto.v1.auth.RegisterRequestDTO;
-import com.sage.dto.v1.auth.ResponseDTO;
+import com.sage.dto.v1.auth.*;
 import com.sage.dto.v1.caregiver.request.CreateCaregiverRequestDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import com.sage.dto.v1.caregiver.response.CaregiverResponseFromPasswordTableDto;
@@ -90,4 +88,24 @@ public class AuthController {
 
         return ResponseEntity.ok(new ResponseDTO(newUser.fullName(), token));
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) {
+        System.out.println("Método do token");
+        System.out.println("EMAIL: " + request.email());
+        caregiverService.sendRecoveryToken(request.email());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
+        System.out.println("MÉTODO DE RESETAR A SENHA");
+        System.out.println("EMAIL: " + request.email());
+        System.out.println("TOKEN: " + request.token());
+        System.out.println("NOVA SENHA: " + request.newPassword());
+        System.out.println("CONFIRMANDO NOVA SENHA: " + request.confirmPassword());
+        caregiverService.resetPassword(request, passwordEncoder.encode(request.newPassword()));
+        return ResponseEntity.ok().build();
+    }
+
 }
