@@ -72,11 +72,11 @@ export class LoginComponent implements OnInit {
   }
 
   esqueciSenha() {
+    this.dialogRef.close(); 
     this.dialog.open(RecoverPasswordComponent, {
       width: '400px',
       disableClose: false, 
     });
   }
-
 
 }
