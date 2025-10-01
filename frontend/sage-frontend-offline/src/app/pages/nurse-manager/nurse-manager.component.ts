@@ -24,11 +24,14 @@ import { Router } from '@angular/router';
 })
 export class NurseManagerComponent {
   isUserMenuOpen = false;
+  userName: string | null = null;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router
-  ) { }
+  ) {
+    this.userName = this.authService.getUserName();
+  }
 
   toggleUserMenu() {
     this.isUserMenuOpen = !this.isUserMenuOpen;
@@ -48,7 +51,7 @@ export class NurseManagerComponent {
   onLogout(event: Event) {
     event.stopPropagation();
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 }
 
