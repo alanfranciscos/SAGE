@@ -30,21 +30,26 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO body){
-        CaregiverResponseDto user = this.caregiverService.findByEmailAndReturnsCaregiverResponseDto(body.email()).orElseThrow(() -> new RuntimeException("User not found for email"));
-        CaregiverResponseFromPasswordTableDto userResponseFromPasswordTableDto = this.caregiverService.getCaregiverFromPasswordTable(user.id()).orElseThrow(() -> new RuntimeException("User not found for uuid"));
-        String hash = passwordEncoder.encode("123456");
-        System.out.println(hash);
-        if(passwordEncoder.matches(body.password(), userResponseFromPasswordTableDto.caregiver_password())) {
-            System.out.println("IF");
+    public ResponseEntity login(@RequestBody LoginRequestDTO body) {
+        CaregiverResponseDto user = this.caregiverService
+                .findByEmailAndReturnsCaregiverResponseDto(body.email())
+                .orElseThrow(() -> new RuntimeException("User not found for email"));
+
+        if (!user.active()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        CaregiverResponseFromPasswordTableDto userResponseFromPasswordTableDto = this.caregiverService
+                .getCaregiverFromPasswordTable(user.id())
+                .orElseThrow(() -> new RuntimeException("User not found for uuid"));
+
+        if (passwordEncoder.matches(body.password(), userResponseFromPasswordTableDto.caregiver_password())) {
             String token = this.tokenService.generateToken(user);
             return ResponseEntity.ok(new ResponseDTO(user.fullName(), token));
-        } else {
-            System.out.println("ELSE");
         }
+
         return ResponseEntity.badRequest().build();
     }
-
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO body){

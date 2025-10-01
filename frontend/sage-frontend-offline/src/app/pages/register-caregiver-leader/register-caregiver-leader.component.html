@@ -2,7 +2,7 @@
   (updatedStep)="updateStep($event)" (cancel)="onCancel()" (finish)="onFinish()" [validStep]="validateStep()">
 
   @if(currentStep === 0) {
-    <app-image-input (imageChange)="onImageChange($event)"></app-image-input>
+    <!-- <app-image-input (imageChange)="onImageChange($event)"></app-image-input> -->
 
     <app-input label="Nome Completo" placeholder="Digite o nome completo" [required]="true"
       (valueChange)="onInputChange(CaregiverLeaderInputField.FULL_NAME, $event)"
