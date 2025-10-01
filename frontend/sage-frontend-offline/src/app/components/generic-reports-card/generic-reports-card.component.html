@@ -10,9 +10,10 @@
 
         <div class="report-progress">
           <div class="progress-bar-bg">
+            <!-- Largura proporcional ao maior valor -->
             <div
               class="progress-bar color-{{ report.color }}"
-              [style.width.%]="report.value"
+              [style.width.%]="getPercentage(report.value)"
             ></div>
           </div>
           <span class="report-value">{{ report.value }}</span>

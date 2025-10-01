@@ -44,7 +44,6 @@ export class ReportsComponent implements OnInit {
     {
       title: 'Total de Chamados',
       value: '...',
-      // delta: '+12% vs mês anterior',
       icon: 'notifications',
       iconBgColor: 'bg-blue-100',
       iconColor: 'text-blue-600',
@@ -88,47 +87,66 @@ export class ReportsComponent implements OnInit {
   /** ================== CARREGAMENTO DE DADOS ================== **/
   private async loadReportData() {
     try {
-      // Cards
-      this.cards[0].value = (
-        await this.reportsService.getTotalAssists()
-      ).toString();
-
-      const avgResponse = await this.reportsService.getAverageResponseTime();
-      const avgResolution =
-        await this.reportsService.getAverageResolutionTime();
-
-      this.cards[1].value = this.formatElapsedTime(avgResponse);
-      this.cards[2].value = this.formatElapsedTime(avgResolution);
-
-      const criticalRate = await this.reportsService.getCriticalAssistsRate();
-      this.cards[3].value = `${criticalRate}%`;
-      this.cards[3].valueClass = criticalRate > 0 ? 'value-red' : 'value-green';
-
-      // Rankings
-      this.topCaregivers =
-        await this.reportsService.getTopFiveCaregiverPerformance();
-      this.topResidents = await this.reportsService.getTopFiveCallResidents();
-
-      this.topCaregiversForTemplate = this.topCaregivers.map((c) => ({
-        name: c.name,
-        calls: c.quantity,
-        avgResponse: this.formatElapsedTime(c.meanResponse),
-      }));
-
-      this.topResidentsForTemplate = this.topResidents.map((r) => ({
-        name: r.name,
-        calls: r.quantity,
-        avgResponse: this.formatElapsedTime(r.meanResponse),
-      }));
+      await this.loadCards();
+      await this.loadRankings();
     } catch (error) {
       console.error('Erro ao carregar dados do relatório:', error);
     }
   }
 
+  /** ================== CARDS ================== **/
+  private async loadCards(startDate?: string, endDate?: string) {
+    // Total de chamados
+    this.cards[0].value = (
+      await this.reportsService.getTotalAssists(startDate, endDate)
+    ).toString();
+
+    // Tempo médio de resposta e resolução
+    const avgResponse = await this.reportsService.getAverageResponseTime(
+      startDate,
+      endDate
+    );
+    const avgResolution = await this.reportsService.getAverageResolutionTime(
+      startDate,
+      endDate
+    );
+
+    this.cards[1].value = this.formatElapsedTime(avgResponse);
+    this.cards[2].value = this.formatElapsedTime(avgResolution);
+
+    // Taxa de chamados críticos
+    const criticalRate = await this.reportsService.getCriticalAssistsRate();
+    this.cards[3].value = `${criticalRate}%`;
+    this.cards[3].valueClass = criticalRate > 0 ? 'value-red' : 'value-green';
+  }
+
+  /** ================== RANKINGS ================== **/
+  private async loadRankings() {
+    this.topCaregivers =
+      await this.reportsService.getTopFiveCaregiverPerformance();
+    this.topResidents = await this.reportsService.getTopFiveCallResidents();
+
+    // Ordenar por quantidade do maior para o menor
+    this.topCaregiversForTemplate = this.groupByQuantity(
+      this.topCaregivers.map((c) => ({
+        name: c.name,
+        calls: c.quantity,
+        avgResponse: this.formatElapsedTime(c.meanResponse),
+      }))
+    );
+
+    this.topResidentsForTemplate = this.groupByQuantity(
+      this.topResidents.map((r) => ({
+        name: r.name,
+        calls: r.quantity,
+        avgResponse: this.formatElapsedTime(r.meanResponse),
+      }))
+    );
+  }
+
   /** ================== FORMATAÇÃO DE TEMPO ================== **/
   formatElapsedTime(time: string): string {
     if (!time) return '---';
-
     const match = time.match(/(\d+) days (\d+):(\d+):(\d+)/);
     if (!match) return time.split('.')[0];
 
@@ -144,62 +162,62 @@ export class ReportsComponent implements OnInit {
     return result.trim();
   }
 
-  /** ================== TRADUZIR DIAS DA SEMANA ================== **/
-  translateWeekdays(data: Record<string, number>): {
+  /** ================== TRADUZIR E ORDENAR DIAS DA SEMANA ================== **/
+  translateAndSortWeekdays(data: Record<string, number>): {
     labels: string[];
     values: number[];
   } {
+    const orderedWeekdays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
     const labels: string[] = [];
     const values: number[] = [];
 
-    for (const key in data) {
-      labels.push(this.weekdaysMap[key] || key);
-      values.push(data[key]);
+    for (const day of orderedWeekdays) {
+      labels.push(this.weekdaysMap[day]);
+      values.push(data[day] || 0);
     }
 
     return { labels, values };
   }
+
+  /** ================== AGRUPAR POR QUANTIDADE ================== **/
+  groupByQuantity<T extends { calls: number }>(items: T[]): T[] {
+    return items.sort((a, b) => b.calls - a.calls);
+  }
+
+  /** ================== AGRUPAR ALERTAS POR 3 HORAS ================== **/
+  groupAlertsBy3Hours(alerts: { timestamp: string }[]): Record<string, number> {
+    const grouped: Record<string, number> = {};
+
+    alerts.forEach((alert) => {
+      const date = new Date(alert.timestamp);
+      const hour = date.getHours();
+      const groupLabel = `${Math.floor(hour / 3) * 3}:00 - ${
+        Math.floor(hour / 3) * 3 + 2
+      }:59`;
+      grouped[groupLabel] = (grouped[groupLabel] || 0) + 1;
+    });
+
+    // Ordenar do maior para o menor
+    return Object.fromEntries(
+      Object.entries(grouped).sort(([, a], [, b]) => b - a)
+    );
+  }
+
+  /** ================== FILTRO POR DATA ================== **/
   async onDateFilterChange(filter: { startDate: string; endDate: string }) {
+    const { startDate, endDate } = filter;
+
     try {
-      const { startDate, endDate } = filter;
-
-      // Cards
-      this.cards[0].value = (
-        await this.reportsService.getTotalAssists(startDate, endDate)
-      ).toString();
-
-      const avgResponse = await this.reportsService.getAverageResponseTime(
-        startDate,
-        endDate
-      );
-      const avgResolution = await this.reportsService.getAverageResolutionTime(
-        startDate,
-        endDate
-      );
-
-      this.cards[1].value = this.formatElapsedTime(avgResponse);
-      this.cards[2].value = this.formatElapsedTime(avgResolution);
-
-      const criticalRate = await this.reportsService.getCriticalAssistsRate(); // Se quiser, pode criar versão com filtro
-      this.cards[3].value = `${criticalRate}%`;
-      this.cards[3].valueClass = criticalRate > 0 ? 'value-red' : 'value-green';
-
-      // Rankings
-      this.topCaregivers =
-        await this.reportsService.getTopFiveCaregiverPerformance(); // Pode filtrar se backend permitir
-      this.topResidents = await this.reportsService.getTopFiveCallResidents();
-
-      this.topCaregiversForTemplate = this.topCaregivers.map((c) => ({
-        name: c.name,
-        calls: c.quantity,
-        avgResponse: this.formatElapsedTime(c.meanResponse),
-      }));
-
-      this.topResidentsForTemplate = this.topResidents.map((r) => ({
-        name: r.name,
-        calls: r.quantity,
-        avgResponse: this.formatElapsedTime(r.meanResponse),
-      }));
+      await this.loadCards(startDate, endDate);
+      await this.loadRankings();
     } catch (error) {
       console.error('Erro ao aplicar filtro de datas:', error);
     }
