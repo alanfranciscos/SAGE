@@ -1,96 +1,129 @@
-.main{
+.main {
     margin: 1rem 0 2rem 0;
+    display: grid;
+    gap: 1rem;
+    max-width: 90%;
+    padding: 1rem;
 }
-    
 
+/* Card de configurações */
 .settings-card {
-    border: 0.125rem solid transparent;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    border-color: #8a8a8a;
-    background-color: #f1efef;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: grid;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
+/* Header do card */
 .header-settings {
-    border: 0.125rem solid transparent;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    border-color: #8a8a8a;
     display: grid;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .title-header-setings {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
-    font-weight: 700;
-    color: #333;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #0069C5;
 }
 
+.header-settings p {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Linhas de informação */
 .line-info {
     display: flex;
     gap: 1rem;
-}
-
-.title-line-info {
-    font-weight: 700;
-    display: flex;
-    gap: 0.5rem;
-    padding: 1rem 1rem 0 1rem;
-}
-
-.data {
-    padding: 0 2rem 1rem 2rem;
+    flex-wrap: wrap;
 }
 
 .info {
-    border: 0.125rem solid transparent;
-    border-radius: 0.5rem;
-    border-color: #8a8a8a;
-    display: grid;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     flex: 1;
-    gap: 1rem;
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
 }
 
+.title-line-info {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #333;
+}
+
+.data p {
+    margin: 0;
+    font-size: 1rem;
+    color: #444;
+}
+
+/* Card de aviso */
 .notice-card {
-    border: 0.125rem solid transparent;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    border-color: #8a8a8a;
-    background-color: #f1efef;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: #fefefe;
     display: grid;
-    gap: 1rem;
-    margin: 1rem 0 1rem 0;
+    gap: 0.5rem;
 }
 
 .title-notice-card {
     display: flex;
     gap: 0.5rem;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #0069C5;
 }
 
+.notice-card p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Configuração de porta */
 .send-port-settings {
-    border: 0.125rem solid transparent;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    border-color: #8a8a8a;
-    background-color: #f1efef;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.title-line-settings {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #333;
 }
 
 .send-settings-line {
     display: flex;
     gap: 0.5rem;
-    padding: 1rem 1rem 0 1rem;
+    align-items: center;
 }
 
-.title-line-settings {
-    font-weight: 700;
-    display: flex;
-    gap: 0.5rem;
+.send-port-settings input {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 120px;
 }
 
-.send-settings-button{
-    //to do
+.send-settings-button {
+    min-width: 140px;
 }

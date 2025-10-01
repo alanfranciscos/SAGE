@@ -31,22 +31,36 @@
               (scroll)="onActiveScroll($event)"
               *ngIf="selectedTabIndex === 0"
             >
-              <app-alert-resident-card
-                *ngFor="let alert of activeAlerts"
-                [name]="alert.name"
-                [room]="alert.room"
-                [time]="alert.time"
-                [imageUrl]="alert.image"
-                [level]="alert.severity"
-                [status]="alert.status"
-                (click)="selectAlert(alert, false)"
-                [class.active]="selectedAlertDetail?.id === alert.id"
-              ></app-alert-resident-card>
+              <ng-container
+                *ngIf="activeAlerts.length > 0; else noActiveAlerts"
+              >
+                <app-alert-resident-card
+                  *ngFor="let alert of activeAlerts"
+                  [name]="alert.name"
+                  [room]="alert.room"
+                  [time]="alert.time"
+                  [imageUrl]="alert.image"
+                  [level]="alert.severity"
+                  [status]="alert.status"
+                  (click)="selectAlert(alert, false)"
+                  [class.active]="selectedAlertDetail?.id === alert.id"
+                ></app-alert-resident-card>
 
-              <!-- Loader no fim da lista -->
-              <div *ngIf="activeLoading" class="loading-spinner">
-                Carregando mais...
-              </div>
+                <!-- Loader no fim da lista -->
+                <div *ngIf="activeLoading" class="loading-spinner">
+                  Carregando mais...
+                </div>
+              </ng-container>
+
+              <ng-template #noActiveAlerts>
+                <div class="no-alerts">
+                  <i
+                    class="fa-solid fa-bell"
+                    style="font-size: 4rem; color: #ccc"
+                  ></i>
+                  <p>Sem chamados ativos no momento</p>
+                </div>
+              </ng-template>
             </div>
 
             <div class="alert-details">
@@ -71,23 +85,37 @@
               (scroll)="onFinishedScroll($event)"
               *ngIf="selectedTabIndex === 1"
             >
-              <app-alert-resident-card
-                *ngFor="let alert of finishedAlerts"
-                [name]="alert.name"
-                [room]="alert.room"
-                [time]="alert.time"
-                [imageUrl]="alert.image"
-                [level]="alert.severity"
-                [status]="alert.status"
-                [observation]="alert.observations"
-                (click)="selectAlert(alert, true)"
-                [class.active]="selectedAlertDetail?.id === alert.id"
-              ></app-alert-resident-card>
+              <ng-container
+                *ngIf="finishedAlerts.length > 0; else noFinishedAlerts"
+              >
+                <app-alert-resident-card
+                  *ngFor="let alert of finishedAlerts"
+                  [name]="alert.name"
+                  [room]="alert.room"
+                  [time]="alert.time"
+                  [imageUrl]="alert.image"
+                  [level]="alert.severity"
+                  [status]="alert.status"
+                  [observation]="alert.observations"
+                  (click)="selectAlert(alert, true)"
+                  [class.active]="selectedAlertDetail?.id === alert.id"
+                ></app-alert-resident-card>
 
-              <!-- Loader no fim da lista -->
-              <div *ngIf="finishedLoading" class="loading-spinner">
-                Carregando mais...
-              </div>
+                <!-- Loader no fim da lista -->
+                <div *ngIf="finishedLoading" class="loading-spinner">
+                  Carregando mais...
+                </div>
+              </ng-container>
+
+              <ng-template #noFinishedAlerts>
+                <div class="no-alerts">
+                  <i
+                    class="fa-solid fa-bell"
+                    style="font-size: 4rem; color: #ccc"
+                  ></i>
+                  <p>Sem histórico de chamados</p>
+                </div>
+              </ng-template>
             </div>
 
             <div class="alert-details">
