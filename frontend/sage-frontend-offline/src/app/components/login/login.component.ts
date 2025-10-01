@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
 
   async checkIfHasCaregiverLeader() {
     const hasCaregiverLeader = await this.caregiverLeaderService.countAllActiveCaregiverLeader();
+    console.log(hasCaregiverLeader);
     if (hasCaregiverLeader === 0) {
       this.registerButtonEnabled = false;
     } else {

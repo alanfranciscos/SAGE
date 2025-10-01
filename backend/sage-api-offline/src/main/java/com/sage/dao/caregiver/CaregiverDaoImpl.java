@@ -239,7 +239,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
     @Override
     public UUID createPassword(UUID caregiverId, String hashedPassword, String verificationCode, OffsetDateTime codeValidUntil) {
         String sql = "INSERT INTO caregiver_password (caregiver_id, caregiver_password, created_at, active, staging, verification_code, code_valid_until) " +
-                "VALUES (?, ?, now(), FALSE, TRUE, ?, ?)";
+                "VALUES (?, ?, now(), TRUE, FALSE, ?, ?)";
         UUID caregiverPasswordId = UUID.randomUUID();
         System.out.println("caregiverPasswordId do DAO: " + caregiverPasswordId);
 
