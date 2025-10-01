@@ -117,7 +117,8 @@ export class AlertsComponent implements OnInit {
             time: this.formatDateTime(assistDetails.elapsedTime),
             severity: this.mapLevelFromApi(assistDetails.severityLevel),
             status: this.mapStatusFromApi(assistDetails.status),
-            image: 'default.jpg',
+            image: this.normalizeImage(assistDetails.imageData),
+
             observations: assistDetails.observations ?? '',
             age: assistDetails.age,
           });
@@ -158,7 +159,8 @@ export class AlertsComponent implements OnInit {
         time: this.formatDateTime(a.elapsedTime),
         severity: this.mapLevelFromApi(a.severityLevel),
         status: 'atendido',
-        image: 'default.jpg',
+        image: this.normalizeImage(a.imageData),
+
         observations: a.description ?? '',
       }));
 
@@ -199,7 +201,8 @@ export class AlertsComponent implements OnInit {
       time: this.formatDateTime(a.elapsedTime),
       severity: this.mapLevelFromApi(a.severityLevel),
       status: this.mapStatusFromApi(a.status),
-      image: 'default.jpg',
+      image: this.normalizeImage(a.imageData),
+
       observations: a.observations ?? '',
       age: a.age,
     };
@@ -245,7 +248,7 @@ export class AlertsComponent implements OnInit {
       severity: alert.severity,
       status: alert.status,
       observations: alert.observations ?? '',
-      imageData: alert.image,
+      imageData: this.normalizeImage(alert.image),
       cpf: 'string',
       sex: 'string',
       birthDate: 'string',
@@ -362,7 +365,8 @@ export class AlertsComponent implements OnInit {
             time: this.formatDateTime(assistDetails.elapsedTime),
             severity: this.mapLevelFromApi(assistDetails.severityLevel),
             status: this.mapStatusFromApi(assistDetails.status),
-            image: 'default.jpg',
+            image: this.normalizeImage(assistDetails.imageData),
+
             observations: assistDetails.observations ?? '',
             age: assistDetails.age,
           });
@@ -397,7 +401,7 @@ export class AlertsComponent implements OnInit {
         time: this.formatDateTime(a.elapsedTime),
         severity: this.mapLevelFromApi(a.severityLevel),
         status: 'atendido',
-        image: 'default.jpg',
+        image: this.normalizeImage(a.imageData),
         observations: a.description ?? '',
       }));
 
@@ -430,5 +434,11 @@ export class AlertsComponent implements OnInit {
     ) {
       this.loadFinishedAlertsPage();
     }
+  }
+  private normalizeImage(base64: string | null | undefined): string {
+    if (!base64) return '';
+    return base64.startsWith('data:image')
+      ? base64
+      : `data:image/png;base64,${base64}`;
   }
 }
