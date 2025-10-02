@@ -104,15 +104,19 @@
       </a>
     </app-tooltip-wrapper>
   </div>
-  <!-- <div class="exit-container">
-    <a [routerLink]="['/']" class="exit">
-      <app-button
-        [label]="'Sair'"
-        [type]="'secondary'"
-        class="exit-button"
-        [size]="'large'"
-        [disabled]="true"
-      ></app-button>
-    </a>
+
+  <!-- <div class="offline-btn-container" *ngIf="!alarmStatusOnline">
+    <div class="offline-btn-container" *ngIf="!alarmStatusOnline">
+      <button class="offline-btn" (click)="goToAlarmPanel()">
+        <i
+          class="fa-solid fa-triangle-exclamation"
+          style="margin-right: 8px"
+        ></i>
+        <div>
+          <p>ALERTA:</p>
+          <p>Central Offline</p>
+        </div>
+      </button>
+    </div>
   </div> -->
 </aside>
