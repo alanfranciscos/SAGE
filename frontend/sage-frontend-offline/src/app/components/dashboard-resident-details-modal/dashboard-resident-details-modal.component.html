@@ -23,9 +23,22 @@
 
       <!-- Dados -->
       <div class="details-grid">
-        <div class="detail-item">
+        <div class="detail-item cpf-item">
           <label>CPF</label>
-          <span>{{ residentDetails?.cpf }}</span>
+          <div class="cpf-wrapper">
+            <span>{{ showCpf ? residentDetails?.cpf : maskedCpf }}</span>
+
+            <button
+              type="button"
+              class="toggle-btn"
+              (click)="toggleCpf()"
+              [attr.aria-pressed]="showCpf"
+            >
+              <i
+                [class]="showCpf ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"
+              ></i>
+            </button>
+          </div>
         </div>
 
         <div class="detail-item">
