@@ -316,6 +316,20 @@ VALUES (
         'Sandra Almeida',
         '21987651239',
         'Filha'
+    ),
+    (
+        'abb74e31-2199-4b28-aeb7-6a6953ed6a02',
+        '99999999-7777-4888-9999-000111222333',
+        'João Maria',
+        '11999998888',
+        'Filho'
+    ),
+    (
+        '7420b1a3-aa17-4396-8c17-22dadf466ac6',
+        '99998888-7777-4888-9999-000111222333',
+        'Paula Maciel',
+        '21988887777',
+        'Irmã'
     );
 -- Tabela control_resident
 INSERT INTO control_resident (id, control_id, alarm_id, resident_id)
