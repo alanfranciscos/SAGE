@@ -18,9 +18,15 @@ public class HttpService {
         try {
             HttpClient client = HttpClient.newHttpClient();
 
+            // String jsonBody = "{"
+            //         + "\"controlId\": \"" + usuario + "\","
+            //         + "\"calledAt\": \"" + "2025-10-02T19:00:00Z" + "\""
+            //         + "}";
+
+            String calledAt = java.time.ZonedDateTime.now().toString();
             String jsonBody = "{"
                     + "\"controlId\": \"" + usuario + "\","
-                    + "\"calledAt\": \"" + System.currentTimeMillis() + "\""
+                    + "\"calledAt\": \"" + calledAt + "\""
                     + "}";
 
             HttpRequest request = HttpRequest.newBuilder()

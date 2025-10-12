@@ -115,7 +115,7 @@ CREATE TABLE assist (
     
     FOREIGN KEY (caregiver_id) REFERENCES caregiver (id) ON DELETE CASCADE,
     FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
-    UNIQUE (caregiver_id, resident_id, called_at)
+    UNIQUE (resident_id, called_at)
 );
 
 -- functions
