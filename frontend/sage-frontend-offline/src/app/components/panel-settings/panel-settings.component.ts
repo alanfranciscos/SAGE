@@ -18,7 +18,7 @@ import { SettingsService } from '../../controller/settings/settings.service';
   templateUrl: './panel-settings.component.html',
   styleUrl: './panel-settings.component.scss'
 })
-export class PanelSettingsComponent implements OnInit {
+export class PanelSettingsComponent implements OnInit { 
   @Input() panel_model: string = 'Indefinido';
   @Input() status: boolean = true;
   @Input() ip_address: string = 'Indefinido';
@@ -27,35 +27,35 @@ export class PanelSettingsComponent implements OnInit {
   @Input() serial_number: string = 'Indefinido';
   @Input() portNumber: string = '6045';
 
+  private readonly DEFAULT_SERIAL_NUMBER = "2785040674";
+
   constructor(private toastr: ToastrService,
     private settingsService: SettingsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const settingsDetails = await this.settingsService.getPanelSettingsBySerialNumber(
-      "2785040674"
-    );
+    await this.loadPanelSettings();
+  }
+  
+  async loadPanelSettings(): Promise<void> {
+    try {
+      const settingsDetails = await this.settingsService.getPanelSettingsBySerialNumber(
+        this.DEFAULT_SERIAL_NUMBER
+      );
 
-    console.log(settingsDetails.model === null);
+      this.serial_number = settingsDetails.serialNumber;
+      this.status = settingsDetails.status === 'Online' ? true : false;
+      this.panel_model = settingsDetails.model ?? "Indefinido";
+      this.ip_address = settingsDetails.ipAddress ?? "Indefinido";
+      this.mac_address = settingsDetails.macAddress ?? "Indefinido";
+      this.account = settingsDetails.account ?? "Indefinido";
+      this.portNumber = settingsDetails.port?.toString() ?? '6045';
 
-    this.serial_number = settingsDetails.serialNumber;
-
-    this.status = settingsDetails.status === 'Online' ? true : false;
-
-    this.panel_model = settingsDetails.model === null ? "Indefinido" : settingsDetails.model;
-
-    this.panel_model = settingsDetails.model === null ? "Indefinido" : settingsDetails.model;
-
-    this.ip_address = settingsDetails.ipAddress === null ? "Indefinido" : settingsDetails.ipAddress;
-
-    this.mac_address = settingsDetails.macAddress === null ? "Indefinido" : settingsDetails.macAddress;
-
-    this.account = settingsDetails.account === null ? "Indefinido" : settingsDetails.account;
-
-    this.portNumber = settingsDetails.port?.toString() ?? '6045';
-
-    console.log(settingsDetails);
-
+      console.log('Detalhes do painel carregados:', settingsDetails);
+    } catch (error) {
+      console.error('Erro ao carregar detalhes do painel:', error);
+      this.toastr.error('Falha ao carregar o status do painel.');
+    }
   }
 
   private iconMap: Record<string, string> = {
@@ -85,12 +85,13 @@ export class PanelSettingsComponent implements OnInit {
     try {
       await this.settingsService.updatePanelPort(this.serial_number, port);
       this.toastr.success(`Porta ${port} enviada com sucesso!`);
+      
+      await this.loadPanelSettings(); 
+      
       console.log('Porta enviada:', port);
     } catch (error) {
       console.error('Erro ao enviar porta:', error);
       this.toastr.error('Falha ao enviar a porta. Tente novamente.');
     }
   }
-
-
 }

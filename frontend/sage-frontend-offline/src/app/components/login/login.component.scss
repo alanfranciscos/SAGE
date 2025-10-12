@@ -7,3 +7,10 @@ mat-dialog-content {
   display: flex;
   flex-direction: column;
 }
+
+.login-error {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin-top: 8px;
+  text-align: center;
+}

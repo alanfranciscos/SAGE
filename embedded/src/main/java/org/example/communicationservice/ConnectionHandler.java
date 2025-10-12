@@ -39,7 +39,7 @@ public class ConnectionHandler implements Runnable {
         scheduler.scheduleAtFixedRate(() -> {
             long diff = System.currentTimeMillis() - lastKeepAliveTime;
 
-            if (diff > 5 * 60 * 1000) {
+            if (diff > 7.5 * 60 * 1000) {
                 if (online) {
                     online = false;
                     status = "Offline";
