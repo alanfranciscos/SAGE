@@ -47,24 +47,24 @@ class AlarmControllerTest {
 
         alarm = new Alarm();
         alarm.setId(alarmId);
-        alarm.setModel("Intelbras AMT 2018");
+        alarm.setModel("Active Full 32");
         alarm.setStatus("ACTIVE");
         alarm.setIpAddress("192.168.0.10");
         alarm.setMacAddress("AA:BB:CC:DD:EE:FF");
-        alarm.setAccount("ACC-01");
-        alarm.setSerialNumber("SN123456");
+        alarm.setAccount("0001");
+        alarm.setSerialNumber("2785040674");
         alarm.setPort(8080);
     }
 
     @Test
     void deveCriarAlarmeComSucesso() throws Exception {
         CreateAlarmRequestDto request = new CreateAlarmRequestDto(
-                "Intelbras AMT 2018",
+                "Active Full 32",
                 "ACTIVE",
                 "192.168.0.10",
                 "AA:BB:CC:DD:EE:FF",
-                "ACC-01",
-                "SN123456",
+                "0001",
+                "2785040674",
                 8080
         );
 
@@ -74,19 +74,19 @@ class AlarmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.model").value("Intelbras AMT 2018"))
+                .andExpect(jsonPath("$.model").value("Active Full 32"))
                 .andExpect(jsonPath("$.status").value("ACTIVE"));
     }
 
     @Test
     void deveAtualizarAlarmePorId() throws Exception {
         UpdateAlarmRequestDto request = new UpdateAlarmRequestDto(
-                "Intelbras AMT 2018E",
+                "Active Full 32",
                 "INACTIVE",
                 "192.168.0.11",
                 "AA:BB:CC:DD:EE:11",
-                "ACC-02",
-                "SN654321"
+                "0001",
+                "2785040674"
         );
 
         when(alarmService.update(eq(alarmId), any(UpdateAlarmRequestDto.class))).thenReturn(alarm);
@@ -95,38 +95,38 @@ class AlarmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.model").value("Intelbras AMT 2018"))
-                .andExpect(jsonPath("$.serialNumber").value("SN123456"));
+                .andExpect(jsonPath("$.model").value("Active Full 32"))
+                .andExpect(jsonPath("$.serialNumber").value("2785040674"));
     }
 
     @Test
     void deveAtualizarAlarmePorNumeroDeSerie() throws Exception {
         UpdateAlarmRequestDto request = new UpdateAlarmRequestDto(
-                "Intelbras 2022",
+                "Active 20 2022",
                 "ACTIVE",
                 "192.168.0.12",
                 "AA:BB:CC:22:EE:FF",
-                "ACC-03",
-                "SN999999"
+                "0001",
+                "2785040674"
         );
 
         when(alarmService.updateBySerialNumber(eq("SN123456"), any(UpdateAlarmRequestDto.class)))
                 .thenReturn(alarm);
 
-        mockMvc.perform(put("/v1/alarms/serial/{serialNumber}", "SN123456")
+        mockMvc.perform(put("/v1/alarms/serial/{serialNumber}", "2785040674")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.serialNumber").value("SN123456"));
+                .andExpect(jsonPath("$.serialNumber").value("2785040674"));
     }
 
     @Test
     void deveAtualizarPortaPorNumeroDeSerie() throws Exception {
         UpdateAlarmPortRequestDto request = new UpdateAlarmPortRequestDto(9090);
 
-        doNothing().when(alarmService).updatePortBySerialNumber(eq("SN123456"), any(UpdateAlarmPortRequestDto.class));
+        doNothing().when(alarmService).updatePortBySerialNumber(eq("2785040674"), any(UpdateAlarmPortRequestDto.class));
 
-        mockMvc.perform(patch("/v1/alarms/serial/{serialNumber}/port", "SN123456")
+        mockMvc.perform(patch("/v1/alarms/serial/{serialNumber}/port", "2785040674")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNoContent());
@@ -134,19 +134,19 @@ class AlarmControllerTest {
 
     @Test
     void deveBuscarAlarmePorNumeroDeSerie() throws Exception {
-        when(alarmService.getBySerialNumber("SN123456")).thenReturn(Optional.of(alarm));
+        when(alarmService.getBySerialNumber("2785040674")).thenReturn(Optional.of(alarm));
 
-        mockMvc.perform(get("/v1/alarms/serial/{serialNumber}", "SN123456"))
+        mockMvc.perform(get("/v1/alarms/serial/{serialNumber}", "2785040674"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.model").value("Intelbras AMT 2018"))
+                .andExpect(jsonPath("$.model").value("Active Full 32"))
                 .andExpect(jsonPath("$.status").value("ACTIVE"));
     }
 
     @Test
     void deveRetornar404SeAlarmeNaoForEncontradoPorSerial() throws Exception {
-        when(alarmService.getBySerialNumber("SN000000")).thenReturn(Optional.empty());
+        when(alarmService.getBySerialNumber("2785040675")).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/v1/alarms/serial/{serialNumber}", "SN000000"))
+        mockMvc.perform(get("/v1/alarms/serial/{serialNumber}", "2785040675"))
                 .andExpect(status().isNotFound());
     }
 
