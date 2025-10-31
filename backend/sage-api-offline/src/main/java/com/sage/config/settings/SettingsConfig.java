@@ -18,9 +18,16 @@ public class SettingsConfig {
     @Value("${spring.datasource.password}")
     private String sqlPassword;
 
+//    @Bean
+//    public Dotenv dotenv() {
+//        return Dotenv.load();
+//    }
+
     @Bean
     public Dotenv dotenv() {
-        return Dotenv.load();
+        return Dotenv.configure()
+                .ignoreIfMissing()
+                .load();
     }
 
     @Bean
