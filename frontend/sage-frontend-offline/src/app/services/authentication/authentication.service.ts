@@ -11,7 +11,13 @@ export class AuthenticationService {
 
   constructor(private apiService: ApiService) {
     this.restoreSession();
+    this.checkTokenAndLogoutIfExpired();
+
+    setInterval(() => {
+      this.checkTokenAndLogoutIfExpired();
+    }, 30000);
   }
+
 
   private restoreSession(): void {
     const storedToken = localStorage.getItem('token');
@@ -38,6 +44,27 @@ export class AuthenticationService {
   getUserName(): string | null {
     return this.userName;
   }
+
+  private isTokenExpired(): boolean {
+    if (!this.token) return true;
+
+    try {
+      const payload = JSON.parse(atob(this.token.split('.')[1]));
+      const exp = payload.exp * 1000;
+      return Date.now() > exp;
+    } catch (e) {
+      console.error('Erro ao decodificar token', e);
+      return true;
+    }
+  }
+
+  checkTokenAndLogoutIfExpired(): void {
+    if (this.isTokenExpired()) {
+      this.logout();
+    }
+  }
+
+
 
   async login(email: string, password: string): Promise<boolean> {
     try {

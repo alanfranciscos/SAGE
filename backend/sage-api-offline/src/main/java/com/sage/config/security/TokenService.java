@@ -46,4 +46,10 @@ public class TokenService {
     private Instant generateExpirationDate(){
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
+
+//    private Instant generateExpirationDate() {
+//        return LocalDateTime.now()
+//                .plusSeconds(30)  // token válido por 30 segundos
+//                .toInstant(ZoneOffset.of("-03:00"));
+//    }
 }
