@@ -83,8 +83,25 @@ public class CaregiverServiceImpl implements CaregiverService {
 
     @Override
     public void updateCaregiverActiveStatus(UUID id, boolean active) {
+        // Busca o cuidador que será atualizado
+        CaregiverResponseDto caregiver = caregiverDao.findById(id)
+                .orElseThrow(() -> new NotFoundException("Caregiver not found with ID: " + id));
+
+        // Conta quantos chieffs estão ativos
+        long chieffAtivos = getAllCaregivers().stream()
+                .filter(c -> c.active() && "chieff".equalsIgnoreCase(c.position()))
+                .count();
+
+        // Impede desativar o último chieff ativo
+        if (!active && "chieff".equalsIgnoreCase(caregiver.position()) && chieffAtivos <= 1) {
+            throw new IllegalStateException("Não é possível desativar o último chieff ativo.");
+        }
+
+        // Atualiza o status normalmente
         caregiverDao.updateCaregiverActiveStatus(id, active);
     }
+
+
 
     @Override
     public CaregiverResponseDto findByToken(String token) {
@@ -194,6 +211,11 @@ public class CaregiverServiceImpl implements CaregiverService {
 
         String newToken = generateToken();
         caregiverDao.updateToken(caregiverId, newToken);
+    }
+
+    @Override
+    public List<CaregiverResponseDto> getAllCaregivers() {
+        return caregiverDao.getAllCaregivers();
     }
 
     private String generateToken() {

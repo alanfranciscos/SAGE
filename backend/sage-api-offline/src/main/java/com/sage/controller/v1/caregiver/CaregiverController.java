@@ -61,10 +61,14 @@ public class CaregiverController {
     }
 
     @PatchMapping("/{id}/active")
-    public ResponseEntity<Void> updateCaregiverActiveStatus(@PathVariable UUID id, @RequestBody UpdateCaregiverActiveStatusRequestDto request) {
+    public ResponseEntity<Void> updateCaregiverActiveStatus(
+            @PathVariable UUID id,
+            @RequestBody UpdateCaregiverActiveStatusRequestDto request) {
+
         caregiverService.updateCaregiverActiveStatus(id, request.active());
         return ResponseEntity.noContent().build();
     }
+
 
     @GetMapping
     public ResponseEntity<List<CaregiverResponseDto>> getAllCaregivers(
@@ -88,6 +92,18 @@ public class CaregiverController {
         Map<String, Long> map = new HashMap<>();
         map.put("total", total);
         return map;
+    }
+
+    @GetMapping("/verify-active-caregiver")
+    public boolean varifyIfHasOnlyOneActiveCaregiver() {
+        boolean existeAtivo = false;
+        for (CaregiverResponseDto c : caregiverService.getAllCaregivers()) {
+            if (c.active()) {
+                existeAtivo = true;
+                break;
+            }
+        }
+        return existeAtivo;
     }
 
 }

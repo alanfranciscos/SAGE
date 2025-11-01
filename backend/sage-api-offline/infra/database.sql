@@ -30,7 +30,7 @@ CREATE TABLE organization (
     neighborhood VARCHAR(100),
     street VARCHAR(100),
     organization_number VARCHAR(50),
-    
+
     FOREIGN KEY (alarm_id) REFERENCES alarm (id) ON DELETE CASCADE
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE caregiver_password (
     staging BOOLEAN NOT NULL DEFAULT TRUE,
     verification_code VARCHAR(100) NOT NULL,
     code_valid_until TIMESTAMP WITH TIME ZONE NOT NULL,
-        
+
     FOREIGN KEY (caregiver_id) REFERENCES caregiver (id) ON DELETE CASCADE,
     UNIQUE (caregiver_id, caregiver_password)
 );
@@ -84,7 +84,7 @@ CREATE TABLE resident_emergency_contact (
     full_name VARCHAR(150) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     relationship VARCHAR(50) NOT NULL,
-        
+
     FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
     UNIQUE (resident_id)
 );
@@ -105,14 +105,14 @@ CREATE TABLE assist (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     caregiver_id UUID,
     resident_id UUID NOT NULL,
-    
+
     called_at TIMESTAMP WITH TIME ZONE NOT NULL,
     assignment_at TIMESTAMP WITH TIME ZONE,
     end_at TIMESTAMP WITH TIME ZONE,
 
     detail TEXT,
     severity_level VARCHAR NOT NULL CHECK (severity_level IN ('warning', 'emergency')),
-    
+
     FOREIGN KEY (caregiver_id) REFERENCES caregiver (id) ON DELETE CASCADE,
     FOREIGN KEY (resident_id) REFERENCES resident (id) ON DELETE CASCADE,
     UNIQUE (resident_id, called_at)

@@ -11,7 +11,9 @@ public record CaregiverResponseDto(
         String phone,
         String token,
         boolean active,
-        OffsetDateTime lastUsedToken
+        OffsetDateTime lastUsedToken,
+
+        String position
         ) {
 
 }

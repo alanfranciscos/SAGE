@@ -35,4 +35,6 @@ public interface CaregiverService {
 
     void resetPassword(ResetPasswordRequestDTO dto, String passwordHash);
 
+    List<CaregiverResponseDto> getAllCaregivers();
+
 }

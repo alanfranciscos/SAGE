@@ -47,7 +47,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
 
     @Override
     public List<CaregiverResponseDto> getAllCaregivers(int limit, int skip, String search) {
-        StringBuilder sql = new StringBuilder("SELECT id, full_name, phone, email, cpf, token, active, last_used_token FROM caregiver");
+        StringBuilder sql = new StringBuilder("SELECT id, full_name, phone, email, cpf, token, active, last_used_token, position FROM caregiver");
         List<Object> params = new ArrayList<>();
 
         if (search != null && !search.trim().isEmpty()) {
@@ -80,7 +80,8 @@ public class CaregiverDaoImpl implements CaregiverDao {
                         rs.getString("phone"),
                         rs.getString("token"),
                         rs.getBoolean("active"),
-                        rs.getObject("last_used_token", OffsetDateTime.class)
+                        rs.getObject("last_used_token", OffsetDateTime.class),
+                        rs.getString("position")
                 ));
             }
             return caregivers;
@@ -190,7 +191,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
 
     @Override
     public Optional<CaregiverResponseDto> findByToken(String token) {
-        String sql = "SELECT id, full_name, cpf, token, active, last_used_token, phone, email FROM caregiver WHERE token = ?";
+        String sql = "SELECT id, full_name, cpf, token, active, last_used_token, phone, email, position FROM caregiver WHERE token = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
@@ -203,7 +204,8 @@ public class CaregiverDaoImpl implements CaregiverDao {
                         rs.getString("phone"),
                         rs.getString("token"),
                         rs.getBoolean("active"),
-                        rs.getObject("last_used_token", OffsetDateTime.class)
+                        rs.getObject("last_used_token", OffsetDateTime.class),
+                        rs.getString("position")
                 ));
             }
             return Optional.empty();
@@ -214,7 +216,7 @@ public class CaregiverDaoImpl implements CaregiverDao {
 
     @Override
     public Optional<CaregiverResponseDto> findById(UUID id) {
-        String sql = "SELECT id, full_name, cpf, token, active, last_used_token, phone, email FROM caregiver WHERE id = ?";
+        String sql = "SELECT id, full_name, cpf, token, active, last_used_token, phone, email, position FROM caregiver WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
@@ -227,7 +229,8 @@ public class CaregiverDaoImpl implements CaregiverDao {
                         rs.getString("phone"),
                         rs.getString("token"),
                         rs.getBoolean("active"),
-                        rs.getObject("last_used_token", OffsetDateTime.class)
+                        rs.getObject("last_used_token", OffsetDateTime.class),
+                        rs.getString("position")
                 ));
             }
             return Optional.empty();
@@ -295,7 +298,8 @@ public class CaregiverDaoImpl implements CaregiverDao {
                         rs.getString("cpf"),
                         rs.getString("token"),
                         rs.getBoolean("active"),
-                        rs.getObject("last_used_token", OffsetDateTime.class)
+                        rs.getObject("last_used_token", OffsetDateTime.class),
+                        rs.getString("position")
                 ));
             }
             return Optional.empty();
@@ -341,5 +345,30 @@ public class CaregiverDaoImpl implements CaregiverDao {
         }
     }
 
+    @Override
+    public List<CaregiverResponseDto> getAllCaregivers() {
+        StringBuilder sql = new StringBuilder("SELECT id, full_name, phone, email, cpf, token, active, last_used_token, position FROM caregiver");
+        List<Object> params = new ArrayList<>();
 
+        List<CaregiverResponseDto> caregivers = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                caregivers.add(new CaregiverResponseDto(
+                        (UUID) rs.getObject("id"),
+                        rs.getString("full_name"),
+                        rs.getString("cpf"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("token"),
+                        rs.getBoolean("active"),
+                        rs.getObject("last_used_token", OffsetDateTime.class),
+                        rs.getString("position")
+                ));
+            }
+            return caregivers;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

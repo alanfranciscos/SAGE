@@ -1,9 +1,0 @@
-### Terraform ###
-terraform.auto.tfvars
-.terraform/
-.terraform.lock.hcl
-*tfstate*
-*.plan
-
-### Credentials ###
-gcp_cred.json

@@ -37,4 +37,6 @@ public interface CaregiverDao {
     Long getCountCaregiverLeader();
 
     void updateToken(UUID caregiverId, String token);
+
+    List<CaregiverResponseDto> getAllCaregivers();
 }
