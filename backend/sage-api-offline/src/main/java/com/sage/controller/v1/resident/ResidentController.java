@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/v1/resident")
+@RequestMapping("/api/v1/resident")
 public class ResidentController {
 
     private final ResidentServiceImpl residentService;

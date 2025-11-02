@@ -20,7 +20,7 @@ import com.sage.dto.v1.health.response.HealthResponseDto;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/v1/health")
+@RequestMapping("/api/v1/health")
 public class HealthController {
 
     private static final Instant START_TIME = Instant.now();

@@ -26,7 +26,7 @@ import com.sage.dto.v1.assist.response.PendingAssistDetailResponseDto;
 import com.sage.port.services.assist.AssistService;
 
 @RestController
-@RequestMapping("/v1/assist")
+@RequestMapping("/api/v1/assist")
 public class AssistController {
 
     private final AssistService assistService;

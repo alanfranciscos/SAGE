@@ -62,7 +62,8 @@ class AuthControllerTest {
                 "11999998888",
                 "TOKEN123",
                 true,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                "chieff"
         );
 
         passwordTableDto = new CaregiverResponseFromPasswordTableDto(

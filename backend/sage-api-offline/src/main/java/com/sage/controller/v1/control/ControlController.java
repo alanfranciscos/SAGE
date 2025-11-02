@@ -12,7 +12,7 @@ import com.sage.model.resident.control.ControlResident;
 import com.sage.port.services.resident.ControlResidentService;
 
 @RestController
-@RequestMapping("/v1/control")
+@RequestMapping("/api/v1/control")
 public class ControlController {
 
     private final ControlResidentService controlResidentService;

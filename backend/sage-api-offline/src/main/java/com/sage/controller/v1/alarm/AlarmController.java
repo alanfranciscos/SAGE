@@ -21,7 +21,7 @@ import com.sage.model.alarm.Alarm;
 import com.sage.port.services.alarm.AlarmService;
 
 @RestController
-@RequestMapping("/v1/alarms")
+@RequestMapping("/api/v1/alarms")
 public class AlarmController {
 
     private final AlarmService alarmService;

@@ -5,19 +5,15 @@ import axios, { AxiosInstance } from 'axios';
   providedIn: 'root',
 })
 export class ApiService {
-  baseURL = 'http://localhost:8080';
-  // token = localStorage.getItem('token');
+  // baseURL ajustado para funcionar tanto local quanto empacotado
+  baseURL = window.location.origin; // ← chave da correção!
 
-  api = axios.create({
-    baseURL: this.baseURL,
-  });
+  api: AxiosInstance;
 
   constructor() {
-    // if (this.token) {
-    //   this.api.defaults.headers.common[
-    //     'Authorization'
-    //   ] = `Bearer ${this.token}`;
-    // }
+    this.api = axios.create({
+      baseURL: this.baseURL,
+    });
   }
 
   getApi = (): AxiosInstance => {
@@ -27,8 +23,4 @@ export class ApiService {
   setToken = (token: string) => {
     this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   };
-
-  // removeToken = () => {
-  //   delete this.api.defaults.headers.common['Authorization'];
-  // };
 }

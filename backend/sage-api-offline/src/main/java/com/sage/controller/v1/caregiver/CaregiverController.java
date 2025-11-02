@@ -24,7 +24,7 @@ import com.sage.dto.v1.caregiver.response.CaregiverResponseDto;
 import com.sage.services.caregiver.CaregiverServiceImpl;
 
 @RestController
-@RequestMapping("/v1/caregiver")
+@RequestMapping("/api/v1/caregiver")
 public class CaregiverController {
 
     private final CaregiverServiceImpl caregiverService;

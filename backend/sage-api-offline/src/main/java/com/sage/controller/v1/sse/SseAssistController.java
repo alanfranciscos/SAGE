@@ -8,7 +8,7 @@ import com.sage.port.services.sse.AssistSseService;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("/v1/sse/assist")
+@RequestMapping("/api/v1/sse/assist")
 public class SseAssistController {
 
     private final AssistSseService assistSseService;

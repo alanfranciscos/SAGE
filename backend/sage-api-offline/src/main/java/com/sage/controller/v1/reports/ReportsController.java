@@ -21,7 +21,7 @@ import com.sage.dto.v1.reports.response.WeekdayCallsResponseDto;
 import com.sage.port.services.reports.ReportsService;
 
 @RestController
-@RequestMapping("/v1/reports")
+@RequestMapping("/api/v1/reports")
 public class ReportsController {
 
     private final ReportsService reportsService;

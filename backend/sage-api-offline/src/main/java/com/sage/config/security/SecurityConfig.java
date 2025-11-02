@@ -34,11 +34,10 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200")
+                        .allowedOriginPatterns("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true)
-                        .exposedHeaders("Location");
+                        .allowCredentials(true);
             }
         };
     }
@@ -47,7 +46,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
 
         // 👇 Cria matchers compatíveis com MVC e define o servlet path "/api"
-        MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/api");
+        MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
 
         http
                 .csrf(csrf -> csrf.disable())
