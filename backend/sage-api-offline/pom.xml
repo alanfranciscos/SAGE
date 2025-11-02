@@ -98,6 +98,13 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!-- lib-central-de-alarmes -->
+        <dependency>
+            <groupId>com.sage.hardware</groupId>
+            <artifactId>alarm-central</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- Clod Sql Socket-->
 <!--        <dependency>-->
 <!--            <groupId>com.google.cloud.sql</groupId>-->

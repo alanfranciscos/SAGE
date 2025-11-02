@@ -1,0 +1,6 @@
+org\example\model\AlarmPanel.class
+org\example\api\HttpService.class
+org\example\Main.class
+org\example\utils\Utils.class
+org\example\communicationservice\ConnectionHandler.class
+org\example\communicationservice\TCPServerSocket.class
