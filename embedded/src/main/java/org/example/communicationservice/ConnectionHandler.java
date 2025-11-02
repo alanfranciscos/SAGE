@@ -13,12 +13,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class ConnectionHandler implements Runnable {
+
     private Socket socket;
     private volatile long lastKeepAliveTime = System.currentTimeMillis();
     private volatile boolean online = false;
     private byte seq;
 
-    private HttpService httpService;
+    private final HttpService httpService;
+    private final ScheduledExecutorService scheduler;
     private String alarmPanelIpAdress = "Indefinido";
     private String status = "Offline";
     private String serialNumber = "Indefinido";
@@ -35,38 +37,26 @@ public class ConnectionHandler implements Runnable {
         this.online = false;
         this.httpService = new HttpService();
 
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        // Agenda verificação periódica de keep-alive
+        this.scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
             long diff = System.currentTimeMillis() - lastKeepAliveTime;
 
-            if (diff > 7.5 * 60 * 1000) {
-                if (online) {
-                    online = false;
-                    status = "Offline";
-                    if (alarmPanel != null) {
-                        alarmPanel.setStatus(status);
-                        printStatus("CENTRAL FICOU OFFLINE");
-                        httpService.makePanelConnectionStatusPutRequest(alarmPanel.getSerialNumber(), status, alarmPanel);
-                    }
-                }
+            if (diff > 5 * 60 * 1000) {
+                // Sem keep-alive por mais de 10 min → considerar offline
+                updatePanelStatus("Offline");
             } else {
-                if (!online) {
-                    online = true;
-                    status = "Online";
-                    if (alarmPanel != null) {
-                        alarmPanel.setStatus(status);
-                        printStatus("CENTRAL VOLTOU ONLINE");
-                        httpService.makePanelConnectionStatusPutRequest(alarmPanel.getSerialNumber(), status, alarmPanel);
-                    }
-                }
+                // Voltou a responder → considerar online
+                updatePanelStatus("Online");
             }
         }, 30, 30, TimeUnit.SECONDS);
-
     }
 
     @Override
     public void run() {
-        try (InputStream inputStream = socket.getInputStream(); OutputStream outputStream = socket.getOutputStream()) {
+        try (InputStream inputStream = socket.getInputStream();
+             OutputStream outputStream = socket.getOutputStream()) {
+
             byte[] buffer = new byte[256];
             int bytesRead;
 
@@ -91,16 +81,11 @@ public class ConnectionHandler implements Runnable {
                         this.alarmPanel.setModel(this.model);
 
                         this.lastKeepAliveTime = System.currentTimeMillis();
-                        this.status = "Online";
-                        this.online = true;
-                        this.alarmPanel.setStatus(this.status);
+                        updatePanelStatus("Online");
 
                         respondConnection(outputStream, seq, cmd);
-
                         printStatus("CENTRAL CONECTADA IMEDIATAMENTE");
-
                         saveOrUpdateCentral(this.alarmPanel);
-
                         break;
 
                     case 0x40: // Keep-alive
@@ -127,9 +112,32 @@ public class ConnectionHandler implements Runnable {
         } finally {
             try {
                 socket.close();
+                if (scheduler != null && !scheduler.isShutdown()) {
+                    scheduler.shutdown();
+                }
+                updatePanelStatus("Offline");
                 System.out.println("Conexão encerrada.");
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    /** Atualiza status e envia PUT para o backend apenas se houver mudança **/
+    private void updatePanelStatus(String newStatus) {
+        if (alarmPanel == null) return;
+
+        boolean changed = !status.equalsIgnoreCase(newStatus);
+        this.status = newStatus;
+        this.alarmPanel.setStatus(newStatus);
+        this.online = "Online".equalsIgnoreCase(newStatus);
+
+        if (changed) {
+            printStatus("STATUS ATUALIZADO PARA " + newStatus);
+            try {
+                httpService.makePanelConnectionStatusPutRequest(alarmPanel.getSerialNumber(), newStatus, alarmPanel);
+            } catch (Exception e) {
+                System.err.println("Falha ao atualizar status no backend: " + e.getMessage());
             }
         }
     }
@@ -148,19 +156,13 @@ public class ConnectionHandler implements Runnable {
     }
 
     private void respondConnection(OutputStream out, byte seq, byte cmd) throws IOException {
-        byte[] response = new byte[]{0x7B, 0x07, seq, cmd, 0x01, 0x05, 0x00};
+        byte[] response = new byte[]{0x7B, 0x07, seq, cmd, 0x01, 0x01, 0x00};
         response[6] = Utils.calculateChecksum(response);
         sendResponse(out, response, "Resposta CONEXÃO enviada");
     }
 
-    private void sendPanelStatusRequest(OutputStream out, byte seq) throws IOException {
-        byte[] request = new byte[]{0x7B, 0x06, seq, 0x00, (byte) 0x93, 0x00};
-        request[5] = Utils.calculateChecksum(request);
-        sendResponse(out, request, "Solicitação do status enviada");
-    }
-
     private void respondKeepAlive(OutputStream out, byte seq, byte cmd) throws IOException {
-        byte[] response = new byte[]{0x7B, 0x06, seq, cmd, 0x05, 0x00};
+        byte[] response = new byte[]{0x7B, 0x06, seq, cmd, 0x01, 0x00};
         response[5] = Utils.calculateChecksum(response);
         sendResponse(out, response, "Resposta KEEP ALIVE enviada");
     }
@@ -170,12 +172,17 @@ public class ConnectionHandler implements Runnable {
         byte[] response = new byte[]{0x7B, 0x0A, seq, cmd, 0x01, contador[0], contador[1], contador[2], contador[3], 0x00};
         response[9] = Utils.calculateChecksum(response);
 
+        // Evento de usuário
         if (buffer[8] == 0x31 && buffer[9] == 0x31 && buffer[10] == 0x30 && buffer[11] == 0x30) {
             StringBuilder usuario = new StringBuilder();
             usuario.append((char) buffer[14]);
             usuario.append((char) buffer[15]);
             usuario.append((char) buffer[16]);
-            httpService.makeUserPostRequest(Integer.parseInt(usuario.toString()));
+            try {
+                httpService.makeUserPostRequest(Integer.parseInt(usuario.toString()));
+            } catch (Exception e) {
+                System.err.println("Erro ao registrar evento de usuário: " + e.getMessage());
+            }
         }
 
         sendResponse(out, response, "Resposta EVENTO enviada");
@@ -184,6 +191,7 @@ public class ConnectionHandler implements Runnable {
     private void sendResponse(OutputStream out, byte[] response, String message) throws IOException {
         out.write(response);
         out.flush();
+        System.out.println(message);
     }
 
     private void saveOrUpdateCentral(AlarmPanel alarmPanel) {
@@ -192,15 +200,19 @@ public class ConnectionHandler implements Runnable {
             return;
         }
 
-        AlarmPanel existingPanel = httpService.makePanelInfoGetRequest(alarmPanel.getSerialNumber());
+        try {
+            AlarmPanel existingPanel = httpService.makePanelInfoGetRequest(alarmPanel.getSerialNumber());
 
-        if (existingPanel != null && existingPanel.getSerialNumber() != null && !existingPanel.getSerialNumber().isEmpty()) {
-            httpService.makePanelConnectionStatusPutRequest(alarmPanel.getSerialNumber(), alarmPanel.getStatus(), alarmPanel);
-            System.out.println("Central existente atualizada (PUT): " + alarmPanel.getSerialNumber());
-        } else {
-            httpService.makePanelInfoPostRequest(alarmPanel);
-            System.out.println("Central não existente criada (POST): " + alarmPanel.getSerialNumber());
+            if (existingPanel != null && existingPanel.getSerialNumber() != null && !existingPanel.getSerialNumber().isEmpty()) {
+                httpService.makePanelConnectionStatusPutRequest(alarmPanel.getSerialNumber(), alarmPanel.getStatus(), alarmPanel);
+                System.out.println("Central existente atualizada (PUT): " + alarmPanel.getSerialNumber());
+            } else {
+                httpService.makePanelInfoPostRequest(alarmPanel);
+                System.out.println("Central não existente criada (POST): " + alarmPanel.getSerialNumber());
+            }
+
+        } catch (Exception e) {
+            System.err.println("Erro ao salvar ou atualizar central: " + e.getMessage());
         }
     }
-
 }

@@ -17,6 +17,6 @@ export interface ResidentPerformance {
   styleUrls: ['./generic-reports-ranking-card.component.scss'],
 })
 export class GenericReportsRankingCardComponent {
-  @Input() title: string = 'Top 5 Residentes com Mais Chamados';
+  @Input() title: string = '5 Residentes com Mais Chamados';
   @Input() residents: ResidentPerformance[] = [];
 }

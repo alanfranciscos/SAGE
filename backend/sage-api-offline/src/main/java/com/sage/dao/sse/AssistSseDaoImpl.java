@@ -46,9 +46,42 @@ public class AssistSseDaoImpl extends BaseSSE implements AssistSseDao {
         }
     }
 
+//    private void listenToPostgres() {
+//        while (true) {
+//            try (this.connection) {
+//                PGConnection pgConn = this.connection.unwrap(PGConnection.class);
+//
+//                try (Statement stmt = this.connection.createStatement()) {
+//                    stmt.execute("LISTEN caregiver_assignment_channel");
+//                    logger.log(Level.INFO, "[SSE] Listening on channel: caregiver_assignment_channel");
+//                }
+//
+//                while (!Thread.currentThread().isInterrupted()) {
+//                    // Block until a notification is received
+//                    // or timeout after 10 seconds
+//                    PGNotification[] notifications = pgConn.getNotifications(5000);
+//                    if (notifications != null) {
+//                        for (PGNotification notification : notifications) {
+//                            handleNotification(notification.getParameter());
+//                        }
+//                    } else {
+//                        // Keep-alive optional
+//                        try (Statement stmt = this.connection.createStatement()) {
+//                            stmt.execute("SELECT 1");
+//                        }
+//                    }
+//                }
+//
+//            } catch (Exception e) {
+//                logger.log(Level.SEVERE, "[SSE] Error in listener: {0}", e.getMessage());
+//                retryingConnection();
+//            }
+//        }
+//    }
+
     private void listenToPostgres() {
         while (true) {
-            try (this.connection) {
+            try {
                 PGConnection pgConn = this.connection.unwrap(PGConnection.class);
 
                 try (Statement stmt = this.connection.createStatement()) {
@@ -57,27 +90,26 @@ public class AssistSseDaoImpl extends BaseSSE implements AssistSseDao {
                 }
 
                 while (!Thread.currentThread().isInterrupted()) {
-                    // Block until a notification is received
-                    // or timeout after 10 seconds
                     PGNotification[] notifications = pgConn.getNotifications(5000);
                     if (notifications != null) {
                         for (PGNotification notification : notifications) {
                             handleNotification(notification.getParameter());
                         }
                     } else {
-                        // Keep-alive optional
                         try (Statement stmt = this.connection.createStatement()) {
                             stmt.execute("SELECT 1");
                         }
                     }
                 }
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.log(Level.SEVERE, "[SSE] Error in listener: {0}", e.getMessage());
                 retryingConnection();
             }
         }
     }
+
 
     private void handleNotification(String json) {
         try {
@@ -91,6 +123,19 @@ public class AssistSseDaoImpl extends BaseSSE implements AssistSseDao {
         }
     }
 
+//    private void broadcast(AssistEvent event) {
+//        for (SseEmitter emitter : emitters) {
+//            try {
+//                emitter.send(SseEmitter.event()
+//                        .name("assignment-change")
+//                        .data(event));
+//            } catch (IOException e) {
+//                emitter.completeWithError(e);
+//                emitters.remove(emitter);
+//            }
+//        }
+//    }
+
     private void broadcast(AssistEvent event) {
         for (SseEmitter emitter : emitters) {
             try {
@@ -98,15 +143,21 @@ public class AssistSseDaoImpl extends BaseSSE implements AssistSseDao {
                         .name("assignment-change")
                         .data(event));
             } catch (IOException e) {
-                emitter.completeWithError(e);
+                logger.log(Level.WARNING, "[SSE] Removing closed emitter");
+                emitter.complete();
+                emitters.remove(emitter);
+            } catch (IllegalStateException e) {
+                logger.log(Level.WARNING, "[SSE] Emitter already completed");
                 emitters.remove(emitter);
             }
         }
     }
 
+
     @Override
     public SseEmitter addEmitter() {
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+//        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        SseEmitter emitter = new SseEmitter(60_000L); // 60 segundos
         emitters.add(emitter);
         emitter.onCompletion(() -> emitters.remove(emitter));
         emitter.onTimeout(() -> emitters.remove(emitter));
