@@ -208,16 +208,30 @@ export class DashboardComponent implements OnInit {
   onRegisterResident() {
     this.router.navigate(['residents/register']);
   }
+  // onScroll(event: any) {
+  //   const element = event.target;
+  //   const threshold = 150; // quando faltar 150px para o fim
+  //   if (
+  //     element.scrollHeight - element.scrollTop - element.clientHeight <
+  //     threshold
+  //   ) {
+  //     this.loadResidentsPage();
+  //   }
+  // }
+
   onScroll(event: any) {
     const element = event.target;
-    const threshold = 150; // quando faltar 150px para o fim
+    console.log('scroll position:', element.scrollTop);
+    const threshold = 150;
     if (
       element.scrollHeight - element.scrollTop - element.clientHeight <
       threshold
     ) {
+      console.log('🔄 Carregando mais residentes...');
       this.loadResidentsPage();
     }
   }
+
   formatElapsedTime(elapsed: string): string {
     if (!elapsed) return '-';
 
