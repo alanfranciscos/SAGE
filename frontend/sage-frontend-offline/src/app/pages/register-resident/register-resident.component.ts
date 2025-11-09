@@ -75,7 +75,7 @@ export class RegisterResidentComponent implements OnInit {
     private router: Router,
     private controlService: ControlService,
     private toastr: ToastrService
-  ) {}
+  ) { }
   async ngOnInit(): Promise<void> {
     this.availableControls = await this.controlService.getAvailableControls();
     console.log('Controles disponíveis:', this.availableControls);
@@ -208,78 +208,88 @@ export class RegisterResidentComponent implements OnInit {
 
       // Navega para lista de residentes
       this.router.navigate(['/residents']);
-    } catch (error) {
-      console.error('Erro ao criar residente ou enviar imagem:', error);
-      this.toastr.error('Erro ao criar residente ou enviar imagem.', 'Erro');
-    } finally {
-      this.isLoading = false;
     }
+    // catch (error) {
+    //   console.error('Erro ao criar residente ou enviar imagem:', error);
+    //   this.toastr.error('Erro ao criar residente ou enviar imagem.', 'Erro');
+    // } 
+     catch(error: any) {
+    console.error('Erro ao criar residente ou enviar imagem:', error.response || error);
+    this.toastr.error(
+      error?.response?.data?.message || 'Erro ao criar residente ou enviar imagem.',
+      'Erro'
+    );
+  }
+
+    finally {
+  this.isLoading = false;
+}
   }
 
   private getEmptyResident(): CreateResidentRequestDto {
-    return {
-      fullName: '',
-      cpf: '',
-      sex: '',
-      birthDate: '',
-      residentialUnit: '',
-      controlNumber: 0,
-      emergencyName: '',
-      emergencyPhone: '',
-      relationship: '',
-    };
-  }
+  return {
+    fullName: '',
+    cpf: '',
+    sex: '',
+    birthDate: '',
+    residentialUnit: '',
+    controlNumber: 0,
+    emergencyName: '',
+    emergencyPhone: '',
+    relationship: '',
+  };
+}
 
-  onInputChange(field: ResidentInputField, event: any): void {
+onInputChange(field: ResidentInputField, event: any): void {
     (this.residentListResponseDto as any)[field] = event;
 
-    if (field === ResidentInputField.CPF) {
-      const cpfNumerico = event.replace(/\D/g, '');
-      this.cpfInvalido =
-        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
-    }
-    if (field === ResidentInputField.CONTROL_NUMBER) {
-      const value = Number(event);
-      if (isNaN(value) || value < 0 || value > 100) {
-        alert('O número de controle deve estar entre 0 e 100.');
-        this.residentListResponseDto.controlNumber = 0;
-        return;
-      }
-      this.residentListResponseDto.controlNumber = value;
-    }
-
-    if (field === ResidentInputField.BIRTH_DATE) {
-      const selectedDate = new Date(event);
-      const today = new Date();
-      selectedDate.setHours(0, 0, 0, 0);
-      today.setHours(0, 0, 0, 0);
-      if (selectedDate > today) {
-        alert('A data de nascimento não pode ser no futuro.');
-        this.residentListResponseDto.birthDate = '';
-        return;
-      }
-    }
-    if (field === ResidentInputField.CPF) {
-      const cpfNumerico = event.replace(/\D/g, '');
-      this.residentListResponseDto.cpf = cpfNumerico;
-      this.cpfInvalido =
-        cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
-    }
-
-    this.validateStep();
+if (field === ResidentInputField.CPF) {
+  const cpfNumerico = event.replace(/\D/g, '');
+  this.cpfInvalido =
+    cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
+}
+if (field === ResidentInputField.CONTROL_NUMBER) {
+  const value = Number(event);
+  if (isNaN(value) || value < 0 || value > 100) {
+    alert('O número de controle deve estar entre 0 e 100.');
+    this.residentListResponseDto.controlNumber = 0;
+    return;
   }
-  private imageFileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  }
+  this.residentListResponseDto.controlNumber = value;
+}
 
-  async onImageChange(event: File | null): Promise<void> {
-    if (event) {
-      this.residentListResponseDto.imageData = event; // guarda o File puro
-    }
+if (field === ResidentInputField.BIRTH_DATE) {
+  const selectedDate = new Date(event);
+  const today = new Date();
+  selectedDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  if (selectedDate > today) {
+    alert('A data de nascimento não pode ser no futuro.');
+    this.residentListResponseDto.birthDate = '';
+    return;
   }
+}
+if (field === ResidentInputField.CPF) {
+  const cpfNumerico = event.replace(/\D/g, '');
+  this.residentListResponseDto.cpf = cpfNumerico;
+  this.cpfInvalido =
+    cpfNumerico.length === 11 ? !this.validarCPF(cpfNumerico) : false;
+}
+
+this.validateStep();
+  }
+  private imageFileToBase64(file: File): Promise < string > {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
+  async onImageChange(event: File | null): Promise < void> {
+  if(event) {
+    this.residentListResponseDto.imageData = event; // guarda o File puro
+  }
+}
 }

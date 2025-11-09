@@ -177,24 +177,39 @@ export class ResidentService {
       throw new Error('Failed to update resident');
     }
   }
+  // async updateResidentImage(residentId: string, file: File): Promise<void> {
+  //   const formData = new FormData();
+  //   formData.append('imageData', file); // o nome deve ser igual ao esperado pelo backend
+
+  //   const response = await this.api.patch(
+  //     `http://localhost:8080/api/v1/resident/${residentId}/image`,
+  //     formData,
+  //     {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data', // necessário para envio de arquivos
+  //       },
+  //     }
+  //   );
+
+  //   if (response.status !== 200 && response.status !== 204) {
+  //     throw new Error('Falha ao atualizar a imagem do residente');
+  //   }
+  // }
   async updateResidentImage(residentId: string, file: File): Promise<void> {
     const formData = new FormData();
-    formData.append('imageData', file); // o nome deve ser igual ao esperado pelo backend
+    formData.append('imageData', file);
 
-    const response = await this.api.patch(
+    const response = await axios.patch(
       `http://localhost:8080/api/v1/resident/${residentId}/image`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data', // necessário para envio de arquivos
-        },
-      }
+      formData
     );
 
     if (response.status !== 200 && response.status !== 204) {
       throw new Error('Falha ao atualizar a imagem do residente');
     }
   }
+
+
   async uploadResidentImage(residentId: string, file: File): Promise<void> {
     const formData = new FormData();
     formData.append('imageData', file); // o nome deve ser igual ao esperado pelo backend
