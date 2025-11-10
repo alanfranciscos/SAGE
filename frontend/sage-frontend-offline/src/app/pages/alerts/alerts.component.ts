@@ -13,6 +13,8 @@ import { AssistService } from '../../controller/assist/assist.service';
 import { ActivatedRoute } from '@angular/router';
 import { SseService } from '../../controller/sse/sse.service';
 
+import { SoundAlertService } from '../../shared/services/sound-alert.service';
+
 interface Alert {
   id: string;
   name: string;
@@ -70,8 +72,9 @@ export class AlertsComponent implements OnInit {
     private residentService: ResidentService,
     private assistService: AssistService,
     private route: ActivatedRoute,
-    private sseService: SseService
-  ) {}
+    private sseService: SseService,
+    private soundAlertService: SoundAlertService
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.totalActiveCalls =
@@ -105,6 +108,7 @@ export class AlertsComponent implements OnInit {
   //     console.error('Erro ao carregar chamados ativos:', err);
   //   }
   // }
+
   private async loadActiveAlerts() {
     try {
       const response: any = await this.assistService
@@ -115,7 +119,6 @@ export class AlertsComponent implements OnInit {
 
       for (const a of response.data) {
         if (a.status === 'pending' || a.status === 'in_attendance') {
-          // Busca detalhes do assist para pegar idade
           const assistDetails: any = await this.assistService
             .getPendingAssistById(a.assistId)
             .toPromise();
@@ -128,18 +131,24 @@ export class AlertsComponent implements OnInit {
             severity: this.mapLevelFromApi(assistDetails.severityLevel),
             status: this.mapStatusFromApi(assistDetails.status),
             image: this.normalizeImage(assistDetails.imageData),
-
             observations: assistDetails.observations ?? '',
             age: assistDetails.age,
           });
         }
       }
 
-      this.activeAlerts = alerts; // atualiza a view corretamente
+      this.activeAlerts = alerts;
+
+      // 🔊 Notifica o serviço sobre o estado global de alerta crítico
+      const hasCritical = alerts.some(a => a.severity === 'critico');
+      this.soundAlertService.updateCriticalState(hasCritical);
+
     } catch (err) {
       console.error('Erro ao carregar chamados ativos:', err);
     }
   }
+
+
 
   // ================== Carregar Histórico ==================
   // private async loadFinishedAlerts() {
