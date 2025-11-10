@@ -22,7 +22,6 @@ public class TCPServerSocket {
     public void listen() {
         boolean conexaoRecebida = false;
         try {
-//            serverSocket.setSoTimeout(300_000); // 5 minutos
             serverSocket.setSoTimeout(30_000); // 30 segundos
 
             while (true) {

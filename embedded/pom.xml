@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- Jackson para JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -25,7 +24,6 @@
 
     <build>
         <plugins>
-            <!-- Plugin para gerar o JAR completo (com dependências incluídas) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -37,7 +35,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <!-- Substitui o .jar normal (sem gerar -shaded) -->
                             <shadedArtifactAttached>false</shadedArtifactAttached>
                             <finalName>${project.artifactId}-${project.version}</finalName>
                             <transformers>

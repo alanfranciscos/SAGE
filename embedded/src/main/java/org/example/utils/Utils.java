@@ -59,7 +59,6 @@ public class Utils {
         evento.append((char) buffer[9]);
         evento.append((char) buffer[10]);
         evento.append((char) buffer[11]);
-//        System.out.println("EVENTO: " + evento.toString());
     }
 
     public static String bytesToAscii(byte[] data, int length) {

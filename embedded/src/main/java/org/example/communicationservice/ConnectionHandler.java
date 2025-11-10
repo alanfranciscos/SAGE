@@ -37,18 +37,21 @@ public class ConnectionHandler implements Runnable {
         this.online = false;
         this.httpService = new HttpService();
 
-        // Agenda verificação periódica de keep-alive
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(() -> {
-            long diff = System.currentTimeMillis() - lastKeepAliveTime;
 
-            if (diff > 5 * 60 * 1000) {
-                // Sem keep-alive por mais de 10 min → considerar offline
-                updatePanelStatus("Offline");
-            } else {
-                // Voltou a responder → considerar online
-                updatePanelStatus("Online");
+        scheduler.scheduleAtFixedRate(() -> {
+            if (this.serialNumber.equals("Indefinido")) return;
+
+            long diff = System.currentTimeMillis() - lastKeepAliveTime;
+            final long MAX_INACTIVITY_MS = 10 * 60 * 1000;
+
+            if (diff > MAX_INACTIVITY_MS) {
+                if (this.online) {
+                    updatePanelStatus("Offline");
+                    System.out.println("⚠️ TIMEOUT: Central ficou inativa por mais de 10 minutos. Reportando Offline.");
+                }
             }
+
         }, 30, 30, TimeUnit.SECONDS);
     }
 
@@ -90,6 +93,7 @@ public class ConnectionHandler implements Runnable {
 
                     case 0x40: // Keep-alive
                         lastKeepAliveTime = System.currentTimeMillis();
+                        updatePanelStatus("Online");
                         respondKeepAlive(outputStream, seq, cmd);
                         break;
 
@@ -123,7 +127,6 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
-    /** Atualiza status e envia PUT para o backend apenas se houver mudança **/
     private void updatePanelStatus(String newStatus) {
         if (alarmPanel == null) return;
 
@@ -172,7 +175,6 @@ public class ConnectionHandler implements Runnable {
         byte[] response = new byte[]{0x7B, 0x0A, seq, cmd, 0x01, contador[0], contador[1], contador[2], contador[3], 0x00};
         response[9] = Utils.calculateChecksum(response);
 
-        // Evento de usuário
         if (buffer[8] == 0x31 && buffer[9] == 0x31 && buffer[10] == 0x30 && buffer[11] == 0x30) {
             StringBuilder usuario = new StringBuilder();
             usuario.append((char) buffer[14]);

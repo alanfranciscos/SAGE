@@ -17,12 +17,6 @@ public class HttpService {
 
         try {
             HttpClient client = HttpClient.newHttpClient();
-
-            // String jsonBody = "{"
-            //         + "\"controlId\": \"" + usuario + "\","
-            //         + "\"calledAt\": \"" + "2025-10-02T19:00:00Z" + "\""
-            //         + "}";
-
             String calledAt = java.time.ZonedDateTime.now().toString();
             String jsonBody = "{"
                     + "\"controlId\": \"" + usuario + "\","
@@ -36,9 +30,6 @@ public class HttpService {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-//            System.out.println("Status do envio de emergencia medica: " + response.statusCode());
-//            System.out.println("Resposta do envio de emergencia medica: " + response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,7 +61,6 @@ public class HttpService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             System.out.println("Status da criação de dados da central: " + response.statusCode());
-//            System.out.println("Resposta da criação de dados da central: " + response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,10 +81,6 @@ public class HttpService {
                     .newBuilder()
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-
-//            System.out.println("Status do recebimento de dados da central: " + response.statusCode());
-//            System.out.println("Resposta do recebimento de dados da central: " + response.body());
-
             String jsonResponse = response.body();
 
             ObjectMapper mapper = new ObjectMapper();

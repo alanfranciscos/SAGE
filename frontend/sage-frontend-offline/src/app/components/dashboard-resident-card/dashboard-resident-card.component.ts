@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, SimpleChanges, Input, Output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -20,6 +20,8 @@ export class DashboardResidentCardComponent {
   @Input() totalCallsLast24Hours: string = '';
 
   @Output() openDetails = new EventEmitter<string>(); // <-- evento para o pai
+  private router = inject(Router);
+  private sirenAudio = new Audio('assets/sounds/emergency.mp3');
   default_user_avatar: any;
   statusMap = {
     normal: {
@@ -50,10 +52,33 @@ export class DashboardResidentCardComponent {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['status'] && this.status === 'critical') {
+      this.playSiren();
+    }
+  }
+
+  private playSiren() {
+    this.sirenAudio.loop = true; // 🔁 toca continuamente enquanto crítico
+    this.sirenAudio.play().catch(err => console.warn('Erro ao tocar sirene:', err));
+  }
+
+  private stopSiren() {
+    this.sirenAudio.pause();
+    this.sirenAudio.currentTime = 0;
+  }
+
+  // Você pode chamar isso, por exemplo, quando voltar ao estado normal:
+  ngOnChangesStop(): void {
+    if (this.status !== 'critical') {
+      this.stopSiren();
+    }
+  }
+
   onCardClick() {
     this.openDetails.emit(this.residentId); // avisa o pai passando o id
   }
-  private router = inject(Router);
+  
   onButtonClick() {
     if (this.status === 'normal') {
       this.openDetails.emit(this.residentId); // abre modal
