@@ -1,2 +1,3 @@
 run:
-	ng serve
+	npm install
+	npx ng serve

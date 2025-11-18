@@ -39,6 +39,5 @@ export class ImageInputComponent {
   onRemoveImage() {
     this.image = this.defaultImage;
     this.showImage = this.defaultImage;
-    this.imageChange.emit(null);
   }
 }

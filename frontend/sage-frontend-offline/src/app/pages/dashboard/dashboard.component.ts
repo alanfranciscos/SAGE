@@ -56,10 +56,8 @@ export class DashboardComponent implements OnInit {
       this.totalActiveCalls = total;
     });
 
-    // Carrega os valores iniciais
     this.loadDashboardData();
 
-    // Assinatura SSE para atualização em tempo real
     this.sseService.messages$.subscribe(async (msg) => {
       if (!msg) return;
 
@@ -78,7 +76,6 @@ export class DashboardComponent implements OnInit {
             await this.residentService.getTotalResolvedToday();
           this.meanTime = await this.residentService.getMeanTime();
 
-          // Atualiza total de chamados (BehaviorSubject dispara e atualiza sidebar automaticamente)
           await this.residentService.getTotalActiveResidentsCalls();
         } catch (error) {
           console.error('Erro ao atualizar dashboard via SSE:', error);
@@ -94,7 +91,7 @@ export class DashboardComponent implements OnInit {
       this.totalResolvedToday =
         await this.residentService.getTotalResolvedToday();
       this.meanTime = await this.residentService.getMeanTime();
-      await this.residentService.getTotalActiveResidentsCalls(); // atualiza BehaviorSubject
+      await this.residentService.getTotalActiveResidentsCalls();
       this.residents = await this.residentService.getResidents(10, 0);
     } catch (err) {
       console.error(err);
@@ -112,7 +109,7 @@ export class DashboardComponent implements OnInit {
       );
 
       if (newResidents.length < this.pageSize) {
-        this.allLoaded = true; // acabou os residentes
+        this.allLoaded = true;
       }
 
       this.residents = [...this.residents, ...newResidents];

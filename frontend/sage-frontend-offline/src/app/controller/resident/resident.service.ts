@@ -94,19 +94,21 @@ export class ResidentService {
       throw new Error('Failed to fetch mean time');
     }
 
-    const rawTime = response.data.meanTimeAssist; // Ex: "02:41:15"
-    const [hoursStr, minutesStr, secondsStr] = rawTime.split(':');
-    const hours = parseInt(hoursStr, 10);
-    const minutes = parseInt(minutesStr, 10);
-    const seconds = parseInt(secondsStr, 10);
+    // const rawTime = response.data.meanTimeAssist; // Ex: "02:41:15"
+    // const [hoursStr, minutesStr, secondsStr] = rawTime.split(':');
+    // const hours = parseInt(hoursStr, 10);
+    // const minutes = parseInt(minutesStr, 10);
+    // const seconds = parseInt(secondsStr, 10);
 
-    if (hours > 0) {
-      return `${rawTime} h`;
-    } else if (minutes > 0) {
-      return `${minutesStr}:${secondsStr} min`;
-    } else {
-      return `${secondsStr} seg`;
-    }
+    // if (hours > 0) {
+    //   return `${rawTime} h`;
+    // } else if (minutes > 0) {
+    //   return `${minutesStr}:${secondsStr} min`;
+    // } else {
+    //   return `${secondsStr} seg`;
+    // }
+
+    return response.data.meanTimeAssist;
   }
 
   async getTotalResolvedToday(): Promise<number> {
