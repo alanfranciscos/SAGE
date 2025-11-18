@@ -30,11 +30,11 @@ export class ReportsComponent implements OnInit {
 
   // Tradução dos dias da semana
   weekdaysMap: Record<string, string> = {
-    Monday: 'Segunda',
-    Tuesday: 'Terça',
-    Wednesday: 'Quarta',
-    Thursday: 'Quinta',
-    Friday: 'Sexta',
+    Monday: 'Segunda-feira',
+    Tuesday: 'Terça-feira',
+    Wednesday: 'Quarta-feira',
+    Thursday: 'Quinta-feira',
+    Friday: 'Sexta-feira',
     Saturday: 'Sábado',
     Sunday: 'Domingo',
   };
