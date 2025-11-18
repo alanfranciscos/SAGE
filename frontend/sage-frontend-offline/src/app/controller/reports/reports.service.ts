@@ -56,6 +56,7 @@ export class ReportsService {
 
     if (response.status !== 200)
       throw new Error('Failed to fetch critical assists rate');
+
     return response.data.criticalAssistsRate;
   }
 
