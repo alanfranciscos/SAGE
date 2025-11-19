@@ -25,7 +25,7 @@
     align-items: center;
     gap: 12px;
 
-    img {
+    .resident-avatar img {
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -33,80 +33,117 @@
       border: 2px solid #999;
     }
 
+    .resident-name h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .resident-name p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
   }
 
   .resident-info {
-    margin: 12px 12px 12px 0px;
+    margin: 12px 0 0 0;
     font-size: 14px;
+
+    >* {
+      margin-bottom: 8px;
+    }
   }
 
-  .resident-info>* {
-    margin-bottom: 8px;
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid;
+
+    &.status-normal {
+      border-color: #007246;
+      background-color: #fff5e6;
+      color: #007246;
+    }
+
+    &.status-warning {
+      border-color: orange;
+      background-color: #fff5e6;
+      color: orange;
+    }
+
+    &.status-critical {
+      border-color: red;
+      background-color: #ffe6e6;
+      color: red;
+    }
+
+    i {
+      font-size: 10px;
+    }
   }
 
-
-  .resident-button {
+  button.resident-button {
+    display: block;
+    margin: 16px auto 0;
+    /* centralizado horizontalmente */
     padding: 8px 16px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    background-color: #333;
+    background-color: #0069c5;
+    /* azul normal */
     color: white;
     font-weight: bold;
     transition: background 0.2s;
 
     &:hover {
-      background-color: #555;
+      background-color: #014631;
     }
   }
-}
 
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  border: 2px solid;
+  /* Daltonic mode */
+  &.daltonic-mode {
+    &.status-normal {
+      background-color: #e6f7ff;
+      /* azul clarinho */
+    }
 
-  &.status-normal {
-    border-color: #007246;
-    background-color: #fff5e6;
-    color: #007246;
-  }
+    &.status-warning {
+      background-color: #e6f0ff;
+      /* azul */
+      border-color: #0069c5;
+    }
 
-  &.status-warning {
-    border-color: orange;
-    background-color: #fff5e6;
-    color: orange;
-  }
+    &.status-critical {
+      background-color: #f3e6ff;
+      /* roxo */
+      border-color: #800080;
+    }
 
-  &.status-critical {
-    border-color: red;
-    background-color: #ffe6e6;
-    color: red;
-  }
+    .status-badge.status-warning {
+      border-color: #0069c5;
+      background-color: #e6f0ff;
+      color: #0069c5;
+    }
 
-  i {
-    font-size: 10px;
-  }
-}
+    .status-badge.status-critical {
+      border-color: #800080;
+      background-color: #f3e6ff;
+      color: #800080;
+    }
 
-button {
-  display: block;
-  margin: 16px auto 0;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: #0069C5;
-  color: white;
-  font-weight: bold;
-  transition: background 0.2s;
+    button.resident-button {
+      background-color: #800080;
 
-  &:hover {
-    background-color: #014631;
+      /* botão roxo no modo daltônico */
+      &:hover {
+        background-color: #5a005a;
+      }
+    }
   }
 }

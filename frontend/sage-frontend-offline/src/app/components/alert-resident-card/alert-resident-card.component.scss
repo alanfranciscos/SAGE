@@ -1,116 +1,132 @@
 .card {
     display: flex;
     flex-direction: column;
-    background: #F1EFEF;
-    border: 2px solid #E0E0E0;
+    background: #f1efef;
+    border: 2px solid #e0e0e0;
     border-radius: 8px;
     padding: 0.8rem 1rem;
     width: 80%;
     max-width: 600px;
-    /* evita que cresça demais */
     margin: 0.5rem auto;
     box-sizing: border-box;
     word-break: break-word;
     overflow-wrap: anywhere;
-}
 
-.card-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    /* permite quebrar em múltiplas linhas */
-    gap: 0.5rem;
-}
+    .card-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
 
-.image img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
-    /* não encolhe */
-}
+    .image img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
 
-.info {
-    flex: 1 1 auto;
-    /* cresce e encolhe conforme necessário */
-    margin-left: 1rem;
-    min-width: 0;
-    /* essencial para quebra de linha dentro de flex */
-    word-break: break-word;
-    overflow-wrap: anywhere;
-}
+    .info {
+        flex: 1 1 auto;
+        margin-left: 1rem;
+        min-width: 0;
+        word-break: break-word;
+        overflow-wrap: anywhere;
 
-.info .name {
-    font-weight: 600;
-    font-size: 1rem;
-}
+        .name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
 
-.info .details {
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-top: 0.2rem;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-}
+        .details {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+    }
 
-.badges {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-end;
-    flex-shrink: 0;
-    /* não deixa encolher */
-}
+    .badges {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-end;
+        flex-shrink: 0;
 
-.badge {
-    display: inline-block;
-    padding: 0.3rem 0.7rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #fff;
-    white-space: nowrap;
-    /* mantém badge em uma linha */
-}
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #fff;
+            white-space: nowrap;
+        }
 
-/* === Cores dos níveis === */
-.badge.normal {
-    background: #4caf50;
-}
+        /* Cores dos níveis */
+        .normal {
+            background: #4caf50;
+        }
 
-.badge.medio {
-    background: #ff9800;
-}
+        .medio {
+            background: #ff9800;
+        }
 
-.badge.critico {
-    background: #f44336;
-}
+        .critico {
+            background: #f44336;
+        }
 
-/* === Cores do status === */
-.badge.pendente {
-    background: #f44336;
-}
+        /* Cores do status */
+        .pendente {
+            background: #f44336;
+        }
 
-.badge.em_atendimento {
-    background: #ff9800;
-}
+        .em_atendimento {
+            background: #ff9800;
+        }
 
-.badge.atendido {
-    background: #0069C5;
-}
+        .atendido {
+            background: #0069c5;
+        }
+    }
 
-.observation {
-    margin-top: 0.5rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 0 0 12px 12px;
-    background: #f1f3f5;
-    font-size: 0.9rem;
-    color: #333;
-    width: 100%;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    white-space: pre-line;
-    /* mantém quebras de linha do texto */
+    .observation {
+        margin-top: 0.5rem;
+        padding: 0.5rem 0.8rem;
+        border-radius: 0 0 12px 12px;
+        background: #f1f3f5;
+        font-size: 0.9rem;
+        color: #333;
+        width: 100%;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        white-space: pre-line;
+    }
+
+    /* === Daltonic mode === */
+    &.daltonic-mode {
+        .badge.medio {
+            background: #0069c5;
+            /* azul no lugar do amarelo */
+        }
+
+        .badge.critico {
+            background: #800080;
+            /* roxo no lugar do vermelho */
+        }
+
+        .badge.em_atendimento {
+            background: #0069c5;
+            /* azul */
+        }
+
+        .badge.pendente {
+            background: #800080;
+            /* roxo */
+        }
+
+        background-color: #e6f7ff;
+        /* fundo leve azul */
+    }
 }

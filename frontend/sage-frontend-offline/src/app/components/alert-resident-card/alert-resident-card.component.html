@@ -1,7 +1,13 @@
-<div class="card" [ngClass]="[level, status]">
+<div
+  class="card"
+  [ngClass]="[level, status, daltonicMode ? 'daltonic-mode' : '']"
+>
   <div class="card-main">
     <div class="image">
-      <img [src]="imageUrl" alt="Residente" />
+      <img
+        [src]="imageUrl || 'assets/default_user_avatar.png'"
+        alt="Residente"
+      />
     </div>
 
     <div class="info">

@@ -1,22 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { Subscription } from 'rxjs';
 import { SseMessage, SseService } from '../../controller/sse/sse.service';
+import { AccessibilityService } from '../../controller/accessibility/accessibility.service';
 
 @Component({
   selector: 'app-main',
   standalone: true,
   imports: [SidebarComponent],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss',
+  styleUrls: ['./main.component.scss'],
 })
-export class MainComponent {
+export class MainComponent implements OnInit, OnDestroy {
   private subscription?: Subscription;
+  private accessibilitySubscription?: Subscription;
   messages: string[] = [];
 
-  constructor(private sseService: SseService) {}
+  constructor(
+    private sseService: SseService,
+    private accessibilityService: AccessibilityService
+  ) {}
 
   ngOnInit() {
+    // Conexão SSE
     this.sseService.connect('http://localhost:8080/api/v1/sse/assist', [
       'connected',
       'assignment-change',
@@ -30,13 +36,25 @@ export class MainComponent {
             typeof msg.data === 'string' ? msg.data : JSON.stringify(msg.data)
           }`
         );
-        // Aqui você pode reagir por tipo:
-        // if (msg.type === 'assignment-change') { this.fetchResidents(); }
       }
     );
+
+    if (this.accessibilityService.isDaltonicModeEnabled()) {
+      document.body.classList.add('daltonic-mode');
+    }
+
+    this.accessibilitySubscription =
+      this.accessibilityService.daltonicMode$.subscribe((enabled: boolean) => {
+        if (enabled) {
+          document.body.classList.add('daltonic-mode');
+        } else {
+          document.body.classList.remove('daltonic-mode');
+        }
+      });
   }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.accessibilitySubscription?.unsubscribe();
   }
 }

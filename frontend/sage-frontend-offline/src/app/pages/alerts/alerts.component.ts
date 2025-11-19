@@ -76,22 +76,22 @@ export class AlertsComponent implements OnInit {
     private soundAlertService: SoundAlertService
   ) { }
 
-  async ngOnInit(): Promise<void> {
-    this.totalActiveCalls =
-      await this.residentService.getTotalActiveResidentsCalls();
-    await this.loadActiveAlerts();
-    await this.loadFinishedAlerts();
+  // async ngOnInit(): Promise<void> {
+  //   this.totalActiveCalls =
+  //     await this.residentService.getTotalActiveResidentsCalls();
+  //   await this.loadActiveAlerts();
+  //   await this.loadFinishedAlerts();
 
-    this.sseService.messages$.subscribe(async (msg) => {
-      if (!msg) return;
+  //   this.sseService.messages$.subscribe(async (msg) => {
+  //     if (!msg) return;
 
-      await this.loadActiveAlerts();
-      await this.loadFinishedAlerts();
-    });
+  //     await this.loadActiveAlerts();
+  //     await this.loadFinishedAlerts();
+  //   });
 
-    // await this.loadActiveAlertsPage();
-    // await this.loadFinishedAlertsPage();
-  }
+  //   // await this.loadActiveAlertsPage();
+  //   // await this.loadFinishedAlertsPage();
+  // }
 
   // ================== Carregar Ativos ==================
   // private async loadActiveAlerts() {
@@ -108,6 +108,31 @@ export class AlertsComponent implements OnInit {
   //     console.error('Erro ao carregar chamados ativos:', err);
   //   }
   // }
+
+  async ngOnInit(): Promise<void> {
+    this.totalActiveCalls =
+      await this.residentService.getTotalActiveResidentsCalls();
+
+    // ✅ usar versão paginada
+    await this.loadActiveAlertsPage();
+    await this.loadFinishedAlertsPage();
+
+    // ✅ SSE: recarrega tudo quando chega nova mensagem
+    this.sseService.messages$.subscribe(async (msg) => {
+      if (!msg) return;
+
+      // reinicia paginação
+      this.activePage = 0;
+      this.finishedPage = 0;
+      this.activeAllLoaded = false;
+      this.finishedAllLoaded = false;
+      this.activeAlerts = [];
+      this.finishedAlerts = [];
+
+      await this.loadActiveAlertsPage();
+      await this.loadFinishedAlertsPage();
+    });
+  }
 
   private async loadActiveAlerts() {
     try {
@@ -427,6 +452,16 @@ export class AlertsComponent implements OnInit {
       this.finishedLoading = false;
     }
   }
+  // onActiveScroll(event: any) {
+  //   const element = event.target;
+  //   const threshold = 150;
+  //   if (
+  //     element.scrollHeight - element.scrollTop - element.clientHeight <
+  //     threshold
+  //   ) {
+  //     this.loadActiveAlertsPage();
+  //   }
+  // }
   onActiveScroll(event: any) {
     const element = event.target;
     const threshold = 150;
@@ -434,6 +469,10 @@ export class AlertsComponent implements OnInit {
       element.scrollHeight - element.scrollTop - element.clientHeight <
       threshold
     ) {
+      console.log(
+        '🌀 Scroll detectado, carregando próxima página...',
+        this.activePage
+      );
       this.loadActiveAlertsPage();
     }
   }

@@ -1,8 +1,9 @@
 <app-main>
   <div class="content">
+    <!-- Topbar -->
     <div class="topbar">
       <div><span>Painel de controle</span></div>
-      <div>
+      <div class="topbar-actions">
         <app-search-input
           placeholder="Digite para pesquisar..."
           (search)="onSearch($event)"
@@ -14,6 +15,8 @@
         ></app-button>
       </div>
     </div>
+
+    <!-- Summary Cards -->
     <div class="summary-cards">
       <app-summary-card
         title="Residentes Cadastrados"
@@ -34,15 +37,18 @@
         color="green"
       ></app-summary-card>
       <app-summary-card
-        title="Tempo médio"
+        title="Tempo médio (hh:mm:ss)"
         [value]="meanTime"
         icon="time"
         color="default"
       ></app-summary-card>
     </div>
+
+    <!-- Residents Section -->
     <div class="residents-title">
       <span>Status dos Residentes</span>
     </div>
+
     <div class="residents-container" (scroll)="onScroll($event)">
       <ng-container *ngIf="filteredResidents.length; else notFound">
         <app-dashboard-resident-card
@@ -63,6 +69,7 @@
       </ng-template>
     </div>
 
+    <!-- Resident Details Modal -->
     <app-dashboard-resident-details-modal
       [residentId]="selectedResidentId"
       [showModal]="showModal"

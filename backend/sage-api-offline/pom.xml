@@ -99,10 +99,16 @@
         </dependency>
 
         <!-- lib-central-de-alarmes -->
+<!--        <dependency>-->
+<!--            <groupId>com.sage.hardware</groupId>-->
+<!--            <artifactId>alarm-central</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>com.sage.hardware</groupId>
-            <artifactId>alarm-central</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.example</groupId>
+            <artifactId>panelcommunication</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- Clod Sql Socket-->

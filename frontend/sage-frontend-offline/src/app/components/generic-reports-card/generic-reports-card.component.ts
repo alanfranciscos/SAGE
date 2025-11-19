@@ -38,11 +38,11 @@ export class GenericReportsCardComponent implements OnInit {
           'Sunday',
         ];
         const weekdaysMap: Record<string, string> = {
-          Monday: 'Segunda',
-          Tuesday: 'Terça',
-          Wednesday: 'Quarta',
-          Thursday: 'Quinta',
-          Friday: 'Sexta',
+          Monday: 'Segunda-feira',
+          Tuesday: 'Terça-feira',
+          Wednesday: 'Quarta-feira',
+          Thursday: 'Quinta-feira',
+          Friday: 'Sexta-feira',
           Saturday: 'Sábado',
           Sunday: 'Domingo',
         };

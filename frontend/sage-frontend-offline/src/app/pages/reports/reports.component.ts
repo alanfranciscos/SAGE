@@ -30,11 +30,11 @@ export class ReportsComponent implements OnInit {
 
   // Tradução dos dias da semana
   weekdaysMap: Record<string, string> = {
-    Monday: 'Segunda',
-    Tuesday: 'Terça',
-    Wednesday: 'Quarta',
-    Thursday: 'Quinta',
-    Friday: 'Sexta',
+    Monday: 'Segunda-feira',
+    Tuesday: 'Terça-feira',
+    Wednesday: 'Quarta-feira',
+    Thursday: 'Quinta-feira',
+    Friday: 'Sexta-feira',
     Saturday: 'Sábado',
     Sunday: 'Domingo',
   };
@@ -118,6 +118,10 @@ export class ReportsComponent implements OnInit {
     const criticalRate = await this.reportsService.getCriticalAssistsRate();
     this.cards[3].value = `${criticalRate}%`;
     this.cards[3].valueClass = criticalRate > 0 ? 'value-red' : 'value-green';
+    this.cards[3].value = `${criticalRate.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}%`;
   }
 
   /** ================== RANKINGS ================== **/
