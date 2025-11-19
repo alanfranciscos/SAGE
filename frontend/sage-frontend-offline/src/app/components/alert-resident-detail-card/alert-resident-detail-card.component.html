@@ -23,19 +23,18 @@
 
   <p>
     <strong>Prioridade:</strong>
-    <span class="badge level" [ngClass]="alertDetail.severity">
+    <span class="badge level" [style.background-color]="getLevelColor()">
       {{ alertDetail.severity | titlecase }}
     </span>
   </p>
 
   <p>
     <strong>Status:</strong>
-    <span class="badge status" [ngClass]="alertDetail.status">
+    <span class="badge status" [style.background-color]="getStatusColor()">
       {{ alertDetail.status.replace("_", " ") | titlecase }}
     </span>
   </p>
 
-  <!-- Textarea + botão: só se não finalizado -->
   <div *ngIf="alertDetail.status !== 'atendido'">
     <label for="obs"><strong>Observações:</strong></label>
     <textarea
@@ -55,7 +54,6 @@
     </button>
   </div>
 
-  <!-- Observações quando finalizado -->
   <div *ngIf="alertDetail.status === 'atendido'">
     <p><strong>Observações do atendimento:</strong></p>
     <div class="observations">

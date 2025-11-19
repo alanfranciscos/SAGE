@@ -1,37 +1,34 @@
 <div
   class="resident-card"
-  [ngClass]="'status-' + status"
+  [ngClass]="['status-' + status, daltonicMode ? 'daltonic-mode' : '']"
   (click)="onCardClick()"
 >
   <div class="resident-header">
-    <div class="">
+    <div class="resident-avatar">
       <img
         [src]="residentImage || 'assets/default_user_avatar.png'"
         alt="Resident"
-        width="80"
-        height="80"
       />
     </div>
-    <div>
+    <div class="resident-name">
       <h3>{{ residentName }}</h3>
       <p>Casa {{ houseNumber }}</p>
     </div>
   </div>
+
   <div class="resident-info">
-    <div
-      class="status-badge"
-      [style.border-color]="getStatusColor()"
-      [style.color]="getStatusColor()"
-    >
+    <div class="status-badge" [ngClass]="'status-' + status">
       <i [class]="getStatusIcon()"></i>
       <span>{{ getStatusText() }}</span>
     </div>
-    <!-- <h3>Ultimo chamado:{{ lastCallDateTime }}</h3> -->
     <p>Chamados 24h: {{ totalCallsLast24Hours }}</p>
     <p>Última chamada: {{ formattedLastCall }}</p>
   </div>
 
-  <button (click)="onButtonClick(); $event.stopPropagation()">
+  <button
+    class="resident-button"
+    (click)="onButtonClick(); $event.stopPropagation()"
+  >
     {{ status === "normal" ? "Detalhes" : "Atender" }}
   </button>
 </div>

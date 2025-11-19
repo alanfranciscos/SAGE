@@ -1,0 +1,47 @@
+<app-button
+  [label]="'Acessibilidade'"
+  type="primary"
+  size="small"
+  (click)="toggleModal()"
+></app-button>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="acessibility-modal">
+    <div class="header">
+      <h2>Modo Daltônico</h2>
+    </div>
+
+    <div class="content">
+      <p class="description">
+        O modo daltônico ajusta as cores da interface para facilitar a
+        diferenciação de elementos visuais por pessoas com daltonismo.
+      </p>
+
+      <div class="daltonic-status">
+        <span>Status:</span>
+        <span>{{ daltonicMode ? "Ativado" : "Desativado" }}</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <app-button
+        [label]="
+          daltonicMode
+            ? 'Desabilitar Modo Daltônico'
+            : 'Habilitar Modo Daltônico'
+        "
+        type="primary"
+        size="small"
+        (click)="toggleDaltonicMode()"
+      ></app-button>
+
+      <app-button
+        [label]="'Fechar'"
+        type="secondary"
+        size="small"
+        (click)="toggleModal()"
+      ></app-button>
+    </div>
+  </div>
+</div>
