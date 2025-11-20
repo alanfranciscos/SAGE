@@ -1,0 +1,3 @@
+Atualizar frontend:
+- Dentro do diretório do front end execute: ng build --configuration production
+- A pasta dist será gerada, então entre nela, depois em sage-frontend-offline, depois em browser. Copie todo conteúdo dentro de browser e cole dentro da pasta do backend: src > main > resources > static (dentro da pasta static)
