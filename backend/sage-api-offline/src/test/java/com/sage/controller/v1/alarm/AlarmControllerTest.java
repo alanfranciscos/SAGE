@@ -110,7 +110,7 @@ class AlarmControllerTest {
                 "2785040674"
         );
 
-        when(alarmService.updateBySerialNumber(eq("SN123456"), any(UpdateAlarmRequestDto.class)))
+        when(alarmService.updateBySerialNumber(eq("2785040674"), any(UpdateAlarmRequestDto.class)))
                 .thenReturn(alarm);
 
         mockMvc.perform(put("/v1/alarms/serial/{serialNumber}", "2785040674")

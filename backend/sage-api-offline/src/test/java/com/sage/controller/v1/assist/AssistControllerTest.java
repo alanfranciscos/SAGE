@@ -27,6 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.sage.model.assist.SeverityLevel;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 @ExtendWith(MockitoExtension.class)
 class AssistControllerTest {
 
@@ -38,7 +40,7 @@ class AssistControllerTest {
     @InjectMocks
     private AssistController assistController;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     private UUID assistId;
     private PaginatedPendingAssistResponseDto pendingResponse;

@@ -38,14 +38,14 @@ class HealthControllerTest {
                 .andExpect(jsonPath("$.status").value("ok"))
                 .andExpect(jsonPath("$.uptime", containsString("s")))
                 .andExpect(jsonPath("$.version").value(APP_VERSION))
-                .andExpect(jsonPath("$.currentTime", not(emptyString())));
+                .andExpect(jsonPath("$.timestamp").exists());
     }
 
     @Test
     void deveRetornarFormatoCorretoDoCampoCurrentTime() throws Exception {
         mockMvc.perform(get("/v1/health"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.currentTime", matchesPattern("^\\d{4}-\\d{2}-\\d{2}T.*Z$")));
+                .andExpect(jsonPath("$.timestamp", matchesPattern("^\\d{4}-\\d{2}-\\d{2}T.*Z$")));
     }
 
     @Test
@@ -55,6 +55,6 @@ class HealthControllerTest {
                 .andExpect(jsonPath("$.status").exists())
                 .andExpect(jsonPath("$.uptime").exists())
                 .andExpect(jsonPath("$.version").exists())
-                .andExpect(jsonPath("$.currentTime").exists());
+                .andExpect(jsonPath("$.timestamp").exists());
     }
 }

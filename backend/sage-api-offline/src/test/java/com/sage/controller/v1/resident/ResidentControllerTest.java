@@ -24,6 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 @ExtendWith(MockitoExtension.class)
 class ResidentControllerTest {
 
@@ -35,7 +37,7 @@ class ResidentControllerTest {
     @InjectMocks
     private ResidentController residentController;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     private UUID residentId;
     private Map<String, Object> sampleResident;
@@ -77,7 +79,7 @@ class ResidentControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"))
-                .andExpect(content().string(residentId.toString()));
+                .andExpect(content().string("\"" + residentId.toString() + "\""));
     }
 
     @Test
@@ -137,7 +139,11 @@ class ResidentControllerTest {
         doNothing().when(residentService).updateResidentImage(any(), any());
 
         mockMvc.perform(multipart("/v1/resident/{id}/image", residentId)
-                        .file(image))
+                        .file(image)
+                        .with(request -> {
+                            request.setMethod("PATCH");
+                            return request;
+                        }))
                 .andExpect(status().isNoContent());
     }
 

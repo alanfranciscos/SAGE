@@ -27,6 +27,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 @ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
 
@@ -44,7 +46,7 @@ class AuthControllerTest {
     @InjectMocks
     private AuthController authController;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     private CaregiverResponseDto sampleUser;
     private CaregiverResponseFromPasswordTableDto passwordTableDto;
@@ -95,7 +97,7 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(login)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("FAKE_JWT_TOKEN"))
-                .andExpect(jsonPath("$.fullName").value("Maria Santos"));
+                .andExpect(jsonPath("$.name").value("Maria Santos"));
     }
 
     @Test
@@ -122,7 +124,7 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(register)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("FAKE_TOKEN"))
-                .andExpect(jsonPath("$.fullName").value("Maria Santos"));
+                .andExpect(jsonPath("$.name").value("Maria Santos"));
     }
 
     @Test
@@ -144,7 +146,7 @@ class AuthControllerTest {
                 "novaSenha",
                 "novaSenha"
         );
-        doNothing().when(caregiverService).resetPassword(any(), anyString());
+        doNothing().when(caregiverService).resetPassword(any(), any());
 
         mockMvc.perform(post("/auth/reset-password")
                         .contentType(MediaType.APPLICATION_JSON)
