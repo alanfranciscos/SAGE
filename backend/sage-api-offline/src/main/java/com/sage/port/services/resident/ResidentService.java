@@ -51,4 +51,8 @@ public interface ResidentService extends ResidentHeaderService {
     ResidentDetailResponseDto getResidentDetailsById(
             UUID id
     );
+
+    void deactivateResident(UUID id);
+
+    void activateResident(UUID id);
 }

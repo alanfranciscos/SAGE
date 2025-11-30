@@ -170,4 +170,13 @@ public class OldResidentServiceImpl implements ResidentService {
         return response;
     }
 
+    @Override
+    public void deactivateResident(UUID id) {
+        throw new UnsupportedOperationException("This method is not supported in OldResidentServiceImpl.");
+    }
+
+    @Override
+    public void activateResident(UUID id) {
+        throw new UnsupportedOperationException("This method is not supported in OldResidentServiceImpl.");
+    }
 }

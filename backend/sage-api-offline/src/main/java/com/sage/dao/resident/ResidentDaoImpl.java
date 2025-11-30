@@ -415,6 +415,17 @@ public class ResidentDaoImpl {
         }
     }
 
+    public void activateResident(UUID residentId) {
+        String sql = "UPDATE resident SET active = TRUE, updated_at = NOW() WHERE id = ?";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, residentId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error activating resident", e);
+            throw new RuntimeException("Error activating resident", e);
+        }
+    }
+
     private String encodeFileToBase64(String filePath) {
         try {
             Path path = Paths.get(filePath);

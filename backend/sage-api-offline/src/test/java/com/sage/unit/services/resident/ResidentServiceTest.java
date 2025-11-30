@@ -237,11 +237,11 @@ class ResidentServiceTest {
         UUID residentId = UUID.randomUUID();
         Map<String, Object> resident = new HashMap<>();
         resident.put("id", residentId);
-        
+
         when(residentDao.getResidentDetailsById(residentId)).thenReturn(resident);
-        
+
         residentService.deactivateResident(residentId);
-        
+
         verify(residentDao).deactivateResident(residentId);
     }
 
@@ -249,11 +249,36 @@ class ResidentServiceTest {
     void deactivateResident_ShouldThrowException_WhenResidentNotFound() {
         UUID residentId = UUID.randomUUID();
         when(residentDao.getResidentDetailsById(residentId)).thenReturn(null);
-        
+
         assertThatThrownBy(() -> residentService.deactivateResident(residentId))
-            .isInstanceOf(com.sage.exception.NotFoundException.class)
-            .hasMessageContaining("Resident not found");
-            
+                .isInstanceOf(com.sage.exception.NotFoundException.class)
+                .hasMessageContaining("Resident not found");
+
         verify(residentDao, times(0)).deactivateResident(any());
+    }
+
+    @Test
+    void activateResident_ShouldCallDao_WhenResidentExists() {
+        UUID residentId = UUID.randomUUID();
+        Map<String, Object> resident = new HashMap<>();
+        resident.put("id", residentId);
+
+        when(residentDao.getResidentDetailsById(residentId)).thenReturn(resident);
+
+        residentService.activateResident(residentId);
+
+        verify(residentDao).activateResident(residentId);
+    }
+
+    @Test
+    void activateResident_ShouldThrowException_WhenResidentNotFound() {
+        UUID residentId = UUID.randomUUID();
+        when(residentDao.getResidentDetailsById(residentId)).thenReturn(null);
+
+        assertThatThrownBy(() -> residentService.activateResident(residentId))
+                .isInstanceOf(com.sage.exception.NotFoundException.class)
+                .hasMessageContaining("Resident not found");
+
+        verify(residentDao, times(0)).activateResident(any());
     }
 }

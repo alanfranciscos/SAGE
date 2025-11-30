@@ -106,6 +106,12 @@ public class ResidentController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<Void> activateResident(@PathVariable UUID id) {
+        residentService.activateResident(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/{id}/image")
     public ResponseEntity<Void> uploadImage(@PathVariable UUID id, @RequestParam("imageData") MultipartFile imageData) {
         residentService.updateResidentImage(id, imageData);
