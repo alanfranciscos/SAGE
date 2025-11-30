@@ -68,10 +68,14 @@ export class DashboardResidentCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['status'] && this.status === 'critical') {
+  if (changes['status']) {
+    if (this.status === 'critical') {
       this.playSiren();
+    } else {
+      this.stopSiren();
     }
   }
+}
 
   private playSiren() {
     this.sirenAudio.loop = true; // 🔁 toca continuamente enquanto crítico
