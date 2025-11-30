@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
 import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
 import com.sage.services.resident.ResidentServiceImpl;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * ResidentController provides endpoints for managing residents in the system.
@@ -35,6 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class ResidentController {
 
     private final ResidentServiceImpl residentService;
+
+    public ResidentController(ResidentServiceImpl residentService) {
+        this.residentService = residentService;
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateResident(
@@ -81,17 +85,14 @@ public class ResidentController {
         return ResponseEntity.created(uri).body(residentId);
     }
 
-    public ResidentController(ResidentServiceImpl residentService) {
-        this.residentService = residentService;
-    }
-
     @GetMapping()
     public ResponseEntity<Object> getResidents(
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "0") int skip,
-            @RequestParam(required = false) String search
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Boolean active
     ) {
-        return ResponseEntity.ok(this.residentService.getResidents(limit, skip, search));
+        return ResponseEntity.ok(this.residentService.getResidents(limit, skip, search, active));
     }
 
     @GetMapping("/{id}")

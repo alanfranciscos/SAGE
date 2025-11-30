@@ -125,12 +125,27 @@ class ResidentControllerTest {
     @Test
     void deveListarResidentes() throws Exception {
         List<Map<String, Object>> residents = List.of(sampleResident);
-        when(residentService.getResidents(anyInt(), anyInt(), any()))
+        when(residentService.getResidents(anyInt(), anyInt(), any(), any(Boolean.class)))
                 .thenReturn(residents);
 
         mockMvc.perform(get("/v1/resident")
                 .param("limit", "5")
-                .param("skip", "0"))
+                .param("skip", "0")
+                .param("active", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].fullName").value("João da Silva"));
+    }
+
+    @Test
+    void deveListarResidentesAtivos() throws Exception {
+        List<Map<String, Object>> activeResidents = List.of(sampleResident);
+        when(residentService.getResidents(anyInt(), anyInt(), any(), eq(true)))
+                .thenReturn(activeResidents);
+
+        mockMvc.perform(get("/v1/resident")
+                .param("limit", "5")
+                .param("skip", "0")
+                .param("active", "true"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].fullName").value("João da Silva"));
     }

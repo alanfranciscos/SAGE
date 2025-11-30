@@ -74,6 +74,7 @@ class ResidentServiceTest {
         int limit = 10;
         int skip = 0;
         String search = "test";
+        Boolean active = null;
 
         List<Map<String, Object>> emergencyList = new ArrayList<>();
         Map<String, Object> res1 = new HashMap<>();
@@ -85,15 +86,71 @@ class ResidentServiceTest {
         res2.put("id", UUID.randomUUID());
         normalList.add(res2);
 
-        when(residentDao.getResidentsWithSeverity(limit, skip, search)).thenReturn(emergencyList);
-        when(residentDao.getResidentsWithoutSeverity(9, skip, search)).thenReturn(normalList);
+        when(residentDao.getResidentsWithSeverity(limit, skip, search, active)).thenReturn(emergencyList);
+        when(residentDao.getResidentsWithoutSeverity(9, skip, search, active)).thenReturn(normalList);
 
-        List<Map<String, Object>> result = residentService.getResidents(limit, skip, search);
+        List<Map<String, Object>> result = residentService.getResidents(limit, skip, search, active);
 
         assertThat(result).hasSize(2);
         assertThat(result).contains(res1, res2);
-        verify(residentDao).getResidentsWithSeverity(limit, skip, search);
-        verify(residentDao).getResidentsWithoutSeverity(9, skip, search);
+        verify(residentDao).getResidentsWithSeverity(limit, skip, search, active);
+        verify(residentDao).getResidentsWithoutSeverity(9, skip, search, active);
+    }
+
+    @Test
+    void getResidents_ShouldReturnOnlyActive() {
+        int limit = 10;
+        int skip = 0;
+        String search = "test";
+        Boolean active = true;
+
+        List<Map<String, Object>> emergencyList = new ArrayList<>();
+        Map<String, Object> res1 = new HashMap<>();
+        res1.put("id", UUID.randomUUID());
+        emergencyList.add(res1);
+
+        List<Map<String, Object>> normalList = new ArrayList<>();
+        Map<String, Object> res2 = new HashMap<>();
+        res2.put("id", UUID.randomUUID());
+        normalList.add(res2);
+
+        when(residentDao.getResidentsWithSeverity(limit, skip, search, active)).thenReturn(emergencyList);
+        when(residentDao.getResidentsWithoutSeverity(9, skip, search, active)).thenReturn(normalList);
+
+        List<Map<String, Object>> result = residentService.getResidents(limit, skip, search, active);
+
+        assertThat(result).hasSize(2);
+        assertThat(result).contains(res1, res2);
+        verify(residentDao).getResidentsWithSeverity(limit, skip, search, active);
+        verify(residentDao).getResidentsWithoutSeverity(9, skip, search, active);
+    }
+
+    @Test
+    void getResidents_ShouldReturnOnlyInactive() {
+        int limit = 10;
+        int skip = 0;
+        String search = "test";
+        Boolean active = false;
+
+        List<Map<String, Object>> emergencyList = new ArrayList<>();
+        Map<String, Object> res1 = new HashMap<>();
+        res1.put("id", UUID.randomUUID());
+        emergencyList.add(res1);
+
+        List<Map<String, Object>> normalList = new ArrayList<>();
+        Map<String, Object> res2 = new HashMap<>();
+        res2.put("id", UUID.randomUUID());
+        normalList.add(res2);
+
+        when(residentDao.getResidentsWithSeverity(limit, skip, search, active)).thenReturn(emergencyList);
+        when(residentDao.getResidentsWithoutSeverity(9, skip, search, active)).thenReturn(normalList);
+
+        List<Map<String, Object>> result = residentService.getResidents(limit, skip, search, active);
+
+        assertThat(result).hasSize(2);
+        assertThat(result).contains(res1, res2);
+        verify(residentDao).getResidentsWithSeverity(limit, skip, search, active);
+        verify(residentDao).getResidentsWithoutSeverity(9, skip, search, active);
     }
 
     @Test
