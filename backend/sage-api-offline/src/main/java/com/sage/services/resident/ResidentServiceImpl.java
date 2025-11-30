@@ -226,6 +226,14 @@ public class ResidentServiceImpl {
         residentDao.deactivateResident(residentId);
     }
 
+    public void activateResident(UUID residentId) {
+        Map<String, Object> resident = residentDao.getResidentDetailsById(residentId);
+        if (resident == null) {
+            throw new com.sage.exception.NotFoundException("Resident not found with ID: " + residentId);
+        }
+        residentDao.activateResident(residentId);
+    }
+
     private boolean isValidImageExtension(String filename) {
         String lowerCaseFilename = filename.toLowerCase();
         return lowerCaseFilename.endsWith(".png") || lowerCaseFilename.endsWith(".jpg") || lowerCaseFilename.endsWith(".jpeg");
