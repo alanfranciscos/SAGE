@@ -64,6 +64,7 @@ body {
     overflow-y: auto;
     /* scroll interno */
     padding-right: 0.5rem;
+    padding-top: 6px;
 
     /* efeito divertido: cards pulando levemente ao hover */
     perspective: 1000px;
@@ -78,9 +79,10 @@ app-dashboard-resident-card {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
     &:hover {
-        transform: translateY(-5px) scale(1.03);
+        transform: scale(1.015);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
+
 }
 
 /* Not Found */
