@@ -1,5 +1,21 @@
 :host {
     display: block;
+    height: 100%;
+    /* 🔥 faz o mat-card ocupar o tamanho da célula do grid */
+}
+
+mat-card {
+    height: 100%;
+    /* 🔥 garante que o card cresça igual ao outro */
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card-content {
+    flex: 1;
+    /* 🔥 faz o conteúdo expandir o card */
+    display: flex;
+    flex-direction: column;
 }
 
 .card-title {
