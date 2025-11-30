@@ -9,7 +9,7 @@ import { SearchInputComponent } from '../../components/search-input/search-input
 import { ButtonComponent } from '../../components/button/button.component';
 import { Resident } from '../../model/Resident';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { Subscription } from 'rxjs';
 import { SseService } from '../../controller/sse/sse.service';
 
 @Component({
@@ -17,32 +17,38 @@ import { SseService } from '../../controller/sse/sse.service';
   standalone: true,
   imports: [
     NgFor,
+    CommonModule,
     MainComponent,
     SummaryCardComponent,
     DashboardResidentCardComponent,
     DashboardResidentDetailsModalComponent,
     SearchInputComponent,
     ButtonComponent,
-    CommonModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  totalResidents: number = 0;
-  totalResolvedToday: number = 0;
-  totalActiveCalls: number = 0;
-  meanTime: string = '';
+  totalResidents = 0;
+  totalResolvedToday = 0;
+  totalActiveCalls = 0;
+  meanTime = '';
+
   private subscription?: Subscription;
 
   selectedResidentId: string | null = null;
   showModal = false;
-  page = 0;
+  showOnlyActive = true; // inicialmente, apenas residentes ativos
+
+  page = 0; // primeira página = 0
   pageSize = 10;
   loading = false;
   allLoaded = false;
+
   searchTerm = '';
-  residents: Resident[] = [];
+
+  residents: Resident[] = []; // lista completa carregada
+  displayedResidents: Resident[] = []; // lista exibida no HTML
 
   constructor(
     private residentService: ResidentService,
@@ -51,13 +57,20 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Assinatura reativa
+    this.initCounters();
+    this.loadDashboardData();
+    this.initSSE();
+  }
+
+  /** Inicializa contadores reativos */
+  private initCounters() {
     this.residentService.totalActiveCalls$.subscribe((total) => {
       this.totalActiveCalls = total;
     });
+  }
 
-    this.loadDashboardData();
-
+  /** Inicializa SSE para atualizar dashboard em tempo real */
+  private initSSE() {
     this.sseService.messages$.subscribe(async (msg) => {
       if (!msg) return;
 
@@ -65,110 +78,119 @@ export class DashboardComponent implements OnInit {
 
       if (msg.type === 'assignment-change') {
         try {
-          // Atualiza residentes e ordena
-          const residents = await this.residentService.getResidents(
-            10,
-            0,
-            undefined,
-            true // somente ativos
-          );
-          this.residents = this.sortResidents(residents);
-
-          // Atualiza os counters
-          this.totalResidents =
-            await this.residentService.getTotalResidentsNumber();
-          this.totalResolvedToday =
-            await this.residentService.getTotalResolvedToday();
-          this.meanTime = await this.residentService.getMeanTime();
-
-          await this.residentService.getTotalActiveResidentsCalls();
-        } catch (error) {
-          console.error('Erro ao atualizar dashboard via SSE:', error);
+          await this.reloadFirstPage();
+        } catch (err) {
+          console.error('Erro ao atualizar dashboard via SSE:', err);
         }
       }
     });
   }
 
+  /** Recarrega primeira página e atualiza contadores */
+  private async reloadFirstPage() {
+    const firstPage = await this.residentService.getResidents(
+      this.pageSize,
+      0,
+      undefined,
+      true
+    );
+    this.residents = this.sortResidents(firstPage);
+    this.displayedResidents = [...this.residents];
+
+    this.totalResidents = await this.residentService.getTotalResidentsNumber();
+    this.totalResolvedToday =
+      await this.residentService.getTotalResolvedToday();
+    this.meanTime = await this.residentService.getMeanTime();
+
+    await this.residentService.getTotalActiveResidentsCalls();
+
+    this.page = 1;
+    this.allLoaded = firstPage.length < this.pageSize;
+  }
+
+  /** Carrega dados iniciais do dashboard */
   async loadDashboardData() {
     try {
+      this.loading = true;
+
       this.totalResidents =
         await this.residentService.getTotalResidentsNumber();
       this.totalResolvedToday =
         await this.residentService.getTotalResolvedToday();
       this.meanTime = await this.residentService.getMeanTime();
+
       await this.residentService.getTotalActiveResidentsCalls();
 
-      // ⬅ primeira página
-      this.residents = await this.residentService.getResidents(
+      const first = await this.residentService.getResidents(
         this.pageSize,
         0,
-        undefined,
-        true
+        this.searchTerm || undefined,
+        this.showOnlyActive ? true : undefined
       );
 
-      // configura para segunda página
+      this.residents = this.sortResidents(first);
+      this.displayedResidents = [...this.residents];
+
       this.page = 1;
-      this.allLoaded = false;
-      this.loading = false;
+      this.allLoaded = first.length < this.pageSize;
     } catch (err) {
-      console.error(err);
+      console.error('Erro loadDashboardData:', err);
+    } finally {
+      this.loading = false;
     }
   }
 
+  /** Carrega próxima página ao clicar "Carregar mais" */
   async loadResidentsPage() {
-    if (this.loading || this.allLoaded) return;
+    if (this.loading || this.allLoaded) return; // evita chamadas duplicadas
 
     this.loading = true;
-
     try {
       const skip = this.page * this.pageSize;
 
       const newResidents = await this.residentService.getResidents(
         this.pageSize,
         skip,
-        this.searchTerm,
-        true // active = true
+        this.searchTerm || undefined,
+        this.showOnlyActive ? true : undefined
       );
 
-      // acabou
-      if (newResidents.length === 0) {
+      if (!newResidents || newResidents.length === 0) {
         this.allLoaded = true;
         return;
       }
 
-      // adiciona sem duplicar
+      // concatena novos residentes à lista exibida
       this.residents = [...this.residents, ...newResidents];
+      this.displayedResidents = [...this.residents];
 
-      this.page++; // ⬅ incrementa somente agora
-
-      console.log('REQUEST:', {
-        limit: this.pageSize,
-        skip,
-        search: this.searchTerm,
-        active: true,
-      });
-
-      console.log('RESPONSE:', newResidents);
+      // atualiza paginação
+      this.page++;
+      if (newResidents.length < this.pageSize) {
+        this.allLoaded = true;
+      }
+    } catch (err) {
+      console.error('Erro ao carregar página:', err);
     } finally {
       this.loading = false;
     }
-    console.log('PAGE:', this.page);
   }
 
+  /** Ordena residentes por prioridade (emergency > warning > normal) */
   private sortResidents(residents: Resident[]): Resident[] {
     const severityOrder: Record<string, number> = {
-      emergency: 1, // vermelho
-      warning: 2, // amarelo
-      normal: 3, // branco / sem chamado
+      emergency: 1,
+      warning: 2,
+      normal: 3,
     };
-
-    return residents.sort((a, b) => {
-      const orderA = severityOrder[a.severityLevel ?? 'normal'];
-      const orderB = severityOrder[b.severityLevel ?? 'normal'];
+    return [...residents].sort((a, b) => {
+      const orderA = severityOrder[a.severityLevel ?? 'normal'] ?? 99;
+      const orderB = severityOrder[b.severityLevel ?? 'normal'] ?? 99;
       return orderA - orderB;
     });
   }
 
+  /** Mapeia severityLevel para status do card */
   getStatus(
     severity: 'emergency' | 'warning' | null
   ): 'normal' | 'warning' | 'critical' {
@@ -177,112 +199,79 @@ export class DashboardComponent implements OnInit {
     return 'normal';
   }
 
-  getLastCallText(lastEndAt: string | null): string {
-    if (!lastEndAt) return 'nenhum';
-
-    const now = new Date();
-    const lastCall = new Date(lastEndAt);
-    const diffMs = now.getTime() - lastCall.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    const years = Math.floor(diffDays / 365);
-    const remainingDaysAfterYears = diffDays % 365;
-    const months = Math.floor(remainingDaysAfterYears / 30);
-    const days = remainingDaysAfterYears % 30;
-
-    let result = 'há ';
-    if (years > 0) result += `${years} ano${years > 1 ? 's' : ''} `;
-    if (months > 0) result += `${months} mes${months > 1 ? 'es' : ''} `;
-    if (days > 0) result += `${days} dia${days > 1 ? 's' : ''}`;
-
-    return result.trim();
-  }
+  /** Busca de residentes */
   onSearch(term: string) {
-    // this.searchTerm = term.trim().toLowerCase();
-    // this.loadResidentsSearch();
+    this.searchTerm = (term || '').trim();
+    this.page = 0;
+    this.residents = [];
+    this.displayedResidents = [];
+    this.allLoaded = false;
+    this.loadResidentsSearch();
   }
 
   async loadResidentsSearch() {
     try {
-      const residents = await this.residentService.getResidents(
-        10,
+      this.loading = true;
+      const first = await this.residentService.getResidents(
+        this.pageSize,
         0,
-        this.searchTerm,
-        true // sempre residentes ativos
+        this.searchTerm || undefined,
+        this.showOnlyActive ? true : undefined
       );
-
-      this.residents = this.sortResidents(residents);
+      this.residents = this.sortResidents(first);
+      this.displayedResidents = [...this.residents];
+      this.page = 1;
+      this.allLoaded = first.length < this.pageSize;
     } catch (err) {
       console.error('Erro ao buscar residentes:', err);
+    } finally {
+      this.loading = false;
     }
   }
 
+  /** Abre modal de detalhes */
   onOpenDetails(residentId: string) {
     this.selectedResidentId =
-      this.residents.find((resident) => resident.id === residentId)?.id || null;
+      this.residents.find((r) => r.id === residentId)?.id || null;
     this.showModal = true;
   }
-  get filteredResidents(): Resident[] {
-    if (!this.searchTerm) return this.residents;
 
-    return this.residents.filter(
-      (r) =>
-        r.fullName.toLowerCase().includes(this.searchTerm) ||
-        r.residentialUnit.toString().includes(this.searchTerm) ||
-        (r.id && r.id.toLowerCase().includes(this.searchTerm))
-    );
-  }
-
+  /** Fecha modal */
   onCloseModal() {
     this.showModal = false;
     this.selectedResidentId = null;
   }
 
+  /** Navega para registro de residente */
   onRegisterResident() {
     this.router.navigate(['residents/register']);
   }
-  // onScroll(event: any) {
-  //   const element = event.target;
-  //   const threshold = 150; // quando faltar 150px para o fim
-  //   if (
-  //     element.scrollHeight - element.scrollTop - element.clientHeight <
-  //     threshold
-  //   ) {
-  //     this.loadResidentsPage();
-  //   }
-  // }
 
-  onScroll(event: any) {
-    const element = event.target;
-
-    const reachedBottom =
-      element.scrollHeight - element.scrollTop <= element.clientHeight + 50;
-
-    if (reachedBottom) {
-      this.loadResidentsPage();
-    }
-  }
-
+  /** Formata tempo decorrido (usado em algum contador se necessário) */
   formatElapsedTime(elapsed: string): string {
     if (!elapsed) return '-';
-
-    // Ex.: "24 days 03:21:23.453585" ou "3 days 12:05:00"
     const parts = elapsed.split(' ');
     let days = 0;
     let timePart = '00:00';
-
     if (parts.length === 4 && parts[1] === 'days') {
       days = parseInt(parts[0], 10);
-      timePart = parts[2]; // horas:minutos:segundos
+      timePart = parts[2];
     } else if (parts.length === 3 && parts[1] === 'days') {
       days = parseInt(parts[0], 10);
       timePart = parts[2];
     } else if (parts.length === 1) {
       timePart = parts[0];
     }
-
-    const [hours, minutes] = timePart.split(':');
-
+    const [hours = '00', minutes = '00'] = timePart.split(':');
     return `${days} dia${days !== 1 ? 's' : ''} ${hours}h${minutes}`;
+  }
+  toggleShowActive() {
+    this.showOnlyActive = !this.showOnlyActive;
+    this.page = 0;
+    this.residents = [];
+    this.displayedResidents = [];
+    this.allLoaded = false;
+
+    this.loadResidentsSearch(); // ou loadDashboardData()
   }
 }

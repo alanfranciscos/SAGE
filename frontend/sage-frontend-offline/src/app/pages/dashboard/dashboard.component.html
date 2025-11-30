@@ -13,6 +13,11 @@
           [type]="'primary'"
           (clicked)="onRegisterResident()"
         ></app-button>
+        <app-button
+          [label]="showOnlyActive ? 'Mostrar todos' : 'Mostrar apenas ativos'"
+          [type]="'secondary'"
+          (clicked)="toggleShowActive()"
+        ></app-button>
       </div>
     </div>
 
@@ -49,10 +54,10 @@
       <span>Status dos Residentes</span>
     </div>
 
-    <div class="residents-container" (scroll)="onScroll($event)">
-      <ng-container *ngIf="filteredResidents.length; else notFound">
+    <div class="residents-container">
+      <ng-container *ngIf="displayedResidents.length; else notFound">
         <app-dashboard-resident-card
-          *ngFor="let resident of filteredResidents"
+          *ngFor="let resident of displayedResidents"
           [residentId]="resident.id"
           [residentImage]="resident.imageData"
           [residentName]="resident.fullName"
@@ -67,6 +72,23 @@
       <ng-template #notFound>
         <div class="not-found">Não encontrado</div>
       </ng-template>
+    </div>
+
+    <!-- Paginação manual -->
+    <div class="pagination-container">
+      <button
+        class="load-more-btn"
+        *ngIf="!loading && !allLoaded && displayedResidents.length"
+        (click)="loadResidentsPage()"
+      >
+        Carregar mais
+      </button>
+
+      <p *ngIf="loading" class="loading-text">Carregando...</p>
+
+      <p *ngIf="allLoaded" class="end-text">
+        Todos os residentes foram carregados.
+      </p>
     </div>
 
     <!-- Resident Details Modal -->

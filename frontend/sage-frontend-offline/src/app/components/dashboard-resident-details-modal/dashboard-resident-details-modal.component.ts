@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { ButtonComponent } from '../button/button.component';
-import { ResidentDetailsResponseDto } from '../../model/Resident';
+import { Resident, ResidentDetailsResponseDto } from '../../model/Resident';
 import { ResidentService } from '../../controller/resident/resident.service';
 
 @Component({
@@ -83,5 +83,22 @@ export class DashboardResidentDetailsModalComponent {
 
   toggleCpf() {
     this.showCpf = !this.showCpf;
+  }
+  toggleResidentStatus(resident: ResidentDetailsResponseDto) {
+    if (!resident) return;
+
+    const action = resident.active ? 'deactivate' : 'activate';
+
+    (resident.active
+      ? this.residentControllerService.deactivateResident(resident.id)
+      : this.residentControllerService.activateResident(resident.id)
+    )
+      .then(() => {
+        resident.active = !resident.active; // atualiza localmente
+        window.location.reload();
+      })
+      .catch((err) =>
+        console.error('Erro ao atualizar status do residente:', err)
+      );
   }
 }

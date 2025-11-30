@@ -26,18 +26,16 @@ export class ResidentService {
     limit: number,
     skip: number,
     search?: string,
-    active?: boolean
+    active?: boolean // opcional
   ): Promise<Resident[]> {
     const queryParams = new URLSearchParams({
       limit: limit.toString(),
       skip: skip.toString(),
     });
 
-    if (search) {
-      queryParams.append('search', search);
-    }
+    if (search) queryParams.append('search', search);
 
-    // novo parâmetro
+    // só adiciona 'active' se não for undefined
     if (active !== undefined) {
       queryParams.append('active', String(active));
     }
@@ -46,9 +44,7 @@ export class ResidentService {
       `http://localhost:8080/api/v1/resident?${queryParams.toString()}`
     );
 
-    if (response.status !== 200) {
-      throw new Error('Failed to fetch residents');
-    }
+    if (response.status !== 200) throw new Error('Failed to fetch residents');
 
     return response.data;
   }
@@ -224,6 +220,25 @@ export class ResidentService {
     } catch (error) {
       console.error('Erro no upload da imagem:', error);
       throw error;
+    }
+  }
+  async deactivateResident(residentId: string): Promise<void> {
+    const response = await this.api.patch(
+      `http://localhost:8080/api/v1/resident/${residentId}/deactivate`
+    );
+
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error('Falha ao desativar residente');
+    }
+  }
+
+  async activateResident(residentId: string): Promise<void> {
+    const response = await this.api.patch(
+      `http://localhost:8080/api/v1/resident/${residentId}/activate`
+    );
+
+    if (response.status !== 200) {
+      throw new Error('Falha ao ativar residente');
     }
   }
 }
