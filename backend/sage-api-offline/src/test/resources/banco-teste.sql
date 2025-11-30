@@ -10,7 +10,7 @@ INSERT INTO alarm (
         serial_number,
         port
     )
-VALUES -- ('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Modelo-X1', 'Online', '192.168.1.10', '00:1B:44:11:3A:B7', 'Conta-001', 'SN-001', 5000),
+VALUES ('a1b2c3d4-e5f6-4789-a012-3456789abcde', 'Modelo-X1', 'Online', '192.168.1.10', '00:1B:44:11:3A:B7', 'Conta-001', 'SN-001', 5000),
     (
         'b2c3d4e5-f6a7-4890-b123-456789abcdef',
         'Modelo-Y2',

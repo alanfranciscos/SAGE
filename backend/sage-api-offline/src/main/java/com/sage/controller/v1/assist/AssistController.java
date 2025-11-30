@@ -56,9 +56,10 @@ public class AssistController {
     @GetMapping("/pending")
     public ResponseEntity<PaginatedPendingAssistResponseDto> getPendingAssists(
             @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") int skip
+            @RequestParam(defaultValue = "0") int skip,
+            @RequestParam(required = false) String search
     ) {
-        PaginatedPendingAssistResponseDto pendingAssists = assistService.getPendingAssists(limit, skip);
+        PaginatedPendingAssistResponseDto pendingAssists = assistService.getPendingAssists(limit, skip, search);
         return ResponseEntity.ok(pendingAssists);
     }
 
@@ -73,9 +74,10 @@ public class AssistController {
     @GetMapping("/history")
     public ResponseEntity<PaginatedAttendedAssistResponseDto> getAttendedAssists(
             @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") int skip
+            @RequestParam(defaultValue = "0") int skip,
+            @RequestParam(required = false) String search
     ) {
-        PaginatedAttendedAssistResponseDto attendedAssists = assistService.getAttendedAssists(limit, skip);
+        PaginatedAttendedAssistResponseDto attendedAssists = assistService.getAttendedAssists(limit, skip, search);
         return ResponseEntity.ok(attendedAssists);
     }
 

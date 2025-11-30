@@ -38,9 +38,9 @@ public interface AssistDao {
      */
     Optional<Assist> findByResidentIdAndEndAtIsNull(UUID residentId);
 
-    PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip);
+    PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip, String search);
 
-    PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip);
+    PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip, String search);
 
     Optional<PendingAssistDetailResponseDto> getPendingAssistById(UUID assistId);
 

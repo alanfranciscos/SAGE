@@ -1,28 +1,44 @@
 package com.sage.controller.v1.resident;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
-import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
-import com.sage.services.resident.ResidentServiceImpl;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyChar;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.ZonedDateTime;
-import java.util.*;
-
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.sage.dto.v1.resident.request.CreateResidentRequestDto;
+import com.sage.dto.v1.resident.request.UpdateResidentRequestDto;
+import com.sage.services.resident.ResidentServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class ResidentControllerTest {
@@ -35,7 +51,7 @@ class ResidentControllerTest {
     @InjectMocks
     private ResidentController residentController;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     private UUID residentId;
     private Map<String, Object> sampleResident;
@@ -73,11 +89,11 @@ class ResidentControllerTest {
         )).thenReturn(residentId);
 
         mockMvc.perform(post("/v1/resident")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"))
-                .andExpect(content().string(residentId.toString()));
+                .andExpect(content().string("\"" + residentId.toString() + "\""));
     }
 
     @Test
@@ -100,8 +116,8 @@ class ResidentControllerTest {
         )).thenReturn(sampleResident);
 
         mockMvc.perform(put("/v1/resident/{id}", residentId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.fullName").value("João da Silva"));
     }
@@ -109,12 +125,27 @@ class ResidentControllerTest {
     @Test
     void deveListarResidentes() throws Exception {
         List<Map<String, Object>> residents = List.of(sampleResident);
-        when(residentService.getResidents(anyInt(), anyInt(), any()))
+        when(residentService.getResidents(anyInt(), anyInt(), any(), any(Boolean.class)))
                 .thenReturn(residents);
 
         mockMvc.perform(get("/v1/resident")
-                        .param("limit", "5")
-                        .param("skip", "0"))
+                .param("limit", "5")
+                .param("skip", "0")
+                .param("active", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].fullName").value("João da Silva"));
+    }
+
+    @Test
+    void deveListarResidentesAtivos() throws Exception {
+        List<Map<String, Object>> activeResidents = List.of(sampleResident);
+        when(residentService.getResidents(anyInt(), anyInt(), any(), eq(true)))
+                .thenReturn(activeResidents);
+
+        mockMvc.perform(get("/v1/resident")
+                .param("limit", "5")
+                .param("skip", "0")
+                .param("active", "true"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].fullName").value("João da Silva"));
     }
@@ -131,13 +162,17 @@ class ResidentControllerTest {
 
     @Test
     void deveFazerUploadDeImagem() throws Exception {
-        MockMultipartFile image =
-                new MockMultipartFile("imageData", "foto.png", "image/png", "fake-image".getBytes());
+        MockMultipartFile image
+                = new MockMultipartFile("imageData", "foto.png", "image/png", "fake-image".getBytes());
 
         doNothing().when(residentService).updateResidentImage(any(), any());
 
         mockMvc.perform(multipart("/v1/resident/{id}/image", residentId)
-                        .file(image))
+                .file(image)
+                .with(request -> {
+                    request.setMethod("PATCH");
+                    return request;
+                }))
                 .andExpect(status().isNoContent());
     }
 
@@ -175,5 +210,15 @@ class ResidentControllerTest {
         mockMvc.perform(get("/v1/resident/card/mean-time"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.meanTimeAssist").value("00:15:42"));
+    }
+
+    @Test
+    void deveDesativarResidente() throws Exception {
+        doNothing().when(residentService).deactivateResident(eq(residentId));
+
+        mockMvc.perform(patch("/v1/resident/{id}/deactivate", residentId))
+                .andExpect(status().isNoContent());
+
+        verify(residentService).deactivateResident(eq(residentId));
     }
 }

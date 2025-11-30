@@ -172,11 +172,23 @@ public class AssistDaoImpl implements AssistDao {
     }
 
     @Override
-    public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip) {
-        String countSql = "SELECT COUNT(*) FROM assist WHERE end_at IS NULL";
+    public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip, String search) {
+        String baseWhere = "WHERE a.end_at IS NULL";
+        String searchCondition = "";
+        
+        if (search != null && !search.trim().isEmpty()) {
+            searchCondition = " AND (r.full_name ILIKE ? OR r.cpf LIKE ?)";
+        }
+
+        String countSql = "SELECT COUNT(*) FROM assist a JOIN resident r ON a.resident_id = r.id " + baseWhere + searchCondition;
         long total = 0;
 
         try (PreparedStatement countStatement = connection.prepareStatement(countSql)) {
+            if (!searchCondition.isEmpty()) {
+                String searchTerm = "%" + search + "%";
+                countStatement.setString(1, searchTerm);
+                countStatement.setString(2, searchTerm);
+            }
             try (ResultSet resultSet = countStatement.executeQuery()) {
                 if (resultSet.next()) {
                     total = resultSet.getLong(1);
@@ -197,15 +209,21 @@ public class AssistDaoImpl implements AssistDao {
                 + "CASE WHEN a.assignment_at IS NULL THEN 'pending' ELSE 'in_attendance' END AS status "
                 + "FROM assist a "
                 + "JOIN resident r ON a.resident_id = r.id "
-                + "WHERE a.end_at IS NULL "
-                + "ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END DESC "
+                + baseWhere + searchCondition
+                + " ORDER BY CASE a.severity_level WHEN 'EMERGENCY' THEN 1 WHEN 'WARNING' THEN 2 ELSE 3 END DESC "
                 + "LIMIT ? OFFSET ?";
 
         List<PendingAssistResponseDto> pendingAssists = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, limit);
-            preparedStatement.setInt(2, skip);
+            int paramIndex = 1;
+            if (!searchCondition.isEmpty()) {
+                String searchTerm = "%" + search + "%";
+                preparedStatement.setString(paramIndex++, searchTerm);
+                preparedStatement.setString(paramIndex++, searchTerm);
+            }
+            preparedStatement.setInt(paramIndex++, limit);
+            preparedStatement.setInt(paramIndex++, skip);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -231,11 +249,23 @@ public class AssistDaoImpl implements AssistDao {
     }
 
     @Override
-    public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip) {
-        String countSql = "SELECT COUNT(*) FROM assist WHERE end_at IS NOT NULL";
+    public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip, String search) {
+        String baseWhere = "WHERE a.end_at IS NOT NULL";
+        String searchCondition = "";
+
+        if (search != null && !search.trim().isEmpty()) {
+            searchCondition = " AND (r.full_name ILIKE ? OR r.cpf LIKE ?)";
+        }
+
+        String countSql = "SELECT COUNT(*) FROM assist a JOIN resident r ON a.resident_id = r.id " + baseWhere + searchCondition;
         long total = 0;
 
         try (PreparedStatement countStatement = connection.prepareStatement(countSql)) {
+            if (!searchCondition.isEmpty()) {
+                String searchTerm = "%" + search + "%";
+                countStatement.setString(1, searchTerm);
+                countStatement.setString(2, searchTerm);
+            }
             try (ResultSet resultSet = countStatement.executeQuery()) {
                 if (resultSet.next()) {
                     total = resultSet.getLong(1);
@@ -256,15 +286,21 @@ public class AssistDaoImpl implements AssistDao {
                 + "a.severity_level "
                 + "FROM assist a "
                 + "JOIN resident r ON a.resident_id = r.id "
-                + "WHERE a.end_at IS NOT NULL "
-                + "ORDER BY a.end_at DESC "
+                + baseWhere + searchCondition
+                + " ORDER BY a.end_at DESC "
                 + "LIMIT ? OFFSET ?";
 
         List<AttendedAssistResponseDto> attendedAssists = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, limit);
-            preparedStatement.setInt(2, skip);
+            int paramIndex = 1;
+            if (!searchCondition.isEmpty()) {
+                String searchTerm = "%" + search + "%";
+                preparedStatement.setString(paramIndex++, searchTerm);
+                preparedStatement.setString(paramIndex++, searchTerm);
+            }
+            preparedStatement.setInt(paramIndex++, limit);
+            preparedStatement.setInt(paramIndex++, skip);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {

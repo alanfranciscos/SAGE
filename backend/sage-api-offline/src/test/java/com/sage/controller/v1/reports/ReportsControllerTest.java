@@ -93,8 +93,8 @@ class ReportsControllerTest {
 
         mockMvc.perform(get("/v1/reports/calls/hourly-by-day"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.hourlyCalls['8']").value(3.0))
-                .andExpect(jsonPath("$.hourlyCalls['9']").value(5.0));
+                .andExpect(jsonPath("$.hourlyAverage['8']").value(3.0))
+                .andExpect(jsonPath("$.hourlyAverage['9']").value(5.0));
     }
 
     @Test
@@ -104,7 +104,7 @@ class ReportsControllerTest {
 
         mockMvc.perform(get("/v1/reports/calls/weekday"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.weekdayCalls.Monday").value(10.0));
+                .andExpect(jsonPath("$.weekdayAverage.Monday").value(10.0));
     }
 
     @Test

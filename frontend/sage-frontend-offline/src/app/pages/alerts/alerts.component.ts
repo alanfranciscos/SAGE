@@ -60,6 +60,7 @@ export class AlertsComponent implements OnInit {
   finishedPageSize = 10;
   finishedLoading = false;
   finishedAllLoaded = false;
+  searchTerm = '';
 
   private iconMap: Record<string, string> = {
     dashboard: 'fa-solid fa-chart-line',
@@ -75,39 +76,6 @@ export class AlertsComponent implements OnInit {
     private sseService: SseService,
     private soundAlertService: SoundAlertService
   ) { }
-
-  // async ngOnInit(): Promise<void> {
-  //   this.totalActiveCalls =
-  //     await this.residentService.getTotalActiveResidentsCalls();
-  //   await this.loadActiveAlerts();
-  //   await this.loadFinishedAlerts();
-
-  //   this.sseService.messages$.subscribe(async (msg) => {
-  //     if (!msg) return;
-
-  //     await this.loadActiveAlerts();
-  //     await this.loadFinishedAlerts();
-  //   });
-
-  //   // await this.loadActiveAlertsPage();
-  //   // await this.loadFinishedAlertsPage();
-  // }
-
-  // ================== Carregar Ativos ==================
-  // private async loadActiveAlerts() {
-  //   try {
-  //     const response = await this.assistService
-  //       .getPendingAssists(10, 0)
-  //       .toPromise();
-  //     this.activeAlerts = response.data
-  //       .filter(
-  //         (a: any) => a.status === 'pending' || a.status === 'in_attendance'
-  //       )
-  //       .map((a: any) => this.mapApiToAlert(a));
-  //   } catch (err) {
-  //     console.error('Erro ao carregar chamados ativos:', err);
-  //   }
-  // }
 
   async ngOnInit(): Promise<void> {
     this.totalActiveCalls =
@@ -172,8 +140,6 @@ export class AlertsComponent implements OnInit {
       console.error('Erro ao carregar chamados ativos:', err);
     }
   }
-
-
 
   // ================== Carregar Histórico ==================
   // private async loadFinishedAlerts() {
@@ -375,8 +341,16 @@ export class AlertsComponent implements OnInit {
   }
 
   async onSearch(searchTerm: string) {
-    console.log('Search term:', searchTerm);
+    this.searchTerm = searchTerm.trim();
+
+    // Reinicia paginação
+    this.finishedAlerts = [];
+    this.finishedPage = 0;
+    this.finishedAllLoaded = false;
+
+    await this.loadFinishedAlertsPage();
   }
+
   async loadActiveAlertsPage() {
     if (this.activeLoading || this.activeAllLoaded) return;
 
@@ -428,7 +402,8 @@ export class AlertsComponent implements OnInit {
       const response: any = await this.assistService
         .getFinishedAssists(
           this.finishedPageSize,
-          this.finishedPage * this.finishedPageSize
+          this.finishedPage * this.finishedPageSize,
+          this.searchTerm
         )
         .toPromise();
 
@@ -452,16 +427,7 @@ export class AlertsComponent implements OnInit {
       this.finishedLoading = false;
     }
   }
-  // onActiveScroll(event: any) {
-  //   const element = event.target;
-  //   const threshold = 150;
-  //   if (
-  //     element.scrollHeight - element.scrollTop - element.clientHeight <
-  //     threshold
-  //   ) {
-  //     this.loadActiveAlertsPage();
-  //   }
-  // }
+
   onActiveScroll(event: any) {
     const element = event.target;
     const threshold = 150;

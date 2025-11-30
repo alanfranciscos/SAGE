@@ -155,13 +155,13 @@ public class AssistServiceImpl implements AssistService {
     }
 
     @Override
-    public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip) {
-        return assistDao.getPendingAssists(limit, skip);
+    public PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip, String search) {
+        return assistDao.getPendingAssists(limit, skip, search);
     }
 
     @Override
-    public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip) {
-        return assistDao.getAttendedAssists(limit, skip);
+    public PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip, String search) {
+        return assistDao.getAttendedAssists(limit, skip, search);
     }
 
     @Override

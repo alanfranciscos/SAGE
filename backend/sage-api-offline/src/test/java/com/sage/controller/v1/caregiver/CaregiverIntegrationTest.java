@@ -14,9 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.springframework.security.test.context.support.WithMockUser;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@WithMockUser(username = "user", roles = {"USER", "ADMIN"})
 class CaregiverIntegrationTest {
 
     @Autowired
@@ -47,7 +50,7 @@ class CaregiverIntegrationTest {
                 "12345678901",
                 "novo.cuidador@email.com",
                 "11912345678",
-                "Enfermeiro"
+                "employee"
         );
 
         mockMvc.perform(post("/v1/caregiver")
@@ -66,7 +69,7 @@ class CaregiverIntegrationTest {
                 "76734514099",
                 "carlos.oliveira@email.com",
                 "21988887777",
-                "Técnico de Enfermagem"
+                "employee"
         );
 
         mockMvc.perform(put("/v1/caregiver/{id}", id)

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
@@ -45,7 +46,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
 
-        // 👇 Cria matchers compatíveis com MVC e define o servlet path "/api"
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
 
         http
@@ -53,16 +53,15 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        // 👇 Libera login e registro
                         .requestMatchers(mvc.pattern("/auth/**")).permitAll()
-                        // 👇 Libera endpoints públicos, como contagem de líderes
-                        .requestMatchers(mvc.pattern("/v1/caregiver/count-caregiver-leader")).permitAll()
-                        // 👇 Protege as demais rotas de /v1/caregiver/**
-                        .requestMatchers(mvc.pattern("/v1/caregiver/**")).authenticated()
-                        // 👇 Tudo que não for listado é público
-                        .anyRequest().permitAll()
+//                        .requestMatchers(mvc.pattern("/v1/caregiver/count-caregiver-leader")).permitAll()
+//                        .requestMatchers(mvc.pattern("/v1/caregiver/**")).authenticated()
+//                        .anyRequest().permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/v1/caregiver/count-caregiver-leader")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/v1/caregiver/**")).authenticated()
+                .anyRequest().permitAll()
+
                 )
-                // Adiciona o filtro JWT antes do filtro padrão de autenticação
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

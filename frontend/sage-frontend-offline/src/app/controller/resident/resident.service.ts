@@ -25,7 +25,8 @@ export class ResidentService {
   async getResidents(
     limit: number,
     skip: number,
-    search?: string
+    search?: string,
+    active?: boolean
   ): Promise<Resident[]> {
     const queryParams = new URLSearchParams({
       limit: limit.toString(),
@@ -34,6 +35,11 @@ export class ResidentService {
 
     if (search) {
       queryParams.append('search', search);
+    }
+
+    // novo parâmetro
+    if (active !== undefined) {
+      queryParams.append('active', String(active));
     }
 
     const response = await this.api.get<Resident[]>(

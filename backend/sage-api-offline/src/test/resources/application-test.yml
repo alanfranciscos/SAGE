@@ -11,4 +11,4 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:/banco-teste.sql
+      data-locations: classpath:/schema-test.sql, classpath:/banco-teste.sql

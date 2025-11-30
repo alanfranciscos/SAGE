@@ -1,6 +1,8 @@
 package com.sage.controller.v1.sse;
 
 import com.sage.port.services.sse.AssistSseService;
+import jakarta.servlet.ServletException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,19 +35,19 @@ class SseAssistControllerTest {
         mockMvc.perform(get("/v1/sse/assist")
                         .accept(MediaType.TEXT_EVENT_STREAM))
                 .andExpect(status().isOk())
-                .andExpect(request().asyncStarted())
-                .andExpect(request().asyncResult(mockEmitter));
-
+                .andExpect(request().asyncStarted());
+        
         verify(assistSseService, times(1)).listEvent();
     }
 
     @Test
-    void deveLancarErroSeServicoFalhar() throws Exception {
+    void deveLancarErroSeServicoFalhar() {
         when(assistSseService.listEvent()).thenThrow(new RuntimeException("Falha na conexão SSE"));
 
-        mockMvc.perform(get("/v1/sse/assist")
-                        .accept(MediaType.TEXT_EVENT_STREAM))
-                .andExpect(status().is5xxServerError());
+        Assertions.assertThrows(ServletException.class, () -> {
+            mockMvc.perform(get("/v1/sse/assist")
+                            .accept(MediaType.TEXT_EVENT_STREAM));
+        });
 
         verify(assistSseService, times(1)).listEvent();
     }

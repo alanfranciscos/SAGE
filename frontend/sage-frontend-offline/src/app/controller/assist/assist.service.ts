@@ -35,8 +35,18 @@ export class AssistService {
     return this.http.get(`${this.baseUrl}/pending/${assistId}`);
   }
 
-  getFinishedAssists(limit: number, skip: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/history?limit=${limit}&skip=${skip}`);
+  getFinishedAssists(
+    limit: number,
+    skip: number,
+    search?: string
+  ): Observable<any> {
+    let url = `${this.baseUrl}/history?limit=${limit}&skip=${skip}`;
+
+    if (search && search.trim() !== '') {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+
+    return this.http.get(url);
   }
 
   // ✅ Detalhes de um chamado específico
