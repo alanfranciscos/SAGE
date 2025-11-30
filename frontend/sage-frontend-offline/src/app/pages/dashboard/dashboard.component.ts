@@ -37,12 +37,12 @@ export class DashboardComponent implements OnInit {
 
   selectedResidentId: string | null = null;
   showModal = false;
-  residents: Resident[] = [];
   page = 0;
-  pageSize = 6;
+  pageSize = 10;
   loading = false;
   allLoaded = false;
-  searchTerm: string = '';
+  searchTerm = '';
+  residents: Resident[] = [];
 
   constructor(
     private residentService: ResidentService,
@@ -98,12 +98,18 @@ export class DashboardComponent implements OnInit {
       this.meanTime = await this.residentService.getMeanTime();
       await this.residentService.getTotalActiveResidentsCalls();
 
+      // ⬅ primeira página
       this.residents = await this.residentService.getResidents(
-        10,
+        this.pageSize,
         0,
-        undefined, // search
-        true // active = true
+        undefined,
+        true
       );
+
+      // configura para segunda página
+      this.page = 1;
+      this.allLoaded = false;
+      this.loading = false;
     } catch (err) {
       console.error(err);
     }
@@ -115,24 +121,38 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
 
     try {
+      const skip = this.page * this.pageSize;
+
       const newResidents = await this.residentService.getResidents(
         this.pageSize,
-        this.page * this.pageSize,
-        undefined, // search
-        true // active
+        skip,
+        this.searchTerm,
+        true // active = true
       );
 
-      if (newResidents.length < this.pageSize) {
+      // acabou
+      if (newResidents.length === 0) {
         this.allLoaded = true;
+        return;
       }
 
+      // adiciona sem duplicar
       this.residents = [...this.residents, ...newResidents];
-      this.page++;
-    } catch (error) {
-      console.error('Erro ao carregar residentes:', error);
+
+      this.page++; // ⬅ incrementa somente agora
+
+      console.log('REQUEST:', {
+        limit: this.pageSize,
+        skip,
+        search: this.searchTerm,
+        active: true,
+      });
+
+      console.log('RESPONSE:', newResidents);
     } finally {
       this.loading = false;
     }
+    console.log('PAGE:', this.page);
   }
 
   private sortResidents(residents: Resident[]): Resident[] {
@@ -178,8 +198,8 @@ export class DashboardComponent implements OnInit {
     return result.trim();
   }
   onSearch(term: string) {
-    this.searchTerm = term.trim().toLowerCase();
-    this.loadResidentsSearch();
+    // this.searchTerm = term.trim().toLowerCase();
+    // this.loadResidentsSearch();
   }
 
   async loadResidentsSearch() {
@@ -234,13 +254,11 @@ export class DashboardComponent implements OnInit {
 
   onScroll(event: any) {
     const element = event.target;
-    console.log('scroll position:', element.scrollTop);
-    const threshold = 150;
-    if (
-      element.scrollHeight - element.scrollTop - element.clientHeight <
-      threshold
-    ) {
-      console.log('🔄 Carregando mais residentes...');
+
+    const reachedBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 50;
+
+    if (reachedBottom) {
       this.loadResidentsPage();
     }
   }

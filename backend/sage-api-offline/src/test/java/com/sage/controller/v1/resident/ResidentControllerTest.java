@@ -221,4 +221,14 @@ class ResidentControllerTest {
 
         verify(residentService).deactivateResident(eq(residentId));
     }
+
+    @Test
+    void deveAtivarResidente() throws Exception {
+        doNothing().when(residentService).activateResident(eq(residentId));
+
+        mockMvc.perform(patch("/v1/resident/{id}/activate", residentId))
+                .andExpect(status().isNoContent());
+
+        verify(residentService).activateResident(eq(residentId));
+    }
 }
