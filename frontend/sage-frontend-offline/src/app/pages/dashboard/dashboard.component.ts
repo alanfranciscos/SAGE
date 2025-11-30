@@ -66,7 +66,12 @@ export class DashboardComponent implements OnInit {
       if (msg.type === 'assignment-change') {
         try {
           // Atualiza residentes e ordena
-          const residents = await this.residentService.getResidents(10, 0);
+          const residents = await this.residentService.getResidents(
+            10,
+            0,
+            undefined,
+            true // somente ativos
+          );
           this.residents = this.sortResidents(residents);
 
           // Atualiza os counters
@@ -92,11 +97,18 @@ export class DashboardComponent implements OnInit {
         await this.residentService.getTotalResolvedToday();
       this.meanTime = await this.residentService.getMeanTime();
       await this.residentService.getTotalActiveResidentsCalls();
-      this.residents = await this.residentService.getResidents(10, 0);
+
+      this.residents = await this.residentService.getResidents(
+        10,
+        0,
+        undefined, // search
+        true // active = true
+      );
     } catch (err) {
       console.error(err);
     }
   }
+
   async loadResidentsPage() {
     if (this.loading || this.allLoaded) return;
 
@@ -105,7 +117,9 @@ export class DashboardComponent implements OnInit {
     try {
       const newResidents = await this.residentService.getResidents(
         this.pageSize,
-        this.page * this.pageSize
+        this.page * this.pageSize,
+        undefined, // search
+        true // active
       );
 
       if (newResidents.length < this.pageSize) {
@@ -173,8 +187,10 @@ export class DashboardComponent implements OnInit {
       const residents = await this.residentService.getResidents(
         10,
         0,
-        this.searchTerm
+        this.searchTerm,
+        true // sempre residentes ativos
       );
+
       this.residents = this.sortResidents(residents);
     } catch (err) {
       console.error('Erro ao buscar residentes:', err);
