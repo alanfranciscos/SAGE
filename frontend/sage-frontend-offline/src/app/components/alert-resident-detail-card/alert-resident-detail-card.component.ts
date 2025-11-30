@@ -6,10 +6,11 @@ import {
   OnInit,
   OnDestroy,
   inject,
+  Inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ResidentDetailsResponseDto } from '../../model/Resident';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { StartAssistDialogComponent } from '../start-assist-dialog/start-assist-dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AssistService } from '../../controller/assist/assist.service';
@@ -19,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AccessibilityService } from '../../controller/accessibility/accessibility.service';
+import { Router } from '@angular/router';
 
 export interface ResidentAlertDetail extends ResidentDetailsResponseDto {
   severity: 'medio' | 'critico';
@@ -54,6 +56,9 @@ export class AlertResidentDetailCardComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private assistService = inject(AssistService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
+
+  constructor(@Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
     this.accessibilitySub = this.accessibilityService.daltonicMode$.subscribe(
@@ -179,6 +184,9 @@ export class AlertResidentDetailCardComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Componente já deve ter o 'router' injetado (this.router)
+  // Componente já deve ter o 'document' injetado (this.document)
+
   finalizeAssist() {
     if (!this.alertDetail.caregiverToken) {
       this.toastr.error('Token do cuidador não informado!', 'Erro');
@@ -198,6 +206,17 @@ export class AlertResidentDetailCardComponent implements OnInit, OnDestroy {
           this.newObservation = '';
           this.toastr.success('Atendimento finalizado com sucesso!', 'Sucesso');
           this.updated.emit(this.alertDetail);
+
+          // 1. Inicia a navegação para a rota Home ('/')
+          this.router.navigate(['/'])
+            // 2. Usa .then() para esperar a navegação ser CONCLUÍDA
+            .then(() => {
+              // ✨ O reload é executado aqui, GARANTINDO que você já está na tela Home (DashboardComponent)
+              this.document.location.reload();
+            })
+            .catch(err => {
+              console.error('Falha na navegação antes do reload:', err);
+            });
         },
         error: (err) => {
           this.toastr.error('Falha ao finalizar atendimento.', 'Erro');
