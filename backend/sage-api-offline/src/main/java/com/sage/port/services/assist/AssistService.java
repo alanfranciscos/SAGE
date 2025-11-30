@@ -19,9 +19,9 @@ public interface AssistService {
 
     void finishAssist(UUID assistId, String caregiverToken, String details);
 
-    PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip);
+    PaginatedPendingAssistResponseDto getPendingAssists(int limit, int skip, String search);
 
-    PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip);
+    PaginatedAttendedAssistResponseDto getAttendedAssists(int limit, int skip, String search);
 
     PendingAssistDetailResponseDto getPendingAssistById(UUID assistId);
 

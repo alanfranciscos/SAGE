@@ -79,12 +79,21 @@ class AssistControllerTest {
 
     @Test
     void deveRetornarListaDeAssistsPendentes() throws Exception {
-        when(assistService.getPendingAssists(anyInt(), anyInt())).thenReturn(pendingResponse);
+        when(assistService.getPendingAssists(anyInt(), anyInt(), any())).thenReturn(pendingResponse);
 
         mockMvc.perform(get("/v1/assist/pending?limit=5&skip=0"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.total").value(1))
                 .andExpect(jsonPath("$.limit").value(10)); // default value
+    }
+
+    @Test
+    void deveRetornarListaDeAssistsPendentesComBusca() throws Exception {
+        when(assistService.getPendingAssists(anyInt(), anyInt(), eq("Maria"))).thenReturn(pendingResponse);
+
+        mockMvc.perform(get("/v1/assist/pending?limit=5&skip=0&search=Maria"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.total").value(1));
     }
 
     @Test
@@ -99,9 +108,18 @@ class AssistControllerTest {
 
     @Test
     void deveRetornarListaDeAssistsAtendidos() throws Exception {
-        when(assistService.getAttendedAssists(anyInt(), anyInt())).thenReturn(attendedResponse);
+        when(assistService.getAttendedAssists(anyInt(), anyInt(), any())).thenReturn(attendedResponse);
 
         mockMvc.perform(get("/v1/assist/history?limit=10&skip=0"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.total").value(2));
+    }
+
+    @Test
+    void deveRetornarListaDeAssistsAtendidosComBusca() throws Exception {
+        when(assistService.getAttendedAssists(anyInt(), anyInt(), eq("Joao"))).thenReturn(attendedResponse);
+
+        mockMvc.perform(get("/v1/assist/history?limit=10&skip=0&search=Joao"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.total").value(2));
     }
