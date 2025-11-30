@@ -1,21 +1,23 @@
-<mat-card>
+<mat-card class="report-card">
   <mat-card-header>
     <mat-card-title class="card-title">{{ title }}</mat-card-title>
   </mat-card-header>
 
-  <mat-card-content>
+  <mat-card-content class="card-content">
     <div class="reports-list">
       <div class="report-row" *ngFor="let report of reports">
+        <!-- Label -->
         <span class="report-label">{{ report.label }}</span>
 
+        <!-- Barra de progresso -->
         <div class="report-progress">
           <div class="progress-bar-bg">
-            <!-- Largura proporcional ao maior valor -->
             <div
               class="progress-bar color-{{ report.color }}"
               [style.width.%]="getPercentage(report.value)"
             ></div>
           </div>
+
           <span class="report-value">{{ report.value }}</span>
         </div>
       </div>

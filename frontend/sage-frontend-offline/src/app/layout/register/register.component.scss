@@ -11,15 +11,22 @@
 .register-container {
   background-color: #f8f9fa;
   border-radius: 8px;
-  width: 80%;
-  height: 80%;
-  max-height: 80%;
-  padding: 16px;
+  width: 90%;
+  max-width: 900px;
+
+  max-height: 90vh;
+  /* agora é flexível */
+  height: auto;
+
+  overflow-y: auto;
+  /* scroll interno */
+  padding: 3rem 1rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding : 3rem 1rem;
+  justify-content: flex-start;
+  /* começa no topo */
 }
 
 h1 {
@@ -31,27 +38,27 @@ h1 {
 .register-content {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  width: 100%; 
+  align-items: center;
+  width: 100%;
 }
 
 .register-content h1 {
-  margin-bottom: 2rem; 
+  margin-bottom: 2rem;
 }
 
 .steps {
-  margin-bottom: 2rem; 
+  margin-bottom: 2rem;
 }
 
 .register-form {
-  width: 50%; 
+  width: 50%;
   display: flex;
   flex-direction: column;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .register-actions {
-  margin-top: 2rem; 
+  margin-top: 2rem;
   display: flex;
   gap: 1rem;
 }
