@@ -99,6 +99,12 @@ public class ResidentController {
         return ResponseEntity.ok(this.residentService.getResidentDetailsById(id));
     }
 
+    @PatchMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivateResident(@PathVariable UUID id) {
+        residentService.deactivateResident(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/{id}/image")
     public ResponseEntity<Void> uploadImage(@PathVariable UUID id, @RequestParam("imageData") MultipartFile imageData) {
         residentService.updateResidentImage(id, imageData);

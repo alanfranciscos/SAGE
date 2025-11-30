@@ -397,6 +397,17 @@ public class ResidentDaoImpl {
         }
     }
 
+    public void deactivateResident(UUID residentId) {
+        String sql = "UPDATE resident SET active = FALSE, updated_at = NOW() WHERE id = ?";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, residentId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error deactivating resident", e);
+            throw new RuntimeException("Error deactivating resident", e);
+        }
+    }
+
     private String encodeFileToBase64(String filePath) {
         try {
             Path path = Paths.get(filePath);
