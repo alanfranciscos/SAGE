@@ -70,7 +70,8 @@ public class ResidentDaoImpl {
     public List<Map<String, Object>> getResidentsWithoutSeverity(
             int limit,
             int skip,
-            String search
+            String search,
+            Boolean active
     ) {
         String sql = "SELECT r.id, "
                 + "       r.full_name, "
@@ -86,6 +87,7 @@ public class ResidentDaoImpl {
                 + "    WHERE a2.resident_id = r.id "
                 + "      AND a2.end_at IS NULL "
                 + ") "
+                + (active != null ? " AND r.active = ? " : "")
                 + "GROUP BY r.id, r.full_name, r.residential_unit, r.image_data";
 
         if (search != null && !search.trim().isEmpty()) {
@@ -96,6 +98,9 @@ public class ResidentDaoImpl {
 
         try (var preparedStatement = connection.prepareStatement(sql)) {
             int paramIndex = 1;
+            if (active != null) {
+                preparedStatement.setBoolean(paramIndex++, active);
+            }
             if (search != null && !search.trim().isEmpty()) {
                 preparedStatement.setString(paramIndex++, "%" + search + "%");
                 preparedStatement.setString(paramIndex++, "%" + search + "%");
@@ -127,7 +132,7 @@ public class ResidentDaoImpl {
 
     }
 
-    public List<Map<String, Object>> getResidentsWithSeverity(int limit, int skip, String search) {
+    public List<Map<String, Object>> getResidentsWithSeverity(int limit, int skip, String search, Boolean active) {
         String sql
                 = "SELECT r.id, "
                 + "       r.full_name, "
@@ -151,7 +156,8 @@ public class ResidentDaoImpl {
                 + "       ) AS calls_last_day "
                 + "FROM resident r "
                 + "INNER JOIN assist a ON a.resident_id = r.id "
-                + "WHERE a.end_at IS NULL ";
+                + "WHERE a.end_at IS NULL "
+                + (active != null ? " AND r.active = ? " : "");
 
         if (search != null && !search.trim().isEmpty()) {
             sql += " AND (r.full_name LIKE ? OR r.cpf LIKE ?)";
@@ -160,15 +166,16 @@ public class ResidentDaoImpl {
 
         try (var preparedStatement = connection.prepareStatement(sql)) {
 
-            if (search != null && !search.trim().isEmpty()) {
-                preparedStatement.setString(1, "%" + search + "%");
-                preparedStatement.setString(2, "%" + search + "%");
-                preparedStatement.setInt(3, limit);
-                preparedStatement.setInt(4, skip);
-            } else {
-                preparedStatement.setInt(1, limit);
-                preparedStatement.setInt(2, skip);
+            int paramIndex = 1;
+            if (active != null) {
+                preparedStatement.setBoolean(paramIndex++, active);
             }
+            if (search != null && !search.trim().isEmpty()) {
+                preparedStatement.setString(paramIndex++, "%" + search + "%");
+                preparedStatement.setString(paramIndex++, "%" + search + "%");
+            }
+            preparedStatement.setInt(paramIndex++, limit);
+            preparedStatement.setInt(paramIndex, skip);
 
             try (var resultSet = preparedStatement.executeQuery()) {
                 List<Map<String, Object>> residents = new ArrayList<>();

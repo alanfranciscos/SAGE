@@ -51,14 +51,14 @@ public class ResidentServiceImpl {
         return assistDao.getAssistMeanTime();
     }
 
-    public List<Map<String, Object>> getResidents(int limit, int skip, String search) {
+    public List<Map<String, Object>> getResidents(int limit, int skip, String search, Boolean active) {
 
-        List<Map<String, Object>> emergencyResidents = this.residentDao.getResidentsWithSeverity(limit, skip, search);
+        List<Map<String, Object>> emergencyResidents = this.residentDao.getResidentsWithSeverity(limit, skip, search, active);
         if (emergencyResidents != null) {
             limit -= emergencyResidents.size();
         }
 
-        List<Map<String, Object>> normalResidents = this.residentDao.getResidentsWithoutSeverity(limit, skip, search);
+        List<Map<String, Object>> normalResidents = this.residentDao.getResidentsWithoutSeverity(limit, skip, search, active);
 
         if (emergencyResidents == null) {
             emergencyResidents = new java.util.ArrayList<>();
