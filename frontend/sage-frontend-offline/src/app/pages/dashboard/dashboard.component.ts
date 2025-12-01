@@ -39,6 +39,8 @@ export class DashboardComponent implements OnInit {
   selectedResidentId: string | null = null;
   showModal = false;
   showOnlyActive = true; // inicialmente, apenas residentes ativos
+  activeResidentsCount = 0;
+  inactiveResidentsCount = 0;
 
   page = 0; // primeira página = 0
   pageSize = 10;
@@ -74,8 +76,6 @@ export class DashboardComponent implements OnInit {
     this.sseService.messages$.subscribe(async (msg) => {
       if (!msg) return;
 
-      console.log('Dashboard recebeu evento SSE:', msg);
-
       if (msg.type === 'assignment-change') {
         try {
           await this.reloadFirstPage();
@@ -88,51 +88,51 @@ export class DashboardComponent implements OnInit {
 
   /** Recarrega primeira página e atualiza contadores */
   private async reloadFirstPage() {
-    const firstPage = await this.residentService.getResidents(
-      this.pageSize,
-      0,
-      undefined,
-      true
-    );
-    this.residents = this.sortResidents(firstPage);
-    this.displayedResidents = [...this.residents];
-
-    this.totalResidents = await this.residentService.getTotalResidentsNumber();
-    this.totalResolvedToday =
-      await this.residentService.getTotalResolvedToday();
-    this.meanTime = await this.residentService.getMeanTime();
-
-    await this.residentService.getTotalActiveResidentsCalls();
-
-    this.page = 1;
-    this.allLoaded = firstPage.length < this.pageSize;
+    this.page = 0;
+    this.residents = [];
+    this.displayedResidents = [];
+    this.allLoaded = false;
+    await this.loadDashboardData();
   }
 
   /** Carrega dados iniciais do dashboard */
   async loadDashboardData() {
+    this.loading = true;
     try {
-      this.loading = true;
+      // === 1️⃣ Carrega primeira página de residentes com filtro ===
+      const firstPage = await this.residentService.getResidents(
+        this.pageSize,
+        0,
+        this.searchTerm || undefined,
+        this.showOnlyActive ? true : undefined
+      );
+      this.residents = this.sortResidents(firstPage);
+      this.displayedResidents = [...this.residents];
 
+      // === 2️⃣ Pega totais do backend ===
       this.totalResidents =
         await this.residentService.getTotalResidentsNumber();
       this.totalResolvedToday =
         await this.residentService.getTotalResolvedToday();
       this.meanTime = await this.residentService.getMeanTime();
 
-      await this.residentService.getTotalActiveResidentsCalls();
+      // === 3️⃣ Pega total de residentes ativos ===
+      const totalActive =
+        await this.residentService.getTotalActiveResidentsCalls();
 
-      const first = await this.residentService.getResidents(
-        this.pageSize,
-        0,
-        this.searchTerm || undefined,
-        this.showOnlyActive ? true : undefined
-      );
+      if (this.showOnlyActive) {
+        // mostra apenas ativos carregados na página
+        this.activeResidentsCount = this.residents.length;
+        this.inactiveResidentsCount = 0;
+      } else {
+        // mostra ativo / inativo corretamente
+        this.activeResidentsCount = totalActive;
+        this.inactiveResidentsCount = this.totalResidents - totalActive;
+      }
 
-      this.residents = this.sortResidents(first);
-      this.displayedResidents = [...this.residents];
-
+      // === 4️⃣ Atualiza paginação ===
       this.page = 1;
-      this.allLoaded = first.length < this.pageSize;
+      this.allLoaded = firstPage.length < this.pageSize;
     } catch (err) {
       console.error('Erro loadDashboardData:', err);
     } finally {
@@ -142,12 +142,11 @@ export class DashboardComponent implements OnInit {
 
   /** Carrega próxima página ao clicar "Carregar mais" */
   async loadResidentsPage() {
-    if (this.loading || this.allLoaded) return; // evita chamadas duplicadas
+    if (this.loading || this.allLoaded) return;
 
     this.loading = true;
     try {
       const skip = this.page * this.pageSize;
-
       const newResidents = await this.residentService.getResidents(
         this.pageSize,
         skip,
@@ -160,15 +159,10 @@ export class DashboardComponent implements OnInit {
         return;
       }
 
-      // concatena novos residentes à lista exibida
       this.residents = [...this.residents, ...newResidents];
       this.displayedResidents = [...this.residents];
-
-      // atualiza paginação
       this.page++;
-      if (newResidents.length < this.pageSize) {
-        this.allLoaded = true;
-      }
+      if (newResidents.length < this.pageSize) this.allLoaded = true;
     } catch (err) {
       console.error('Erro ao carregar página:', err);
     } finally {
@@ -210,23 +204,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async loadResidentsSearch() {
-    try {
-      this.loading = true;
-      const first = await this.residentService.getResidents(
-        this.pageSize,
-        0,
-        this.searchTerm || undefined,
-        this.showOnlyActive ? true : undefined
-      );
-      this.residents = this.sortResidents(first);
-      this.displayedResidents = [...this.residents];
-      this.page = 1;
-      this.allLoaded = first.length < this.pageSize;
-    } catch (err) {
-      console.error('Erro ao buscar residentes:', err);
-    } finally {
-      this.loading = false;
-    }
+    await this.loadDashboardData();
   }
 
   /** Abre modal de detalhes */
@@ -247,7 +225,13 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['residents/register']);
   }
 
-  /** Formata tempo decorrido (usado em algum contador se necessário) */
+  /** Alterna entre mostrar apenas ativos ou todos */
+  toggleShowActive() {
+    this.showOnlyActive = !this.showOnlyActive;
+    this.reloadFirstPage();
+  }
+
+  /** Formata tempo decorrido (ex.: "2 dias 05h30") */
   formatElapsedTime(elapsed: string): string {
     if (!elapsed) return '-';
     const parts = elapsed.split(' ');
@@ -264,14 +248,5 @@ export class DashboardComponent implements OnInit {
     }
     const [hours = '00', minutes = '00'] = timePart.split(':');
     return `${days} dia${days !== 1 ? 's' : ''} ${hours}h${minutes}`;
-  }
-  toggleShowActive() {
-    this.showOnlyActive = !this.showOnlyActive;
-    this.page = 0;
-    this.residents = [];
-    this.displayedResidents = [];
-    this.allLoaded = false;
-
-    this.loadResidentsSearch(); // ou loadDashboardData()
   }
 }
