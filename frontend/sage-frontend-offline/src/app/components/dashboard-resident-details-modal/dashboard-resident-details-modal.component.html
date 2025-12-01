@@ -85,6 +85,12 @@
         [type]="'primary'"
         (clicked)="residentDetails && onUpdateResident(residentDetails)"
       ></app-button>
+      <br />
+      <app-button
+        [label]="residentDetails?.active ? 'Desabilitar' : 'Habilitar'"
+        [type]="residentDetails?.active ? 'primary' : 'secondary'"
+        (clicked)="residentDetails && toggleResidentStatus(residentDetails)"
+      ></app-button>
     </div>
   </div>
 </app-modal>
