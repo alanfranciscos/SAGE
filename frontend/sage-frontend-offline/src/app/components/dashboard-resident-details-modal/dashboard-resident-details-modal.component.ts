@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
+import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { ButtonComponent } from '../button/button.component';
@@ -87,14 +87,13 @@ export class DashboardResidentDetailsModalComponent {
   toggleResidentStatus(resident: ResidentDetailsResponseDto) {
     if (!resident) return;
 
-    const action = resident.active ? 'deactivate' : 'activate';
-
-    (resident.active
+    const serviceCall = resident.active
       ? this.residentControllerService.deactivateResident(resident.id)
-      : this.residentControllerService.activateResident(resident.id)
-    )
+      : this.residentControllerService.activateResident(resident.id);
+
+    serviceCall
       .then(() => {
-        resident.active = !resident.active; // atualiza localmente
+        resident.active = !resident.active;
         window.location.reload();
       })
       .catch((err) =>

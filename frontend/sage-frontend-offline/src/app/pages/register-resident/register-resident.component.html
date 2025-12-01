@@ -100,7 +100,7 @@
     [value]="residentListResponseDto.relationship || ''"
   ></app-input>
   } @if(currentStep === 2) {
-  <label for="controlNumber">Número do controle</label>
+  <!-- <label for="controlNumber">Número do controle</label>
   <select
     id="controlNumber"
     [value]="residentListResponseDto.controlNumber || ''"
@@ -115,8 +115,14 @@
     <option *ngFor="let control of availableControls" [value]="control">
       Controle #{{ control }}
     </option>
-  </select>
-
+  </select> -->
+  <app-select-input
+    label="Número do controle"
+    [options]="controlOptions"
+    [required]="true"
+    (valueChange)="onInputChange(ResidentInputField.CONTROL_NUMBER, $event)"
+    [value]="residentListResponseDto.controlNumber || ''"
+  ></app-select-input>
   <app-input
     label="Número da residência"
     placeholder="Digite o endereco da residencia"
