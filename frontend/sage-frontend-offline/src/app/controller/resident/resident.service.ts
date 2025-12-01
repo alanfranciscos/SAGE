@@ -237,7 +237,7 @@ export class ResidentService {
       `http://localhost:8080/api/v1/resident/${residentId}/activate`
     );
 
-    if (response.status !== 200) {
+    if (response.status !== 200 && response.status !== 204) {
       throw new Error('Falha ao ativar residente');
     }
   }
